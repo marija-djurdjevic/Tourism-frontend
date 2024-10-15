@@ -33,6 +33,7 @@ export class TourReviewFormComponent {
       comment: this.tourReviewForm.value.comment || "",
       images: this.tourReviewForm.value.images || "", 
       tourVisitDate:  new Date(this.tourReviewForm.value.visitDate || Date.now()),
+      tourReviewDate: new Date(Date.now())
      
     };
       
