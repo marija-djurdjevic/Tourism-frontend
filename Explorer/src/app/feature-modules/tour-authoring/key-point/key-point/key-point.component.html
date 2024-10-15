@@ -1,0 +1,18 @@
+<h2>Key Points for Tour {{ tourId }}</h2>
+
+<hr /> <!-- Horizontalna linija za odvajanje naslova -->
+
+<div id="tour">
+    <h3>Existing Key Points</h3>
+    <div class="card-container">
+        <div class="card" *ngFor="let keyPoint of keyPoints">
+            <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
+            <div class="card-content">
+                <h4>{{ keyPoint.name }}</h4>
+                <p><strong>Description:</strong> {{ keyPoint.description }}</p>
+                <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
+                <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
+            </div>
+        </div>
+    </div>
+</div>
