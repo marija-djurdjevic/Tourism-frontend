@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
+import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { TourPreferencesComponent } from './tour-preferences/tour-preferences.co
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ],
   exports: [
     TourPreferencesComponent
