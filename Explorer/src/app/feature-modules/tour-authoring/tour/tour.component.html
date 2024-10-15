@@ -22,9 +22,14 @@
                         <td>{{getStatusLabel(t.status)}}</td> 
                         <td>{{t.price}}</td>
                         <td>{{t.tags}}</td>
+                        <td>
+                            <!-- Dugmad za ključne tačke -->
+                            <button mat-button mat-raised-button color="primary" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
+                            <button mat-button mat-raised-button color="primary" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="6" style="text-align: right;">
+                        <td colspan="7" style="text-align: right;">
                             <button mat-raised-button color="primary" (click)="onAddClicked()">Add New Tour</button>
                         </td>
                     </tr>
