@@ -59,4 +59,12 @@ export class TourComponent implements OnInit {
   onAddClicked(): void {
     this.router.navigate(['/add-tour']);
   }
+
+  onAddKeyPoint(tourId: number) {
+    this.router.navigate(['/key-points-form', tourId]); 
+  }
+
+  onShowKeyPoints(tourId: number) {
+    this.router.navigate(['/key-points', tourId]); 
+  }
 }
