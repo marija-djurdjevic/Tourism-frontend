@@ -16,13 +16,13 @@ export class TourComponent implements OnInit {
   selectedTour: Tour;
   shouldRenderTourForm: boolean = false;
   shouldEdit: boolean = false;
-  
+
   constructor(private service: TourAuthoringService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getTours();
   }
-  
+
   getTours(): void {
     this.authService.user$.subscribe((loggedInUser) => {
       this.service.getTours().subscribe({

@@ -10,10 +10,10 @@ import { RouterModule } from '@angular/router';
 import {TourComponent } from './tour/tour.component'
 import { TourFormComponent } from './tour-form/tour-form.component';
 import { MatButtonModule } from '@angular/material/button';
+import { TourEquipmentComponent } from './tour-equipment/tour-equipment.component';
 import { KeyPointComponent } from './key-point/key-point/key-point.component';
 import { FormsModule } from '@angular/forms';
 import { KeyPointFormComponent } from './key-point-form/key-point-form.component';
-
 
 
 @NgModule({
@@ -22,6 +22,7 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
     ObjectFormComponent,
     TourFormComponent,
     TourComponent,
+    TourEquipmentComponent
     KeyPointComponent,
     KeyPointFormComponent
   ],
@@ -29,19 +30,21 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
     FormsModule,
     CommonModule,
     MaterialModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    TourComponent,
+    TourFormComponent,
+    TourEquipmentComponent,
     MatOptionModule,
     MatSelectModule,
     ReactiveFormsModule,
-    RouterModule
-    ],
-  exports:[
+    RouterModule,
     ObjectComponent,
     ReactiveFormsModule,
      TourComponent,
     TourFormComponent
   ],
-
-
 
 })
 export class TourAuthoringModule { }
