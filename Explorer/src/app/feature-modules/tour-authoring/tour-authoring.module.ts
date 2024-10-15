@@ -7,6 +7,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { RouterModule } from '@angular/router';
+import {TourComponent } from './tour/tour.component'
+import { TourFormComponent } from './tour-form/tour-form.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -14,6 +17,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     ObjectComponent,
     ObjectFormComponent
+    TourFormComponent,
+    TourComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +30,11 @@ import { RouterModule } from '@angular/router';
     ],
   exports:[
     ObjectComponent
+    ReactiveFormsModule
+  ],
+  exports: [
+    TourComponent,
+    TourFormComponent
   ]
 
 

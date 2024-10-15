@@ -8,6 +8,9 @@ import { RegistrationComponent } from '../auth/registration/registration.compone
 import { Object } from 'src/app/feature-modules/tour-authoring/model/object.model';
 import { ObjectComponent } from 'src/app/feature-modules/tour-authoring/object/object.component';
 import { ObjectFormComponent } from 'src/app/feature-modules/tour-authoring/object-form/object-form.component';
+import { TourPreferencesComponent } from 'src/app/feature-modules/tour-execution/tour-preferences/tour-preferences.component';
+import { TourComponent } from 'src/app/feature-modules/tour-authoring/tour/tour.component';
+import { TourFormComponent } from 'src/app/feature-modules/tour-authoring/tour-form/tour-form.component'; 
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -16,6 +19,9 @@ const routes: Routes = [
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
   {path: 'object', component: ObjectComponent},
   {path: 'objectForm', component: ObjectFormComponent},
+  {path: 'tours', component: TourComponent, canActivate: [AuthGuard] },
+  {path: 'add-tour', component: TourFormComponent, canActivate: [AuthGuard] }, 
+  {path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard],},
 ];
 
 @NgModule({
