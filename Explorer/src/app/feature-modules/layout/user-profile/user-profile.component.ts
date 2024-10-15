@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserProfile } from '../model/user-profile.model';
 import { LayoutService } from '../layout.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-user-profile',
@@ -8,11 +10,24 @@ import { LayoutService } from '../layout.service';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  
-  constructor(private service: LayoutService) {}
+
+  user : User
+  userProfile: UserProfile;
+  isEditing =  false;
+
+  constructor(private layoutService: LayoutService,private authService: AuthService) { }
   
   ngOnInit(): void {
-    this.service.getProfile().subscribe({
+
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
+    this.getProfile()
+    
+  }
+
+  getProfile() {
+    this.layoutService.getProfile(this.user.role).subscribe({
       next:(result: UserProfile) => {
         this.userProfile = result;
         console.log(result)
@@ -23,5 +38,13 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
-  userProfile: UserProfile;
+  onProfileUpdated() {
+    this.ngOnInit();
+    this.isEditing = false;
+  }
+
+  toggleEdit(): void {
+    this.isEditing = !this.isEditing; 
+  }
 }
+

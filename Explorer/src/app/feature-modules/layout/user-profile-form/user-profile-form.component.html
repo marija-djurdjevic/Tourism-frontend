@@ -1,0 +1,28 @@
+<div class="user-profile-form-container">
+    <form [formGroup]="userProfileForm" (ngSubmit)="updateProfile()">
+      <div>
+        <mat-form-field>
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" type="text" placeholder="Enter your first name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" type="text" placeholder="Enter your last name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Image URL</mat-label>
+          <input matInput formControlName="imageURL" type="text" placeholder="Enter image URL">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Biography</mat-label>
+          <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" formControlName="biography"
+            cdkAutosizeMaxRows="5" placeholder="Tell us about yourself"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Motto</mat-label>
+          <input matInput formControlName="motto" type="text" placeholder="Your personal motto">
+        </mat-form-field>
+        <button [disabled]="userProfileForm.invalid" mat-raised-button type="submit" color="primary">Save</button>
+      </div>
+    </form>
+</div>
