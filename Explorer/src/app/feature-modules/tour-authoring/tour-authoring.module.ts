@@ -5,12 +5,14 @@ import { TourFormComponent } from './tour-form/tour-form.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { TourEquipmentComponent } from './tour-equipment/tour-equipment.component';
 
 
 @NgModule({
   declarations: [
     TourFormComponent,
-    TourComponent
+    TourComponent,
+    TourEquipmentComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
   ],
   exports: [
     TourComponent,
-    TourFormComponent
+    TourFormComponent,
+    TourEquipmentComponent
   ]
 })
 export class TourAuthoringModule { }

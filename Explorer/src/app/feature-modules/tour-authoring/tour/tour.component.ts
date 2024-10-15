@@ -15,19 +15,20 @@ export class TourComponent implements OnInit {
   selectedTour: Tour;
   shouldRenderTourForm: boolean = false;
   shouldEdit: boolean = false;
-  
+
   constructor(private service: TourAuthoringService, private router: Router) { }
 
   ngOnInit(): void {
     this.getTours();
   }
-  
+
   getTours(): void {
     this.service.getTours().subscribe({
       next: (result: PagedResults<Tour>) => {
         this.tours = result.results;
       },
       error: () => {
+        this.tours = [{ id: 1, name: "Ime", description: "Opis", difficulty: 1, status: 1, tags: "Neki tagovi", price: 100 }, { id: 2, name: "Ime 2", description: "Opis 2", difficulty: 1, status: 1, tags: "Neki tagovi", price: 100 }]
       }
     })
   }

@@ -12,6 +12,7 @@
                         <th>Status</th>
                         <th>Price</th>
                         <th>Tags</th>
+                        <th>Equipment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,6 +23,7 @@
                         <td>{{getStatusLabel(t.status)}}</td> 
                         <td>{{t.price}}</td>
                         <td>{{t.tags}}</td>
+                        <td *ngIf="t.id"><xp-tour-equipment [tourId]=t.id></xp-tour-equipment></td>
                     </tr>
                     <tr>
                         <td colspan="6" style="text-align: right;">
