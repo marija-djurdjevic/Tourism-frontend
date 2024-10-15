@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Object } from '../model/object.model';
+import { RouterModule } from '@angular/router';
 
 
 @Component({

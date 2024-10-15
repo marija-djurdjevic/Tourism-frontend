@@ -21,16 +21,17 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
 @NgModule({
   declarations: [
     ClubsComponent,
-    ClubsFormComponent
-  ],
-  imports: [
+    ClubsFormComponent,
     ObjectComponent,
     ObjectFormComponent,
     TourFormComponent,
     TourComponent,
-    TourEquipmentComponent
+    TourEquipmentComponent,
     KeyPointComponent,
-    KeyPointFormComponent,
+    KeyPointFormComponent
+  ],
+  imports: [
+    RouterModule,
     FormsModule,
     CommonModule,
     MaterialModule,
