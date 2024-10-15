@@ -1,0 +1,25 @@
+<div class="table-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Kategorija</th>
+                <th>Slika</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let obj of object">
+                <td>{{obj.name}}</td>
+                <td>{{obj.description}}</td>
+                <td>{{obj.category}}</td>
+                <td>
+                    <img [src]="obj.image" alt="{{ obj.name }}" class="object-image" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button color="primary" mat-raised-button [routerLink]="['/objectForm']">Add</button>
+</div>
