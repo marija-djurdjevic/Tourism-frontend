@@ -1,0 +1,15 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; 
+    max-width: 400px; 
+    margin: auto; 
+    padding: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px;
+    background-color: #f9f9f9; 
+}
+
+mat-form-field {
+    width: 100%; /* da se širi na celu širinu forme */
+}
