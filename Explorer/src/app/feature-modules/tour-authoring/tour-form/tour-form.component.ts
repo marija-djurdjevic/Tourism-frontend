@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tour } from '../model/tour.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-tour-form',
@@ -15,7 +16,7 @@ export class TourFormComponent implements OnChanges {
   @Input() tour: Tour;
   @Input() shouldEdit: boolean = false;
 
-  constructor(private service: TourAuthoringService, private router: Router) {
+  constructor(private service: TourAuthoringService, private authService: AuthService, private router: Router) {
 }
 
   ngOnChanges(): void {
@@ -34,14 +35,17 @@ export class TourFormComponent implements OnChanges {
   });
 
   addTour(): void {
-    const tour: Tour = {
-      name: this.tourForm.value.name || "",
-      description: this.tourForm.value.description || "",
-      difficulty: Number(this.tourForm.value.difficulty) || 0, 
-      tags: this.tourForm.value.tags || "",
-      status: 0,
-      price: this.tourForm.value.price || 0
-    };
+    const loggedInUser = this.authService.user$.value; 
+  const tour: Tour = {
+    name: this.tourForm.value.name || "",
+    description: this.tourForm.value.description || "",
+    difficulty: Number(this.tourForm.value.difficulty) || 0,
+    tags: this.tourForm.value.tags || "",
+    status: 0,
+    price: this.tourForm.value.price || 0,
+    authorId: loggedInUser.id || 0
+  };
+
   
     console.log('Tour to be added:', tour); 
   
