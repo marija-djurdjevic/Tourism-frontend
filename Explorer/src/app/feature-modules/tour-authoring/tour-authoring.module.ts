@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [
     ObjectComponent,
-    ObjectFormComponent
+    ObjectFormComponent,
     TourFormComponent,
     TourComponent
   ],
@@ -29,13 +29,12 @@ import { MatButtonModule } from '@angular/material/button';
     RouterModule
     ],
   exports:[
-    ObjectComponent
-    ReactiveFormsModule
-  ],
-  exports: [
-    TourComponent,
+    ObjectComponent,
+    ReactiveFormsModule,
+     TourComponent,
     TourFormComponent
-  ]
+  ],
+
 
 
 })
