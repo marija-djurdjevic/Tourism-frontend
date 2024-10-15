@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ClubsComponent } from './clubs/clubs.component';
+import { ClubsFormComponent } from './clubs-form/clubs-form.component';
 import { ObjectComponent } from './object/object.component';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
@@ -18,21 +20,24 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
 
 @NgModule({
   declarations: [
+    ClubsComponent,
+    ClubsFormComponent
+  ],
+  imports: [
     ObjectComponent,
     ObjectFormComponent,
     TourFormComponent,
     TourComponent,
     TourEquipmentComponent
     KeyPointComponent,
-    KeyPointFormComponent
-  ],
-  imports: [
+    KeyPointFormComponent,
     FormsModule,
     CommonModule,
     MaterialModule,
     ReactiveFormsModule
   ],
   exports: [
+    ClubsComponent,
     TourComponent,
     TourFormComponent,
     TourEquipmentComponent,
@@ -45,6 +50,5 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
      TourComponent,
     TourFormComponent
   ],
-
 })
 export class TourAuthoringModule { }

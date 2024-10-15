@@ -7,6 +7,7 @@
             <button color="primary" mat-raised-button [routerLink]="['home']">Home</button>
             <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" color="primary" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>
             <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
+            <button color="primary" mat-raised-button [routerLink]="['clubs']">Clubs</button>
             <button *ngIf="user && user.role === 'author'"color="primary" mat-raised-button [routerLink]="['object']">Show objects</button>
             <button *ngIf="user && user.role === 'author'" color="primary" mat-raised-button [routerLink]="['tours']">View My Tours</button>
         </div>
