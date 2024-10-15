@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProblemReportComponent } from './problem-report/problem-report.component';
 import { ProblemFormComponent } from './problem-form/problem-form.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 
 
 @NgModule({
@@ -11,7 +12,9 @@ import { ProblemFormComponent } from './problem-form/problem-form.component';
     ProblemFormComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    MaterialModule
   ],
   exports: [ 
     ProblemReportComponent,
