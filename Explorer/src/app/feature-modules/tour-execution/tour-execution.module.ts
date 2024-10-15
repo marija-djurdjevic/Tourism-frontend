@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { TourReviewComponent } from './tour-review/tour-review.component';
 import { ProblemReportComponent } from './problem-report/problem-report.component';
 import { ProblemFormComponent } from './problem-form/problem-form.component';
+import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
+import { MaterialModule } from 'src/app/infrastructure/material/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -10,10 +13,14 @@ import { ProblemFormComponent } from './problem-form/problem-form.component';
   declarations: [
     TourReviewComponent,
     ProblemReportComponent,
-    ProblemFormComponent
+    ProblemFormComponent,
+    TourReviewFormComponent
+   
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule,
+    ReactiveFormsModule
   ],
   exports: [ 
     ProblemReportComponent,

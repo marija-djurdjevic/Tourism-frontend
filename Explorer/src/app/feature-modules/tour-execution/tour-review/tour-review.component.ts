@@ -10,7 +10,8 @@ import { TourReview } from '../model/tour-review.model';
 })
 export class TourReviewComponent implements OnInit{
 
-  entities :  TourReview[] = []; 
+
+  tourReview :  TourReview[] = []; 
 
   constructor(private service: TourExecutionService) {}
    
@@ -18,11 +19,22 @@ export class TourReviewComponent implements OnInit{
   ngOnInit(): void {
     this.service.getReviews().subscribe({
       next:(result: PagedResults<TourReview>) => {
-        this.entities = result.results;
+        this.tourReview = result.results;
       },
       error: (err:any) => {                                   
         console.log(err)
       }
   })
   }
+
+  getReviews(): void {
+    this.service.getReviews().subscribe({
+      next: (result: PagedResults<TourReview>) => {
+        this.tourReview = result.results;
+      },
+      error: () => {
+      }
+    })
+  }
+
 }
