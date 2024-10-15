@@ -6,12 +6,14 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { RouterModule } from '@angular/router';
 import { UserRatingComponent } from './user-rating/user-rating.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RatingsListComponent } from './ratings-list/ratings-list.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     NavbarComponent,
-    UserRatingComponent
+    UserRatingComponent,
+    RatingsListComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports: [
     NavbarComponent,
     HomeComponent,
-    UserRatingComponent
+    UserRatingComponent,
+    RatingsListComponent
   ]
 })
 export class LayoutModule { }

@@ -1,0 +1,30 @@
+<div class="ratings-list-container">
+    <h2>User Ratings</h2>
+    <table mat-table [dataSource]="ratings" class="mat-elevation-z8">
+        <!-- Rating Column -->
+        <ng-container matColumnDef="rating">
+            <th mat-header-cell *matHeaderCellDef> Rating </th>
+            <td mat-cell *matCellDef="let rating">
+                <span *ngFor="let star of [].constructor(5); let idx = index">
+                    <span *ngIf="idx < rating.rating" class="filled-star">★</span>
+                    <span *ngIf="idx >= rating.rating" class="empty-star">☆</span>
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Comment Column -->
+        <ng-container matColumnDef="comment">
+            <th mat-header-cell *matHeaderCellDef> Comment </th>
+            <td mat-cell *matCellDef="let rating">{{ rating.comment }}</td>
+        </ng-container>
+
+        <!-- Created At Column -->
+        <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef> Created At </th>
+            <td mat-cell *matCellDef="let rating">{{ rating.createdAt | date:'short' }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['rating', 'comment', 'createdAt']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['rating', 'comment', 'createdAt'];"></tr>
+    </table>
+</div>
