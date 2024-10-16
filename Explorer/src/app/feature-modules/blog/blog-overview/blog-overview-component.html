@@ -15,7 +15,27 @@
             </div>
         </div>
         <div class="add-button-container">
-            <button mat-raised-button color="primary">Add New Blog</button>
+            <h2>Add New Blog</h2>
+
+            <form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+            <label for="title">Title:</label>
+            <input id="title" formControlName="title" type="text" required />
+
+            <label for="description">Description (Markdown):</label>
+            <textarea id="description" formControlName="description" rows="5" required></textarea>
+
+            <label for="status">Status:</label>
+            <select id="status" formControlName="status" required>
+                <option value="0">Draft</option>
+                <option value="1">Published</option>
+                <option value="2">Closed</option>
+            </select>
+
+            <label for="image">Image URL:</label>
+            <input id="image" formControlName="image" type="url" placeholder="https://example.com/image.jpg" required />
+
+            <button type="submit" mat-raised-button color="primary">Add Blog</button>
+            </form>
         </div>
     </div>
 </div>
