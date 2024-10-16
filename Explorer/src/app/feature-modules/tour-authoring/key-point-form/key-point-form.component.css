@@ -1,0 +1,76 @@
+.tour-form {
+    max-width: 500px; /* Maksimalna širina forme */
+    margin: 20px auto; /* Centriranje forme */
+    padding: 20px; /* Unutrašnji razmak */
+    border: 1px solid #ccc; /* Granica */
+    border-radius: 10px; /* Zaobljeni uglovi */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sjenka */
+    background-color: #f9f9f9; /* Pozadinska boja */
+    transition: box-shadow 0.3s ease; /* Glatka promena sence */
+}
+
+.tour-form:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Snažnija sjena na hover */
+}
+
+h3 {
+    text-align: center; /* Centriranje naslova */
+    color: #333; /* Boja teksta */
+    margin-bottom: 20px; /* Razmak ispod naslova */
+}
+
+.form-container {
+    display: flex; /* Flexbox za raspoređivanje elemenata */
+    flex-direction: column; /* Kolone */
+    gap: 15px; /* Razmak između elemenata */
+}
+
+.form-group {
+    display: flex; /* Flexbox za grupu elemenata */
+    flex-direction: column; /* Kolona */
+}
+
+label {
+    margin-bottom: 5px; /* Razmak ispod labela */
+    color: #555; /* Boja teksta labela */
+}
+
+input {
+    padding: 10px; /* Unutrašnji razmak */
+    border: 1px solid #ccc; /* Granica */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    font-size: 14px; /* Veličina fonta */
+    transition: border-color 0.3s ease; /* Glatka promena boje granice */
+}
+
+input:focus {
+    border-color: #007bff; /* Plava boja granice pri fokusu */
+    outline: none; /* Uklanjanje standardnog okvira */
+}
+
+.button-container {
+    display: flex; /* Flexbox za dugmad */
+    justify-content: flex-end; /* Poravnanje dugmeta u desni deo */
+}
+
+button {
+    padding: 10px 20px; /* Unutrašnji razmak dugmeta */
+    background-color: #007bff; /* Plava pozadina */
+    color: white; /* Boja teksta */
+    border: none; /* Uklanjanje granice */
+    border-radius: 5px; /* Zaobljeni uglovi dugmeta */
+    cursor: pointer; /* Promena kursora na dugmetu */
+    transition: background-color 0.3s ease; /* Glatka promena boje pozadine */
+}
+
+button:hover {
+    background-color: #0056b3; /* Tamnija plava boja na hover */
+}
+h3 {
+    text-align: center; /* Centriranje naslova */
+    color: #333; /* Boja teksta */
+    margin-bottom: 20px; /* Razmak ispod naslova */
+    font-size: 24px; /* Veličina fonta */
+    font-weight: bold; /* Podebljani font */
+    padding: 20px;
+}
