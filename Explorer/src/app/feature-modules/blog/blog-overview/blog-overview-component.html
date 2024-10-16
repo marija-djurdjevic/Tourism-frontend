@@ -1,0 +1,21 @@
+<div id="blog">
+    <p>Blogs</p>
+    <hr />
+    <div id="blog-cards">
+        <div class="card-container">
+            <div class="blog-card" *ngFor="let blog of blogs">
+                <img [src]="blog.image" alt="Blog Image" class="blog-image" />
+                <div class="blog-content">
+                    <h2>{{ blog.title }}</h2>
+                    <markdown [data]="blog.description"></markdown>
+                    <p><strong>Author ID:</strong> {{ blog.authorId }}</p>
+                    <p><strong>Date:</strong> {{ blog.creationDate | date: 'medium' }}</p>
+                    <p><strong>Status:</strong> {{ getStatusLabel(blog.status) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="add-button-container">
+            <button mat-raised-button color="primary">Add New Blog</button>
+        </div>
+    </div>
+</div>
