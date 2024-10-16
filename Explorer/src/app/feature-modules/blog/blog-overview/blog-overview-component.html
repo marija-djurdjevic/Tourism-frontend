@@ -1,42 +1,33 @@
 <div id="blog">
-    <p>Blogs</p>
+    <mat-toolbar class="title" color="primary">
+        <span>Blogs</span>
+    </mat-toolbar>
     <hr />
+    <div>
+        <xp-blog-form (blogCreated)="getBlogs()"></xp-blog-form>
+    </div>
     <div id="blog-cards">
         <div class="card-container">
-            <div class="blog-card" *ngFor="let blog of blogs">
-                <img [src]="blog.image" alt="Blog Image" class="blog-image" />
-                <div class="blog-content">
-                    <h2>{{ blog.title }}</h2>
-                    <p><strong>Author ID:</strong> {{ blog.description }}</p>
-                    <p><strong>Author ID:</strong> {{ blog.authorId }}</p>
-                    <p><strong>Date:</strong> {{ blog.creationDate | date: 'medium' }}</p>
-                    <p><strong>Status:</strong> {{ getStatusLabel(blog.status) }}</p>
-                    <button (click)="addComment(blog.id)">Add Comment</button>
-                </div>
-            </div>
-        </div>
-        <div class="add-button-container">
-            <h2>Add New Blog</h2>
+            <mat-card class="blog-card" *ngFor="let blog of blogs">
+                <mat-card-header>
+                    <mat-card-title>{{ blog.title }}</mat-card-title>
+                    <mat-card-subtitle>
+                        <strong>Author ID:</strong> {{ blog.authorId }}<br>
+                        <strong>Date:</strong> {{ blog.creationDate | date: 'medium' }}<br>
+                        <strong>Status:</strong> {{ getStatusLabel(blog.status) }}
+                    </mat-card-subtitle>
+                </mat-card-header>
 
-            <form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
-            <label for="title">Title:</label>
-            <input id="title" formControlName="title" type="text" required />
+                <img mat-card-image [src]="blog.image" alt="Blog Image" />
 
-            <label for="description">Description (Markdown):</label>
-            <textarea id="description" formControlName="description" rows="5" required></textarea>
+                <mat-card-content>
+                    <p><strong>Description:</strong> {{ blog.description }}</p>
+                </mat-card-content>
 
-            <label for="status">Status:</label>
-            <select id="status" formControlName="status" required>
-                <option value="0">Draft</option>
-                <option value="1">Published</option>
-                <option value="2">Closed</option>
-            </select>
-
-            <label for="image">Image URL:</label>
-            <input id="image" formControlName="image" type="url" placeholder="https://example.com/image.jpg" required />
-
-            <button type="submit" mat-raised-button color="primary">Add Blog</button>
-            </form>
+                <mat-card-actions>
+                    <button  mat-button (click)="addComment(blog.id)">Add Comment</button>
+                </mat-card-actions>
+            </mat-card>
         </div>
     </div>
 </div>
