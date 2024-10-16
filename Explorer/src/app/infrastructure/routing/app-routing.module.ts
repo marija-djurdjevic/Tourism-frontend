@@ -13,16 +13,14 @@ import { TourPreferencesComponent } from 'src/app/feature-modules/tour-execution
 import { TourComponent } from 'src/app/feature-modules/tour-authoring/tour/tour.component';
 import { TourFormComponent } from 'src/app/feature-modules/tour-authoring/tour-form/tour-form.component'; 
 import { ProblemReportComponent } from 'src/app/feature-modules/tour-execution/problem-report/problem-report.component';
+import { TourReviewComponent } from 'src/app/feature-modules/tour-execution/tour-review/tour-review.component';
 import { ProblemFormComponent } from 'src/app/feature-modules/tour-execution/problem-form/problem-form.component';
 import { TourEquipmentComponent } from 'src/app/feature-modules/tour-authoring/tour-equipment/tour-equipment.component';
 import { KeyPointComponent } from 'src/app/feature-modules/tour-authoring/key-point/key-point/key-point.component';
 import { KeyPointFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-form/key-point-form.component';
 
 
-
 const routes: Routes = [
-
-  
   {path: 'key-points/:tourId', component: KeyPointComponent, canActivate: [AuthGuard]},
   {path: 'key-points-form/:tourId', component: KeyPointFormComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent},
@@ -37,7 +35,8 @@ const routes: Routes = [
   { path: 'tour-equipment', component: TourEquipmentComponent, canActivate: [AuthGuard] },
   {path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard],},
    {path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard],},
-  {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard],}
+  {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard],},
+   {path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard]},
 
 ];
 

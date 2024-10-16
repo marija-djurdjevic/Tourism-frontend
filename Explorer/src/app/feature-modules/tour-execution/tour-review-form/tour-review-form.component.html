@@ -1,0 +1,33 @@
+<form [formGroup]="tourReviewForm">
+    <div>
+        <mat-form-field>
+            <mat-label>Grade</mat-label>
+            <mat-select formControlName="grade" required>
+                <mat-option value=1>1</mat-option>
+                <mat-option value=2>2</mat-option>
+                <mat-option value=3>3</mat-option>
+                <mat-option value=4>4</mat-option>
+                <mat-option value=5>5</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Comment</mat-label>
+          <textarea matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          formControlName="comment"
+          cdkAutosizeMaxRows="5"
+          required
+          type="text"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Images (pahts separated with commas)</mat-label>
+            <input matInput formControlName="images" required type="text"/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Date of visit(mm-dd-yyyy)</mat-label>
+            <input matInput formControlName="visitDate" type="datetime-local" required/>
+        </mat-form-field>
+        <button  color="primary" type="submit" (click)="addTourReview()" mat-raised-button>Add review</button>
+    </div>
+</form>
