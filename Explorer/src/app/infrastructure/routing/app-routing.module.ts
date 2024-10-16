@@ -32,7 +32,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
-  {path: 'profile', component: UserProfileComponent}
+  {path: 'profile', component: UserProfileComponent},
   {path: 'comments', component: CommentComponent},
   {path: 'clubs', component: ClubsComponent},
   {path: 'object', component: ObjectComponent},

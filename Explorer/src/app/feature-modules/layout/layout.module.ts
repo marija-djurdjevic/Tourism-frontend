@@ -15,7 +15,7 @@ import { RatingsListComponent } from './ratings-list/ratings-list.component';
     HomeComponent,
     NavbarComponent,
     UserProfileComponent,
-    UserProfileFormComponent
+    UserProfileFormComponent,
     UserRatingComponent,
     RatingsListComponent
   ],
@@ -28,7 +28,7 @@ import { RatingsListComponent } from './ratings-list/ratings-list.component';
   exports: [
     NavbarComponent,
     HomeComponent,
-    UserProfileComponent
+    UserProfileComponent,
     UserRatingComponent,
     RatingsListComponent
   ]
