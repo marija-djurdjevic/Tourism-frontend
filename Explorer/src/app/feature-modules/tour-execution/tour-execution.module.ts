@@ -4,12 +4,14 @@ import { ProblemReportComponent } from './problem-report/problem-report.componen
 import { ProblemFormComponent } from './problem-form/problem-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
+import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
 
 
 @NgModule({
   declarations: [
     ProblemReportComponent,
-    ProblemFormComponent
+    ProblemFormComponent,
+    TourPreferencesComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,9 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
   ],
   exports: [ 
     ProblemReportComponent,
-    ProblemFormComponent
+    ProblemFormComponent,
+  TourPreferencesComponent
+
   ]
 })
 export class TourExecutionModule { }
