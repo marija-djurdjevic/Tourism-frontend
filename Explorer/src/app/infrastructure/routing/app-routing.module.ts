@@ -5,6 +5,7 @@ import { LoginComponent } from '../auth/login/login.component';
 import { EquipmentComponent } from 'src/app/feature-modules/administration/equipment/equipment.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
 import { ClubsComponent } from 'src/app/feature-modules/tour-authoring/clubs/clubs.component';
 import { Object } from 'src/app/feature-modules/tour-authoring/model/object.model';
 import { ObjectComponent } from 'src/app/feature-modules/tour-authoring/object/object.component';
@@ -18,7 +19,7 @@ import { ProblemFormComponent } from 'src/app/feature-modules/tour-execution/pro
 import { TourEquipmentComponent } from 'src/app/feature-modules/tour-authoring/tour-equipment/tour-equipment.component';
 import { KeyPointComponent } from 'src/app/feature-modules/tour-authoring/key-point/key-point/key-point.component';
 import { KeyPointFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-form/key-point-form.component';
-
+import { BlogOverview } from 'src/app/feature-modules/blog/blog-overview/blog-overview-component';
 
 const routes: Routes = [
   {path: 'key-points/:tourId', component: KeyPointComponent, canActivate: [AuthGuard]},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
+  {path: 'comments', component: CommentComponent},
   {path: 'clubs', component: ClubsComponent},
   {path: 'object', component: ObjectComponent},
   {path: 'objectForm', component: ObjectFormComponent},
@@ -37,7 +39,7 @@ const routes: Routes = [
    {path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard],},
   {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard],},
    {path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard]},
-
+   {path: 'blogs', component: BlogOverview, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
