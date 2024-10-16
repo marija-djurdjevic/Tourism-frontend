@@ -1,0 +1,28 @@
+<h3>Add New Key Point</h3>
+<form (ngSubmit)="onAddKeyPoint()" class="tour-form">
+  <div class="form-container">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="newKeyPoint.name" name="name" required />
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" id="description" [(ngModel)]="newKeyPoint.description" name="description" required />
+    </div>
+    <div class="form-group">
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" (change)="onImageSelected($event)" />
+    </div>
+    <div class="form-group">
+      <label for="longitude">Longitude:</label>
+      <input type="number" id="longitude" [(ngModel)]="newKeyPoint.longitude" name="longitude" required />
+    </div>
+    <div class="form-group">
+      <label for="latitude">Latitude:</label>
+      <input type="number" id="latitude" [(ngModel)]="newKeyPoint.latitude" name="latitude" required />
+    </div>
+    <div class="button-container">
+      <button type="submit" mat-raised-button color="primary">Add Key Point</button>
+    </div>
+  </div>
+</form>

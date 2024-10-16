@@ -1,0 +1,44 @@
+<form [formGroup]="tourForm" (ngSubmit)="addTour()" class="tour-form">
+    <h2>{{ shouldEdit ? 'Update Tour' : 'Add Tour' }}</h2>
+    <div class="form-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" type="text" placeholder="Enter tour name" required/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      formControlName="description"
+                      placeholder="Enter tour description"
+                      cdkAutosizeMaxRows="5" required></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Difficulty</mat-label>
+            <mat-select formControlName="difficulty" required>
+                <mat-option value="0">Easy</mat-option>
+                <mat-option value="1">Medium</mat-option>
+                <mat-option value="2">Hard</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Price</mat-label>
+            <input matInput formControlName="price" type="number" placeholder="Enter tour price" required/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Tags (use # and separate with commas)</mat-label>
+            <input matInput formControlName="tags" placeholder="#tag1, #tag2"/>
+        </mat-form-field>
+
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit" [disabled]="tourForm.invalid">
+                {{ shouldEdit ? 'Update Tour' : 'Add Tour' }}
+            </button>
+        </div>
+    </div>
+</form>

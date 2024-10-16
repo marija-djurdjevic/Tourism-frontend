@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileFormComponent } from './user-profile-form/user-profile-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserRatingComponent } from './user-rating/user-rating.component';
+import { RatingsListComponent } from './ratings-list/ratings-list.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     UserProfileComponent,
     UserProfileFormComponent
+    UserRatingComponent,
+    RatingsListComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +29,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     HomeComponent,
     UserProfileComponent
+    UserRatingComponent,
+    RatingsListComponent
   ]
 })
 export class LayoutModule { }

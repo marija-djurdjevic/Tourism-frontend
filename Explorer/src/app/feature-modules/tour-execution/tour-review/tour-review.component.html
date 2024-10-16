@@ -1,0 +1,26 @@
+<p>TOUR REVIEWS</p>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Grade</th>
+            <th>Comment</th>
+            <th>ReviewDate</th>
+            <th>VisitDate</th>
+            <th>TourId</th>
+            <th>Images</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of tourReview">
+            <td>{{ item.id }}</td>
+            <td>{{ item.grade }}</td>
+            <td>{{ item.comment }}</td>
+            <td>{{ item.tourVisitDate }}</td>
+            <td>{{ item.tourReviewDate }}</td>
+            <td>{{ item.tourId }}</td>
+            <td>{{ item.images }}</td>
+        </tr>
+    </tbody>
+</table>
+<xp-tour-review-form (tourReviewUpdated)="getReviews()"></xp-tour-review-form>
