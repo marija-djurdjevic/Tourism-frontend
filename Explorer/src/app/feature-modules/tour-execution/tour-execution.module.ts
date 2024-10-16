@@ -6,7 +6,7 @@ import { ProblemFormComponent } from './problem-form/problem-form.component';
 import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
 
 
 @NgModule({
@@ -21,10 +21,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     MaterialModule,
     ReactiveFormsModule
+    TourPreferencesComponent
   ],
   exports: [ 
     ProblemReportComponent,
-    ProblemFormComponent
+    ProblemFormComponent,
+    TourPreferencesComponent
+
   ]
 })
 export class TourExecutionModule { }

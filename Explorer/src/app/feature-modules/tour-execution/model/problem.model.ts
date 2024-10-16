@@ -4,5 +4,5 @@ export interface Problem {
     category : number;
     problemPriority: number;
     description: string;
-    time:string;
+    time?:string;
 }
