@@ -14,14 +14,14 @@ import { TourPreferencesComponent } from './tour-preferences/tour-preferences.co
     TourReviewComponent,
     ProblemReportComponent,
     ProblemFormComponent,
-    TourReviewFormComponent
+    TourReviewFormComponent,
+    TourPreferencesComponent
    
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule
-    TourPreferencesComponent
   ],
   exports: [ 
     ProblemReportComponent,

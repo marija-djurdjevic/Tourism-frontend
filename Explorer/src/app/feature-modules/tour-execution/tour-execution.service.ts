@@ -31,7 +31,7 @@ export class TourExecutionService {
   addTourReview(tourReview : TourReview): Observable<PagedResults<TourReview>> {
     console.log(tourReview);
     return this.http.post<PagedResults<TourReview>>('https://localhost:44333/api/tourist/review',tourReview)
-
+  }
   getTourPreferencesByTouristId(touristId : number) : Observable<TourPreferences> {
     return this.http.get<TourPreferences>(environment.apiHost + `tourist/tourPreferences/GetByTouristId?id=${touristId}`);
   }
