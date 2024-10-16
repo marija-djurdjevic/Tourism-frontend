@@ -1,0 +1,22 @@
+<div>
+    <p class="movable-text"><b>Oprema koju posedujete</b></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Id turiste</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor ="let eq of touristEquipment">
+                <td>{{ eq.name }}</td>
+                <td>{{ eq.description }}</td>
+                <td>{{ eq.touristId }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+      
+</div>

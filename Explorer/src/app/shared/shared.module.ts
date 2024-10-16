@@ -10,3 +10,9 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class SharedModule { }
+
+export interface PagedResult<T>{
+  results: T[];
+  totalCount: number;
+
+}
