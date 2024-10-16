@@ -1,0 +1,27 @@
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Tour Id</th>
+                <th>Problem Category</th>
+                <th>Priority</th>
+                <th>Descripiton</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of entities">
+                <td>{{ item.tourId }}</td>
+                <td>
+                    {{ item.category === 4 ? 'UnreachablePart' : 
+                       item.category === 1 ? 'UnclearInstructions' : 
+                       item.category === 2 ? 'RoadObstacles' : 
+                       'Other' }}
+                </td>
+                <td>{{ item.problemPriority }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.time }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

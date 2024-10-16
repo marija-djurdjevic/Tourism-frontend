@@ -10,6 +10,8 @@
             <button color="primary" mat-raised-button [routerLink]="['clubs']">Clubs</button>
             <button *ngIf="user && user.role === 'author'"color="primary" mat-raised-button [routerLink]="['object']">Show objects</button>
             <button *ngIf="user && user.role === 'author'" color="primary" mat-raised-button [routerLink]="['tours']">View My Tours</button>
+            <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['problems']">See tour problems</button>
+            <button *ngIf="user && user.role === 'tourist'"color="primary" mat-raised-button [routerLink]="['report']">Report a problem</button>
         </div>
     </div>
 </mat-toolbar>
