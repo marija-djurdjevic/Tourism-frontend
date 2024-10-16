@@ -39,7 +39,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   onProfileUpdated() {
-    this.ngOnInit();
+    this.getProfile();
     this.isEditing = false;
   }
 

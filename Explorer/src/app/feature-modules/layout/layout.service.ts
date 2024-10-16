@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserProfile } from './model/user-profile.model';
 import { Observable } from 'rxjs';
+import { environment } from 'src/env/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,10 @@ export class LayoutService {
 
     
     getProfile(role: string): Observable<UserProfile> {
-      return this.http.get<UserProfile>(`https://localhost:44333/api/${role}/profile/`);
+      return this.http.get<UserProfile>(`${environment.apiHost}${role}/profile/`);
     }
 
     updateProfile(userProfile : UserProfile,role: string): Observable<UserProfile> {
-      return this.http.put<UserProfile>(`https://localhost:44333/api/${role}/profile/`,userProfile)
+      return this.http.put<UserProfile>(`${environment.apiHost}${role}/profile/`,userProfile)
     }
 }
