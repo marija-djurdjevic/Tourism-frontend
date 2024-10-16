@@ -18,6 +18,7 @@ export class CommentComponent {
   shouldRenderCommentForm: boolean = false;
   shouldEdit: boolean = false;
   username: '';
+  authorId: 0;
 
   constructor(private service: CommentService,
   
