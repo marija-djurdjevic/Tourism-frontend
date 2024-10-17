@@ -27,8 +27,25 @@ export class TouristEquipmentComponent implements OnInit {
           console.log(err)
         }
       })
+
+      
     }
 
+    Delete(touristEquipment: TouristEquipment){
+       this.service.delete(touristEquipment).subscribe({
+        next: (result: TouristEquipment) => {
+          touristEquipment = result;
+          console.log(this.touristEquipment);
+          this.ngOnInit();
+          
+          
+          
+        },
+        error: (err: any) =>{
+          console.log(err)
+        }
+      })
+    }
 
     
 }

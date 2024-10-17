@@ -1,6 +1,6 @@
 <div>
-    <p class="movable-text"><b>Oprema koju posedujete</b></p>
-    <table class="table">
+    <p class="movable-text1"><b>Sva oprema</b></p>
+    <table class="table1">
         <thead>
             <tr>
                 <th>Naziv</th>
@@ -9,17 +9,14 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor ="let eq of touristEquipment">
+            <tr *ngFor="let eq of equipment">
                 <td>{{ eq.name }}</td>
                 <td>{{ eq.description }}</td>
-                <td><button (click)="Delete(eq)">Ukloni iz svoje opreme</button></td>
+                <td><button (click)="add(eq)">Dodaj u svoju opremu</button></td>
             </tr>
         </tbody>
     </table>
     
     
       
-</div>
-<div>
-    <xp-tourist-equipment-form (equipmentUpdated)="ngOnInit()"></xp-tourist-equipment-form>
 </div>
