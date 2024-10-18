@@ -19,7 +19,14 @@
             <td>{{ item.tourVisitDate }}</td>
             <td>{{ item.tourReviewDate }}</td>
             <td>{{ item.tourId }}</td>
-            <td>{{ item.images }}</td>
+            <td>
+                <ng-container *ngIf="item.images">
+                    <ng-container *ngFor="let imgUrl of item.images.split(',')">
+                        <img [src]="imgUrl.trim()" style="width: 100px; height: auto; margin: 5px;" alt="Image preview"/>
+                    </ng-container>
+                </ng-container>
+            </td>
+           
         </tr>
     </tbody>
 </table>

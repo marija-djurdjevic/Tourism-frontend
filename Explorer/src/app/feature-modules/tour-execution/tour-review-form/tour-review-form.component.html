@@ -23,6 +23,11 @@
         <mat-form-field>
             <mat-label>Images (pahts separated with commas)</mat-label>
             <input matInput formControlName="images" required type="text"/>
+            <div *ngIf="tourReviewForm.value.images">
+                <ng-container *ngFor="let imgUrl of tourReviewForm.value.images.split(',')">
+                    <img [src]="imgUrl.trim()" style="width: 200px; height: auto; margin: 5px;" alt="Image preview"/>
+                </ng-container>
+            </div>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Date of visit(mm-dd-yyyy)</mat-label>
