@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenStorage } from '../../../infrastructure/auth/jwt/token.service';
 import { CommentService } from "../comment.service";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -21,7 +22,8 @@ export class BlogOverview implements OnInit {
     constructor(
       private blogService: BlogService,
       private commentService: CommentService, 
-      private tokenStorage: TokenStorage) {
+      private tokenStorage: TokenStorage,
+      private router: Router,) {
     }
 
     ngOnInit(): void {
@@ -42,8 +44,8 @@ export class BlogOverview implements OnInit {
       })
     }
 
-    addComment(blogId: any) {
-      console.log('Adding comment to blog with ID:', blogId);
+    viewComments(blogId: any) {
+      this.router.navigate(['/comments/'+blogId])
     }
 
     getStatusLabel(status: number): string {
