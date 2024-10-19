@@ -1,6 +1,14 @@
-<form [formGroup]="tourReviewForm">
-    <div>
-        <mat-form-field>
+<form [formGroup]="tourReviewForm" class="tourReview-form">
+    <h2>{{ 'Add Tour' }}</h2>
+    <div class="form-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Tour id</mat-label>
+            <input matInput
+            formControlName="tourId"
+            required
+            type="number">
+          </mat-form-field>
+        <mat-form-field appearance="outline">
             <mat-label>Grade</mat-label>
             <mat-select formControlName="grade" required>
                 <mat-option value=1>1</mat-option>
@@ -10,7 +18,7 @@
                 <mat-option value=5>5</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Comment</mat-label>
           <textarea matInput
           cdkTextareaAutosize
@@ -20,14 +28,22 @@
           required
           type="text"></textarea>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
             <mat-label>Images (pahts separated with commas)</mat-label>
             <input matInput formControlName="images" required type="text"/>
+            <div *ngIf="tourReviewForm.value.images">
+                <ng-container *ngFor="let imgUrl of tourReviewForm.value.images.split(',')">
+                    <img [src]="imgUrl.trim()" style="width: 200px; height: auto; margin: 5px;" alt="Image preview"/>
+                </ng-container>
+            </div>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
             <mat-label>Date of visit(mm-dd-yyyy)</mat-label>
             <input matInput formControlName="visitDate" type="datetime-local" required/>
         </mat-form-field>
-        <button  color="primary" type="submit" (click)="addTourReview()" mat-raised-button>Add review</button>
+        <button  color="primary" type="submit" (click)="addTourReview()" [disabled]="tourReviewForm.invalid" mat-raised-button>Add review</button>
+    </div>
+    <div *ngIf="feedbackMessage">
+        {{ feedbackMessage }}
     </div>
 </form>
