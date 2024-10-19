@@ -4,6 +4,7 @@ export interface TourReview {
     grade?: number;
     tourId?: number;
     userId?: number;
+    username: string;
     images : string;
     tourVisitDate: Date;
     tourReviewDate: Date;

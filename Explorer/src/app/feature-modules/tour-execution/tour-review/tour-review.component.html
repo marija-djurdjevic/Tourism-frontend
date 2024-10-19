@@ -8,6 +8,8 @@
             <th>ReviewDate</th>
             <th>VisitDate</th>
             <th>TourId</th>
+            <th>UserId</th>
+            <th>Username</th>
             <th>Images</th>
         </tr>
     </thead>
@@ -19,6 +21,8 @@
             <td>{{ item.tourVisitDate }}</td>
             <td>{{ item.tourReviewDate }}</td>
             <td>{{ item.tourId }}</td>
+            <td>{{ item.userId }}</td>
+            <td>{{ item.username }}</td>
             <td>
                 <ng-container *ngIf="item.images">
                     <ng-container *ngFor="let imgUrl of item.images.split(',')">
