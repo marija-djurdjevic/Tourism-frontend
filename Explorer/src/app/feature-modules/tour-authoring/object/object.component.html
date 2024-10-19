@@ -14,9 +14,12 @@
                 <td>{{obj.name}}</td>
                 <td>{{obj.description}}</td>
                 <td>{{obj.category}}</td>
+                <!-- Kod za prikaz slike -->
                 <td>
-                    <img [src]="obj.image" alt="{{ obj.name }}" class="object-image" />
+                    <img *ngIf="obj.image" [src]="obj.image" alt="{{ obj.image }}" class="object-image" />
+                    <img *ngIf="!obj.image" [src]="obj.image" alt="The image does not exist." class="object-image" />
                 </td>
+                <!-- kraj prikaza -->
             </tr>
         </tbody>
     </table>

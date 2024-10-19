@@ -23,7 +23,7 @@ import { TourEquipmentComponent } from 'src/app/feature-modules/tour-authoring/t
 import { KeyPointComponent } from 'src/app/feature-modules/tour-authoring/key-point/key-point/key-point.component';
 import { KeyPointFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-form/key-point-form.component';
 import { BlogOverview } from 'src/app/feature-modules/blog/blog-overview/blog-overview-component';
-
+import {ImageComponent} from '../../shared/image/image.component'
 
 const routes: Routes = [
   {path: 'key-points/:tourId', component: KeyPointComponent, canActivate: [AuthGuard]},
@@ -32,6 +32,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
+  {path: 'image', component: ImageComponent},
   {path: 'profile', component: UserProfileComponent},
   {path: 'comments', component: CommentComponent},
   {path: 'clubs', component: ClubsComponent},

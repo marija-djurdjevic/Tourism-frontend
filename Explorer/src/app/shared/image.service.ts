@@ -1,0 +1,23 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/env/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ImageService {
+  private apiUrl = environment.apiHost+ 'image';
+
+  constructor(private http: HttpClient) {}
+
+  uploadImage(file: File): Observable<number> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<number>(this.apiUrl, formData);
+  }
+
+  getImage(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${id}`, { responseType: 'blob' });
+  }
+}
