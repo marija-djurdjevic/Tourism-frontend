@@ -15,7 +15,11 @@ export class ObjectFormComponent {
   selectedFile: File;
   previewImage: string | null = null
 
-  constructor(private service: TourAuthoringService, private imageService: ImageService) { }
+  constructor(private service: TourAuthoringService, private imageService: ImageService) {
+    /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
+    ODREDJUJE SE NA OSNOVU ULOGE KOJA VRSI OPERACIJU ZBOG AUTORIZACIJE*/
+    imageService.setControllerPath("author/image");
+   }
 
   objectForm = new FormGroup({
     name: new FormControl('', [Validators.required]),

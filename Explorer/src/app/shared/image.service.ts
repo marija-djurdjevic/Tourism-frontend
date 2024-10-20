@@ -7,9 +7,17 @@ import { environment } from 'src/env/environment';
   providedIn: 'root'
 })
 export class ImageService {
-  private apiUrl = environment.apiHost+ 'image';
+  private apiUrl = environment.apiHost;
+  private controllerPath="";
 
   constructor(private http: HttpClient) {}
+
+  setControllerPath(path:string):void{
+    if(this.controllerPath==""){
+      this.controllerPath=path;
+      this.apiUrl=this.apiUrl+this.controllerPath;
+    }
+  }
 
   uploadImage(file: File): Observable<number> {
     const formData = new FormData();

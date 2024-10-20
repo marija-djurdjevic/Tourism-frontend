@@ -16,7 +16,11 @@ export class ObjectComponent implements OnInit {
   object: Object[] = []
   image: File;
 
-  constructor(private service: TourAuthoringService, private imageService: ImageService, private cd: ChangeDetectorRef) { }
+  constructor(private service: TourAuthoringService, private imageService: ImageService, private cd: ChangeDetectorRef) {
+    /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
+    ODREDJUJE SE NA OSNOVU ULOGE KOJA VRSI OPERACIJU ZBOG AUTORIZACIJE*/
+    imageService.setControllerPath("author/image");
+   }
 
   ngOnInit(): void {
     this.service.getObject().subscribe({
