@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageComponent } from './image/image.component';
 import { MapComponent } from './map/map.component';
-
+import { FormsModule } from '@angular/forms'; 
 
 
 @NgModule({
@@ -11,7 +11,8 @@ import { MapComponent } from './map/map.component';
     MapComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
     ImageComponent, MapComponent

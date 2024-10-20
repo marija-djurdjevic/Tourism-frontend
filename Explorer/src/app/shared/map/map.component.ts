@@ -9,6 +9,7 @@ import { MapService } from './map.service';
 })
 export class MapComponent implements AfterViewInit {
   private map: any;
+  searchQuery: string = ''; 
 
   constructor(private service: MapService) {}
 
@@ -40,7 +41,29 @@ export class MapComponent implements AfterViewInit {
     this.initMap();
   }
 
-  /*search(): void {
+  search(): void {
+    this.service.search(this.searchQuery).subscribe({
+      next: (result) => {
+        if (result.length > 0) {
+          const lat = result[0].lat;
+          const lon = result[0].lon;
+          this.map.setView([lat, lon], 15); 
+          L.marker([lat, lon])
+            .addTo(this.map)
+            .bindPopup(this.searchQuery)
+            .openPopup();
+        } else {
+          alert('Location not found.');
+        }
+      },
+      error: (err) => {
+        console.error('Search error: ', err);
+      },
+    });
+  }
+
+  /*
+  search(): void {
     this.service.search('Strazilovska 19, Novi Sad').subscribe({
       next: (result) => {
         console.log(result);
@@ -51,7 +74,8 @@ export class MapComponent implements AfterViewInit {
       },
       error: () => {},
     });
-  }*/
+  }
+  */
     
   registerOnClick(): void {
     this.map.on('click', (e: any) => {

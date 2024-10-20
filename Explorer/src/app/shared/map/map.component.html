@@ -1,3 +1,12 @@
-<div class="map-frame">
+<div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Enter address in the format: street, city"
+    />
+    <button type="button" (click)="search()">Search</button>
+  </div>
+  
+  <div class="map-frame">
     <div id="map"></div>
-</div>
+  </div>
