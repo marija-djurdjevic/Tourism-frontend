@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
 
@@ -8,6 +8,12 @@ import { MapService } from './map.service';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
+  @Input() keyPoints: any[] = [];
+  @Input() initialCenter: [number, number] = [45.2396, 19.8227];
+  @Input() initialZoom: number = 13;
+  @Input() markers: any[] = []; 
+  @Output() keyPointSelected = new EventEmitter<{ latitude: number, longitude: number }>(); 
+  @Output() markerAdded = new EventEmitter<{ latitude: number, longitude: number }>(); 
   private map: any;
   searchQuery: string = ''; 
 
@@ -15,8 +21,8 @@ export class MapComponent implements AfterViewInit {
 
   private initMap(): void {
     this.map = L.map('map', {
-      center: [45.2396, 19.8227],
-      zoom: 13,
+      center: this.initialCenter,
+      zoom: this.initialZoom,
     });
 
     const tiles = L.tileLayer(
@@ -29,6 +35,11 @@ export class MapComponent implements AfterViewInit {
       }
     );
     tiles.addTo(this.map);
+    if (this.markers.length > 0) {
+      this.markers.forEach(marker => {
+        L.marker([marker.latitude, marker.longitude]).addTo(this.map);
+      });
+    }
     this.registerOnClick();
   }
 
@@ -75,32 +86,18 @@ export class MapComponent implements AfterViewInit {
       },
     });
   }
-
-  /*
-  search(): void {
-    this.service.search('Strazilovska 19, Novi Sad').subscribe({
-      next: (result) => {
-        console.log(result);
-        L.marker([result[0].lat, result[0].lon])
-          .addTo(this.map)
-          .bindPopup('Pozdrav iz Strazilovske 19.')
-          .openPopup();
-      },
-      error: () => {},
-    });
-  }
-  */
     
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
+      this.keyPointSelected.emit({ latitude: lat, longitude: lng }); 
       this.service.reverseSearch(lat, lng).subscribe((res) => {
         console.log(res.display_name);
       });
       const mp = new L.Marker([lat, lng]).addTo(this.map);
-      alert(mp.getLatLng());
+      this.markerAdded.emit({ latitude: lat, longitude: lng }); // Emit the added marker
     });
   }
 
