@@ -1,0 +1,35 @@
+div {
+    width: 400px;
+    display:flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.mat-icon {
+    vertical-align: middle;
+}
+.tourReview-form {
+    max-width: 500px;
+    margin: 20px auto; 
+    padding: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    background-color: #f9f9f9; 
+}
+
+h2 {
+    text-align: center; 
+    color: #333; 
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}

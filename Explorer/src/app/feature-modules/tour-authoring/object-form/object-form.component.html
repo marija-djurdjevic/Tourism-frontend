@@ -1,0 +1,43 @@
+<form [formGroup]="objectForm">
+
+
+
+
+  <div>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" required>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" required></textarea>
+    </mat-form-field>
+  </div>
+
+
+
+
+
+  <div>
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category" required>
+        <mat-option value=0>WC</mat-option>
+        <mat-option value=1>Restaurant</mat-option>
+        <mat-option value=2>Parking</mat-option>
+        <mat-option value=3>Other</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+
+  <div style="margin-bottom: 16px;">
+    <!-- kod za upload slike -->
+    <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit" (click)="addObject()">Submit</button>
+</form>

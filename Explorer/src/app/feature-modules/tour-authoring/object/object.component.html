@@ -1,0 +1,28 @@
+<div class="table-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Kategorija</th>
+                <th>Slika</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let obj of object">
+                <td>{{obj.name}}</td>
+                <td>{{obj.description}}</td>
+                <td>{{obj.category}}</td>
+                <!-- Kod za prikaz slike -->
+                <td>
+                    <img *ngIf="obj.image" [src]="obj.image" alt="{{ obj.image }}" class="object-image" />
+                    <img *ngIf="!obj.image" [src]="obj.image" alt="The image does not exist." class="object-image" />
+                </td>
+                <!-- kraj prikaza -->
+            </tr>
+        </tbody>
+    </table>
+
+    <button color="primary" mat-raised-button [routerLink]="['/objectForm']">Add</button>
+</div>

@@ -1,0 +1,30 @@
+<form [formGroup]="ratingForm">
+    <div class="rating-container">
+        <!-- Rating Selection (Stars) -->
+        <mat-form-field appearance="fill">
+          <mat-label>Rate us</mat-label>
+          <mat-select matInput formControlName="rating" class="stars" required>
+            <mat-option *ngFor="let star of [5, 4, 3, 2, 1]" [value]="star">
+              <span class="stars">
+                <ng-container *ngFor="let i of [].constructor(star); let idx = index">
+                  ★
+                </ng-container>
+              </span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <!-- Comment Box -->
+        <mat-form-field appearance="fill">
+          <mat-label>Comment (optional)</mat-label>
+          <textarea matInput placeholder="Write your comment..." matInput formControlName="comment"></textarea>
+        </mat-form-field>
+      
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" (click)="submitRating()" [disabled]="!ratingForm.valid">
+          Submit Rating
+        </button>
+    </div>
+</form>
+
+  

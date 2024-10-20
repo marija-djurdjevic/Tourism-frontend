@@ -1,0 +1,29 @@
+<div>
+    <div>
+    <table>
+        <thead>
+            <th>Naziv</th>
+            <th>Opis</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cl of clubs">
+                <td>{{cl.name}}</td>
+                <td>{{cl.description}}</td>
+                <td>
+                    <button color="accent" (click)="deleteClub(cl.id || 0)" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button color="primary" (click)="onEditClicked(cl)" mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <button color="primary" (click)="onAddClicked()" mat-icon-button>
+                    <mat-icon>add</mat-icon>
+                </button>
+            </tr>
+        </tbody>
+    </table>
+    <xp-clubs-form *ngIf="shouldRenderClubForm" [shouldEdit]="shouldEdit" [club]="selectedClub" (clubsUpdated)="getClubs()"></xp-clubs-form>
+</div>

@@ -1,0 +1,21 @@
+<div class="profile-container" *ngIf="userProfile">
+  <img [src]="userProfile.imageURL" 
+  alt="Profile Image" 
+  class="profile-image">
+  <div class="profile-info">
+    <p><strong>First Name:</strong> {{ userProfile.firstName }}</p>
+    <p><strong>Last Name:</strong> {{ userProfile.lastName }}</p>
+    <p><strong>Bio:</strong> {{ userProfile.biography }}</p>
+    <p><strong>Motto:</strong> {{ userProfile.motto }}</p>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="toggleEdit()">Edit</button>
+</div>
+
+<div *ngIf="isEditing">
+  <xp-user-profile-form [profile]="userProfile" (profileUpdated)="onProfileUpdated()"></xp-user-profile-form>
+</div>
+
+<div *ngIf="!userProfile" class="loading-message">
+  <p>Loading user profile...</p>
+</div>
