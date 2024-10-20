@@ -32,6 +32,20 @@ export class MapComponent implements AfterViewInit {
     this.registerOnClick();
   }
 
+  setRoute(waypoints: Array<{ lat: number, lng: number }>, profile: 'walking' | 'driving' | 'cycling'): void {
+    const routeControl = L.Routing.control({
+      waypoints: waypoints.map(point => L.latLng(point.lat, point.lng)),  
+      router: L.routing.mapbox('pk.eyJ1IjoiZGp1cmRqZXZpY20iLCJhIjoiY20yaHVzOTgyMGJwbzJqczNteW1xMm0yayJ9.woKtBh92sOV__L25KcUu_Q', { profile: `mapbox/${profile}` }) 
+    }).addTo(this.map);
+  
+    routeControl.on('routesfound', function(e) {
+      const routes = e.routes;
+      const summary = routes[0].summary;
+      alert('Total distance is ' + (summary.totalDistance / 1000).toFixed(2) + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+    });
+  }
+  
+
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
