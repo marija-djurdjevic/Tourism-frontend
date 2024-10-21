@@ -33,6 +33,21 @@
     </mat-form-field>
   </div>
 
+  <div>
+    <mat-form-field>
+      <mat-label>Longitude</mat-label>
+      <input matInput type="text" formControlName="longitude" [(ngModel)]="longitude" required>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Latitude</mat-label>
+      <input matInput type="text" formControlName="latitude" [(ngModel)]="latitude" required>
+    </mat-form-field>
+  </div>
+
+  <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
 
   <div style="margin-bottom: 16px;">
     <!-- kod za upload slike -->

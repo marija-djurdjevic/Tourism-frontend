@@ -13,7 +13,7 @@ export class MapComponent implements AfterViewInit {
   @Input() initialCenter: [number, number] = [45.2396, 19.8227];
   @Input() initialZoom: number = 13;
   @Input() markers: any[] = [];
-  @Input() creatingKeyPoint = false;
+  @Input() onlyOneMarker = false;
   @Output() keyPointSelected = new EventEmitter<{ latitude: number, longitude: number }>();
   @Output() markerAdded = new EventEmitter<{ latitude: number, longitude: number }>();
   private map: any;
@@ -67,7 +67,7 @@ export class MapComponent implements AfterViewInit {
 
     L.Marker.prototype.options.icon = DefaultIcon;
     this.initMap();
-    if (this.creatingKeyPoint) {
+    if (this.onlyOneMarker) {
       this.setCurrentLocation();
     }
   }
@@ -106,7 +106,7 @@ export class MapComponent implements AfterViewInit {
           const lat = result[0].lat;
           const lon = result[0].lon;
 
-          if (this.creatingKeyPoint) {
+          if (this.onlyOneMarker) {
             this.clearMarkers();
           }
           this.keyPointSelected.emit({ latitude: lat, longitude: lon });
@@ -135,7 +135,7 @@ export class MapComponent implements AfterViewInit {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-      if (this.creatingKeyPoint) {
+      if (this.onlyOneMarker) {
         this.clearMarkers();
       }
       this.keyPointSelected.emit({ latitude: lat, longitude: lng });
