@@ -20,7 +20,7 @@
     <div class="form-group">
       <label for="latitude">Latitude:</label>
       <input type="number" id="latitude" [(ngModel)]="newKeyPoint.latitude" name="latitude" required />
-      <app-map></app-map>
+      <app-map [creatingKeyPoint]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
     </div>
     <div class="button-container">
       <button type="submit" mat-raised-button color="primary">Add Key Point</button>
