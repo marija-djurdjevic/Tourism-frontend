@@ -4,6 +4,11 @@ form {
     justify-content: center;
 }
 
+body {
+    
+    background-color: var(--background-color)!important;
+}
+
 div {
     width: 400px;
     display:flex;

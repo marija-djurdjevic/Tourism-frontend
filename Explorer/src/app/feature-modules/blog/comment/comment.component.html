@@ -38,7 +38,7 @@
             </table>
         </div>
         <div>
-            <xp-comment-form *ngIf="shouldRenderCommentForm" [shouldEdit]="shouldEdit" [comment]="selectedComment" (commentUpdated)="getComments()"></xp-comment-form>
+            <xp-comment-form *ngIf="shouldRenderCommentForm" [shouldEdit]="shouldEdit" [comment]="selectedComment" [blogId]="blogId" (commentUpdated)="getComments()"></xp-comment-form>
         </div>
     </div>
 </div>
