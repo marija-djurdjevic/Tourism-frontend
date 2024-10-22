@@ -15,6 +15,7 @@ export class CommentFormComponent implements OnChanges {
   @Output() commentUpdated = new EventEmitter<null>();
   @Input() comment: Comment;
   @Input() shouldEdit: boolean = false;
+  @Input() blogId: number;
   id: 0;
 
   constructor(private service: CommentService,
@@ -33,7 +34,7 @@ export class CommentFormComponent implements OnChanges {
       const commentData = {
         ...this.comment,
         authorId: this.id,
-        blogId: this.comment.blogId.toString(),
+        blogId: this.blogId,
       };
       this.commentForm.patchValue(commentData);
     }
@@ -41,19 +42,17 @@ export class CommentFormComponent implements OnChanges {
 
   commentForm = new FormGroup({
     text: new FormControl('', [Validators.required]),
-    blogId: new FormControl('', [Validators.required]),
   });
 
   addComment(): void {
     const newComment: Comment = {
       authorId: this.id,
-      blogId: Number(this.commentForm.value.blogId),
+      blogId: this.blogId,
       text: this.commentForm.value.text || '',
       creationDate: new Date(),
       editDate: new Date(),
     };
-    console.log(newComment);
-    this.service.addComment(newComment).subscribe({
+    this.service.addComment(this.blogId, newComment).subscribe({
       next: () => { this.commentUpdated.emit(); }
     });
   }
@@ -64,7 +63,7 @@ export class CommentFormComponent implements OnChanges {
       text: this.commentForm.value.text || '',
       editDate: new Date(),
     };
-    this.service.updateComment(updatedComment).subscribe({
+    this.service.updateComment(this.blogId, updatedComment).subscribe({
       next: () => { this.commentUpdated.emit(); }
     });
   }

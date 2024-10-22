@@ -5,3 +5,61 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Color Palette */
+:root {
+    --primary-color: #19191E;
+    --secondary-color: #34AB45;
+    --background-color: #F7F4ED;
+    --text-color: #2c3e50;
+    --light-text-color: #FAF7F0;
+}
+
+/* Buttons Styling */
+.primary-button {
+    background-color: var(--secondary-color) !important;
+    color: var(--light-text-color) !important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.secondary-button {
+    background-color: var(--primary-color) !important;
+    color: var(--light-text-color) !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Text Styles */
+.primary-heading-text {
+    font-family: "Helvetica Neue",sans-serif;
+    font-size: 28px !important;
+    font-weight: 500 !important;
+}
+
+.primary-title-text {
+    font-family: "Helvetica Neue",sans-serif;
+    font-size: 24px !important;
+    font-weight: 400 !important;
+}
+
+.primary-body-text {
+    font-family: "Helvetica Neue",sans-serif;
+    font-size: 12px !important;
+}
+
+/* Containers */
+.main-container {
+    margin-left: 100px !important;
+    margin-right: 100px !important;
+}
+
+/* Links */
+.link-text {
+    text-decoration: underline;
+    font-family: "Helvetica Neue",sans-serif;
+    font-size: 12px !important;
+    color: var(--text-color);
+}
+
