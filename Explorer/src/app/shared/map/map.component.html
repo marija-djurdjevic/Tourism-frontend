@@ -1,13 +1,16 @@
 <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="searchQuery"
-      placeholder="Enter address in the format: street, city"
-    />
-    <button type="button" (click)="search()">Search</button>
-  </div>
+  <input *ngIf="onlyOneMarker" type="text" [(ngModel)]="searchQuery"
+    placeholder="Enter address in the format: street, city" />
+  <button type="button" *ngIf="onlyOneMarker" (click)="search()">Search</button>
+</div>
+<select name="" [(ngModel)]="Option" *ngIf="tourView" style="font-size: xx-large;" id="">
+  <option value="walking">walking</option>
+  <option value="driving" selected>driving</option>
+  <option value="cycling">cycling</option>
+</select>
+<div class="map-frame">
+  <div id="map"></div>
+  <label *ngIf="onlyOneMarker" for="">Address: {{address}}</label>
+  <label *ngIf="tourView" for="">{{message}}</label>
   
-  <div class="map-frame">
-    <div id="map"></div>
-    <label for="">Address: {{address}}</label>
-  </div>
+</div>

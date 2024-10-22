@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
 import { Observable } from 'rxjs';
@@ -14,11 +14,24 @@ export class MapComponent implements AfterViewInit {
   @Input() initialZoom: number = 13;
   @Input() markers: any[] = [];
   @Input() onlyOneMarker = false;
+  @Input() tourView = false;
   @Output() keyPointSelected = new EventEmitter<{ latitude: number, longitude: number }>();
   @Output() markerAdded = new EventEmitter<{ latitude: number, longitude: number }>();
   private map: any;
+  message: string = "";
+  option: 'walking' | 'driving' | 'cycling' = 'driving';
   searchQuery: string = '';
-  address:string='';
+  address: string = '';
+  routeControl: any = null;
+
+  get Option(): 'walking' | 'driving' | 'cycling' {
+    return this.option;
+  }
+
+  set Option(value: 'walking' | 'driving' | 'cycling') {
+    this.option = value;
+    this.setRouteFromKeyPoints()
+  }
 
   constructor(private service: MapService) { }
 
@@ -44,20 +57,81 @@ export class MapComponent implements AfterViewInit {
       });
     }
     this.registerOnClick();
+    if (this.tourView) {
+      this.setRouteFromKeyPoints();
+    }
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Provera da li se promenio keyPoints
+    if (changes['keyPoints'] && !changes['keyPoints'].firstChange) {
+      console.log('keyPoints changed:', this.keyPoints);
+      // Ovde možeš da pozoveš funkciju ili uradiš nešto drugo
+      this.handleKeyPointsChange();
+    }
+  }
+
+  handleKeyPointsChange(): void {
+    // Funkcija koja se poziva kada se promeni keyPoints
+    console.log('KeyPoints updated:', this.keyPoints);
+    // Npr. osveži rutu na mapi ili bilo šta drugo
+    this.setRouteFromKeyPoints();
+  }
+
+  setRouteFromKeyPoints(): void {
+    const waypoints = this.keyPoints.map(point => ({
+      lat: point.latitude,
+      lng: point.longitude
+    }));
+
+    // Pozovi setRoute sa prikupljenim waypoints i izabranim profilom (npr. 'walking')
+    this.setRoute(waypoints, this.option); // ili 'driving', 'cycling'
+  }
+
 
   setRoute(waypoints: Array<{ lat: number, lng: number }>, profile: 'walking' | 'driving' | 'cycling'): void {
-    const routeControl = L.Routing.control({
+    // Uklanjanje prethodne rute ako postoji
+    if (this.routeControl) {
+      this.map.removeControl(this.routeControl);
+    }
+    const lineStyle = profile === 'walking' 
+    ? [{ color: 'blue', weight: 4, dashArray: '10, 10' }] // Isprekidana linija za walking
+    : [{ color: 'blue', weight: 4 }]; // Puna linija za ostale profile
+
+    this.routeControl = L.Routing.control({
       waypoints: waypoints.map(point => L.latLng(point.lat, point.lng)),
-      router: L.routing.mapbox('pk.eyJ1IjoiZGp1cmRqZXZpY20iLCJhIjoiY20yaHVzOTgyMGJwbzJqczNteW1xMm0yayJ9.woKtBh92sOV__L25KcUu_Q', { profile: `mapbox/${profile}` })
+      router: L.routing.mapbox('pk.eyJ1IjoiZGp1cmRqZXZpY20iLCJhIjoiY20yaHVzOTgyMGJwbzJqczNteW1xMm0yayJ9.woKtBh92sOV__L25KcUu_Q', {
+        profile: `mapbox/${profile}`
+      }),
+      lineOptions: {
+        styles: lineStyle, // Plava linija
+        extendToWaypoints: true, // Proširi liniju do tačaka
+        missingRouteTolerance: 1 // Tolerancija za nedostatak rute
+      },
+      waypointMode: 'snap', // Markeri će se "zalepiti" za put
+      addWaypoints: false, // Zabranjeno dodavanje novih tačaka od strane korisnika
     }).addTo(this.map);
 
-    routeControl.on('routesfound', function (e) {
+    this.routeControl.on('routesfound', (e: any) => {
       const routes = e.routes;
       const summary = routes[0].summary;
-      alert('Total distance is ' + (summary.totalDistance / 1000).toFixed(2) + ' km and total time is ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes');
+      this.message = 'Total distance is ' + (summary.totalDistance / 1000).toFixed(2) + ' km and total time is ' + Math.floor(summary.totalTime /3600) + ' hours ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes';
+
+      const bounds = L.latLngBounds([]);
+      routes[0].coordinates.forEach((coord: { lat: number, lng: number }) => {
+        bounds.extend(L.latLng(coord.lat, coord.lng));
+      });
+
+      this.map.fitBounds(bounds);
+    });
+
+    this.routeControl.on('routingerror', (error: any) => {
+      console.error('Routing error:', error);
+      alert('There was a routing error. Please try again.');
     });
   }
+
+
 
 
   ngAfterViewInit(): void {
@@ -132,23 +206,25 @@ export class MapComponent implements AfterViewInit {
 
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
-      const coord = e.latlng;
-      const lat = coord.lat;
-      const lng = coord.lng;
-      if (this.onlyOneMarker) {
-        this.clearMarkers();
+      if (!this.tourView) {
+        const coord = e.latlng;
+        const lat = coord.lat;
+        const lng = coord.lng;
+        if (this.onlyOneMarker) {
+          this.clearMarkers();
+        }
+        this.keyPointSelected.emit({ latitude: lat, longitude: lng });
+        this.service.reverseSearch(lat, lng).subscribe((res) => {
+          console.log(res.display_name);
+        });
+        const mp = new L.Marker([lat, lng]).addTo(this.map);
+        this.markers.push(mp);
+        this.service.reverseSearch(lat, lng).subscribe((response) => {
+          this.address = response.display_name; // Dobijena adresa
+          console.log('Dobijena adresa:', this.address);
+        });
+        this.markerAdded.emit({ latitude: lat, longitude: lng }); // Emit the added marker
       }
-      this.keyPointSelected.emit({ latitude: lat, longitude: lng });
-      this.service.reverseSearch(lat, lng).subscribe((res) => {
-        console.log(res.display_name);
-      });
-      const mp = new L.Marker([lat, lng]).addTo(this.map);
-      this.markers.push(mp);
-      this.service.reverseSearch(lat, lng).subscribe((response) => {
-        this.address = response.display_name; // Dobijena adresa
-        console.log('Dobijena adresa:', this.address);
-      });
-      this.markerAdded.emit({ latitude: lat, longitude: lng }); // Emit the added marker
     });
   }
 
