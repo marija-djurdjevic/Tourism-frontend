@@ -1,0 +1,14 @@
+.form-container {
+    display: flex;
+    gap: 20px;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    width: 400px; 
+}
+
+.mat-icon {
+    vertical-align: middle;
+}

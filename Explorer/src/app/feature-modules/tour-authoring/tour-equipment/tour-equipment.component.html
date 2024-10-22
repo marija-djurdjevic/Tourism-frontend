@@ -1,0 +1,64 @@
+<div id="equipment">
+    <hr>
+    <div id="equipment-details">
+        <div>
+            <table *ngIf="prikaz">
+                <thead>
+                    <tr>
+                        <th>Naziv</th>
+                        <th>Opis</th>
+                        <th>Ukloni opremu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let eq of tourEquipment">
+                        <td>{{eq.equipment.name}}</td>
+                        <td>{{eq.equipment.description}}</td>
+                        <td>
+                            <button title="remove" color="accent" (click)="deleteTourEquipment(eq.id || 0)" mat-icon-button>
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <button title="add" style="display: flex;flex-direction: column;justify-content: center;" color="primary" (click)="onAddEquipmentClicked()" mat-icon-button>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </tr>
+                </tbody>
+            </table>
+            <table *ngIf="!prikaz">
+                <thead>
+                    <tr>
+                        <th>Naziv</th>
+                        <th>Opis</th>
+                        <th>Ukloni/Dodaj</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let eq of allTourEquipment">
+                        <td>{{eq.equipment.name}}</td>
+                        <td>{{eq.equipment.description}}</td>
+                        <td>
+                            <button title="add" *ngIf="eq.tourId!=tourId" color="accent" (click)="addTourEquipment(eq)" mat-icon-button>
+                                <mat-icon>add</mat-icon>
+                            </button>
+                            <button title="remove" *ngIf="eq.tourId==tourId" color="accent" (click)="deleteTourEquipment(eq.id || 0)" mat-icon-button>
+                                <mat-icon>remove</mat-icon>
+                            </button>
+                        </td>
+                        <td>
+                            {{eq.tourId!=tourId?"Removed":"Added"}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <button style="display: flex;flex-direction: column;justify-content: center;" color="primary" (click)="onSaveEquipmentClicked()" mat-icon-button>
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

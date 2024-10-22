@@ -1,0 +1,44 @@
+<div id="comments">
+    <p>Comments</p>
+    <hr>
+    <div id="comments-details">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Comment</th>
+                        <th>Username</th>
+                        <th>Created on</th>
+                        <th>Edited on</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let comment of comments">
+                        <td>{{comment.text}}</td>
+                        <td>{{username}}</td>
+                        <td>{{formatDate(comment.creationDate)}}</td>
+                        <td>{{formatDate(comment.editDate)}}</td>
+                        <td>
+                            <button color="accent" (click)="deleteComment(comment.id!)" mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button color="primary" (click)="onEditClicked(comment)" mat-icon-button>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <button color="primary" (click)="onAddClicked()" mat-icon-button>
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <xp-comment-form *ngIf="shouldRenderCommentForm" [shouldEdit]="shouldEdit" [comment]="selectedComment" [blogId]="blogId" (commentUpdated)="getComments()"></xp-comment-form>
+        </div>
+    </div>
+</div>
