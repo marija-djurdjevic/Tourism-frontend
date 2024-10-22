@@ -5,7 +5,7 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 @Component({
   selector: 'xp-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css', '../../../../styles.css']
 })
 export class NavbarComponent implements OnInit {
 
