@@ -16,7 +16,7 @@ import { TourEquipmentComponent } from './tour-equipment/tour-equipment.componen
 import { KeyPointComponent } from './key-point/key-point/key-point.component';
 import { FormsModule } from '@angular/forms';
 import { KeyPointFormComponent } from './key-point-form/key-point-form.component';
-
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -35,8 +35,9 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
     FormsModule,
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    SharedModule
+],
   exports: [
     ClubsComponent,
     TourComponent,
@@ -48,7 +49,7 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
     RouterModule,
     ObjectComponent,
     ReactiveFormsModule,
-     TourComponent,
+    TourComponent,
     TourFormComponent
   ],
 })

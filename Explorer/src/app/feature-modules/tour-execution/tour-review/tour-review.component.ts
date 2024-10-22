@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TourExecutionService } from '../tour-execution.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { TourReview } from '../model/tour-review.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-tour-review',
@@ -10,7 +12,7 @@ import { TourReview } from '../model/tour-review.model';
 })
 export class TourReviewComponent implements OnInit{
 
-
+  
   tourReview :  TourReview[] = []; 
 
   constructor(private service: TourExecutionService) {}
