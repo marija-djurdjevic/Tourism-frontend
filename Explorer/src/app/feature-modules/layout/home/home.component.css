@@ -1,31 +1,37 @@
 p {
-    position:absolute;
     color:white;
-    margin-top: 400px;
     font-size: 20px;
+    z-index: 1;
 }
 
 img {
     width:  100%;
+    position: absolute;
+    z-index: 0;
     height: 100%;
+    top: 0;
+    left: 0;
 }
 
 div {
     position: relative;
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
     justify-content: center;
-    overflow-y: hidden;
+    height: calc(100vh - 60px);
 }
 
 button {
     border: 2px solid var(--background-color);
-    position: absolute;
-    margin-top: 450px;
+
     border-radius: 8px;
     padding: 10px 20px;
     background-color: transparent;
     color: var(--background-color);
     cursor: pointer;
+    z-index: 1;
     transition: all 0.3s ease;
 }
 
@@ -34,9 +40,9 @@ button:hover {
 }
 
 .heading {
-    position: absolute;
-    margin-top: 350px;
+
     color: white;
     font-size: 38px;
     font-weight: bold;
+    z-index: 1; 
 }
