@@ -49,4 +49,13 @@ export class KeyPointFormComponent implements OnInit {
       }
     });
   }
+
+  onKeyPointSelected(event: { latitude: number, longitude: number }): void {
+    // Pristup prosleđenim parametrima (latitude i longitude)
+    this.newKeyPoint.latitude = event.latitude;
+    this.newKeyPoint.longitude = event.longitude;
+    
+    // Sada možeš raditi nešto sa prosleđenim koordinatama
+    console.log('Odabrana tačka:', this.newKeyPoint.latitude, this.newKeyPoint.longitude);
+  }
 }
