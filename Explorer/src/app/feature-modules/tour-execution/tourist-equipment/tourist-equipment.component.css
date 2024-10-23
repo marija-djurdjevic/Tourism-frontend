@@ -53,6 +53,19 @@ tr:hover {
     font-size: 25px; /* Veličina fonta */
 }
 
+
+
+.table1 {
+    width: 40%; /* Tabela će zauzimati 100% širine roditeljskog elementa */
+    border-collapse: collapse; /* Spoji ivice ćelija */
+     /* Razmak oko tabele */
+    /*margin: 20px;*/
+    position: absolute; /* Apstraktna pozicija omogućava pomeranje po ekranu */
+    top: 120px; /* Pomeranje od vrha */
+    right: 30px; 
+    font-size: 16px; /* Veličina fonta */
+    color: #333; /* Boja teksta */
+}
 /* Stil za poslednji red tabele 
 tr:last-child td {
     border-bottom: none; /* Ukloni donju ivicu poslednjeg reda 

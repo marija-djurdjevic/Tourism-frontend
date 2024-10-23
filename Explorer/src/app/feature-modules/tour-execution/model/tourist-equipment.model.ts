@@ -1,6 +1,8 @@
+import { Equipment } from "../../administration/model/equipment.model";
+
 export interface TouristEquipment{
     id: number;
-    name: string;
-    description: string;
     touristId: number;
+    equipmentId: number;
+    equipment: Equipment;
 }
