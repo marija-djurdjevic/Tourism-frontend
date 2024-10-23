@@ -37,7 +37,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TourExecutionModule,
     AuthModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AdministrationModule
   ],
   providers: [
     {

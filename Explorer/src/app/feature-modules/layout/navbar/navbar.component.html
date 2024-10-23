@@ -7,7 +7,6 @@
             <button color="primary" mat-raised-button [routerLink]="['home'] ">Home</button>
             <button *ngIf="user && user.username !== ''" color="primary" mat-raised-button [routerLink]="['profile']">Profile</button>
             <button color="primary" mat-raised-button [routerLink]="['comments']">Comments</button>
-            <button color="primary" mat-raised-button [routerLink]="['home']">Home</button>
             <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" color="primary" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>
             <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
             <button color="primary" mat-raised-button [routerLink]="['clubs']">Clubs</button>
@@ -19,6 +18,7 @@
             <button *ngIf="user && user.role === 'tourist'"color="primary" mat-raised-button [routerLink]="['tourReviews']">See tour reviews</button>
             <button *ngIf="user && user.role === 'tourist'"color="primary" mat-raised-button [routerLink]="['report']">Report a problem</button>
             <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" color="primary" mat-raised-button [routerLink]="['user-rating']">Rate us!</button>
+            <button *ngIf="user && user.role === 'administrator'" color="primary" mat-raised-button [routerLink]="['account']">Account review</button>
         </div>
     </div>
 </mat-toolbar>
