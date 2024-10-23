@@ -5,6 +5,8 @@
                 <th>Naziv</th>
                 <th>Opis</th>
                 <th>Kategorija</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
                 <th>Slika</th>
             </tr>
         </thead>
@@ -14,6 +16,8 @@
                 <td>{{obj.name}}</td>
                 <td>{{obj.description}}</td>
                 <td>{{obj.category}}</td>
+                <td>{{obj.longitude}}</td>
+                <td>{{obj.latitude}}</td>
                 <!-- Kod za prikaz slike -->
                 <td>
                     <img *ngIf="obj.image" [src]="obj.image" alt="{{ obj.image }}" class="object-image" />

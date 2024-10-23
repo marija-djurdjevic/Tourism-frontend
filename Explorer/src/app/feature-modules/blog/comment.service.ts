@@ -12,20 +12,20 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
-  getComments(): Observable<PagedResults<Comment>> {
-    return this.http.get<PagedResults<Comment>>(environment.apiHost + 'author/comment')
+  getComments(blogId: number): Observable<PagedResults<Comment>> {
+    return this.http.get<PagedResults<Comment>>(environment.apiHost + 'author/blog/' + blogId + '/comment')
   }
 
-  deleteComment(id: number): Observable<Comment> {
-    return this.http.delete<Comment>(environment.apiHost + 'author/comment/' + id);
+  deleteComment(blogId: number, id: number): Observable<Comment> {
+    return this.http.delete<Comment>(environment.apiHost + 'author/blog/' + blogId + '/comment/' + id);
   }
 
-  addComment(comment: Comment): Observable<Comment> {
-    return this.http.post<Comment>(environment.apiHost + 'author/comment', comment);
+  addComment(blogId: number, comment: Comment): Observable<Comment> {
+    return this.http.post<Comment>(environment.apiHost + 'author/blog/' + blogId + '/comment', comment);
   }
 
-  updateComment(comment: Comment): Observable<Comment> {
-    return this.http.put<Comment>(environment.apiHost + 'author/comment/' + comment.id, comment);
+  updateComment(blogId: number, comment: Comment): Observable<Comment> {
+    return this.http.put<Comment>(environment.apiHost + 'author/blog/' + blogId + '/comment/' + comment.id, comment);
   }
 
 }

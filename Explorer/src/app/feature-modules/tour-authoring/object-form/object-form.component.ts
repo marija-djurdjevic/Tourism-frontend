@@ -14,6 +14,8 @@ export class ObjectFormComponent {
   imageId:Number;
   selectedFile: File;
   previewImage: string | null = null
+  longitude:Number;
+  latitude:Number;
 
   constructor(private service: TourAuthoringService, private imageService: ImageService) {
     /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
@@ -24,7 +26,9 @@ export class ObjectFormComponent {
   objectForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    category: new FormControl(0, [Validators.required])
+    category: new FormControl(0, [Validators.required]),
+    longitude: new FormControl(0, [Validators.required]),
+    latitude: new FormControl(0, [Validators.required])
   })
 
   /*Dio 1 za upload slika*/
@@ -40,8 +44,8 @@ export class ObjectFormComponent {
         name: this.objectForm.value.name || "",
         description: this.objectForm.value.description || "",
         category: this.objectForm.value.category || 0,
-        longitude:25,
-        latitude: 25,
+        longitude:this.longitude,
+        latitude: this.latitude,
         imageId: -1,
         image:""
       };
@@ -70,6 +74,15 @@ export class ObjectFormComponent {
 
       alert('Molimo vas da popunite sva polja ispravno.');
     }
+  }
+
+  onKeyPointSelected(event: { latitude: number, longitude: number }): void {
+    // Pristup prosleđenim parametrima (latitude i longitude)
+    this.latitude = event.latitude;
+    this.longitude = event.longitude;
+    
+    // Sada možeš raditi nešto sa prosleđenim koordinatama
+    console.log('Odabrana tačka:', this.latitude, this.longitude);
   }
 
 

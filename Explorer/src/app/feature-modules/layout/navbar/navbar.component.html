@@ -2,21 +2,21 @@
     <div>
         <p>Explorer</p>
         <div id="buttons">
-            <button *ngIf="user && user.username === ''" color="accent" mat-raised-button [routerLink]="['login']">Login</button>
-            <button *ngIf="user && user.username !== ''" color="accent" mat-raised-button (click)="onLogout()">Logout</button>
-            <button color="primary" mat-raised-button [routerLink]="['home'] ">Home</button>
+            <button *ngIf="user && user.username === ''" class="secondary-button" mat-stroked-button [routerLink]="['register']">Join Us</button>
+            <button *ngIf="user && user.username === ''" class="primary-button" mat-raised-button [routerLink]="['login']">Login</button>
+            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>
+            <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
+            <button *ngIf="user && user.username !== ''" class="primary-button" mat-raised-button [routerLink]="['clubs']">Clubs</button>
+            <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['object']">Show objects</button>
+            <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['tours']">View My Tours</button>
+            <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['blogs']">Blogs</button>
+            <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['problems']">See tour problems</button>
+            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourReviews']">See tour reviews</button>
+            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['report']">Report a problem</button>
+            <button *ngIf="user && user.username !== ''" class="secondary-button" mat-raised-button (click)="onLogout()">Logout</button>
             <button *ngIf="user && user.username !== ''" color="primary" mat-raised-button [routerLink]="['profile']">Profile</button>
-            <button color="primary" mat-raised-button [routerLink]="['comments']">Comments</button>
-            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" color="primary" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>
-            <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
-            <button color="primary" mat-raised-button [routerLink]="['clubs']">Clubs</button>
             <button *ngIf="user && user.role === 'author'"color="primary" mat-raised-button [routerLink]="['object']">Show objects</button>
-            <button *ngIf="user && user.role === 'author'" color="primary" mat-raised-button [routerLink]="['tours']">View My Tours</button>
             <button *ngIf="user && user.role === 'administrator'" color="primary" mat-raised-button [routerLink]="['ratings-list']">View Ratings</button>
-            <button *ngIf="user && user.role === 'author'" color="primary" mat-raised-button [routerLink]="['blogs']">Blogs</button>
-            <button *ngIf="user && user.role === 'administrator'"color="primary" mat-raised-button [routerLink]="['problems']">See tour problems</button>
-            <button *ngIf="user && user.role === 'tourist'"color="primary" mat-raised-button [routerLink]="['tourReviews']">See tour reviews</button>
-            <button *ngIf="user && user.role === 'tourist'"color="primary" mat-raised-button [routerLink]="['report']">Report a problem</button>
             <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" color="primary" mat-raised-button [routerLink]="['user-rating']">Rate us!</button>
             <button *ngIf="user && user.role === 'administrator'" color="primary" mat-raised-button [routerLink]="['account']">Account review</button>
         </div>

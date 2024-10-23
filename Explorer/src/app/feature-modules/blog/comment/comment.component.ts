@@ -6,6 +6,7 @@ import { toZonedTime } from 'date-fns-tz';
 import { format } from 'date-fns';
 import { TokenStorage } from '../../../infrastructure/auth/jwt/token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'xp-comment',
@@ -17,23 +18,28 @@ export class CommentComponent {
   selectedComment: Comment;
   shouldRenderCommentForm: boolean = false;
   shouldEdit: boolean = false;
-  username: '';
-  authorId: 0;
+  username: string = '';
+  blogId: number;
 
   constructor(private service: CommentService,
-  
-    private tokenStorage: TokenStorage) { }
+    private tokenStorage: TokenStorage,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getComments();
-    
     const accessToken = this.tokenStorage.getAccessToken() || "";
     const jwtHelperService = new JwtHelperService();
     this.username = jwtHelperService.decodeToken(accessToken).username;
+    
+    this.route.paramMap.subscribe(params => {
+      this.blogId = Number(params.get('blogId'));
+      console.log("Blog ID:", this.blogId);
+    });
+
+    this.getComments();
   }
 
   deleteComment(id: number): void {
-    this.service.deleteComment(id).subscribe({
+    this.service.deleteComment(this.blogId,id).subscribe({
       next: () => {
         this.getComments();
       },
@@ -41,7 +47,7 @@ export class CommentComponent {
   }
 
   getComments(): void {
-    this.service.getComments().subscribe({
+    this.service.getComments(this.blogId).subscribe({
       next: (result: PagedResults<Comment>) => {
         this.comments = result.results;
       },
