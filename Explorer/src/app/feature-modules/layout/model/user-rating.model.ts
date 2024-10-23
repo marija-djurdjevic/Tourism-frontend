@@ -5,5 +5,5 @@ export interface UserRating{
     comment: string
     createdAt: Date
     userId: number
-    person?: Person;
+    username?: string;
 }
