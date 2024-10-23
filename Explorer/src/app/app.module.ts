@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './infrastructure/routing/app-routing.module';
 import { AppComponent } from './app.component';
+
 import { LayoutModule } from './feature-modules/layout/layout.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './infrastructure/material/material.module';
@@ -13,6 +15,7 @@ import { TourExecutionModule } from './feature-modules/tour-execution/tour-execu
 import { AuthModule } from './infrastructure/auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
+
 import { FormsModule } from '@angular/forms';
 
 
@@ -21,7 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     FormsModule,
@@ -37,6 +40,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TourExecutionModule,
     AuthModule,
     HttpClientModule,
+    CommonModule
     MatSnackBarModule
   ],
   providers: [

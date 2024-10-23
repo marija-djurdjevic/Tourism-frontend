@@ -5,6 +5,7 @@ import { LoginComponent } from '../auth/login/login.component';
 import { EquipmentComponent } from 'src/app/feature-modules/administration/equipment/equipment.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { RegistrationComponent } from '../auth/registration/registration.component';
+import { TouristEquipmentComponent } from 'src/app/feature-modules/tour-execution/tourist-equipment/tourist-equipment.component';
 import { UserProfileComponent } from 'src/app/feature-modules/layout/user-profile/user-profile.component';
 import { CommentComponent } from 'src/app/feature-modules/blog/comment/comment.component';
 import { ClubsComponent } from 'src/app/feature-modules/tour-authoring/clubs/clubs.component';
@@ -31,6 +32,8 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegistrationComponent},
+  {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard],},
+  {path: 'touristEquipment', component: TouristEquipmentComponent}
   {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
   {path: 'comments/:blogId', component: CommentComponent},
   {path: 'image', component: ImageComponent},

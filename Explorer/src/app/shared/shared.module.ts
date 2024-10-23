@@ -20,3 +20,9 @@ import { FormsModule } from '@angular/forms';
   
 })
 export class SharedModule { }
+
+export interface PagedResult<T>{
+  results: T[];
+  totalCount: number;
+
+}
