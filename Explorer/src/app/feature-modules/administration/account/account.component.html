@@ -14,6 +14,9 @@
                 <td>{{acc.role}}</td>
                 <td>{{acc.email}}</td>
                 <td>{{acc.isActive}}</td>
+                <td>
+                    <button color="primary" type="submit" mat-raised-button (click)="blockAccount(acc)">Block account</button>
+                </td>
             </tr>
         </tbody>
     </table>

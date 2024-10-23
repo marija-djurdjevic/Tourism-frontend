@@ -33,4 +33,8 @@ export class AdministrationService {
     return this.http.get<PagedResults<Account>>(environment.apiHost + 'administration/account')
   }
 
+  blockAccount(account: Account): Observable<Account> {
+    return this.http.put<Account>(environment.apiHost + 'administration/account/block-account', account);
+  }
+
 }
