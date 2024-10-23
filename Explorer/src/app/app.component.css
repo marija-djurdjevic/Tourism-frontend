@@ -1,0 +1,4 @@
+.mat-toolbar.mat-primary {
+    --mat-toolbar-container-background-color: var(--primary-color) !important;
+    --mat-toolbar-container-text-color: white;
+}
