@@ -21,13 +21,7 @@ export class RatingsListComponent implements OnInit {
     this.service.getRatings().subscribe({
       next: (result: Array<UserRating>) => {
         this.ratings = result;
-        console.log(result);
-        this.ratings.forEach(rating => {
-          this.service.getPersonByUserId(rating.userId.toString()).subscribe(person => {
-            rating.person = person; // Assuming the user data is added to each rating object
-        });
-        });
-        
+        console.log(result);        
       },
       error: (err : any) => {
         console.log(err)
