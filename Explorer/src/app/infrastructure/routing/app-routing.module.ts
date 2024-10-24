@@ -24,6 +24,7 @@ import { KeyPointComponent } from 'src/app/feature-modules/tour-authoring/key-po
 import { KeyPointFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-form/key-point-form.component';
 import { BlogOverview } from 'src/app/feature-modules/blog/blog-overview/blog-overview-component';
 import {ImageComponent} from '../../shared/image/image.component'
+import { AccountComponent } from 'src/app/feature-modules/administration/account/account.component';
 
 const routes: Routes = [
   {path: 'key-points/:tourId', component: KeyPointComponent, canActivate: [AuthGuard]},
@@ -47,7 +48,8 @@ const routes: Routes = [
   {path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard]},
   {path: 'blogs', component: BlogOverview, canActivate: [AuthGuard]},
   { path: 'user-rating', component: UserRatingComponent, canActivate: [AuthGuard] }, 
-  { path: 'ratings-list', component: RatingsListComponent, canActivate: [AuthGuard] }, 
+  { path: 'ratings-list', component: RatingsListComponent, canActivate: [AuthGuard] },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] } 
 
 ];
 
