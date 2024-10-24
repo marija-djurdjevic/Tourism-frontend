@@ -39,7 +39,9 @@ export class UserRatingComponent {
 
     this.service.submitRating(rating, this.user.role).subscribe({
       next: (_) => {
-          console.log("Success")
+          console.log("Success");
+          alert("Rating submitted!");
+          this.ratingForm.reset();
       }
     });
   }
