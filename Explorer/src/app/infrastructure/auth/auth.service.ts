@@ -69,6 +69,5 @@ export class AuthService {
       ],
     };
     this.user$.next(user);
-    console.log(user.id);
   }
 }
