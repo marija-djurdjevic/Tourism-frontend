@@ -1,0 +1,41 @@
+<div id="tour">
+    <p>Shopping Cart</p>
+    <hr>
+    <div id="tour-details">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of orderItems">
+                        <td>{{t.id}}</td>
+                        <td>{{t.name}}</td>
+                        <td>{{t.price}}</td>
+                        <td>{{t.quantity}}</td>
+                        <td><button (click)="updateQuantity(t.id, '+')" style="padding: 2px;margin-right: 10px;"><img src="assets/icons/plus.png" alt="Plus" width="25" height="25" style="vertical-align: middle;padding: 0;"></button>
+                        <button (click)="updateQuantity(t.id, '-')" style="padding: 2px;"><img src="assets/icons/minus.png" alt="Plus" width="25" height="25" style="vertical-align: middle;padding: 0;"></button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Summary Container -->
+            <div id="summary-container" style="margin-top: 20px; padding: 10px; border-top: 1px solid #ccc;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p style="font-size: 18px; font-weight: bold;">Total Price: {{ getTotalPrice() | currency }}</p>
+                    <button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">
+                        Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

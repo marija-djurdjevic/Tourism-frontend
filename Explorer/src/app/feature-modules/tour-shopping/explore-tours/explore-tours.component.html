@@ -1,0 +1,29 @@
+<div id="tour">
+    <p>Explore Tours</p>
+    <hr>
+    <div id="tour-details">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Tags</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of tours">
+                        <td>{{t.name}}</td>
+                        <td>{{t.description}}</td>
+
+                        <td>{{t.price}}</td>
+                        <td>{{t.tags}}</td>
+                        <td><button (click)="addToCart(t.id ?? 0, t.name, t.price)">Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;"></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
