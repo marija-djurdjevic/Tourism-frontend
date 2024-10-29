@@ -70,6 +70,25 @@ export class ShoppingCartComponent implements OnInit{
       console.log(`Item with ID ${id} not found in cart.`);
     }
   }
+
+  resetCart(): void {
+    if (!this.user) {
+      console.log("User not logged in");
+      return;
+    }
+  
+    // Define the cart key based on the user ID
+    const cartKey = `cart_${this.user.id}`;
+  
+    // Remove the cart from localStorage
+    localStorage.removeItem(cartKey);
+  
+    // Clear the orderItems array
+    this.orderItems = [];
+  
+    console.log("Cart has been reset for user:", this.user.username);
+  }
+  
   
 
   getTotalPrice(): number {
