@@ -20,7 +20,7 @@
 
                         <td>{{t.price}}</td>
                         <td>{{t.tags}}</td>
-                        <td><button (click)="addToCart(t.id ?? 0, t.name, t.price)">Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;"></button></td>
+                        <td><button *ngIf="!isTourInCart(t.id ?? 0)" (click)="addToCart(t.id ?? 0, t.name, t.price)">Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;"></button></td>
                     </tr>
                 </tbody>
             </table>

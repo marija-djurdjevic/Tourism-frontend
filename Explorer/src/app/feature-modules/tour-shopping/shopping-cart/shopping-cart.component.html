@@ -9,9 +9,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>Quantity</th>
                         <th></th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -19,9 +17,9 @@
                         <td>{{t.id}}</td>
                         <td>{{t.name}}</td>
                         <td>{{t.price}}</td>
-                        <td>{{t.quantity}}</td>
-                        <td><button (click)="updateQuantity(t.id, '+')" style="padding: 2px;margin-right: 10px;"><img src="assets/icons/plus.png" alt="Plus" width="25" height="25" style="vertical-align: middle;padding: 0;"></button>
-                        <button (click)="updateQuantity(t.id, '-')" style="padding: 2px;"><img src="assets/icons/minus.png" alt="Plus" width="25" height="25" style="vertical-align: middle;padding: 0;"></button></td>
+                        <td><button (click)="removeFromCart(t.id)" style="padding: 5px 10px; background-color: #f44336; color: white; border: none; cursor: pointer; font-size: 16px;">
+                            X
+                        </button></td>
                     </tr>
                 </tbody>
             </table>

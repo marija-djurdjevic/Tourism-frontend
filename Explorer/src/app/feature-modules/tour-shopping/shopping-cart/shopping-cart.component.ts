@@ -40,36 +40,30 @@ export class ShoppingCartComponent implements OnInit{
     console.log('Loaded cart:', this.orderItems);
   }
 
-  updateQuantity(id: number, operation: string = "+"): void {
-    // Find the item in orderItems by id
-    const itemIndex = this.orderItems.findIndex((orderItem) => orderItem.id === id);
+  removeFromCart(id: number): void {
+    if (!this.user) {
+      console.log("User not logged in");
+      return;
+    }
   
+    const cartKey = `cart_${this.user.id}`;
+
+    const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+
+    const itemIndex = cart.findIndex((item: { id: number }) => item.id === id);
+
     if (itemIndex !== -1) {
-      const item = this.orderItems[itemIndex];
-      
-      // Increment or decrement the quantity based on the operation
-      if (operation === "+") {
-        item.quantity += 1;
-      } else if (operation === "-") {
-        item.quantity -= 1;
+      cart.splice(itemIndex, 1);
+      console.log(`Item with ID ${id} removed from cart.`);
+
+      localStorage.setItem(cartKey, JSON.stringify(cart));
   
-        // If quantity reaches zero, remove the item from the cart
-        if (item.quantity === 0) {
-          this.orderItems.splice(itemIndex, 1);
-          console.log(`Item with ID ${id} removed from cart.`);
-        }
-      }
-  
-      // Define the cart key based on the user ID
-      const cartKey = `cart_${this.user.id}`;
-  
-      // Save the updated orderItems array back to localStorage
-      localStorage.setItem(cartKey, JSON.stringify(this.orderItems));
-      console.log(`Updated quantity for item with ID ${id} to ${item.quantity}`);
+      this.orderItems = cart;
     } else {
       console.log(`Item with ID ${id} not found in cart.`);
     }
   }
+  
 
   resetCart(): void {
     if (!this.user) {
@@ -92,7 +86,7 @@ export class ShoppingCartComponent implements OnInit{
   
 
   getTotalPrice(): number {
-    return this.orderItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return this.orderItems.reduce((total, item) => total + item.price, 0);
   }
   
 }
