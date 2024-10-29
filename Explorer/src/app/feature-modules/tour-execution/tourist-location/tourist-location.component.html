@@ -1,0 +1,7 @@
+<div>
+    <div style="width: 500px;">
+        <label for="">Please select your location on map</label>
+        <app-map [onlyOneMarker]="true" [initialCenter]="[location.latitude,location.longitude]"
+            (locationSelected)="onLocationSelected($event)"></app-map>
+    </div>
+</div>
