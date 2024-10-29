@@ -7,6 +7,7 @@ import { TourReview } from './model/tour-review.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { TourPreferences } from 'src/app/shared/model/tour-preferences.model';
+import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 
 
 @Injectable({
@@ -42,5 +43,13 @@ export class TourExecutionService {
 
   updateTourPreferences(tourPreferences: TourPreferences) : Observable<TourPreferences> {
     return this.http.put<TourPreferences>(environment.apiHost + `tourist/tourPreferences/${tourPreferences.id}`, tourPreferences);
+  }
+
+  getTouristLocation(): Observable<Location> {
+    return this.http.get<Location>(environment.apiHost + 'user/tourist/getLocation');
+  }
+
+  setTouristLocation(location:Location): Observable<Location> {
+    return this.http.post<Location>(environment.apiHost + `user/tourist/setLocation`,location);
   }
 }
