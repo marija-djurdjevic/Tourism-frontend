@@ -16,6 +16,7 @@ export class CommentFormComponent implements OnChanges {
   @Input() comment: Comment;
   @Input() shouldEdit: boolean = false;
   @Input() blogId: number;
+  @Input() username: string;
   id: 0;
 
   constructor(private service: CommentService,
@@ -26,6 +27,7 @@ export class CommentFormComponent implements OnChanges {
     const accessToken = this.tokenStorage.getAccessToken() || "";
     const jwtHelperService = new JwtHelperService();
     this.id = jwtHelperService.decodeToken(accessToken).id;
+    this.username = jwtHelperService.decodeToken(accessToken).username;
   }
 
   ngOnChanges(): void {
@@ -33,8 +35,6 @@ export class CommentFormComponent implements OnChanges {
     if (this.shouldEdit && this.comment) {
       const commentData = {
         ...this.comment,
-        authorId: this.id,
-        blogId: this.blogId,
       };
       this.commentForm.patchValue(commentData);
     }
@@ -51,6 +51,7 @@ export class CommentFormComponent implements OnChanges {
       text: this.commentForm.value.text || '',
       creationDate: new Date(),
       editDate: new Date(),
+      username: this.username,
     };
     this.service.addComment(this.blogId, newComment).subscribe({
       next: () => { this.commentUpdated.emit(); }

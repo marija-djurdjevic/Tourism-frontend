@@ -9,12 +9,7 @@
             cdkAutosizeMaxRows="5"></textarea>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Blog ID</mat-label>
-            <input matInput formControlName="blogId" type="number"/>
-        </mat-form-field>
-
-        <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addComment()" mat-raised-button>Done</button>
-        <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateComment()" mat-raised-button>Done</button>
+        <button *ngIf="!shouldEdit" class="primary-button" type="submit" (click)="addComment()" mat-raised-button>Submit</button>
+        <button *ngIf="shouldEdit" class="primary-button" type="submit" (click)="updateComment()" mat-raised-button>Submit</button>
     </div>
 </form>

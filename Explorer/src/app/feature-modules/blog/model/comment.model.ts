@@ -5,4 +5,5 @@ export interface Comment {
     creationDate: Date;
     editDate: Date;
     blogId: number;
+    username: string;
 }

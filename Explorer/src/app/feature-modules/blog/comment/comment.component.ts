@@ -20,6 +20,8 @@ export class CommentComponent {
   shouldEdit: boolean = false;
   username: string = '';
   blogId: number;
+  isCommentsOpen = false;
+  id: number = 0;
 
   constructor(private service: CommentService,
     private tokenStorage: TokenStorage,
@@ -29,16 +31,20 @@ export class CommentComponent {
     const accessToken = this.tokenStorage.getAccessToken() || "";
     const jwtHelperService = new JwtHelperService();
     this.username = jwtHelperService.decodeToken(accessToken).username;
+    this.id = jwtHelperService.decodeToken(accessToken).id;
     
     this.route.paramMap.subscribe(params => {
       this.blogId = Number(params.get('blogId'));
-      console.log("Blog ID:", this.blogId);
     });
 
     this.getComments();
   }
+  
+  toggleCommentsSection() {
+    this.isCommentsOpen = !this.isCommentsOpen;
+  }
 
-  deleteComment(id: number): void {
+  deleteComment(id: any): void {
     this.service.deleteComment(this.blogId,id).subscribe({
       next: () => {
         this.getComments();
@@ -66,6 +72,7 @@ export class CommentComponent {
     this.shouldRenderCommentForm = true;
     this.shouldEdit = true;
     console.log("Username: ", this.username)
+    console.log('author id: ' + comment.authorId + ' & id: ' + this.id)
   }
 
   onAddClicked(): void {
