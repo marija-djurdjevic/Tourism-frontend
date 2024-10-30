@@ -7,6 +7,8 @@ import { TourReviewFormComponent } from './tour-review-form/tour-review-form.com
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
+import { TouristLocationComponent } from './tourist-location/tourist-location.component';
+import { SharedModule } from "../../shared/shared.module";
 
 
 @NgModule({
@@ -15,19 +17,22 @@ import { TourPreferencesComponent } from './tour-preferences/tour-preferences.co
     ProblemReportComponent,
     ProblemFormComponent,
     TourReviewFormComponent,
-    TourPreferencesComponent
+    TourPreferencesComponent,
+    TouristLocationComponent,
+    TouristLocationComponent
    
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    SharedModule
+],
   exports: [ 
     ProblemReportComponent,
     ProblemFormComponent,
-    TourPreferencesComponent
-
+    TourPreferencesComponent,
+    TouristLocationComponent
   ]
 })
 export class TourExecutionModule { }
