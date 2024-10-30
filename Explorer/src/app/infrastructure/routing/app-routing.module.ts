@@ -25,7 +25,11 @@ import { KeyPointFormComponent } from 'src/app/feature-modules/tour-authoring/ke
 import { BlogOverview } from 'src/app/feature-modules/blog/blog-overview/blog-overview-component';
 import {ImageComponent} from '../../shared/image/image.component'
 import { AccountComponent } from 'src/app/feature-modules/administration/account/account.component';
+import { ShoppingCartComponent } from 'src/app/feature-modules/tour-shopping/shopping-cart/shopping-cart.component';
+import { ExploreToursComponent } from 'src/app/feature-modules/tour-shopping/explore-tours/explore-tours.component';
+
 import { TouristLocationComponent } from 'src/app/feature-modules/tour-execution/tourist-location/tourist-location.component';
+
 
 const routes: Routes = [
   {path: 'key-points/:tourId', component: KeyPointComponent, canActivate: [AuthGuard]},
@@ -50,7 +54,9 @@ const routes: Routes = [
   {path: 'blogs', component: BlogOverview, canActivate: [AuthGuard]},
   { path: 'user-rating', component: UserRatingComponent, canActivate: [AuthGuard] }, 
   { path: 'ratings-list', component: RatingsListComponent, canActivate: [AuthGuard] },
-  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] } ,
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] }, 
+  { path: 'cart', component: ShoppingCartComponent, canActivate: [AuthGuard] },
+  { path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard] }
   { path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard] } 
 
 ];
