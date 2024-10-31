@@ -36,7 +36,7 @@ export class ExploreToursComponent implements OnInit{
     });
   }
 
-  addToCart(id: number, name: string, price: number): void {
+  addToCart(tourId: number, tourName: string, price: number): void {
     
     // Define the cart key based on the user ID
     const cartKey = `cart_${this.user.id}`;
@@ -45,16 +45,16 @@ export class ExploreToursComponent implements OnInit{
     let cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
 
     // Check if the item already exists in the cart
-    const existingItem = cart.find((item: { id: number }) => item.id === id);
+    const existingItem = cart.find((item: { tourId: number }) => item.tourId === tourId);
 
     if (existingItem) {
         console.log('Item already in cart');
     } else {
         // If item does not exist, add it with quantity 1
-        const newItem: OrderItem = { id, name, price };
+        const newItem: OrderItem = { tourId, tourName, price };
         cart.push(newItem);
         alert("Added to cart");
-        console.log(`Tour with ID ${id} added to cart for user ${this.user.username}`);
+        console.log(`Tour with ID ${tourId} added to cart for user ${this.user.username}`);
     }
 
     // Update the cart in localStorage
@@ -64,8 +64,8 @@ export class ExploreToursComponent implements OnInit{
   isTourInCart(id: number): boolean {
     const cartKey = `cart_${this.user.id}`;
     const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
-    console.log(cart.some((item: { id: number }) => item.id === id))
-    return cart.some((item: { id: number }) => item.id === id);
+    console.log(cart.some((item: { tourId: number }) => item.tourId === id))
+    return cart.some((item: { tourId: number }) => item.tourId === id);
   }
 
 
