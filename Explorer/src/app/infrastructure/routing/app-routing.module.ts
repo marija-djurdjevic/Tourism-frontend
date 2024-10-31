@@ -56,7 +56,7 @@ const routes: Routes = [
   { path: 'ratings-list', component: RatingsListComponent, canActivate: [AuthGuard] },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] }, 
   { path: 'cart', component: ShoppingCartComponent, canActivate: [AuthGuard] },
-  { path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard] }
+  { path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard] },
   { path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard] } 
 
 ];
