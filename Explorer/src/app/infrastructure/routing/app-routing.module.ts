@@ -44,20 +44,20 @@ const routes: Routes = [
   {path: 'clubs', component: ClubsComponent},
   {path: 'object', component: ObjectComponent},
   {path: 'objectForm', component: ObjectFormComponent},
-  {path: 'tours', component: TourComponent, canActivate: [AuthGuard] },
-  {path: 'add-tour', component: TourFormComponent, canActivate: [AuthGuard] }, 
-  { path: 'tour-equipment', component: TourEquipmentComponent, canActivate: [AuthGuard] },
-  {path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard],},
-  {path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard],},
-  {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard],},
+  {path: 'tours', component: TourComponent, canActivate: [AuthGuard]},
+  {path: 'add-tour', component: TourFormComponent, canActivate: [AuthGuard]}, 
+  {path: 'tour-equipment', component: TourEquipmentComponent, canActivate: [AuthGuard]},
+  {path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard]},
+  {path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard]},
+  {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard]},
   {path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard]},
   {path: 'blogs', component: BlogOverview, canActivate: [AuthGuard]},
-  { path: 'user-rating', component: UserRatingComponent, canActivate: [AuthGuard] }, 
-  { path: 'ratings-list', component: RatingsListComponent, canActivate: [AuthGuard] },
-  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] }, 
-  { path: 'cart', component: ShoppingCartComponent, canActivate: [AuthGuard] },
-  { path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard] },
-  { path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard] } 
+  {path: 'user-rating', component: UserRatingComponent, canActivate: [AuthGuard]}, 
+  {path: 'ratings-list', component: RatingsListComponent, canActivate: [AuthGuard]},
+  {path: 'account', component: AccountComponent, canActivate: [AuthGuard]}, 
+  {path: 'cart', component: ShoppingCartComponent, canActivate: [AuthGuard]},
+  {path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard]},
+  {path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard]} 
 
 ];
 
