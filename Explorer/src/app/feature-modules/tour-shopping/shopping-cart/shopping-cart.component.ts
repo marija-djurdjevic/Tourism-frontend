@@ -90,7 +90,21 @@ export class ShoppingCartComponent implements OnInit{
   }
 
   checkout(): void {
-    this.service.checkout(this.orderItems)
+    this.service.checkout(this.orderItems).subscribe({
+      next: (response) => {
+        console.log("Checkout successful:", response);
+        // Optionally, clear the cart or navigate to another page after successful checkout
+        this.resetCart(); // clear the cart
+      },
+      error: (error) => {
+        console.error("Checkout failed:", error);
+      },
+      complete: () => {
+        console.log("Checkout process completed.");
+      }
+    });
   }
+  
+  
   
 }
