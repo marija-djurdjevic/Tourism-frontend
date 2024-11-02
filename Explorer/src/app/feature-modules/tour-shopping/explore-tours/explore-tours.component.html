@@ -10,17 +10,34 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>Tags</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let t of tours">
-                        <td>{{t.name}}</td>
-                        <td>{{t.description}}</td>
-
-                        <td>{{t.price}}</td>
-                        <td>{{t.tags}}</td>
-                        <td><button *ngIf="!isTourInCart(t.id ?? 0)" (click)="addToCart(t.id ?? 0, t.name, t.price)">Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;"></button></td>
+                        <td>{{ t.name }}</td>
+                        <td>{{ t.description }}</td>
+                        <td>{{ t.price | currency }}</td>
+                        <td>{{ t.tags }}</td>
+                        <td>
+                            <!-- Display "In Cart" if in cart, "Purchased" if purchased -->
+                            <span *ngIf="isTourInCart(t.id ?? 0)" 
+                                  style="color: blue; font-weight: bold;">
+                                In Cart
+                            </span>
+                            <span *ngIf="!isTourInCart(t.id ?? 0) && isPurchased(t.id ?? 0)" 
+                                  style="color: green; font-weight: bold;">
+                                Purchased
+                            </span>
+                        </td>
+                        <td>
+                            <!-- Show "Add to Cart" button only if the tour is neither purchased nor in the cart -->
+                            <button *ngIf="!isPurchased(t.id ?? 0) && !isTourInCart(t.id ?? 0)" 
+                                    (click)="addToCart(t.id ?? 0, t.name, t.price)">
+                                Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;">
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

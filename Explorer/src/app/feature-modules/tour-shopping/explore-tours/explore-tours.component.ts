@@ -14,6 +14,8 @@ export class ExploreToursComponent implements OnInit{
 
   tours: Tour[] = [];
   user: User;
+  purchasedTours: Tour[] = []
+
 
   constructor(private service: TourShoppingService, private authService: AuthService) {}
 
@@ -22,6 +24,7 @@ export class ExploreToursComponent implements OnInit{
       this.user = user;
     });
       this.getTours();
+      this.loadPurchasedTours();
   }
 
   getTours(): void {
@@ -32,6 +35,16 @@ export class ExploreToursComponent implements OnInit{
       },
       error: (err : any) => {
         console.log(err)
+      }
+    });
+  }
+  private loadPurchasedTours(): void {
+    this.service.getPurchasedTours().subscribe({
+      next: (tours: Tour[]) => {
+        this.purchasedTours = tours;
+      },
+      error: (err) => {
+        console.error('Failed to load purchased tours:', err);
       }
     });
   }
@@ -66,6 +79,10 @@ export class ExploreToursComponent implements OnInit{
     const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
     console.log(cart.some((item: { tourId: number }) => item.tourId === id))
     return cart.some((item: { tourId: number }) => item.tourId === id);
+  }
+
+  isPurchased(tourId: number): boolean {
+    return this.purchasedTours.some(tour => tour.id === tourId);
   }
 
 

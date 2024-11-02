@@ -3,7 +3,7 @@ import { OrderItem } from '../model/order-item.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourShoppingService } from '../tour-shopping.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-
+import { Tour } from '../../tour-authoring/model/tour.model';
 @Component({
   selector: 'xp-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -28,7 +28,7 @@ export class ShoppingCartComponent implements OnInit{
       this.orderItems = [];
       return;
     }
-
+    
     // Define the cart key based on the user ID
     const cartKey = `cart_${this.user.id}`;
 
@@ -104,7 +104,4 @@ export class ShoppingCartComponent implements OnInit{
       }
     });
   }
-  
-  
-  
 }

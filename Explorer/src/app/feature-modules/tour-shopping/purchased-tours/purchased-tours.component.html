@@ -1,0 +1,26 @@
+<div id="tour">
+    <p>Purchased Tours</p>
+    <hr>
+    <div id="tour-details">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of tours">
+                        <td>{{t.id}}</td>
+                        <td>{{t.name}}</td>
+                        <td>{{t.description}}</td>
+                    </tr>
+                </tbody>
+            </table>          
+        </div>
+    </div>
+</div>
+
