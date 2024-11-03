@@ -21,26 +21,6 @@ export class TourSessionComponent implements OnInit {
   ngOnInit(): void {
     // Dobijanje tourId iz ruta
     this.tourId = +this.route.snapshot.paramMap.get('tourId')!;
-    this.getLocationAndStartTour();
   }
 
-  getLocationAndStartTour(): void {
-    this.tourExecutionService.getTouristLocation().subscribe({
-      next: (location: Location) => {
-        this.location = location;
-        this.startTour();
-      },
-      error: () => alert('Greška prilikom dobijanja lokacije.')
-    });
-  }
-
-  startTour(): void {
-    this.tourExecutionService.startTour(this.tourId, this.location.latitude, this.location.longitude).subscribe({
-      next: (response: any) => {
-        this.tourStarted = true;
-        console.log('Tura pokrenuta:', response);
-      },
-      error: () => alert('Greška prilikom pokretanja ture.')
-    });
-  }
 }
