@@ -55,14 +55,19 @@ export class TourExecutionService {
   }
 
 
-  startTour(tourId: number, latitude: number, longitude: number): Observable<TourSession> {
-    const url = `${environment.apiHost}/api/administration/tourSession/start`;
+  startTour(tourId: number, latitude: number, longitude: number): Observable<boolean> {
+    const url = `${environment.apiHost}administration/tourSession/start`;
     const params = {
       tourId,
       latitude,
       longitude
     };
-    return this.http.post<TourSession>(url, params);
+    return this.http.post<boolean>(url, params);
+  }
+
+  abandonTour(id: number): Observable<boolean> {
+    const url = `${environment.apiHost}administration/tourSession/abandon/${id}`;
+    return this.http.post<boolean>(url, {});
   }
 
 }

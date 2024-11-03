@@ -19,8 +19,57 @@ export class TourSessionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Dobijanje tourId iz ruta
+    
     this.tourId = +this.route.snapshot.paramMap.get('tourId')!;
+    this.startTour();
   }
+
+
+  onLocationReceived(location: Location): void {
+   
+    this.location = location;
+    console.log('Koordinate primljene u TourSessionComponent:', this.location);
+  }
+
+
+
+  startTour(): void {
+    if (this.location.latitude && this.location.longitude && this.tourId) {
+      this.tourExecutionService.startTour(this.tourId, this.location.latitude, this.location.longitude).subscribe({
+        next: (result) => {
+          if (result) {
+            this.tourStarted = true;
+            console.log('Tura je uspešno započeta!');
+          } else {
+            alert('Tura nije mogla biti započeta.');
+          }
+        },
+        error: () => {
+          alert('Došlo je do greške prilikom pokretanja ture.');
+        }
+      });
+    } else {
+      console.warn('Lokacija ili tourId nisu dostupni za startovanje ture.');
+    }
+  }
+
+
+
+  abandonTour(): void {
+    this.tourExecutionService.abandonTour(this.tourId).subscribe({
+      next: (result) => {
+        if (result) {
+          this.tourStarted = false;
+          console.log('Tura je napuštena!');
+        } else {
+          alert('Tura nije mogla biti napuštena.');
+        }
+      },
+      error: () => {
+        alert('Došlo je do greške prilikom napuštanja ture.');
+      }
+    });
+  }
+
 
 }
