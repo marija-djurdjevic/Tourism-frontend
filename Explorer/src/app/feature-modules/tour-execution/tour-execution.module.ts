@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
 import { TouristLocationComponent } from './tourist-location/tourist-location.component';
 import { SharedModule } from "../../shared/shared.module";
+import { TourSessionComponent } from './tour-session/tour-session.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from "../../shared/shared.module";
     TourReviewFormComponent,
     TourPreferencesComponent,
     TouristLocationComponent,
-    TouristLocationComponent
+    TouristLocationComponent,
+    TourSessionComponent
    
   ],
   imports: [
@@ -32,7 +34,8 @@ import { SharedModule } from "../../shared/shared.module";
     ProblemReportComponent,
     ProblemFormComponent,
     TourPreferencesComponent,
-    TouristLocationComponent
+    TouristLocationComponent,
+    TourSessionComponent
   ]
 })
 export class TourExecutionModule { }

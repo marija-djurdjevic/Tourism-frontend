@@ -70,4 +70,13 @@ export class TourComponent implements OnInit {
   onShowKeyPoints(tourId: number) {
     this.router.navigate(['/key-points', tourId]); 
   }
+
+
+  onStartTour(tourId: number): void {
+    
+    this.router.navigate(['/tour-session', tourId]);
+  }
+
+
+
 }

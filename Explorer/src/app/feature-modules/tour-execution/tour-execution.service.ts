@@ -8,6 +8,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { TourPreferences } from 'src/app/shared/model/tour-preferences.model';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
+import { TourSession } from './model/tour-session.model';
 
 
 @Injectable({
@@ -52,4 +53,16 @@ export class TourExecutionService {
   setTouristLocation(location:Location): Observable<Location> {
     return this.http.post<Location>(environment.apiHost + `user/tourist/setLocation`,location);
   }
+
+
+  startTour(tourId: number, latitude: number, longitude: number): Observable<TourSession> {
+    const url = `${environment.apiHost}/api/administration/tourSession/start`;
+    const params = {
+      tourId,
+      latitude,
+      longitude
+    };
+    return this.http.post<TourSession>(url, params);
+  }
+
 }
