@@ -43,7 +43,8 @@ export class TourFormComponent implements OnChanges {
     tags: this.tourForm.value.tags || "",
     status: 0,
     price: this.tourForm.value.price || 0,
-    authorId: loggedInUser.id || 0
+    authorId: loggedInUser.id || 0,
+    keyPoints: []
   };
 
   

@@ -4,6 +4,7 @@ import { TourShoppingService } from '../tour-shopping.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { OrderItem } from '../model/order-item.model';
+import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -31,13 +32,19 @@ export class ExploreToursComponent implements OnInit{
     this.service.getTours().subscribe({
       next: (result: Array<Tour>) => {
         this.tours = result;
-        console.log(result);        
+        console.log(this.tours)
+        // Assign a single key point to each tour
+        this.tours.forEach(tour => {
+          this.assignSingleKeyPoint(tour);
+        });
+        
       },
-      error: (err : any) => {
-        console.log(err)
+      error: (err: any) => {
+        console.log(err);
       }
     });
   }
+
   private loadPurchasedTours(): void {
     this.service.getPurchasedTours().subscribe({
       next: (tours: Tour[]) => {
@@ -45,6 +52,15 @@ export class ExploreToursComponent implements OnInit{
       },
       error: (err) => {
         console.error('Failed to load purchased tours:', err);
+      }
+    });
+  }
+
+  assignSingleKeyPoint(tour: Tour): void {
+    this.service.getKeyPoints().subscribe(keyPoints => {
+      const keyPoint = keyPoints.find(kp => kp.tourId === tour.id);
+      if (keyPoint) {
+        tour.keyPoints[0] = keyPoint; // Assign the first matching key point
       }
     });
   }

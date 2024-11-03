@@ -12,7 +12,9 @@ import { Tour } from '../../tour-authoring/model/tour.model';
 export class PurchasedToursComponent {
 
   user: User;
-  tours:Tour[] = []
+  tours: Tour[] = [];
+  selectedTourKeyPoints: any[] = []; // Holds key points for the selected tour
+  isKeyPointsModalOpen = false; // Tracks whether the modal is open
 
   constructor(private service: TourShoppingService, private authService: AuthService) {}
 
@@ -27,12 +29,23 @@ export class PurchasedToursComponent {
     this.service.getPurchasedTours().subscribe({
       next: (tours: Tour[]) => {
         this.tours = tours;
+        console.log(this.tours)
       },
       error: (err) => {
         console.error('Failed to load purchased tours:', err);
       }
     });
   }
+
+  showKeyPoints(tour: Tour): void {
+    this.service.getKeyPoints().subscribe(keyPoints => {
+      this.selectedTourKeyPoints = keyPoints.filter(kp => kp.tourId === tour.id);
+      this.isKeyPointsModalOpen = true; // Open the modal
+    });
+  }
+
+  closeKeyPointsModal(): void {
+    this.isKeyPointsModalOpen = false; // Close the modal
+    this.selectedTourKeyPoints = []; // Clear key points data
+  }
 }
-
-

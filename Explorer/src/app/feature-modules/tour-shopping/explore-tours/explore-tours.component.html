@@ -2,45 +2,66 @@
     <p>Explore Tours</p>
     <hr>
     <div id="tour-details">
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Tags</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of tours">
-                        <td>{{ t.name }}</td>
-                        <td>{{ t.description }}</td>
-                        <td>{{ t.price | currency }}</td>
-                        <td>{{ t.tags }}</td>
-                        <td>
-                            <!-- Display "In Cart" if in cart, "Purchased" if purchased -->
-                            <span *ngIf="isTourInCart(t.id ?? 0)" 
-                                  style="color: blue; font-weight: bold;">
-                                In Cart
-                            </span>
-                            <span *ngIf="!isTourInCart(t.id ?? 0) && isPurchased(t.id ?? 0)" 
-                                  style="color: green; font-weight: bold;">
-                                Purchased
-                            </span>
-                        </td>
-                        <td>
-                            <!-- Show "Add to Cart" button only if the tour is neither purchased nor in the cart -->
-                            <button *ngIf="!isPurchased(t.id ?? 0) && !isTourInCart(t.id ?? 0)" 
-                                    (click)="addToCart(t.id ?? 0, t.name, t.price)">
-                                Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;">
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Tags</th>
+              <th>Starting Key Point</th> <!-- New column for the first key point -->
+              <th>Status / Action</th> <!-- Merged column for status and actions -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let t of tours">
+              <td>{{ t.name }}</td>
+              <td>{{ t.description }}</td>
+              <td>{{ t.price | currency }}</td>
+              <td>{{ t.tags }}</td>
+              <td>
+                <!-- Check if there is at least one key point and display properties on separate lines -->
+                <div *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
+                  <!-- Name of the first key point -->
+                  <div>{{ t.keyPoints[0].name }}</div>
+                  
+                  <!-- Image of the first key point -->
+                  <div>
+                    <img [src]="t.keyPoints[0].imagePath" alt="{{ t.keyPoints[0].name }}" width="80" height="auto" style="margin-top: 5px;">
+                  </div>
+                  
+                  <!-- Description of the first key point -->
+                  <div>{{ t.keyPoints[0].description }}</div>
+                </div>
+                
+                <!-- Fallback for when there are no key points -->
+                <ng-template #noKeyPoint>
+                  <div>N/A</div>
+                </ng-template>
+              </td>
+              
+              <!-- Merged Status / Action Column -->
+              <td>
+                <ng-container *ngIf="isPurchased(t.id ?? 0); else notPurchased">
+                  <span style="color: green; font-weight: bold;">Purchased</span>
+                </ng-container>
+                <ng-template #notPurchased>
+                  <ng-container *ngIf="isTourInCart(t.id ?? 0); else addToCartButton">
+                    <span style="color: blue; font-weight: bold;">In Cart</span>
+                  </ng-container>
+                  <ng-template #addToCartButton>
+                    <button (click)="addToCart(t.id ?? 0, t.name, t.price)">
+                      Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;">
+                    </button>
+                  </ng-template>
+                </ng-template>
+              </td>
+  
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</div>
+  </div>
+  
