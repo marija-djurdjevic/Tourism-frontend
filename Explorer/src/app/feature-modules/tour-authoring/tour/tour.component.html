@@ -28,6 +28,8 @@
                             <!-- Dugmad za ključne tačke -->
                             <button mat-button mat-raised-button color="primary" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
                             <button mat-button mat-raised-button color="primary" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
+                            <button mat-button mat-raised-button color="primary" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t.id!)">Publish</button>
+                            <button mat-button mat-raised-button color="primary" *ngIf="t.status === 1" (click)="onArchive(t.id!)">Archive</button>
                         </td>
                     </tr>
                     <tr>
