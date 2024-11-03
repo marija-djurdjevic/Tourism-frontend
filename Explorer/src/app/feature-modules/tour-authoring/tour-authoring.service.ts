@@ -49,14 +49,29 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administration/tour')
   }
 
+  getToursByAuthorId(authorId: number, page: number = 1, pageSize: number = 10): Observable<Tour[]> {
+    return this.http.get<Tour[]>(`${environment.apiHost}administration/tour/by-author`, {
+      params: {
+        id: authorId.toString(),
+        page: page.toString(),
+        pageSize: pageSize.toString()
+      }
+    });
+  }
+
+  publishTour(id: number): Observable<Tour> {
+    return this.http.put<Tour>(`${environment.apiHost}administration/publish-tour/${id}`, null);
+  }
+  
   addTour(tour: Tour): Observable<Tour> {
-    console.log('Sending tour data to API:', tour); // Dodaj ovu liniju
+    console.log('Sending tour data to API:', tour); 
     return this.http.post<Tour>(environment.apiHost + 'administration/tour', tour);
   }
+
   getTourEquipment(tourId: number): Observable<TourEquipment[]> {
     return this.http.get<TourEquipment[]>(environment.apiHost + 'tourEquipment/byTourId', {
       params: {
-        tourId: tourId.toString(), // Pretvorite brojeve u stringove jer query parametri moraju biti stringovi
+        tourId: tourId.toString(), 
         page: "1",
         pageSize: "10"
       }
