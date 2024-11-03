@@ -1,10 +1,18 @@
+import { KeyPoint } from "./key-point.model";
+import { TransportInfo } from "./transportInfo.model";
+
 export interface Tour {
-    id?: number; // Ako koristiš auto-increment u bazi, ovo može biti opcionalno
-    authorId?: number; // Ako je obavezno, dodaj ga
+    id?: number; 
+    authorId?: number; 
     name: string;
     description: string;
-    difficulty: number; // Trebalo bi da odgovara enum vrednostima
+    difficulty: number; 
     tags: string;
-    status: number; // Ako želiš postaviti status, možeš ga dodati
+    status: number; 
     price: number;
+    publishedAt?: Date;   
+    archivedAt?: Date;   
+    transportInfo: TransportInfo; 
+    keyPoints: KeyPoint[];  
+    averageScore: number;       
   }

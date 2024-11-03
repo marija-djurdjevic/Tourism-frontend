@@ -25,13 +25,23 @@ export class TourComponent implements OnInit {
 
   getTours(): void {
     this.authService.user$.subscribe((loggedInUser) => {
-      this.service.getTours().subscribe({
-        next: (result: PagedResults<Tour>) => {
-          this.tours = result.results.filter(tour => tour.authorId === loggedInUser.id);
-        },
-        error: () => {
-        }
-      });
+      if (loggedInUser && loggedInUser.role === 'author') {
+        this.service.getToursByAuthorId(loggedInUser.id).subscribe({
+          next: (result: Tour[]) => {
+            this.tours = result;
+          },
+          error: () => {
+          }
+        });
+      } else {
+        this.service.getTours().subscribe({
+          next: (result: PagedResults<Tour>) => {
+            this.tours = result.results;
+          },
+          error: () => {
+          }
+        });
+      }
     });
   }
 
@@ -54,6 +64,8 @@ export class TourComponent implements OnInit {
         return 'Draft';
       case 1:
         return 'Published';
+      case 2:
+        return 'Archived';
       default:
         return 'Unknown';
     }
@@ -69,5 +81,21 @@ export class TourComponent implements OnInit {
 
   onShowKeyPoints(tourId: number) {
     this.router.navigate(['/key-points', tourId]); 
+  }
+
+  onPublish(tourId: number): void {
+    this.service.publishTour(tourId).subscribe({
+      next: (result: Tour) => {
+        console.log('Tour published successfully:', result);
+        this.getTours(); 
+      },
+      error: (err) => {
+        console.error('Error publishing tour:', err);
+      }
+    });
+  }
+
+  onArchive(tourId: number) {
+
   }
 }
