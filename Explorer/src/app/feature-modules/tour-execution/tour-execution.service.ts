@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
@@ -57,12 +57,13 @@ export class TourExecutionService {
 
   startTour(tourId: number, latitude: number, longitude: number): Observable<boolean> {
     const url = `${environment.apiHost}administration/tourSession/start`;
-    const params = {
-      tourId,
-      latitude,
-      longitude
-    };
-    return this.http.post<boolean>(url, params);
+    const params = new HttpParams()
+      .set('tourId', tourId.toString())
+      .set('latitude', latitude.toString())
+      .set('longitude', longitude.toString());
+
+    return this.http.post<boolean>(url, null, { params });
+
   }
 
   abandonTour(id: number): Observable<boolean> {

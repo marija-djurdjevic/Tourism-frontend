@@ -35,6 +35,7 @@ export class TouristLocationComponent implements AfterViewInit {
   onLocationSelected(event: { latitude: number, longitude: number }): void {
     this.location.latitude = event.latitude;
     this.location.longitude = event.longitude;
+    this.locationSelected.emit({ latitude: this.location.latitude, longitude: this.location.longitude });
 
     this.service.setTouristLocation(this.location).subscribe({
       next: (data) => {
@@ -42,7 +43,6 @@ export class TouristLocationComponent implements AfterViewInit {
         this.location.latitude = data.latitude
         this.location.longitude = data.longitude
         console.log(this.location.longitude + " " + this.location.latitude)
-        this.locationSelected.emit({ latitude: this.location.latitude, longitude: this.location.longitude });
       },
       error: () => {
         alert('Došlo je do greške prilikom dodavanja lokacije.');

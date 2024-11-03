@@ -21,7 +21,7 @@ export class TourSessionComponent implements OnInit {
   ngOnInit(): void {
     
     this.tourId = +this.route.snapshot.paramMap.get('tourId')!;
-    this.startTour();
+    
   }
 
 
@@ -29,6 +29,7 @@ export class TourSessionComponent implements OnInit {
    
     this.location = location;
     console.log('Koordinate primljene u TourSessionComponent:', this.location);
+    this.startTour();
   }
 
 
