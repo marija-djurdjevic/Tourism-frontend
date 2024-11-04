@@ -29,6 +29,7 @@ import { ShoppingCartComponent } from 'src/app/feature-modules/tour-shopping/sho
 import { ExploreToursComponent } from 'src/app/feature-modules/tour-shopping/explore-tours/explore-tours.component';
 
 import { TouristLocationComponent } from 'src/app/feature-modules/tour-execution/tourist-location/tourist-location.component';
+import { TourSearchComponent } from 'src/app/feature-modules/marketplace/tour-search/tour-search.component';
 
 
 const routes: Routes = [
@@ -57,7 +58,8 @@ const routes: Routes = [
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard]}, 
   {path: 'cart', component: ShoppingCartComponent, canActivate: [AuthGuard]},
   {path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard]},
-  {path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard]} 
+  {path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard]},
+  {path: 'tour-search', component: TourSearchComponent, canActivate: [AuthGuard]}
 
 ];
 
