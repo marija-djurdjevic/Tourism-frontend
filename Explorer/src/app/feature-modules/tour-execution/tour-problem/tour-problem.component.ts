@@ -30,6 +30,7 @@ export class TourProblemComponent {
   constructor(private route: ActivatedRoute, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe) {}
   
   problem: Problem;
+  
   ngOnInit() {
     this.id = this.route.snapshot.queryParamMap.get('id') as string;
     this.name = this.route.snapshot.queryParamMap.get('name') as string;

@@ -11,14 +11,14 @@
                     </div>
                     <div id="w">
                         <div id="list">
-                            <p id="p1"> PROBLEM STATUS: {{ getEnum(problem?.status ?? 0) }} </p>
-                            <p id="p1"> PROBLEM PRIORITY: {{ problem?.details?.problemPriority ?? 'N/A' }}</p>
-                            <p id="p1"> PROBLEM CATEGORY: {{ getEnum(problem?.details?.category ?? 0) }}</p>
+                            <p id="p1"> PROBLEM STATUS: {{ getEnum(problem.status) }} </p>
+                            <p id="p1"> PROBLEM PRIORITY: {{ problem.details.problemPriority  }}</p>
+                            <p id="p1"> PROBLEM CATEGORY: {{ getEnum(problem.details.category) }}</p>
+                            <p id="p1"> TIME: {{ getDate(problem.details.time ) }} {{ getTime(problem.details.time ) }}</p>
                             <p id="p1"> SENT BY: Marko Markovic</p>
-                            <p id="p1">TIME: {{ getDate(problem?.details?.time ?? '') }} {{ getTime(problem?.details?.time ?? '') }}</p>
                         </div>
                         <div id="p2">  
-                            <p>{{problem?.details?.explanation}}</p>
+                            <p>{{problem.details.explanation}}</p>
                         </div>
                     </div>
                 </div>
