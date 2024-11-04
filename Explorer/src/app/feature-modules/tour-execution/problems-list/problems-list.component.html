@@ -1,0 +1,31 @@
+<div id="wrap">
+    <div id="titleCont">
+        <div id="title">Tour Problems</div>
+    </div>
+    <div  *ngIf="totalPages!=0" id="prev">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">prev</button>
+        <span>Page {{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button (click)="goToNextPage()" [disabled]="(currentPage + 1) * pageSize >= entities.length">next</button>
+    </div>
+
+    <table id="t">
+        <tr id ="head"> 
+            <th>Priority</th>
+            <th>Problem sender</th>
+            <th>Tour</th>
+            <th>Problem category</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        <tr *ngFor="let item of displayedEntities" id="ag" (click) = "goToProblem(item.id, getById(item.tourId))">
+            <td>{{item.details.problemPriority}}</td>
+            <td>MArko</td>
+            <td>{{getById(item.tourId)}}</td>
+            <td>{{ getEnum(item.details.category) }}</td>
+            <td><p>{{ getDate(item.details.time) }}</p></td>
+            <td><p>{{ getTime(item.details.time) }}</p></td>
+        </tr> 
+    </table>
+    
+
+</div>

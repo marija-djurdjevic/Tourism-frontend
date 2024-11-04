@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
-import { Problem } from './model/problem.model';
+import { Comment, Problem } from './model/problem.model';
 import { TourReview } from './model/tour-review.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
@@ -21,7 +21,7 @@ export class TourExecutionService {
     return this.http.post<Problem>(' https://localhost:44333/api/tourist/problem/report', problem)
   }
   getProblems(): Observable<PagedResults<Problem>> {
-    return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/all')
+    return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/administrator/problem/getAll')
   }
 
   getReviews(): Observable<PagedResults<TourReview>> {
@@ -52,4 +52,22 @@ export class TourExecutionService {
   setTouristLocation(location:Location): Observable<Location> {
     return this.http.post<Location>(environment.apiHost + `user/tourist/setLocation`,location);
   }
+
+  getById(id: string): Observable<Problem> {
+    return this.http.get<Problem>('https://localhost:44333/api/administrator/problem/byId',{
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
+  addComment(tourProblemId: number, comment: Comment): Observable<Problem> {
+    const url = environment.apiHost + 'administrator/problem/addComment';
+  
+    const params = new HttpParams().set('tourProblemId', tourProblemId.toString());
+  
+    return this.http.post<Problem>(url, comment, { params });
+  }
+  
+  
 }

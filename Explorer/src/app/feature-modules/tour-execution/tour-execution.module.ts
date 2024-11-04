@@ -9,6 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TourPreferencesComponent } from './tour-preferences/tour-preferences.component';
 import { TouristLocationComponent } from './tourist-location/tourist-location.component';
 import { SharedModule } from "../../shared/shared.module";
+import { ProblemsListComponent } from './problems-list/problems-list.component';
+import { TourProblemComponent } from './tour-problem/tour-problem.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,14 +22,17 @@ import { SharedModule } from "../../shared/shared.module";
     TourReviewFormComponent,
     TourPreferencesComponent,
     TouristLocationComponent,
-    TouristLocationComponent
+    TouristLocationComponent,
+    ProblemsListComponent,
+    TourProblemComponent
    
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
 ],
   exports: [ 
     ProblemReportComponent,
