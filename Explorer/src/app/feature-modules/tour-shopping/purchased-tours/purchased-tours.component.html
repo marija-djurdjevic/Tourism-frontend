@@ -22,6 +22,9 @@
                   <td>{{ t.transportInfo.distance }} km</td> <!-- Display general distance -->
                   <td>
                       <button (click)="showKeyPoints(t)">Show Key Points</button>
+                      <button (click)="executeTour(t)" style="padding: 8px 16px; background-color: #ff9800; color: white; border: none; cursor: pointer; font-weight: bold; margin-left: 10px; font-size: 16px;">
+                          Execute
+                      </button>
                   </td>
               </tr>
           </tbody>

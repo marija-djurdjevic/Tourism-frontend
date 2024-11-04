@@ -37,6 +37,11 @@ export class PurchasedToursComponent {
     });
   }
 
+  executeTour(tour: Tour) {
+    console.log(`Executing tour: ${tour.name}`);
+}
+
+
   showKeyPoints(tour: Tour): void {
     this.service.getKeyPoints().subscribe(keyPoints => {
       this.selectedTourKeyPoints = keyPoints.filter(kp => kp.tourId === tour.id);
