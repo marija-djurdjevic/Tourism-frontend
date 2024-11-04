@@ -1,51 +1,54 @@
 <div id="tour">
-    <p>Purchased Tours</p>
-    <hr>
-    <div id="tour-details">
+  <p>Purchased Tours</p>
+  <hr>
+  <div id="tour-details">
       <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let t of tours">
-            <td>{{ t.id }}</td>
-            <td>{{ t.name }}</td>
-            <td>{{ t.description }}</td>
-            <td>
-              <button (click)="showKeyPoints(t)">Show Key Points</button>
-            </td>
-          </tr>
-        </tbody>
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Duration</th> <!-- Added duration column -->
+                  <th>Distance</th> <!-- Added distance column -->
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let t of tours">
+                  <td>{{ t.id }}</td>
+                  <td>{{ t.name }}</td>
+                  <td>{{ t.description }}</td>
+                  <td>{{ t.transportInfo.time }} minutes</td> <!-- Display general duration -->
+                  <td>{{ t.transportInfo.distance }} km</td> <!-- Display general distance -->
+                  <td>
+                      <button (click)="showKeyPoints(t)">Show Key Points</button>
+                  </td>
+              </tr>
+          </tbody>
       </table>
-    </div>
   </div>
-  
-  <!-- Key Points Modal -->
-  <div class="modal-overlay" *ngIf="isKeyPointsModalOpen">
-    <div class="modal-content">
+</div>
+
+<!-- Key Points Modal -->
+<div class="modal-overlay" *ngIf="isKeyPointsModalOpen">
+  <div class="modal-content">
       <h2>Key Points</h2>
       <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let kp of selectedTourKeyPoints">
-            <td>{{ kp.name }}</td>
-            <td>{{ kp.description }}</td>
-            <td><img [src]="kp.imagePath" alt="{{ kp.name }}" width="50" /></td>
-          </tr>
-        </tbody>
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Image</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let kp of selectedTourKeyPoints">
+                  <td>{{ kp.name }}</td>
+                  <td>{{ kp.description }}</td>
+                  <td><img [src]="kp.imagePath" alt="{{ kp.name }}" width="50" /></td>
+              </tr>
+          </tbody>
       </table>
       <button (click)="closeKeyPointsModal()">Close</button>
-    </div>
   </div>
-  
+</div>

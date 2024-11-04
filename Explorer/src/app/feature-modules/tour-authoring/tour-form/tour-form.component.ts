@@ -44,7 +44,12 @@ export class TourFormComponent implements OnChanges {
     status: 0,
     price: this.tourForm.value.price || 0,
     authorId: loggedInUser.id || 0,
-    keyPoints: []
+    keyPoints: [],
+    transportInfo: {
+      time: new Date(),  // Adjust the form control name as needed
+      distance: 0,
+      transport: 0  // Assuming transportType is an enum
+  } 
   };
 
   

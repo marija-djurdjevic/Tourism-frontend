@@ -1,4 +1,5 @@
 import { KeyPoint } from "./key-point.model";
+import { TransportInfo } from "./transport-info.model";
 
 export interface Tour {
     id?: number; // Ako koristiš auto-increment u bazi, ovo može biti opcionalno
@@ -10,4 +11,5 @@ export interface Tour {
     status: number; // Ako želiš postaviti status, možeš ga dodati
     price: number;
     keyPoints: KeyPoint[]
+    transportInfo: TransportInfo
   }
