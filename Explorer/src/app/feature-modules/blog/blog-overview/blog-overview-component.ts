@@ -16,8 +16,10 @@ import { Router } from "@angular/router";
 })
 export class BlogOverview implements OnInit {
 
-    blogs: Blog[] | undefined = []
+    blogs: Blog[];
+    filteredBlogs: Blog[];
     id: 0;
+    selectedFilter: string = 'all';
 
     constructor(
       private blogService: BlogService,
@@ -36,13 +38,14 @@ export class BlogOverview implements OnInit {
     getBlogs(): void {
       this.blogService.getBlogs().subscribe({
           next: (result: PagedResults<Blog>) => {
-              this.blogs = result.results
+              this.blogs = result.results;
+              this.applyFilter(this.selectedFilter); // Apply the selected filter initially
           },
           error: () => {
-              alert("Error fetching blogs!")
+              alert("Error fetching blogs!");
           }
-      })
-    }
+      });
+  }
 
     viewComments(blogId: any) {
       this.router.navigate(['/comments/'+blogId])
@@ -56,8 +59,25 @@ export class BlogOverview implements OnInit {
             return 'Published';
           case 2: 
             return 'Closed';
+          case 3:
+            return 'Active';
+          case 4:
+            return 'Famous';
           default:
             return 'Unknown';
         }
     }
+
+    applyFilter(filter: string): void {
+      this.selectedFilter = filter;
+
+      // Filter blogs based on the selected filter
+      if (filter === 'all') {
+          this.filteredBlogs = this.blogs;
+      } else if (filter === 'active') {
+          this.filteredBlogs = this.blogs.filter(blog => blog.status === 3); 
+      } else if (filter === 'famous') {
+          this.filteredBlogs = this.blogs.filter(blog => blog.status === 4); 
+      }
+  }
 }

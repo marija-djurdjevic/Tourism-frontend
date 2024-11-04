@@ -6,9 +6,32 @@
     <div>
         <xp-blog-form (blogCreated)="getBlogs()"></xp-blog-form>
     </div>
+
+    <!-- Filter Buttons -->
+    <div class="filter-buttons" style="text-align: center; margin: 16px 0;">
+        <button 
+            mat-button 
+            [color]="selectedFilter === 'all' ? 'accent' : 'primary'" 
+            (click)="applyFilter('all')">
+            All
+        </button>
+        <button 
+            mat-button 
+            [color]="selectedFilter === 'active' ? 'accent' : 'primary'" 
+            (click)="applyFilter('active')">
+            Active
+        </button>
+        <button 
+            mat-button 
+            [color]="selectedFilter === 'famous' ? 'accent' : 'primary'" 
+            (click)="applyFilter('famous')">
+            Famous
+        </button>
+    </div>
+
     <div id="blog-cards">
         <div class="card-container">
-            <mat-card class="blog-card" *ngFor="let blog of blogs">
+            <mat-card class="blog-card" *ngFor="let blog of filteredBlogs">
                 <mat-card-header>
                     <mat-card-title class="primary-title-text">{{ blog.title }}</mat-card-title>
                     <mat-card-subtitle>
