@@ -10,6 +10,8 @@ import { TourPreferencesComponent } from './tour-preferences/tour-preferences.co
 import { TouristLocationComponent } from './tourist-location/tourist-location.component';
 import { SharedModule } from "../../shared/shared.module";
 import { TourSessionComponent } from './tour-session/tour-session.component';
+import { TourListComponent } from './tour-list/tour-list.component';
+
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { TourSessionComponent } from './tour-session/tour-session.component';
     TourPreferencesComponent,
     TouristLocationComponent,
     TouristLocationComponent,
-    TourSessionComponent
+    TourSessionComponent,
+    TourListComponent
    
   ],
   imports: [
@@ -35,7 +38,8 @@ import { TourSessionComponent } from './tour-session/tour-session.component';
     ProblemFormComponent,
     TourPreferencesComponent,
     TouristLocationComponent,
-    TourSessionComponent
+    TourSessionComponent,
+    TourListComponent
   ]
 })
 export class TourExecutionModule { }

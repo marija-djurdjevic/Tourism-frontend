@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/app/infrastructure/material/material.module'
 import { TourPreferences } from 'src/app/shared/model/tour-preferences.model';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 import { TourSession } from './model/tour-session.model';
+import { Tour } from '../tour-authoring/model/tour.model';
 
 
 @Injectable({
@@ -70,5 +71,34 @@ export class TourExecutionService {
     const url = `${environment.apiHost}administration/tourSession/abandon/${id}`;
     return this.http.post<boolean>(url, {});
   }
+
+
+  updateLocation(tourId: number, latitude: number, longitude: number): Observable<boolean> {
+    const url =`${environment.apiHost}administration/tourSession/update-location`;
+    const params = new HttpParams()
+      .set('tourId', tourId.toString())
+      .set('latitude', latitude.toString())
+      .set('longitude', longitude.toString());
+    return this.http.post<boolean>(url,null,{params});
+  }
+
+
+  getAllTours(): Observable<Tour[]> {
+    return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/all`);
+  }
+
+
+  updateSession(tourId: number, latitude: number, longitude: number): Observable<void> {
+    const url = `${environment.apiHost}administration/tourSession/update-session`;
+
+    const params = new HttpParams()
+      .set('tourId', tourId.toString())
+      .set('latitude', latitude.toString())
+      .set('longitude', longitude.toString());
+
+    return this.http.post<void>(url, null, { params });
+  }
+
+
 
 }

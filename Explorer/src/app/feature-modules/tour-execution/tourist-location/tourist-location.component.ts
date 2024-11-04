@@ -23,7 +23,6 @@ export class TouristLocationComponent implements AfterViewInit {
       next: (data) => {
         this.location.latitude = data.latitude
         this.location.longitude = data.longitude
-
         this.locationSelected.emit({ latitude: this.location.latitude, longitude: this.location.longitude });
       },
       error: () => {

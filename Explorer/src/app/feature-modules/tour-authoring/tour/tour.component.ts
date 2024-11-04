@@ -84,10 +84,7 @@ export class TourComponent implements OnInit {
   }
 
 
-  onStartTour(tourId: number): void {
-    
-    this.router.navigate(['/tour-session', tourId]);
-  }
+
 
 
 
