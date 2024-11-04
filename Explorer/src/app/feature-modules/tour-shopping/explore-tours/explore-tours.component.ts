@@ -5,6 +5,9 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { OrderItem } from '../model/order-item.model';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
+import { TourExecutionService } from '../../tour-execution/tour-execution.service';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { TourReview } from '../../tour-execution/model/tour-review.model';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -14,11 +17,13 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 export class ExploreToursComponent implements OnInit{
 
   tours: Tour[] = [];
+  isReviewsModalOpen = false;
   user: User;
-  purchasedTours: Tour[] = []
+  purchasedTours: Tour[] = [];
+  selectedTourReviews: TourReview[] = [];
 
 
-  constructor(private service: TourShoppingService, private authService: AuthService) {}
+  constructor(private service: TourShoppingService, private authService: AuthService, private tourService: TourExecutionService ) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -101,5 +106,25 @@ export class ExploreToursComponent implements OnInit{
     return this.purchasedTours.some(tour => tour.id === tourId);
   }
 
+  showReviews(tourId: number) : void {
+    this.isReviewsModalOpen = true;
+    this.getReviews(tourId);
+  }
+
+  closeReviewsModal() : void {
+    this.isReviewsModalOpen = false; 
+  }
+
+  getReviews(tourId: number): void {
+    this.tourService.getReviews().subscribe({
+      next: (result: PagedResults<TourReview>) => {
+        this.selectedTourReviews = result.results.filter(review => review.tourId === tourId);
+      },
+      error: (error) => {
+        console.error('Error fetching reviews:', error);
+      }
+    });
+  }
+  
 
 }
