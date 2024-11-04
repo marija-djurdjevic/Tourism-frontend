@@ -56,12 +56,13 @@ export class TourExecutionService {
   }
 
 
-  startTour(tourId: number, latitude: number, longitude: number): Observable<boolean> {
+  startTour(tourId: number, latitude: number, longitude: number,touristId:number): Observable<boolean> {
     const url = `${environment.apiHost}administration/tourSession/start`;
     const params = new HttpParams()
       .set('tourId', tourId.toString())
       .set('latitude', latitude.toString())
-      .set('longitude', longitude.toString());
+      .set('longitude', longitude.toString())
+      .set('touristId',touristId.toString());
 
     return this.http.post<boolean>(url, null, { params });
 

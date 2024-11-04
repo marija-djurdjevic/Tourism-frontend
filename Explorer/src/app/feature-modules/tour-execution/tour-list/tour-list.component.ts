@@ -3,6 +3,8 @@ import { TourExecutionService } from '../tour-execution.service';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { Router } from '@angular/router';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'xp-tour-list',
@@ -15,11 +17,15 @@ export class TourListComponent implements OnInit {
   tourId: number;
   location: Location = { latitude: 0, longitude: 0 };
   tourStarted: boolean = false;
+  user:User|undefined;
 
-  constructor(private tourExecutionService: TourExecutionService, private router: Router) {}
+  constructor(private tourExecutionService: TourExecutionService, private router: Router,private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getAllTours();
+    this.authService.user$.subscribe((user: User | undefined) => {
+      this.user = user;
+  });
   }
 
 
@@ -52,7 +58,7 @@ export class TourListComponent implements OnInit {
   onStartTourSession(tourId: number): void {
 
     if (tourId) {
-      this.tourExecutionService.startTour(tourId, this.location.latitude, this.location.longitude).subscribe({
+      this.tourExecutionService.startTour(tourId, this.location.latitude, this.location.longitude,this.user?.id as number).subscribe({
         next: (result) => {
           if (result) {
             this.tourStarted = true;
@@ -88,3 +94,4 @@ export class TourListComponent implements OnInit {
     });
   }
 }
+
