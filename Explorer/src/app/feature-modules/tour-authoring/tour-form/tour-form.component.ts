@@ -44,13 +44,16 @@ export class TourFormComponent implements OnChanges {
     status: 0,
     price: this.tourForm.value.price || 0,
     authorId: loggedInUser.id || 0,
-    keyPoints: [],
     transportInfo: {
-      time: new Date(),  // Adjust the form control name as needed
+      time: 0,
       distance: 0,
-      transport: 0  // Assuming transportType is an enum
-  } 
-  };
+      transport:  0, 
+    },
+    keyPoints: [], 
+    publishedAt: new Date(Date.now()),
+    archivedAt: new Date(Date.now()),
+    averageScore: 0
+    };
 
   
     console.log('Tour to be added:', tour); 
