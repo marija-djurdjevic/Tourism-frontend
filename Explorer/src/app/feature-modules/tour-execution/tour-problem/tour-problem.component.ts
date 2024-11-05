@@ -6,6 +6,7 @@ import { Comment} from '../model/problem.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-tour-problem',
@@ -16,6 +17,8 @@ import { DatePipe } from '@angular/common';
 export class TourProblemComponent {
 
   id: string;
+  deadline: Date;
+  status: 0;
   comm : Comment = {content: '',
   type: 0,
   senderId: 0,
@@ -27,13 +30,30 @@ export class TourProblemComponent {
   adminComments: Comment[] =[]
   allComments: Comment[] =[]
 
-  constructor(private route: ActivatedRoute, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe) {}
+  isClosed: string;
+  hadDeadlinePassed : string;
+
+  constructor(private route: ActivatedRoute, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe, private router : Router) {}
   
   problem: Problem;
   
   ngOnInit() {
     this.id = this.route.snapshot.queryParamMap.get('id') as string;
-    this.name = this.route.snapshot.queryParamMap.get('name') as string;  
+    this.name = this.route.snapshot.queryParamMap.get('name') as string;
+    this.service.getById(this.id).subscribe((problem: Problem) => {
+      this.problem = problem;    
+      this.allComments = this.problem.comments;
+      this.setComments();
+
+      if (this.problem.deadline) {
+        this.hadDeadlinePassed = new Date(this.problem.deadline) < new Date() ? 'true' : 'false';
+      } else {
+        
+        this.hadDeadlinePassed = 'false'; 
+      }
+
+      this.isClosed = this.problem.status == 3 || this.hadDeadlinePassed == 'false' ? 'disabled' : '';
+      });
     this.authService.user$.subscribe((user: User | undefined) => {
         this.user = user;
     });
@@ -74,6 +94,11 @@ export class TourProblemComponent {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 }
+
+hasDeadLinePassed(input: Date): string {
+  return new Date(input) < new Date() ? 'true' : 'false';
+}
+
 
   getTime(input: string): string {
     const time = new Date(input);
@@ -116,7 +141,22 @@ export class TourProblemComponent {
     }
   }
 
-  
+  closeTourProblem():void{
+    if(this.user?.role == 'administrator')
+    {
+      this.service.closeTourProblem(this.problem).subscribe({
+        next: () => {
+          console.log('Tour problem closed');
+          this.router.navigate(['/problems']);
+          
+        },
+        error: (err) => {
+          console.error('Tour problem not closed:', err);
+        }
+      });
+    }
+}
+
   makeComment():void{
     if(this.user?.role == 'administrator'){
     const now = new Date();

@@ -76,6 +76,11 @@ export class TourExecutionService {
   
     return this.http.post<Problem>(url, comment, { params });
   }
+
+  closeTourProblem(tourProblem: Problem): Observable<Problem>{
+
+    return this.http.put<Problem>(environment.apiHost + `administrator/problem/${tourProblem.id}`, tourProblem);
+  }
   
   changeStatus(tourProblemId: number, problemStatus: number): Observable<Problem> {
     const url = environment.apiHost + `tourist/problem/changeStatus`;

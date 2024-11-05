@@ -5,8 +5,10 @@
             <img id="img1" src="../../../../assets/icons/problem-sign.jpg">  
             <div id="wrap2">
                 <div id="max">
+                    <button id="closeButton"  (click)="closeTourProblem()" [disabled]="isClosed == 'disabled'"  ><img id="imgClose" src="../../../../assets/icons/close.png" ></button>
                     <div>
                         <p id="pp">Tour problem for tour:    {{name}}</p>
+                       
                         <br>
                     </div>
                     <div id="w">

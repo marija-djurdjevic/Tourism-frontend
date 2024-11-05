@@ -35,5 +35,5 @@ export interface Problem {
     details: Details; 
     comments: Comment[]; 
     status: number;
-    deadline: string; 
+    deadline?: Date; 
 }
