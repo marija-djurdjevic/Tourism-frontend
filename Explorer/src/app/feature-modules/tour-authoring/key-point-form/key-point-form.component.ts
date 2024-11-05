@@ -57,19 +57,17 @@ export class KeyPointFormComponent implements OnInit {
   onAddKeyPoint() {
     this.keyPointService.getKeyPoints().subscribe({
       next: (allKeyPoints) => {
-        // Filtriraj ključne tačke prema `tourId`
+       
         const keyPointsForTour = allKeyPoints.filter(kp => kp.tourId === this.tourId);
   
-        // Dodajemo novu ključnu tačku na listu
+       
         keyPointsForTour.push(this.newKeyPoint);
   
-        // Priprema koordinata za računanje udaljenosti, ili prazne koordinate za prvu tačku
-        const latlngs: [number, number][] = keyPointsForTour.length > 1 
+       const latlngs: [number, number][] = keyPointsForTour.length > 1 
           ? keyPointsForTour.map(kp => [kp.longitude, kp.latitude] as [number, number])
           : [[this.newKeyPoint.longitude, this.newKeyPoint.latitude]];
         console.log("Koordinate svih tačaka:", latlngs);
   
-        // Računamo udaljenost i vreme samo ako ima više od jedne tačke
         const distance = keyPointsForTour.length > 1 
           ? this.tourService.calculateDistance(latlngs) 
           : 0;
@@ -86,13 +84,11 @@ export class KeyPointFormComponent implements OnInit {
           time: Math.floor(time)
         };
   
-        // Dodaj novu ključnu tačku na server
         this.keyPointService.addKeyPoint(this.newKeyPoint).subscribe({
           next: (keyPoint) => {
             alert('Uspješno dodata ključna tačka!');
             this.resetForm();
   
-            // Ažuriraj transportne informacije na serveru
             this.tourService.updateTransportInfo(this.tourId, transportInfo).subscribe({
               next: () => {
                 console.log('Transport info ažuriran uspešno.');
