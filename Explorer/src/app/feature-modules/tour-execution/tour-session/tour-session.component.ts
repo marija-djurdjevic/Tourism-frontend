@@ -32,7 +32,7 @@ export class TourSessionComponent implements OnInit {
     console.log('Koordinate primljene u TourSessionComponent:', this.location);
     
     this.updateLocation();
-
+    this.updateSession();
  
   }
 

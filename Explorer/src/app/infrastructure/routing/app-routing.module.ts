@@ -63,7 +63,7 @@ const routes: Routes = [
   {path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard]},
   {path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard]},
   {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
-  {path: 'review/:tourId/:tourName', component: TourReviewFormComponent, canActivate: [AuthGuard]} 
+  {path: 'review/:tourId/:tourName', component: TourReviewFormComponent, canActivate: [AuthGuard]},
   { path: 'tourSession/:tourId', component: TourSessionComponent },
   { path:'tourList',component:TourListComponent},
   {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]} 

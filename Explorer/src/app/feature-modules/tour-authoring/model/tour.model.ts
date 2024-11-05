@@ -16,5 +16,6 @@ export interface Tour {
     transportInfo: TransportInfo; 
     keyPoints: KeyPoint[];  
     reviews:TourReview[];
-    averageScore: number;       
+    averageScore: number;
+    reviewStatus?:number;    
   }
