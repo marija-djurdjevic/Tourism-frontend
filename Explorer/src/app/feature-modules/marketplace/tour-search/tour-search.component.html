@@ -1,31 +1,51 @@
-<form>
-    <div>
-        <mat-form-field>
-            <mat-label>Distance</mat-label>
-            <input matInput type="number" id="distance" name="distance" [(ngModel)]="searchCriteria.distance" required>
-        </mat-form-field>
-        <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
-        <button color="primary" type="submit" (click)="searchTours()">Search</button>
-    </div>
-</form>
-<div>
-    <p>Tours in desired area:</p>
-    <table>
-        <thead>
-            <tr>
+<div class="container-wrapper">
+    <div class="container">
+      <div class="left-section">
+        <form #searchForm="ngForm">
+          <div>
+            <mat-form-field>
+              <mat-label>Distance</mat-label>
+              <input matInput type="number" id="distance" name="distance" [(ngModel)]="searchCriteria.distance" required #distanceInput="ngModel"/>
+            </mat-form-field>
+  
+            <div *ngIf="distanceInput.invalid && distanceInput.touched">
+              <p style="color: red;">Please provide a valid distance.</p>
+            </div>
+  
+            <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
+  
+            <button color="primary" type="submit" (click)="searchTours()" [disabled]="searchForm.invalid">Search</button>
+          </div>
+        </form>
+      </div>
+  
+      <div class="right-section">
+        <div *ngIf="searchedTours.length > 0">
+          <p>Tours in desired area:</p>
+          <table>
+            <thead>
+              <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Difficulty</th>
                 <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let ts of searchedTours">
-                <td>{{ts.name}}</td>
-                <td>{{ts.description}}</td>
-                <td>{{ts.difficulty}}</td>
-                <td>{{ts.price}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ts of searchedTours">
+                <td>{{ ts.name }}</td>
+                <td>{{ ts.description }}</td>
+                <td>{{ ts.difficulty }}</td>
+                <td>{{ ts.price }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <div *ngIf="noToursFound">
+          <p>There are no tours with keypoints in desired area.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
