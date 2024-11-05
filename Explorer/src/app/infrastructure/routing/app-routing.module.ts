@@ -31,6 +31,8 @@ import { ExploreToursComponent } from 'src/app/feature-modules/tour-shopping/exp
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 
 import { TouristLocationComponent } from 'src/app/feature-modules/tour-execution/tourist-location/tourist-location.component';
+import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
+import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
 
 
 const routes: Routes = [
@@ -62,6 +64,9 @@ const routes: Routes = [
   {path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard]},
   {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
   {path: 'review/:tourId/:tourName', component: TourReviewFormComponent, canActivate: [AuthGuard]} 
+  { path: 'tourSession/:tourId', component: TourSessionComponent },
+  { path:'tourList',component:TourListComponent},
+  {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]} 
 
 ];
 
