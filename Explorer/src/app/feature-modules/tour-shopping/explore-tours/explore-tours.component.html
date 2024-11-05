@@ -1,29 +1,133 @@
 <div id="tour">
-    <p>Explore Tours</p>
-    <hr>
-    <div id="tour-details">
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Tags</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of tours">
-                        <td>{{t.name}}</td>
-                        <td>{{t.description}}</td>
+  <p>Explore Tours</p>
+  <hr>
+  <div id="tour-details">
+      <div>
+          <table>
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                      <th>Tags</th>
+                      <th>Starting Key Point</th> <!-- New column for the first key point -->
+                      <th>Duration</th> <!-- New column for duration -->
+                      <th>Distance</th> <!-- New column for distance -->
+                      <th>Reviews</th>
+                      <th>Status / Action</th> <!-- Merged column for status and actions -->
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let t of tours">
+                      <td>{{ t.name }}</td>
+                      <td>{{ t.description }}</td>
+                      <td>{{ t.price | currency }}</td>
+                      <td>{{ t.tags }}</td>
+                      <td>
+                          <!-- Check if there is at least one key point and display properties on separate lines -->
+                          <div *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
+                              <!-- Name of the first key point -->
+                              <div>{{ t.keyPoints[0].name }}</div>
+                              
+                              <!-- Image of the first key point -->
+                              <div>
+                                  <img [src]="t.keyPoints[0].imagePath" alt="{{ t.keyPoints[0].name }}" width="80" height="auto" style="margin-top: 5px;">
+                              </div>
+                              
+                              <!-- Description of the first key point -->
+                              <div>{{ t.keyPoints[0].description }}</div>
+                          </div>
+                          
+                          <!-- Fallback for when there are no key points -->
+                          <ng-template #noKeyPoint>
+                              <div>N/A</div>
+                          </ng-template>
+                      </td>
 
-                        <td>{{t.price}}</td>
-                        <td>{{t.tags}}</td>
-                        <td><button *ngIf="!isTourInCart(t.id ?? 0)" (click)="addToCart(t.id ?? 0, t.name, t.price)">Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;"></button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                      <!-- Duration Column -->
+                      <td>
+                          <ng-container *ngIf="t.transportInfo; else noTransportInfo">
+                              {{ t.transportInfo.time }} minutes
+                          </ng-container>
+                          <ng-template #noTransportInfo>
+                              <div>N/A</div>
+                          </ng-template>
+                      </td>
+
+                      <!-- Distance Column -->
+                      <td>
+                          <ng-container *ngIf="t.transportInfo; else noTransportInfoDistance">
+                              {{ t.transportInfo.distance }} km
+                          </ng-container>
+                          <ng-template #noTransportInfoDistance>
+                              <div>N/A</div>
+                          </ng-template>
+                      </td>
+                      <td>
+                        <button (click)="showReviews(t.id ?? 0)">
+                            Show Reviews
+                        </button>
+                      </td>
+
+                      <!-- Merged Status / Action Column -->
+                      <td>
+                          <ng-container *ngIf="isPurchased(t.id ?? 0); else notPurchased">
+                              <span style="color: green; font-weight: bold;">Purchased</span>
+                          </ng-container>
+                          <ng-template #notPurchased>
+                              <ng-container *ngIf="isTourInCart(t.id ?? 0); else addToCartButton">
+                                  <span style="color: blue; font-weight: bold;">In Cart</span>
+                              </ng-container>
+                              <ng-template #addToCartButton>
+                                  <button (click)="addToCart(t.id ?? 0, t.name, t.price)">
+                                      Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle;">
+                                  </button>
+                              </ng-template>
+                          </ng-template>
+                      </td>
+
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+  </div>
+
+
+  <!-- Reviews Modal -->
+  <div class="modal-overlay" *ngIf="isReviewsModalOpen">
+    <div class="modal-content">
+        <h2>Reviews</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Reviewer</th>
+                    <th>Comment</th>
+                    <th>Rating</th>
+                    <th>Images</th> <!-- New column for images -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let review of selectedTourReviews">
+                    <td>{{ review.username }}</td> <!-- Updated to use 'username' -->
+                    <td>{{ review.comment }}</td>
+                    <td>{{ review.grade }} / 5</td> <!-- Updated to use 'grade' -->
+
+                    <!-- New Images Column with Image Scrolling Support -->
+                    <td>
+                        <div *ngIf="review.images">
+                            <!-- Split images by comma and iterate over each image URL -->
+                            <div *ngFor="let image of review.images.split(',')" style="display: inline-block; margin-right: 5px;">
+                                <img [src]="image" alt="Review Image" width="50" height="50" style="border-radius: 4px;">
+                            </div>
+                        </div>
+                        <div *ngIf="!review.images">
+                            No images
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button (click)="closeReviewsModal()">Close</button>
     </div>
 </div>
+

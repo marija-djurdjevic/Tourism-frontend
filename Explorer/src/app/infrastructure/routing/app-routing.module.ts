@@ -27,6 +27,7 @@ import {ImageComponent} from '../../shared/image/image.component'
 import { AccountComponent } from 'src/app/feature-modules/administration/account/account.component';
 import { ShoppingCartComponent } from 'src/app/feature-modules/tour-shopping/shopping-cart/shopping-cart.component';
 import { ExploreToursComponent } from 'src/app/feature-modules/tour-shopping/explore-tours/explore-tours.component';
+import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 
 import { TouristLocationComponent } from 'src/app/feature-modules/tour-execution/tourist-location/tourist-location.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
@@ -61,7 +62,8 @@ const routes: Routes = [
   {path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard]},
   {path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard]},
   { path: 'tourSession/:tourId', component: TourSessionComponent },
-  { path:'tourList',component:TourListComponent}
+  { path:'tourList',component:TourListComponent},
+  {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]} 
 
 ];
 
