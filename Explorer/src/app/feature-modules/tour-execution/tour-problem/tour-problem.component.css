@@ -137,7 +137,7 @@
 #wrap {
     height: 90%; 
     width: 90%; 
-    margin: 0 auto; 
+    margin: 3%; 
     border: 2px solid #287f36; 
     background-color: rgba(47, 47, 47, 0.8); 
     border-radius: 10px; 
@@ -270,6 +270,13 @@
     object-fit: cover; 
 }
 
+#imgClose {
+    height: 50%; 
+    width: 50%;
+    border-radius: 50%; 
+    border: none;
+   
+}
 
 #typing input {
     margin-left: 5%;
@@ -356,4 +363,26 @@
     height: 6%; 
     width: 4%;
     border-radius: 50%; 
+}
+#closeButton {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    font-family: 'Lobster', cursive;
+    font-size: 0.5vw;
+    font-weight: bold;
+    border: none;
+    width: 50px;
+    height: 50px;
+    background-color:  #f1f1f1;
+    border-radius: 50%;
+    padding: 0%;
+    margin-top: 0%;
+}
+
+#closeButton:hover {
+    border-radius: 50%; /* Make the button circular */
+    background-color: #f1f1f1; /* Change to any color you prefer */
+    color: #333; /* Adjust text color if needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional shadow for effect */
 }
