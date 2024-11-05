@@ -1,5 +1,5 @@
 export interface OrderItem {
-    id: number,
-    name: string,
-    price: number
+    tourId: number,
+    price: number,
+    tourName: string
 }
