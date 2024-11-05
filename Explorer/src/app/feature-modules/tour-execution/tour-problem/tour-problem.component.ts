@@ -33,17 +33,24 @@ export class TourProblemComponent {
   
   ngOnInit() {
     this.id = this.route.snapshot.queryParamMap.get('id') as string;
-    this.name = this.route.snapshot.queryParamMap.get('name') as string;
-    this.service.getById(this.id).subscribe((problem: Problem) => {
-      this.problem = problem;    
-      this.allComments = this.problem.comments;
-      this.setComments();
-      });
+    this.name = this.route.snapshot.queryParamMap.get('name') as string;  
     this.authService.user$.subscribe((user: User | undefined) => {
         this.user = user;
     });
-   
-
+    if(this.user?.role=='administrator'){
+      this.service.getById(this.id).subscribe((problem: Problem) => {
+        this.problem = problem;    
+        this.allComments = this.problem.comments;
+        this.setComments();
+        });
+    }
+    if(this.user?.role=='tourist'){
+      this.service.touristGById(this.id).subscribe((problem: Problem) => {
+        this.problem = problem;    
+        this.allComments = this.problem.comments;
+        this.setComments();
+        });
+    }
   }
 
   setComments(){

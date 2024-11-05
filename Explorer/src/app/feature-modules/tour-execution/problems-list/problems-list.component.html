@@ -17,15 +17,30 @@
             <th>Date</th>
             <th>Time</th>
         </tr>
-        <tr *ngFor="let item of displayedEntities" id="ag" (click) = "goToProblem(item.id, getById(item.tourId))">
+        <tr tabindex="0" *ngFor="let item of displayedEntities" id="ag" (click) = "goToProblem(item.id, getById(item.tourId), item)">
             <td>{{item.details.problemPriority}}</td>
-            <td>MArko</td>
+            <td>Marko</td>
             <td>{{getById(item.tourId)}}</td>
             <td>{{ getEnum(item.details.category) }}</td>
             <td><p>{{ getDate(item.details.time) }}</p></td>
             <td><p>{{ getTime(item.details.time) }}</p></td>
+            
+            
         </tr> 
+        
     </table>
+    <div id="pop" *ngIf="flag">
+        <button id="iks" (click)="close()" >X</button>
+        <button (click) = "seeProb()">See problem</button>
+        <button (click) = "solve()">Mark as solved</button>
+    </div>
+    <div id="pop2" *ngIf="flag2">
+        <button id="ikss" (click)="close()">X</button>
+        Leave comment:
+        <input type="text" [(ngModel)]="comm.content">
+        <button (click)="finalSolve()"> <img src="../../../../assets/icons/resolve.png" ></button>
+    </div>
+    
     
 
 </div>

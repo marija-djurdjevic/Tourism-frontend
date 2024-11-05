@@ -82,4 +82,12 @@ export class TourAuthoringService {
   getAllTours(): Observable<PagedResults<Tour>> {
     return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administrator/tour/allTours')
   }
+  getTouristTours(): Observable<PagedResults<Tour>> {
+    return this.http.get<PagedResults<Tour>>(environment.apiHost + 'tourist/tour', {
+      params: {
+        page: "0",
+        pageSize: "0"
+      }
+    })
+  }
 }

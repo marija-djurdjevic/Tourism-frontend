@@ -137,7 +137,7 @@
 #wrap {
     height: 90%; 
     width: 90%; 
-    margin: 0 auto; 
+    margin: 3%;
     border: 2px solid #287f36; 
     background-color: rgba(47, 47, 47, 0.8); 
     border-radius: 10px; 
