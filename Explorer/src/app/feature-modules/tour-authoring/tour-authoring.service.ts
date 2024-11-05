@@ -79,4 +79,7 @@ export class TourAuthoringService {
   addTourEquipment(tourEquipment: TourEquipment): Observable<TourEquipment> {
     return this.http.post<TourEquipment>(environment.apiHost + 'tourEquipment', tourEquipment);
   }
+  getAllTours(): Observable<PagedResults<Tour>> {
+    return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administrator/tour/allTours')
+  }
 }
