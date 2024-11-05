@@ -2,11 +2,10 @@
     <div>
         <mat-form-field>
             <mat-label>Distance</mat-label>
-            <input matInput type="number" required>
+            <input matInput type="number" id="distance" name="distance" [(ngModel)]="searchCriteria.distance" required>
         </mat-form-field>
-        <app-map [onlyOneMarker]="true"></app-map>
-        <!-- <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map> -->
-        <button color="primary" type="submit">Search</button>
+        <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
+        <button color="primary" type="submit" (click)="searchTours()">Search</button>
     </div>
 </form>
 <div>
@@ -21,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let ts of tourSearch">
+            <tr *ngFor="let ts of searchedTours">
                 <td>{{ts.name}}</td>
                 <td>{{ts.description}}</td>
                 <td>{{ts.difficulty}}</td>

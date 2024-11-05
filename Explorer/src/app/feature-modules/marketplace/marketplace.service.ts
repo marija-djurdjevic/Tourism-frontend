@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TourSearch } from './model/tour-search.model';
+import { SearchByDistance } from './model/search-by-distance.model';
 import { Observable } from 'rxjs';
 import { environment } from 'src/env/environment';
+import { Tour } from '../tour-authoring/model/tour.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class MarketplaceService {
 
   constructor(private http: HttpClient) { }
 
-  // searchTours(): Observable<TourSearch> {
-  //   return this.http.post<TourSearch>(environment.apiHost + '/api/tourist/tour/search');
-  // }
+  searchTours(searchByDistance: SearchByDistance): Observable<Tour[]> {
+    return this.http.post<Tour[]>(environment.apiHost + 'tourist/tour/search', searchByDistance);
+  }
 }

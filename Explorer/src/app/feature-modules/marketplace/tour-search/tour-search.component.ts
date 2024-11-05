@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { TourSearch } from '../model/tour-search.model';
+import { Component, OnInit } from '@angular/core';
+import { SearchByDistance } from '../model/search-by-distance.model';
 import { MarketplaceService } from '../marketplace.service';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
+import { Tour } from '../../tour-authoring/model/tour.model';
 
 @Component({
   selector: 'xp-tour-search',
@@ -10,23 +11,28 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 })
 export class TourSearchComponent {
 
-  //distance: number;
-  tourSearch: TourSearch[] = [];
-  //selectedKeyPoint: KeyPoint; 
+  searchedTours: Tour[] = [];
+  searchCriteria: SearchByDistance = {
+    distance: 0,
+    location: { latitude: 0, longitude: 0 }
+  };
+  selectedKeyPoint: KeyPoint; 
 
   constructor(private service: MarketplaceService) { }
 
-  // onKeyPointSelected(event: { latitude: number, longitude: number }): void {
-  //   // Pristup prosleđenim parametrima (latitude i longitude)
-  //   this.selectedKeyPoint.latitude = event.latitude;
-  //   this.selectedKeyPoint.longitude = event.longitude;
-    
-  //   // Sada možeš raditi nešto sa prosleđenim koordinatama
-  //   console.log('Odabrana tačka:', this.selectedKeyPoint.latitude, this.selectedKeyPoint.longitude);
-  // }
+  searchTours(): void {
+    this.service.searchTours(this.searchCriteria).subscribe((response) => {
+      this.searchedTours = response;
+    });
+  }
 
-  // getSearchedTours(): void {
-  //   this.service.searchTours().subscribe() 
-  // }
+  onKeyPointSelected(event: { latitude: number, longitude: number }): void {
+    this.searchCriteria.location = {
+      latitude: event.latitude,
+      longitude: event.longitude
+    };
+
+    console.log('Odabrana tačka za pretragu:', this.searchCriteria.location.latitude, this.searchCriteria.location.longitude);
+  }
 
 }
