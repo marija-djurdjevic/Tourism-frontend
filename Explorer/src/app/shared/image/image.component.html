@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="selectSingle" class="container">
     <div class="image-preview" *ngIf="imageSrc; else placeholder">
         <img [src]="imageSrc" alt="Image Preview">
     </div>
@@ -9,4 +9,19 @@
     </ng-template>
 
     <input type="file" (change)="onFileSelected($event)">
+</div>
+<div *ngIf="!selectSingle" class="container">
+    <div class="image-preview" *ngIf="imageSrcs && imageSrcs.length > 0; else placeholder">
+        <img [src]="showingImage" alt="Image Preview">
+    </div>
+    <ng-template #placeholder>
+        <div class="image-preview">
+            <span>Image Preview</span>
+        </div>
+    </ng-template>
+    <div style="display: flex;flex-direction: row;justify-content: space-between;">
+        <button *ngIf="!selectSingle" (click)="PreviousImage()">Previous</button>
+        <button *ngIf="!selectSingle" (click)="NextImage()">Next</button>
+    </div>
+    <input type="file" (change)="onFileSelected($event)" multiple>
 </div>

@@ -50,6 +50,7 @@ export class TourFormComponent implements OnChanges {
       transport:  0, 
     },
     keyPoints: [], 
+    reviews:[],
     publishedAt: new Date(Date.now()),
     archivedAt: new Date(Date.now()),
     averageScore: 0

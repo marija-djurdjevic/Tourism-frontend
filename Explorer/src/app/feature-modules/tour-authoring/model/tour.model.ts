@@ -1,4 +1,5 @@
 import { KeyPoint } from "./key-point.model";
+import { TourReview } from "./tour-review.model";
 import { TransportInfo } from "./transportInfo.model";
 
 export interface Tour {
@@ -14,5 +15,6 @@ export interface Tour {
     archivedAt?: Date;   
     transportInfo: TransportInfo; 
     keyPoints: KeyPoint[];  
+    reviews:TourReview[];
     averageScore: number;       
   }

@@ -1,3 +1,5 @@
+import { Observable } from "rxjs";
+
 export interface TourReview {
     id?: number;
     comment?: string;
@@ -8,4 +10,6 @@ export interface TourReview {
     images : string;
     tourVisitDate: Date;
     tourReviewDate: Date;
+    tourProgressPercentage:number;
+    reviewImages?:string[];
 }

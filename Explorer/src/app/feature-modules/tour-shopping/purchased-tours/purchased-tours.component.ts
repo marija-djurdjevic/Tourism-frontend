@@ -3,6 +3,7 @@ import { TourShoppingService } from '../tour-shopping.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-purchased-tours',
@@ -16,7 +17,7 @@ export class PurchasedToursComponent {
   selectedTourKeyPoints: any[] = []; // Holds key points for the selected tour
   isKeyPointsModalOpen = false; // Tracks whether the modal is open
 
-  constructor(private service: TourShoppingService, private authService: AuthService) {}
+  constructor(private service: TourShoppingService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -39,7 +40,15 @@ export class PurchasedToursComponent {
 
   executeTour(tour: Tour) {
     console.log(`Executing tour: ${tour.name}`);
-}
+  }
+
+  canReview(tourId: number): boolean {
+    return true;
+  }
+
+  reviewTour(tourId: number, tourName: string) {
+    this.router.navigate(['/review', tourId, tourName]);
+  }
 
 
   showKeyPoints(tour: Tour): void {
