@@ -3,7 +3,7 @@ import { OrderItem } from '../model/order-item.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourShoppingService } from '../tour-shopping.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-
+import { Tour } from '../../tour-authoring/model/tour.model';
 @Component({
   selector: 'xp-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -28,7 +28,7 @@ export class ShoppingCartComponent implements OnInit{
       this.orderItems = [];
       return;
     }
-
+    
     // Define the cart key based on the user ID
     const cartKey = `cart_${this.user.id}`;
 
@@ -50,7 +50,7 @@ export class ShoppingCartComponent implements OnInit{
 
     const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
 
-    const itemIndex = cart.findIndex((item: { id: number }) => item.id === id);
+    const itemIndex = cart.findIndex((item: { tourId: number }) => item.tourId === id);
 
     if (itemIndex !== -1) {
       cart.splice(itemIndex, 1);
@@ -88,5 +88,20 @@ export class ShoppingCartComponent implements OnInit{
   getTotalPrice(): number {
     return this.orderItems.reduce((total, item) => total + item.price, 0);
   }
-  
+
+  checkout(): void {
+    this.service.checkout(this.orderItems).subscribe({
+      next: (response) => {
+        console.log("Checkout successful:", response);
+        // Optionally, clear the cart or navigate to another page after successful checkout
+        this.resetCart(); // clear the cart
+      },
+      error: (error) => {
+        console.error("Checkout failed:", error);
+      },
+      complete: () => {
+        console.log("Checkout process completed.");
+      }
+    });
+  }
 }

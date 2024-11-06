@@ -10,6 +10,7 @@
             <button *ngIf="user && user.username !== ''" class="primary-button" mat-raised-button [routerLink]="['clubs']">Clubs</button>
             <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['object']">Show objects</button>
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['tours']">View My Tours</button>
+            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['purchasedTours']">Purchased Tours</button>
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['blogs']">Blogs</button>
             <button *ngIf="user && (user.role === 'administrator' || user.role==='author' || user.role === 'tourist')"class="primary-button" mat-raised-button [routerLink]="['problems']">See tour problems</button>
             <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourReviews']">See tour reviews</button>
@@ -35,6 +36,7 @@
                 </ul>
             </div>
             <button *ngIf="user && user.username !== ''" class="secondary-button" mat-raised-button (click)="onLogout()">Logout</button>
+            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourList']">Tours</button>
         </div>
     </div>
 </mat-toolbar>
