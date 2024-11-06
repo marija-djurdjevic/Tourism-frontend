@@ -20,6 +20,20 @@
             <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['cart']"><img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle; margin-right: 8px;">Cart</button>
             <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" class="primary-button" mat-raised-button [routerLink]="['user-rating']">Rate us!</button>
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>
+
+            <!-- Notification Button -->
+            <button *ngIf="notifications.length !== 0" class="transparent-button" (click)="toggleNotifications()">
+                <img src="assets/icons/notification_green.png" alt="Notification" width="50" height="50">
+            </button>
+            
+            <!-- Notification Dropdown -->
+            <div *ngIf="showNotifications" class="notification-dropdown">
+                <ul>
+                    <li *ngFor="let notification of notifications">
+                        <button class="notification-button">{{ notification.content }}</button>
+                    </li>
+                </ul>
+            </div>
             <button *ngIf="user && user.username !== ''" class="secondary-button" mat-raised-button (click)="onLogout()">Logout</button>
         </div>
     </div>

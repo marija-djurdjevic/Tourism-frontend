@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/env/environment';
 import { UserRating } from './model/user-rating.model';
 import { Person } from 'src/app/infrastructure/auth/model/person.model';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Notification } from 'src/app/infrastructure/auth/model/notification.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,13 @@ export class LayoutService {
 
   getPersonByUserId(userId: string) : Observable<Person>{
     return this.http.get<Person>(environment.apiHost + `administrator/users/${userId}/person`)
+  }
+
+  getTouristNotifications(userId: number) : Observable<Notification[]>{
+    return this.http.get<Notification[]>(environment.apiHost + `tourist/notification/getUnread?touristId=${userId}`)
+  }
+
+  getAuthorNotifications(userId: number) : Observable<Notification[]>{
+    return this.http.get<Notification[]>(environment.apiHost + `author/notification/getUnread?authorId=${userId}`)
   }
 }
