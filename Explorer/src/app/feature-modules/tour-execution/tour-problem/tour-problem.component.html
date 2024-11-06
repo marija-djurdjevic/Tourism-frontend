@@ -1,0 +1,97 @@
+<div>
+    <img id="imgb" src="../../../../assets/image.png">
+    <div id="first"> 
+        <div id="wrap">
+            <img id="img1" src="../../../../assets/icons/problem-sign.jpg">  
+            <div id="wrap2">
+                <div id="max">
+                    <button id="closeButton"  (click)="closeTourProblem()" [disabled]="isClosed == 'disabled'"  ><img id="imgClose" src="../../../../assets/icons/close.png" ></button>
+                    <div>
+                        <p id="pp">Tour problem for tour:    {{getById(problem.tourId)}}</p>
+                       
+                        <br>
+                    </div>
+                    <div id="w">
+                        <div id="list">
+                            <p id="p1"> PROBLEM STATUS: {{ getStatusEnum(problem.status)}} </p>
+                            <p id="p1"> PROBLEM PRIORITY: {{ problem.details.problemPriority  }}</p>
+                            <p id="p1"> PROBLEM CATEGORY: {{ getEnum(problem.details.category) }}</p>
+                            <p id="p1"> TIME: {{ getDate(problem.details.time ) }} {{ getTime(problem.details.time ) }}</p>
+                            <p id="p1"> SENT BY: Marko Markovic</p>
+                        </div>
+                        <div id="p2">  
+                            <p>{{problem.details.explanation}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="chat">
+            <p id="pp0">CONVERSATION</p>
+            <div id="text">
+                <div  *ngIf="user?.role === 'administrator'" >
+                    <div *ngFor="let item of authorComments" >
+                        <p id="maloP">author</p>
+                        <p id="p8">{{item.content}}</p>
+                    </div>
+                </div>
+                <div  *ngIf="user?.role === 'administrator'" >
+                    <div *ngFor="let item of touristComments" >
+                        <p id="maloP2">tourist</p>
+                        <p id="p55">{{item.content}}</p>
+                    </div>
+                </div>
+                <div  *ngIf="user?.role === 'administrator'" >
+                    <div *ngFor="let item of adminComments" >
+                        <p id="p5">{{item.content}}</p>
+                    </div>
+                </div>
+
+
+
+                <div  *ngIf="user?.role === 'author'" >
+                    <div *ngFor="let item of adminComments" >
+                        <p id="maloP">administrator</p>
+                        <p id="p8">{{item.content}}</p>
+                    </div>
+                </div>
+                <div  *ngIf="user?.role === 'author'" >
+                    <div *ngFor="let item of touristComments" >
+                        <p id="maloP2">tourist</p>
+                        <p id="p55">{{item.content}}</p>
+                    </div>
+                </div>
+                <div  *ngIf="user?.role === 'author'" >
+                    <div *ngFor="let item of authorComments" >
+                        <p id="p5">{{item.content}}</p>
+                    </div>
+                </div>
+
+
+                <div  *ngIf="user?.role === 'tourist'" >
+                    <div *ngFor="let item of adminComments" >
+                        <p id="maloP">administrator</p>
+                        <p id="p8">{{item.content}}</p>
+                    </div>
+                </div>
+                <div  *ngIf="user?.role === 'tourist'" >
+                    <div *ngFor="let item of authorComments" >
+                        <p id="maloP2">author</p>
+                        <p id="p55">{{item.content}}</p>
+                    </div>
+                </div>
+                <div  *ngIf="user?.role === 'tourist'" >
+                    <div *ngFor="let item of touristComments" >
+                        <p id="p5">{{item.content}}</p>
+                    </div>
+                </div>
+            </div>
+            <div id="typing">
+                <input type="text" [(ngModel)]="comm.content" placeholder="Type your comment " > 
+                <button [disabled]="comm.content===''" (click)="makeComment()"><img id="img3" src="../../../../assets/icons/message.png" > </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

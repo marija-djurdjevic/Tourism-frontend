@@ -101,6 +101,12 @@ export class TourAuthoringService {
   addTourEquipment(tourEquipment: TourEquipment): Observable<TourEquipment> {
     return this.http.post<TourEquipment>(environment.apiHost + 'tourEquipment', tourEquipment);
   }
+  getAllTours(): Observable<PagedResults<Tour>> {
+    return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administrator/tour/allTours')
+  }
+  getTouristTours(): Observable<PagedResults<Tour>> {
+    return this.http.get<PagedResults<Tour>>(environment.apiHost + 'tourist/tour/all')
+  }
   getKeyPointsByTourId(tourId: number): Observable<Tour> {
     return this.http.get<Tour>(`${environment.apiHost}administration/tour/${tourId}/key-points`);
   }

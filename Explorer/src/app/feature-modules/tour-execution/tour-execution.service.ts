@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
+import { Comment } from './model/problem.model';
 import { Problem } from './model/problem.model';
 import { TourReview } from '../tour-authoring/model/tour-review.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
@@ -23,7 +24,7 @@ export class TourExecutionService {
     return this.http.post<Problem>(' https://localhost:44333/api/tourist/problem/report', problem)
   }
   getProblems(): Observable<PagedResults<Problem>> {
-    return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/all')
+    return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/administrator/problem/getAll')
   }
 
   getReviews(): Observable<PagedResults<TourReview>> {
@@ -57,6 +58,43 @@ export class TourExecutionService {
     return this.http.post<Location>(environment.apiHost + `user/tourist/setLocation`,location);
   }
 
+  getById(id: string): Observable<Problem> {
+    return this.http.get<Problem>('https://localhost:44333/api/administrator/problem/byId',{
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
+  touristGById(id: string): Observable<Problem> {
+    return this.http.get<Problem>('https://localhost:44333/api/tourist/problem/byId',{
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
+  addComment(tourProblemId: number, comment: Comment): Observable<Problem> {
+    const url = environment.apiHost + 'administrator/problem/addComment';
+  
+    const params = new HttpParams().set('tourProblemId', tourProblemId.toString());
+  
+    return this.http.post<Problem>(url, comment, { params });
+  }
+
+  closeTourProblem(tourProblem: Problem): Observable<Problem>{
+
+    return this.http.put<Problem>(environment.apiHost + `administrator/problem/${tourProblem.id}`, tourProblem);
+  }
+  
+  changeStatus(tourProblemId: number, problemStatus: number): Observable<Problem> {
+    const url = environment.apiHost + `tourist/problem/changeStatus`;
+
+    const params = new HttpParams()
+        .set('tourProblemId', tourProblemId.toString())
+        .set('problemStatus', problemStatus.toString());
+
+    return this.http.put<Problem>(url, null, { params });
 
   startTour(tourId: number, latitude: number, longitude: number,touristId:number): Observable<boolean> {
     const url = `${environment.apiHost}administration/tourSession/start`;
@@ -102,6 +140,51 @@ export class TourExecutionService {
     return this.http.post<void>(url, null, { params });
   }
 
+}
 
+getTouristProblems(): Observable<PagedResults<Problem>> {
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getAll')
+}
+  
+
+touristAddComment(tourProblemId: number, comment: Comment): Observable<Problem> {
+  const url = environment.apiHost + 'tourist/problem/addComment';
+
+  const params = new HttpParams().set('tourProblemId', tourProblemId.toString());
+
+  return this.http.post<Problem>(url, comment, { params });
+}
+
+
+authorGetProblems(): Observable<PagedResults<Problem>> {
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getAll')
+}
+
+
+authorAddComment(tourProblemId: number, comment: Comment): Observable<Problem> {
+  const url = environment.apiHost + 'author/problem/addComment';
+
+  const params = new HttpParams().set('tourProblemId', tourProblemId.toString());
+
+  return this.http.post<Problem>(url, comment, { params });
+}
+
+
+authorgetById(id: string): Observable<Problem> {
+  return this.http.get<Problem>('https://localhost:44333/api/author/problem/byId',{
+    params: {
+      id: id.toString()
+    }
+  })
+}
+
+setDeadline(problemId: number, time: Date): Observable<Problem> {
+  return this.http.post<Problem>(environment.apiHost + 'administrator/problem/setDeadline', null, {
+    params: {
+      problemId: problemId.toString(),
+      time: time.toISOString()
+    }
+  });
+}
 
 }
