@@ -7,7 +7,7 @@
                 <div id="max">
                     <button id="closeButton"  (click)="closeTourProblem()" [disabled]="isClosed == 'disabled'"  ><img id="imgClose" src="../../../../assets/icons/close.png" ></button>
                     <div>
-                        <p id="pp">Tour problem for tour:    {{name}}</p>
+                        <p id="pp">Tour problem for tour:    {{getById(problem.tourId)}}</p>
                        
                         <br>
                     </div>

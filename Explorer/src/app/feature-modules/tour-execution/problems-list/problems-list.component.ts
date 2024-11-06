@@ -23,8 +23,11 @@ export class ProblemsListComponent {
   currentPage = 0;
   totalPages = 0;
   pageSize = 9;
+  selectedDate : Date;
   flag: Boolean = false;
   flag2: Boolean = false;
+  flag3: Boolean = false;
+  flag4: Boolean = false;
   user: User | undefined;
   selectedId: number;
   probName : string;
@@ -33,23 +36,91 @@ export class ProblemsListComponent {
     senderId: 0,
     sentTime: ''};
     selectedItem : Problem;
+    times:string[] =[];
+  selectedTime:string;
                    
 
   constructor(private service: TourExecutionService,  private cdr: ChangeDetectorRef,private tourService:TourAuthoringService, private router: Router,private authService: AuthService,  private datePipe: DatePipe) {} 
 
   ngOnInit(): void {
     
-    this.fetchAndMapTours();
+ 
     this.authService.user$.subscribe((user: User | undefined) => {
       this.user = user;
       console.log("User role:", this.user?.role);
       this.loadAllProblems();
+      this.fetchAndMapTours();
+      this.generateTimeOptions();
+
   });
   }
+  generateTimeOptions() {
+    const startHour = 0; 
+    const endHour = 23;  
+    for (let hour = startHour; hour <= endHour; hour++) {
+      const formattedHour = hour % 12 || 12; 
+      const ampm = hour < 12 ? 'AM' : 'PM';
+      this.times.push(`${formattedHour}:00 ${ampm}`);
+      this.times.push(`${formattedHour}:30 ${ampm}`);
+    }
+  }
+  combineDateAndTime(date: Date, time: string): Date {
+    const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM)?/i;
 
+    const matches = time.match(timeRegex);
+  
+    if (!matches) {
+      throw new Error('Invalid time value: ' + time);
+    }
+  
+    let hours = parseInt(matches[1], 10) + 1;
+    const minutes = parseInt(matches[2], 10);
+    const ampm = matches[3];
+  
+      if (ampm.toUpperCase() === 'PM' && hours<13) {
+        hours += 12; 
+      }else if(hours == 13 && ampm.toUpperCase() === 'AM'){
+        hours +=12;
+      }
+
+    const seconds = 0;
+  
+    const year = date.getFullYear();
+    const month = date.getMonth(); 
+    const day = date.getDate();
+  
+    return new Date(year, month, day, hours, minutes, seconds);
+  }
+  
+
+  deadlineSet() :void{
+    console.log("TIME:" + this.selectedTime);
+    let datetime = this.combineDateAndTime(this.selectedDate, this.selectedTime);
+    console.log("TIME:" + this.selectedTime);
+    this.service.setDeadline(this.selectedId, datetime).subscribe({
+      
+      error: (err: any) => {
+        console.log(err);
+      }
+    });
+    this.flag3=false;
+    this.flag4=false;
+  }
   loadAllProblems(): void {
     if(this.user?.role=='administrator'){
       this.service.getProblems().subscribe({
+        next: (result: PagedResults<Problem>) => {
+          this.entities = result.results;
+          this.updateDisplayedEntities();
+          this.totalPages = Math.ceil(this.entities.length / this.pageSize);
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+    }
+    if(this.user?.role=='author'){
+      this.service.authorGetProblems().subscribe({
         next: (result: PagedResults<Problem>) => {
           this.entities = result.results;
           this.updateDisplayedEntities();
@@ -78,7 +149,10 @@ export class ProblemsListComponent {
     const startIndex = this.currentPage * this.pageSize;
     this.displayedEntities = this.entities.slice(startIndex, startIndex + this.pageSize);
   }
-   
+   deadline(){
+    this.flag4=true;
+    this.flag3=false;
+   }
   solve() {
     this.flag = false;
     this.flag2 = true;
@@ -103,6 +177,20 @@ export class ProblemsListComponent {
         next: (result: PagedResults<Tour>) => {
           result.results.forEach((tour) => {
             this.tourMap.set(tour.id, tour.name); 
+          });
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      })
+    }
+
+    if(this.user?.role=='author'){
+      this.tourService.getTours().subscribe({
+        next: (result: PagedResults<Tour>) => {
+          result.results.forEach((tour) => {
+            this.tourMap.set(tour.id, tour.name); 
+          
           });
         },
         error: (err: any) => {
@@ -154,8 +242,13 @@ export class ProblemsListComponent {
         this.selectedId=id as number;
         this.probName = name as string;
         this.selectedItem = item;
-      }else{
-      this.router.navigate(['/problem'], { queryParams: { id: id, name: name } });
+      }else  if(this.user?.role == 'administrator'){
+        this.flag3=true;
+        this.selectedId=id as number;
+        this.probName = name as string;
+        this.selectedItem = item;
+      }else {
+      this.router.navigate(['/problem'], { queryParams: { id: id } });
     }
     }
 
@@ -174,7 +267,9 @@ export class ProblemsListComponent {
         }
     });
       this.flag2=false;
-      this.makeComment()
+      if(this.comm.content!=''){
+        this.makeComment()
+      }
       this.cdr.detectChanges();  
     }
 
@@ -220,6 +315,8 @@ export class ProblemsListComponent {
     close(){
       this.flag=false;
       this.flag2=false;
+      this.flag3=false;
+      this.flag4=false;
       this.cdr.detectChanges();  
     }
     
