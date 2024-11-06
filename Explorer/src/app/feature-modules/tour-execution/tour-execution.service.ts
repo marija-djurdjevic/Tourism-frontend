@@ -30,7 +30,7 @@ export class TourExecutionService {
     return this.http.get<PagedResults<TourReview>>('https://localhost:44333/api/tourist/review')
   }
   getReview(tourId:number): Observable<TourReview> {
-    return this.http.get<TourReview>(`https://localhost:44333/api/tourist/review?id=${tourId}`)
+    return this.http.get<TourReview>(`${environment.apiHost}tourist/review/${tourId}`);
   }
 
   addTourReview(tourReview : TourReview): Observable<PagedResults<TourReview>> {

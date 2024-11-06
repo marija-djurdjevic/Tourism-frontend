@@ -21,7 +21,7 @@
           required
           type="text"></textarea>
         </mat-form-field>
-            <app-image-upload (addedFiles)="onFileSelected($event)" [selectSingle]="false" formControlName="image" required></app-image-upload>
+            <app-image-upload [imagesToShow]="imagesToShow" (addedFiles)="onFileSelected($event)" [selectSingle]="false" formControlName="image" required></app-image-upload>
         <button  color="primary" type="submit" (click)="addTourReview()" [disabled]="tourReviewForm.invalid" mat-raised-button>Add review</button>
     </div>
     <div *ngIf="feedbackMessage">

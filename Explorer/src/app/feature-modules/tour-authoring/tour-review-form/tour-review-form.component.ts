@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { TourReview } from '../model/tour-review.model';
@@ -28,10 +28,11 @@ export class TourReviewFormComponent {
   feedbackMessage: string | null = null;
   tourId: number | null = null;
   tourName: string | null = "ime";
+  imagesToShow: string='';
 
   @Output() tourReviewUpdated = new EventEmitter<null>();
 
-  constructor(private route: ActivatedRoute, private location: Location, private service: TourExecutionService, private imageService: ImageService, private datePipe: DatePipe, private authService: AuthService, private tokenStorage: TokenStorage) {
+  constructor(private route: ActivatedRoute, private location: Location, private cdr: ChangeDetectorRef, private service: TourExecutionService, private imageService: ImageService, private datePipe: DatePipe, private authService: AuthService, private tokenStorage: TokenStorage) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -39,9 +40,15 @@ export class TourReviewFormComponent {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId'));
     this.tourName = this.route.snapshot.paramMap.get('tourName');
     this.service.getReview(this.tourId).subscribe({
-      next: () => {
-        this.feedbackMessage = '';
-        alert('Tour review loaded successfully');
+      next: (tourReview: TourReview) => {
+        if(tourReview){
+          this.tourReviewForm.setValue({
+            grade: tourReview.grade?.toString() || '',
+            comment: tourReview.comment||''
+          }); 
+          this.imagesToShow=tourReview.images;
+          this.cdr.detectChanges();
+        }
       },
       error: (error) => {
         let errorMessage = 'An error occurred while loading the review.';
