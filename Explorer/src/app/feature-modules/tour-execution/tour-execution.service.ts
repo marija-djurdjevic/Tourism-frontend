@@ -16,7 +16,7 @@ import { Tour } from '../tour-authoring/model/tour.model';
   providedIn: 'root'
 })
 export class TourExecutionService {
-
+  
   constructor(private http : HttpClient) { }
   
   reportProblem(problem : Problem): Observable<Problem>{
@@ -26,8 +26,11 @@ export class TourExecutionService {
     return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/all')
   }
 
-  getReviews(): Observable<PagedResults<TourReview>> {
-    return this.http.get<PagedResults<TourReview>>('https://localhost:44333/api/tourist/review')
+  getReviews(page: number, pageSize: number): Observable<PagedResults<TourReview>> {
+    const params = new HttpParams()
+    .set('page', page.toString())
+    .set('pageSize', pageSize.toString());
+    return this.http.get<PagedResults<TourReview>>('https://localhost:44333/api/tourist/review', {params})
   }
 
 

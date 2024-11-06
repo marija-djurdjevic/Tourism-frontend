@@ -97,37 +97,32 @@
   <div class="modal-overlay" *ngIf="isReviewsModalOpen">
     <div class="modal-content">
         <h2>Reviews</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Reviewer</th>
-                    <th>Comment</th>
-                    <th>Rating</th>
-                    <th>Images</th> <!-- New column for images -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let review of selectedTourReviews">
-                    <td>{{ review.username }}</td> <!-- Updated to use 'username' -->
-                    <td>{{ review.comment }}</td>
-                    <td>{{ review.grade }} / 5</td> <!-- Updated to use 'grade' -->
+        
+        <div *ngFor="let review of selectedTourReviews" class="review-card">
+            <div class="card-header">
+                <h3>{{ review.username }}</h3>
+                <span class="rating">{{ review.grade }} / 5</span>
+            </div>
+            <div class="card-content">
+                <p style="color: black;"><strong>{{ review.comment }}</strong></p>
 
-                    <!-- New Images Column with Image Scrolling Support -->
-                    <td>
-                        <div *ngIf="review.images">
-                            <!-- Split images by comma and iterate over each image URL -->
-                            <div *ngFor="let image of review.images.split(',')" style="display: inline-block; margin-right: 5px;">
-                                <img [src]="image" alt="Review Image" width="50" height="50" style="border-radius: 4px;">
-                            </div>
-                        </div>
-                        <div *ngIf="!review.images">
-                            No images
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <button (click)="closeReviewsModal()">Close</button>
+                <div class="image-gallery" *ngIf="review.images">
+                    <ng-container *ngFor="let image of review.images.split(',')">
+                        <img [src]="image.trim()" alt="Review Image" class="review-image">
+                    </ng-container>
+                </div>
+                <p *ngIf="!review.images" class="no-images">No images</p>
+            </div>
+        </div>
+
+        <div class="pagination-controls">
+            <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">Next</button>
+          </div>
+
+        <button (click)="closeReviewsModal()" class="close-button">Close</button>
     </div>
 </div>
+
 

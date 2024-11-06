@@ -19,7 +19,7 @@ export class TourReviewComponent implements OnInit{
    
 
   ngOnInit(): void {
-    this.service.getReviews().subscribe({
+    this.service.getReviews(0,0).subscribe({
       next:(result: PagedResults<TourReview>) => {
         this.tourReview = result.results;
       },
@@ -30,7 +30,7 @@ export class TourReviewComponent implements OnInit{
   }
 
   getReviews(): void {
-    this.service.getReviews().subscribe({
+    this.service.getReviews(0,0).subscribe({
       next: (result: PagedResults<TourReview>) => {
         this.tourReview = result.results;
       },

@@ -21,6 +21,11 @@ export class ExploreToursComponent implements OnInit{
   user: User;
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
+  allSelectedTourReviews: TourReview[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 0;
+  totalPages: number = 0;
+  currentTourId: number = 0;
 
 
   constructor(private service: TourShoppingService, private authService: AuthService, private tourService: TourExecutionService ) {}
@@ -108,7 +113,9 @@ export class ExploreToursComponent implements OnInit{
 
   showReviews(tourId: number) : void {
     this.isReviewsModalOpen = true;
+    this.currentPage = 1;
     this.getReviews(tourId);
+    this.currentTourId = tourId;
   }
 
   closeReviewsModal() : void {
@@ -116,14 +123,41 @@ export class ExploreToursComponent implements OnInit{
   }
 
   getReviews(tourId: number): void {
-    this.tourService.getReviews().subscribe({
+    this.tourService.getReviews(this.currentPage, this.itemsPerPage).subscribe({
       next: (result: PagedResults<TourReview>) => {
         this.selectedTourReviews = result.results.filter(review => review.tourId === tourId);
+        this.totalPages = Math.ceil(this.selectedTourReviews.length / 1);
+        this.paginateReviews();
+        this.isReviewsModalOpen = true;
       },
       error: (error) => {
         console.error('Error fetching reviews:', error);
       }
     });
+  }
+
+  paginateReviews(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.selectedTourReviews = this.selectedTourReviews.slice(startIndex, endIndex);
+  }
+  goToNextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.getReviewsForPage();
+    }
+  }
+  
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.getReviewsForPage();
+    }
+  }
+  
+  getReviewsForPage(): void {
+    
+    this.getReviews(this.currentTourId);
   }
   
 
