@@ -43,10 +43,6 @@
 
                 <img mat-card-image [src]="blog.image" alt="Blog Image" />
 
-                <mat-card-content>
-                    <p class="primary-body-text"><strong>Description:</strong> {{ blog.description }}</p>
-                </mat-card-content>
-
                 <mat-card-actions>
                     <button  class="link-text" mat-button (click)="viewComments(blog.id)">View Comments</button>
                 </mat-card-actions>

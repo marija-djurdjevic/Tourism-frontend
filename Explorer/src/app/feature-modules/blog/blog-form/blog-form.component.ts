@@ -40,6 +40,7 @@ export class BlogForm implements OnChanges {
   addBlog(): void {
     const newBlog: Blog = {
       authorId: this.userId,
+      votes: [],
       title: this.blogForm.value.title || '',
       description: this.blogForm.value.description || '',
       image: this.blogForm.value.image || '',

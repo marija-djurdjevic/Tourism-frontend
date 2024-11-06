@@ -2,15 +2,56 @@
     <div class="main-content">
         <div class="content-header">
           <!-- blog content -->
-          <h1>Blog Title</h1>
+          <h1> {{blog.title}}</h1>
+          <p class="creation-date">Published on: {{ blog.creationDate| date:'longDate' }}</p>
         </div>
     
         <div class="content-body">
-          <p>Main content of the blog page.</p>
-    
-          <button class="toggle-button" class="secondary-button" (click)="toggleCommentsSection()">
-            {{ isCommentsOpen ? 'Close Comments' : 'Open Comments' }}
-          </button>
+          <div class="blog-image">
+            <img [src]="blog.image" alt="blog picture" class="responsive-image" />
+            <div class="blog-info">
+              <p class="blog-description">{{ blog.description }}</p>
+
+              <div class="rating-section">
+                <p *ngIf="!hasUserRated" >Leave a rating:</p>
+                <div *ngIf="hasUserRated">Your blog rating: 
+                  <span *ngIf="currentUserRating === true">👍 Like</span>
+                  <span *ngIf="currentUserRating === false">👎 Dislike</span>
+                  <div class="vote-buttons">
+                    <button class="primary-button" style="margin-right: 10px;" (click)="changeRating()">Changed your mind?</button>
+                    <button class="primary-button" (click)="removeRating()">Remove rating</button>
+                  </div>
+                </div>
+                
+                <div *ngIf="!hasUserRated" class="rating-buttons">
+                  <button class="primary-button" (click)="rateBlog('like')">👍</button>
+                  <button class="primary-button" (click)="rateBlog('dislike')">👎</button>
+                </div>
+              </div>
+              
+
+              <button class="toggle-button secondary-button" (click)="toggleCommentsSection()">
+                {{ isCommentsOpen ? 'Close Comments' : 'Open Comments' }}
+              </button>
+            </div>
+          </div>
+      
+      
+          <div class="votes-section">
+            <h2>Total Votes: {{ votes.length }}</h2>
+
+            <div *ngIf="votes.length === 0" class="no-votes">
+              <p>No votes on this blog.</p>
+            </div>
+          
+            <div *ngFor="let vote of votes" class="vote-card">
+              <div class="vote-header">
+                <!-- <span class="author-id">{{ getUserById(vote.authorId) }}</span> -->
+                <span class="vote-value">{{ vote.value ? '👍 Liked' : '👎 Disliked' }}</span>
+                <span class="vote-date">{{ vote.creationDate | date: 'medium' }}</span>
+              </div>
+            </div>
+
         </div>
       </div>
   
