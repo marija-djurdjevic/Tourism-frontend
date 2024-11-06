@@ -29,8 +29,8 @@
 
                             <button class="primary-button" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
                             <button class="primary-button" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
-                            <button class="primary-button" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t.id!)">Publish</button>
-                            <button class="primary-button" *ngIf="t.status === 1" (click)="onArchive(t.id!)">Archive</button>
+                            <button class="primary-button" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)">Publish</button>
+                            <button class="primary-button" *ngIf="t.status === 1" (click)="onArchive(t)">Archive</button>
 
                         </td>
                     </tr>
