@@ -14,12 +14,14 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let t of orderItems">
-                        <td>{{t.id}}</td>
-                        <td>{{t.name}}</td>
-                        <td>{{t.price}}</td>
-                        <td><button (click)="removeFromCart(t.id)" style="padding: 5px 10px; background-color: #f44336; color: white; border: none; cursor: pointer; font-size: 16px;">
-                            X
-                        </button></td>
+                        <td>{{ t.tourId }}</td>
+                        <td>{{ t.tourName }}</td>
+                        <td>{{ t.price | currency }}</td> <!-- Currency pipe to format as price -->
+                        <td>
+                            <button (click)="removeFromCart(t.tourId)" style="padding: 5px 10px; background-color: #f44336; color: white; border: none; cursor: pointer; font-size: 16px;">
+                                X
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -29,10 +31,10 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <p style="font-size: 18px; font-weight: bold;">Total Price: {{ getTotalPrice() | currency }}</p>
                     <div>
-                        <button (click)="resetCart()" style="margin-left: 30px;padding: 10px 20px; background-color: #f44336; color: white; border: none; cursor: pointer; font-size: 16px; margin-right: 10px;">
+                        <button (click)="resetCart()" style="margin-left: 30px; padding: 10px 20px; background-color: #f44336; color: white; border: none; cursor: pointer; font-size: 16px; margin-right: 10px;">
                             Reset Cart
                         </button>
-                        <button style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">
+                        <button (click)="checkout()" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">
                             Checkout
                         </button>
                     </div>
@@ -41,4 +43,3 @@
         </div>
     </div>
 </div>
-

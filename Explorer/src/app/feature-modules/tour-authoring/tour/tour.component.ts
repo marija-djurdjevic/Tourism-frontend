@@ -84,8 +84,10 @@ export class TourComponent implements OnInit {
     this.router.navigate(['/key-points', tourId]); 
   }
 
+
   onPublish(tour: Tour): void {
     this.service.publishTour(tour).subscribe({
+
       next: (result: Tour) => {
         console.log('Tour published successfully:', result);
         this.getTours(); 

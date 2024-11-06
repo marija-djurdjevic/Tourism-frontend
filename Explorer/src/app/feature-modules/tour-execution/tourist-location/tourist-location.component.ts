@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output,AfterViewInit } from '@angular/core';
 import { TourExecutionService } from '../tour-execution.service';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 
@@ -7,12 +7,13 @@ import { Location } from 'src/app/feature-modules/tour-execution/model/location.
   templateUrl: './tourist-location.component.html',
   styleUrls: ['./tourist-location.component.css']
 })
-export class TouristLocationComponent {
+export class TouristLocationComponent implements AfterViewInit {
   @Output() locationSelected = new EventEmitter<{ latitude: number, longitude: number }>();
   imageId: Number;
   selectedFile: File;
   previewImage: string | null = null
   location: Location = { latitude: 0, longitude: 0 };
+  
 
   constructor(private service: TourExecutionService) {
   }
@@ -22,6 +23,7 @@ export class TouristLocationComponent {
       next: (data) => {
         this.location.latitude = data.latitude
         this.location.longitude = data.longitude
+        this.locationSelected.emit({ latitude: this.location.latitude, longitude: this.location.longitude });
       },
       error: () => {
         alert('Došlo je do greške prilikom ucitavanja lokacije.');
@@ -32,6 +34,7 @@ export class TouristLocationComponent {
   onLocationSelected(event: { latitude: number, longitude: number }): void {
     this.location.latitude = event.latitude;
     this.location.longitude = event.longitude;
+    this.locationSelected.emit({ latitude: this.location.latitude, longitude: this.location.longitude });
 
     this.service.setTouristLocation(this.location).subscribe({
       next: (data) => {
@@ -39,7 +42,6 @@ export class TouristLocationComponent {
         this.location.latitude = data.latitude
         this.location.longitude = data.longitude
         console.log(this.location.longitude + " " + this.location.latitude)
-        this.locationSelected.emit({ latitude: this.location.latitude, longitude: this.location.longitude });
       },
       error: () => {
         alert('Došlo je do greške prilikom dodavanja lokacije.');
