@@ -38,6 +38,20 @@ export class TourReviewFormComponent {
   ngOnInit(): void {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId'));
     this.tourName = this.route.snapshot.paramMap.get('tourName');
+    this.service.getReview(this.tourId).subscribe({
+      next: () => {
+        this.feedbackMessage = '';
+        alert('Tour review loaded successfully');
+      },
+      error: (error) => {
+        let errorMessage = 'An error occurred while loading the review.';
+
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        }
+        this.feedbackMessage = errorMessage;
+      }
+    });
   }
 
   tourReviewForm = new FormGroup({

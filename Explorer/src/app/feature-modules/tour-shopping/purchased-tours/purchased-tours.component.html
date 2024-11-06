@@ -41,6 +41,12 @@
                     <ng-container *ngIf="t.reviewStatus==2">
                         <span style="color: red; font-weight: bold;">Not allowed</span>
                     </ng-container>
+                    <ng-container *ngIf="t.reviewStatus==3">
+                        <button (click)="reviewTour(t.id ?? 0,t.name)">
+                            Modify review <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20"
+                                style="vertical-align: middle;">
+                        </button>
+                    </ng-container>
                 </td>
 
               </tr>

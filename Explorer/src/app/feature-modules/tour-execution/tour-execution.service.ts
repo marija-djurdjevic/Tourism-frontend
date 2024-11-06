@@ -29,7 +29,9 @@ export class TourExecutionService {
   getReviews(): Observable<PagedResults<TourReview>> {
     return this.http.get<PagedResults<TourReview>>('https://localhost:44333/api/tourist/review')
   }
-
+  getReview(tourId:number): Observable<TourReview> {
+    return this.http.get<TourReview>(`https://localhost:44333/api/tourist/review?id=${tourId}`)
+  }
 
   addTourReview(tourReview : TourReview): Observable<PagedResults<TourReview>> {
     console.log(tourReview);
