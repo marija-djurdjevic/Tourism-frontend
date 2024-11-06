@@ -27,8 +27,9 @@ export class TourComponent implements OnInit {
     this.authService.user$.subscribe((loggedInUser) => {
       if (loggedInUser && loggedInUser.role === 'author') {
         this.service.getToursByAuthorId(loggedInUser.id).subscribe({
-          next: (result: Tour[]) => {
-            this.tours = result;
+          next: (result: PagedResults<Tour>) => {
+            console.log(result);
+            this.tours = result.results;
           },
           error: () => {
           }
@@ -84,12 +85,9 @@ export class TourComponent implements OnInit {
   }
 
 
+  onPublish(tour: Tour): void {
+    this.service.publishTour(tour).subscribe({
 
-
-
-
-  onPublish(tourId: number): void {
-    this.service.publishTour(tourId).subscribe({
       next: (result: Tour) => {
         console.log('Tour published successfully:', result);
         this.getTours(); 
@@ -100,7 +98,15 @@ export class TourComponent implements OnInit {
     });
   }
 
-  onArchive(tourId: number) {
-
+  onArchive(tour: Tour) {
+    this.service.archiveTour(tour).subscribe({
+      next: (result: Tour) => {
+        console.log('Tour published successfully:', result);
+        this.getTours(); 
+      },
+      error: (err) => {
+        console.error('Error publishing tour:', err);
+      }
+    });
   }
 }

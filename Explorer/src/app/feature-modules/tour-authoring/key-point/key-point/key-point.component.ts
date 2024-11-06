@@ -37,8 +37,8 @@ export class KeyPointComponent implements OnInit {
         this.newKeyPoint = { tourId: this.tourId, name: '', description: '', imagePath: '', latitude: 0, longitude: 0 }; // Reset forme
       },
       error: (error) => {
-        console.error("Greška prilikom dodavanja ključne tačke: ", error); // Ispiši celu grešku
-        console.error("Detaljne greške: ", error.error.errors); // Ispiši validacione greške
+        console.error("Greška prilikom dodavanja ključne tačke: ", error); 
+        console.error("Detaljne greške: ", error.error.errors); 
       }
     });
   }
