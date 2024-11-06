@@ -1,18 +1,3 @@
-/*export interface Problem {
-    id?: number;
-    tourId: number;
-    category : number;
-    problemPriority: number;
-    description: string;
-    time?:string;
- 
-}*/
-export interface Notification {
-    content: string;
-    recieverId: number;
-    isRead: boolean;
-}
-
 export interface Comment {
     content: string;
     type: number;

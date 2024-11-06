@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { Notification } from 'src/app/infrastructure/auth/model/notification.model';
+import { Notification } from 'src/app/feature-modules/layout/model/notification.model';
 import { LayoutService } from '../layout.service';
-import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-navbar',
@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
   notifications: Notification[] = [];
   showNotifications: boolean = false;
 
-  constructor(private authService: AuthService, private layoutService: LayoutService) {}
+  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -35,6 +35,21 @@ export class NavbarComponent implements OnInit {
          });
       }
     });
+  }
+
+  goToProblem(notification: Notification, problemId: number): void {
+    if(this.user?.role === 'tourist') {
+    this.layoutService.markAsReadTourist(notification).subscribe(result => {
+      this.notifications = this.notifications.filter(n => n !== notification);
+      this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+    }); 
+  }
+  else if(this.user?.role === 'author') {
+    this.layoutService.markAsReadAuthor(notification).subscribe(result => {
+      this.notifications = this.notifications.filter(n => n !== notification);
+      this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+    }); 
+    }
   }
 
   toggleNotifications(): void {

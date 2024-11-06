@@ -6,7 +6,7 @@ import { environment } from 'src/env/environment';
 import { UserRating } from './model/user-rating.model';
 import { Person } from 'src/app/infrastructure/auth/model/person.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
-import { Notification } from 'src/app/infrastructure/auth/model/notification.model';
+import { Notification } from 'src/app/feature-modules/layout/model/notification.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +41,13 @@ export class LayoutService {
 
   getAuthorNotifications(userId: number) : Observable<Notification[]>{
     return this.http.get<Notification[]>(environment.apiHost + `author/notification/getUnread?authorId=${userId}`)
+  }
+
+  markAsReadAuthor(notification: Notification) : Observable<Notification>{
+    return this.http.put<Notification>(environment.apiHost + `author/notification/setSeen`, notification)
+  }
+
+  markAsReadTourist(notification: Notification) : Observable<Notification>{
+    return this.http.put<Notification>(environment.apiHost + `api/tourist/notification/setSeen`, notification)
   }
 }

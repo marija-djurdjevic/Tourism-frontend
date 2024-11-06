@@ -30,7 +30,7 @@
             <div *ngIf="showNotifications" class="notification-dropdown">
                 <ul>
                     <li *ngFor="let notification of notifications">
-                        <button class="notification-button">{{ notification.content }}</button>
+                        <button class="notification-button" (click)="goToProblem(notification, notification.referenceId)">{{ notification.content }}</button>
                     </li>
                 </ul>
             </div>
