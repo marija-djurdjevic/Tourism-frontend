@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { Problem } from './model/problem.model';
-import { TourReview } from './model/tour-review.model';
+import { TourReview } from '../tour-authoring/model/tour-review.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { TourPreferences } from 'src/app/shared/model/tour-preferences.model';
@@ -29,7 +29,9 @@ export class TourExecutionService {
   getReviews(): Observable<PagedResults<TourReview>> {
     return this.http.get<PagedResults<TourReview>>('https://localhost:44333/api/tourist/review')
   }
-
+  getReview(tourId:number): Observable<TourReview> {
+    return this.http.get<TourReview>(`${environment.apiHost}tourist/review/${tourId}`);
+  }
 
   addTourReview(tourReview : TourReview): Observable<PagedResults<TourReview>> {
     console.log(tourReview);

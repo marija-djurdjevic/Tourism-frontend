@@ -55,6 +55,7 @@ export class TourFormComponent implements OnChanges {
       transport: this.tourForm.value.transportType as TransportType,
     },
     keyPoints: [], 
+    reviews:[],
     publishedAt: new Date(Date.now()),
     archivedAt: new Date(Date.now()),
     averageScore: 0
