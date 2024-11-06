@@ -7,6 +7,9 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
+import { Tour } from '../../tour-authoring/model/tour.model';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 @Component({
   selector: 'xp-tour-problem',
@@ -23,42 +26,82 @@ export class TourProblemComponent {
   type: 0,
   senderId: 0,
   sentTime: ''};
-  name: string;
   user: User | undefined;
   touristComments: Comment[] =[]
   authorComments: Comment[] =[]
   adminComments: Comment[] =[]
   allComments: Comment[] =[]
+  tourMap: Map<number|undefined, string> = new Map();
 
   isClosed: string;
   hadDeadlinePassed : string;
 
-  constructor(private route: ActivatedRoute, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe, private router : Router) {}
+  constructor(private route: ActivatedRoute, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe, private router : Router, private tourService : TourAuthoringService) {}
   
-  problem: Problem;
+  problem: Problem= {
+    status: 0,
+    touristId:0,
+    tourId:0,
+    deadline: new Date(),
+    details: {
+      problemPriority: 0,
+      category: 0,
+      time: '',
+      explanation: '',
+    },
+    comments: [],
+    notifications: []
+  };
   
   ngOnInit() {
     this.id = this.route.snapshot.queryParamMap.get('id') as string;
-    this.name = this.route.snapshot.queryParamMap.get('name') as string;
-    this.service.getById(this.id).subscribe((problem: Problem) => {
-      this.problem = problem;    
-      this.allComments = this.problem.comments;
-      this.setComments();
-
-      if (this.problem.deadline) {
-        this.hadDeadlinePassed = new Date(this.problem.deadline) < new Date() ? 'true' : 'false';
-      } else {
-        
-        this.hadDeadlinePassed = 'false'; 
-      }
-
-      this.isClosed = this.problem.status == 3 || this.hadDeadlinePassed == 'false' ? 'disabled' : '';
-      });
     this.authService.user$.subscribe((user: User | undefined) => {
         this.user = user;
     });
-   
+    if(this.user?.role=='administrator'){
+      this.service.getById(this.id).subscribe((problem: Problem) => {
+        this.problem = problem as Problem;    
+        this.allComments = this.problem.comments;
+        this.setComments();
+        this.hadDeadlinePassed = 'false'; 
+        this.fetchAndMapTours();
+        });
+    }
+    if(this.user?.role=='tourist'){
+      this.service.touristGById(this.id).subscribe((problem: Problem) => {
+        this.problem = problem as Problem;    
+        this.allComments = this.problem.comments;
+        this.setComments();
 
+        if (this.problem.deadline) {
+          this.hadDeadlinePassed = new Date(this.problem.deadline) < new Date() ? 'true' : 'false';
+        } else {
+          
+          this.hadDeadlinePassed = 'false'; 
+        }
+        this.fetchAndMapTours();
+        this.isClosed = this.problem.status == 3 || this.hadDeadlinePassed == 'false' ? 'disabled' : '';
+        });
+    }
+
+    if(this.user?.role=='author'){
+      this.service.authorgetById(this.id).subscribe((problem: Problem) => {
+        this.problem = problem as Problem;    
+        this.allComments = this.problem.comments;
+        this.setComments();
+
+        if (this.problem.deadline) {
+          this.hadDeadlinePassed = new Date(this.problem.deadline) < new Date() ? 'true' : 'false';
+        } else {
+          
+          this.hadDeadlinePassed = 'false'; 
+        }
+        this.fetchAndMapTours();
+        this.isClosed = this.problem.status == 3 || this.hadDeadlinePassed == 'false' ? 'disabled' : '';
+        });
+    }
+
+    
   }
 
   setComments(){
@@ -129,6 +172,51 @@ hasDeadLinePassed(input: Date): string {
     }
   }
 
+  fetchAndMapTours(): void {
+    if(this.user?.role=='administrator'){
+      this.tourService.getAllTours().subscribe({
+        next: (result: PagedResults<Tour>) => {
+          result.results.forEach((tour) => {
+            this.tourMap.set(tour.id, tour.name); 
+          });
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      })
+    }
+    if(this.user?.role=='tourist'){
+      this.tourService.getTouristTours().subscribe({
+        next: (result: PagedResults<Tour>) => {
+          result.results.forEach((tour) => {
+            this.tourMap.set(tour.id, tour.name); 
+          });
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      })
+    }
+
+    if(this.user?.role=='author'){
+      this.tourService.getTours().subscribe({
+        next: (result: PagedResults<Tour>) => {
+          result.results.forEach((tour) => {
+            this.tourMap.set(tour.id, tour.name); 
+          
+          });
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      })
+    }
+  }
+  getById(id: number): string | undefined {
+    return this.tourMap.get(id);
+  }
+
+
   closeTourProblem():void{
     if(this.user?.role == 'administrator')
     {
@@ -175,7 +263,7 @@ hasDeadLinePassed(input: Date): string {
     this.comm.type=0;
     this.comm.senderId=this.user.id;
     this.comm.sentTime = formattedDate as string;
-    this.service.addComment(this.problem.id as number, this.comm).subscribe({
+    this.service.touristAddComment(this.problem.id as number, this.comm).subscribe({
       next: () => {
         console.log('Comment added successfully');
       },
@@ -197,7 +285,7 @@ hasDeadLinePassed(input: Date): string {
     this.comm.type=1;
     this.comm.senderId=this.user.id;
     this.comm.sentTime = formattedDate as string;
-    this.service.addComment(this.problem.id as number, this.comm).subscribe({
+    this.service.authorAddComment(this.problem.id as number, this.comm).subscribe({
       next: () => {
         console.log('Comment added successfully');
       },
@@ -212,4 +300,5 @@ hasDeadLinePassed(input: Date): string {
       sentTime: ''};
     }
   }
+
 }

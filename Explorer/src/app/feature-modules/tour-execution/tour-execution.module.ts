@@ -12,7 +12,8 @@ import { SharedModule } from "../../shared/shared.module";
 import { ProblemsListComponent } from './problems-list/problems-list.component';
 import { TourProblemComponent } from './tour-problem/tour-problem.component';
 import { FormsModule } from '@angular/forms';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,10 @@ import { FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     SharedModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+
+
 ],
   exports: [ 
     ProblemReportComponent,

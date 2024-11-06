@@ -61,6 +61,14 @@ export class TourExecutionService {
     })
   }
 
+  touristGById(id: string): Observable<Problem> {
+    return this.http.get<Problem>('https://localhost:44333/api/tourist/problem/byId',{
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
   addComment(tourProblemId: number, comment: Comment): Observable<Problem> {
     const url = environment.apiHost + 'administrator/problem/addComment';
   
@@ -74,5 +82,59 @@ export class TourExecutionService {
     return this.http.put<Problem>(environment.apiHost + `administrator/problem/${tourProblem.id}`, tourProblem);
   }
   
+  changeStatus(tourProblemId: number, problemStatus: number): Observable<Problem> {
+    const url = environment.apiHost + `tourist/problem/changeStatus`;
+
+    const params = new HttpParams()
+        .set('tourProblemId', tourProblemId.toString())
+        .set('problemStatus', problemStatus.toString());
+
+    return this.http.put<Problem>(url, null, { params });
+}
+
+getTouristProblems(): Observable<PagedResults<Problem>> {
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getAll')
+}
   
+
+touristAddComment(tourProblemId: number, comment: Comment): Observable<Problem> {
+  const url = environment.apiHost + 'tourist/problem/addComment';
+
+  const params = new HttpParams().set('tourProblemId', tourProblemId.toString());
+
+  return this.http.post<Problem>(url, comment, { params });
+}
+
+
+authorGetProblems(): Observable<PagedResults<Problem>> {
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getAll')
+}
+
+
+authorAddComment(tourProblemId: number, comment: Comment): Observable<Problem> {
+  const url = environment.apiHost + 'author/problem/addComment';
+
+  const params = new HttpParams().set('tourProblemId', tourProblemId.toString());
+
+  return this.http.post<Problem>(url, comment, { params });
+}
+
+
+authorgetById(id: string): Observable<Problem> {
+  return this.http.get<Problem>('https://localhost:44333/api/author/problem/byId',{
+    params: {
+      id: id.toString()
+    }
+  })
+}
+
+setDeadline(problemId: number, time: Date): Observable<Problem> {
+  return this.http.post<Problem>(environment.apiHost + 'administrator/problem/setDeadline', null, {
+    params: {
+      problemId: problemId.toString(),
+      time: time.toISOString()
+    }
+  });
+}
+
 }
