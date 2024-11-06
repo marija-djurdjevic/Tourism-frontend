@@ -97,39 +97,37 @@
     <!-- Reviews Modal -->
     <div class="modal-overlay" *ngIf="isReviewsModalOpen">
         <div class="modal-content">
-            <h2>Reviews</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Reviewer</th>
-                        <th>Comment</th>
-                        <th>Rating</th>
-                        <th>Images</th> <!-- New column for images -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let review of selectedTourReviews">
-                        <td>{{ review.username }}</td> <!-- Updated to use 'username' -->
-                        <td>{{ review.comment }}</td>
-                        <td>{{ review.grade }} / 5</td> <!-- Updated to use 'grade' -->
-
-                        <!-- New Images Column with Image Scrolling Support -->
-                        <td>
-                            <div *ngIf="review.images">
-                                <!-- Split images by comma and iterate over each image URL -->
-                                <div *ngFor="let image of review.reviewImages"
-                                    style="display: inline-block; margin-right: 5px;">
-                                    <img [src]="image" alt="Review Image" width="50" height="50"
-                                        style="border-radius: 4px;">
-                                </div>
-                            </div>
-                            <div *ngIf="!review.images">
-                                No images
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button (click)="closeReviewsModal()">Close</button>
+            <h2 style="color: #2ecc71;">Reviews</h2>
+            
+            <!-- Reviews displayed as cards -->
+            <p style="color: #2ecc71;" *ngIf="!selectedTourReviews || selectedTourReviews.length === 0">No reviews for this tour</p>
+            <div *ngFor="let review of selectedTourReviews" class="review-card">
+                <div class="card-header">
+                    <h3 style="color: #2ecc71;">{{ review.username }}</h3>
+                    <span class="rating">
+                        
+                        <ng-container *ngFor="let star of [].constructor(5); let i = index">
+                            <span [style.color]="(review.grade || 0) > i ? '#f1c40f' : '#ccc'">
+                                {{ (review.grade || 0) > i ? '★' : '☆' }}
+                            </span>
+                        </ng-container>
+                    </span>
+                </div>
+                <div class="card-content">
+                    <p style="color: black; font-size: 20px;"><strong>{{ review.comment }}</strong> </p>
+    
+                    <!-- Images Section -->
+                    <div  class="image-gallery">
+                        <img *ngIf="review.images" [src]="review.images" alt="{{ review.images }}" class="review-image" />
+                        <img *ngIf="!review.images" [src]="review.images" alt="The image does not exist." class="review-image" />
+                    </div>
+                 
+                </div>
+            </div>
+    
+            
+    
+            <button (click)="closeReviewsModal()" class="close-button">Close</button>
         </div>
     </div>
+    
