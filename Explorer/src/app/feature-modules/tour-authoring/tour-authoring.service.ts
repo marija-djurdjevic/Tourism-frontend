@@ -50,8 +50,8 @@ export class TourAuthoringService {
     return this.http.get<PagedResults<Tour>>(environment.apiHost + 'administration/tour')
   }
 
-  getToursByAuthorId(authorId: number, page: number = 1, pageSize: number = 10): Observable<Tour[]> {
-    return this.http.get<Tour[]>(`${environment.apiHost}administration/tour/by-author`, {
+  getToursByAuthorId(authorId: number, page: number = 1, pageSize: number = 10): Observable<PagedResults<Tour>> {
+    return this.http.get<PagedResults<Tour>>(`${environment.apiHost}administration/tour/by-author`, {
       params: {
         id: authorId.toString(),
         page: page.toString(),
@@ -60,8 +60,14 @@ export class TourAuthoringService {
     });
   }
 
-  publishTour(id: number): Observable<Tour> {
-    return this.http.put<Tour>(`${environment.apiHost}administration/publish-tour/${id}`, null);
+  publishTour(tour: Tour): Observable<Tour> {
+    console.log(tour);
+    return this.http.post<Tour>(environment.apiHost + 'administration/tour/publish-tour', tour);
+  }
+
+  archiveTour(tour: Tour): Observable<Tour> {
+    console.log(tour);
+    return this.http.put<Tour>(environment.apiHost + 'administration/tour/archive-tour', tour);
   }
   
   addTour(tour: Tour): Observable<Tour> {

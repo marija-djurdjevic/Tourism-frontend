@@ -26,10 +26,12 @@
                         <td *ngIf="t.id"><xp-tour-equipment [tourId]=t.id></xp-tour-equipment></td>
                         <td>
                             <!-- Dugmad za ključne tačke -->
+
                             <button class="primary-button" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
                             <button class="primary-button" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
                             <button class="primary-button" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t.id!)">Publish</button>
                             <button class="primary-button" *ngIf="t.status === 1" (click)="onArchive(t.id!)">Archive</button>
+
                         </td>
                     </tr>
                     <tr>
