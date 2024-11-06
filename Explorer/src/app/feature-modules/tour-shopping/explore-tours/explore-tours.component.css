@@ -1,20 +1,20 @@
 #tour {
     margin-top: 20px;
     margin-left: 20px;
-    font-family: "Helvetica Neue", sans-serif; /* Promenjeno na timsku konvenciju */
+    font-family: 'Arial', sans-serif;
 }
 
 #tour p {
     font-size: 24px;
     font-weight: bold;
-    color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
+    color: #3f51b5;
     margin-bottom: 10px;
 }
 
 hr {
     border: none;
     height: 2px;
-    background-color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
+    background-color: #3f51b5;
     margin-bottom: 20px;
 }
 
@@ -29,7 +29,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95em;
-    font-family: "Helvetica Neue", sans-serif; /* Promenjeno na timsku konvenciju */
+    font-family: 'Arial', sans-serif;
     min-width: 400px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -37,8 +37,8 @@ table {
 }
 
 thead tr {
-    background-color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
-    color: var(--light-text-color); /* Promenjeno na timsku konvenciju za boju teksta */
+    background-color: #3f51b5;
+    color: #ffffff;
     text-align: left;
 }
 
@@ -49,8 +49,8 @@ th, td {
 }
 
 th {
-    background-color: var(--secondary-color); /* Promenjeno na varijablu za sekundarnu boju */
-    color: var(--light-text-color); /* Promenjeno na timsku konvenciju za boju teksta */
+    background-color: #303f9f;
+    color: #ffffff;
 }
 
 tbody tr {
@@ -67,12 +67,12 @@ tbody tr:nth-of-type(even) {
 }
 
 tbody tr:last-of-type {
-    border-bottom: 2px solid var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
+    border-bottom: 2px solid #3f51b5;
 }
 
 button {
-    background-color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
-    color: var(--light-text-color); /* Promenjeno na timsku konvenciju za boju teksta */
+    background-color: #3f51b5;
+    color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -81,7 +81,7 @@ button {
 }
 
 button:hover {
-    background-color: var(--secondary-color); /* Promenjeno na varijablu za sekundarnu boju */
+    background-color: #303f9f;
 }
 
 button:focus {
@@ -90,7 +90,7 @@ button:focus {
 
 tbody tr.active-row {
     font-weight: bold;
-    color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
+    color: #3f51b5;
 }
 
 @media screen and (max-width: 768px) {

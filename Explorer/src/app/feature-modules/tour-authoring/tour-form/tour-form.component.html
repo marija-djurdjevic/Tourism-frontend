@@ -31,6 +31,15 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
+            <mat-label>Transport Type</mat-label>
+            <mat-select formControlName="transportType" required>
+                <mat-option [value]="TransportType.Car">Car</mat-option>
+                <mat-option [value]="TransportType.Bicycle">Bicycle</mat-option>
+                <mat-option [value]="TransportType.Walk">Walk</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
             <mat-label>Tags (use # and separate with commas)</mat-label>
             <input matInput formControlName="tags" placeholder="#tag1, #tag2"/>
         </mat-form-field>

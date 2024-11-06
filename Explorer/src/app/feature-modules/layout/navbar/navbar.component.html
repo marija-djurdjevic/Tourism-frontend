@@ -4,6 +4,7 @@
         <div id="buttons">
             <button *ngIf="user && user.username === ''" class="secondary-button" mat-stroked-button [routerLink]="['register']">Join Us</button>
             <button *ngIf="user && user.username === ''" class="primary-button" mat-raised-button [routerLink]="['login']">Login</button>
+            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['explore-tours']">Explore Tours</button>
             <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>
             <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
             <button *ngIf="user && user.username !== ''" class="primary-button" mat-raised-button [routerLink]="['clubs']">Clubs</button>
@@ -16,6 +17,7 @@
             <button *ngIf="user && user.username !== ''" class="primary-button" mat-raised-button [routerLink]="['profile']">Profile</button>
             <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['object']">Show objects</button>
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['ratings-list']">View Ratings</button>
+            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['cart']"><img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle; margin-right: 8px;">Cart</button>
             <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" class="primary-button" mat-raised-button [routerLink]="['user-rating']">Rate us!</button>
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>
             <button *ngIf="user && user.username !== ''" class="secondary-button" mat-raised-button (click)="onLogout()">Logout</button>

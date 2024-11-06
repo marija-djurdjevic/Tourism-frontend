@@ -15,6 +15,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MarketplaceModule,
     TourAuthoringModule,
     TourExecutionModule,
+    TourShoppingModule,
     AuthModule,
     HttpClientModule,
     MatSnackBarModule
