@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { TourEquipment } from './model/tourEquipment.model';
 import { Object } from './model/object.model';
-import { Tour } from './model/tour.model'
+import { Tour } from './model/tour.model';
 import { environment } from 'src/env/environment';
 import { TransportInfo, TransportType } from './model/transportInfo.model';
 

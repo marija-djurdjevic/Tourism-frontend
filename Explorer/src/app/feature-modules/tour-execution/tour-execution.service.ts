@@ -95,6 +95,7 @@ export class TourExecutionService {
         .set('problemStatus', problemStatus.toString());
 
     return this.http.put<Problem>(url, null, { params });
+  }
 
   startTour(tourId: number, latitude: number, longitude: number,touristId:number): Observable<boolean> {
     const url = `${environment.apiHost}administration/tourSession/start`;
@@ -139,8 +140,6 @@ export class TourExecutionService {
 
     return this.http.post<void>(url, null, { params });
   }
-
-}
 
 getTouristProblems(): Observable<PagedResults<Problem>> {
   return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getAll')
