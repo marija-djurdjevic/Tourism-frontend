@@ -24,14 +24,11 @@
             <td>{{ item.userId }}</td>
             <td>{{ item.username }}</td>
             <td>
-                <ng-container *ngIf="item.images">
-                    <ng-container *ngFor="let imgUrl of item.images.split(',')">
-                        <img [src]="imgUrl.trim()" style="width: 100px; height: auto; margin: 5px;" alt="Image preview"/>
-                    </ng-container>
-                </ng-container>
+                <div *ngFor="let image of item.reviewImages" style="display: inline-block; margin-right: 5px;">
+                    <img [src]="image" alt="Review Image" width="50" height="50" style="border-radius: 4px;">
+                </div>
             </td>
-           
+
         </tr>
     </tbody>
 </table>
-<xp-tour-review-form (tourReviewUpdated)="getReviews()"></xp-tour-review-form>

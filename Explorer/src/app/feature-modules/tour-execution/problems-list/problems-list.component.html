@@ -1,0 +1,68 @@
+<div id="wrap">
+    <div id="titleCont">
+        <div id="title">Tour Problems</div>
+    </div>
+    <div  *ngIf="totalPages!=0" id="prev">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">prev</button>
+        <span>Page {{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button (click)="goToNextPage()" [disabled]="(currentPage + 1) * pageSize >= entities.length">next</button>
+    </div>
+
+    <table id="t">
+        <tr id ="head"> 
+            <th>Priority</th>
+            <th>Problem sender</th>
+            <th>Tour</th>
+            <th>Problem category</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        <tr tabindex="0" *ngFor="let item of displayedEntities" id="ag" (click) = "goToProblem(item.id, getById(item.tourId), item)">
+            <td>{{item.details.problemPriority}}</td>
+            <td>Marko</td>
+            <td>{{getById(item.tourId)}}</td>
+            <td>{{ getEnum(item.details.category) }}</td>
+            <td><p>{{ getDate(item.details.time) }}</p></td>
+            <td><p>{{ getTime(item.details.time) }}</p></td>
+            
+            
+        </tr> 
+        
+    </table>
+    <div id="pop" *ngIf="flag">
+        <button id="iks" (click)="close()" >X</button>
+        <button (click) = "seeProb()">See problem</button>
+        <button (click) = "solve()">Mark as solved</button>
+    </div>
+    <div id="pop2" *ngIf="flag2">
+        <button id="ikss" (click)="close()">X</button>
+        Leave comment:
+        <input type="text" [(ngModel)]="comm.content">
+        <button (click)="finalSolve()"> <img src="../../../../assets/icons/resolve.png" ></button>
+    </div>
+    <div id="pop3" *ngIf="flag3">
+        <button id="iks" (click)="close()" >X</button>
+        <button (click) = "seeProb()">See problem</button>
+        <button (click) = "deadline()">Set deadline</button>
+    </div>
+    <div id="pop4" *ngIf="flag4">
+        <button id="ikss" (click)="close()">X</button>
+        <mat-form-field appearance="fill">
+            <mat-label for="dateInput">Choose date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" id="dateInput" name="selectedDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label for="timeSelect">Choose a time</mat-label>
+            <mat-select [(ngModel)]="selectedTime" id="timeSelect" name="selectedTime">
+              <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+        <button (click) = deadlineSet()> <img src="../../../../assets/icons/deadline.png"  ></button>
+    </div>
+    
+
+</div>

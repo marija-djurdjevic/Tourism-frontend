@@ -24,7 +24,7 @@ export class ProblemFormComponent {
    
     console.log(this.problemForm.value);
 
-    const problem : Problem ={
+    /*const problem : Problem ={
       tourId: Number(this.problemForm.value.tourId) || 0,
       category: Number(this.problemForm.value.category) || 0,
       problemPriority: Number(this.problemForm.value.problemPriority) || 0,
@@ -39,6 +39,6 @@ export class ProblemFormComponent {
     error: (err) => {
       this.feedbackMessage = 'Not succesfull';
     }
-  });
+  });//*/
   }
 }

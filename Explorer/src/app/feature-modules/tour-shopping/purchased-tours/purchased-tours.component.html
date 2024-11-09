@@ -11,6 +11,7 @@
                   <th>Duration</th> <!-- Added duration column -->
                   <th>Distance</th> <!-- Added distance column -->
                   <th></th>
+                  <th>Add review</th>
               </tr>
           </thead>
           <tbody>
@@ -26,6 +27,28 @@
                           Execute
                       </button>
                   </td>
+                  <!-- review -->
+                  <td>
+                    <ng-container *ngIf="t.reviewStatus==0">
+                        <button (click)="reviewTour(t.id ?? 0,t.name)">
+                            Review <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20"
+                                style="vertical-align: middle;">
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="t.reviewStatus==1">
+                        <span style="color: green; font-weight: bold;">Reviewed</span>
+                    </ng-container>
+                    <ng-container *ngIf="t.reviewStatus==2">
+                        <span style="color: red; font-weight: bold;">Not allowed</span>
+                    </ng-container>
+                    <ng-container *ngIf="t.reviewStatus==3">
+                        <button (click)="reviewTour(t.id ?? 0,t.name)">
+                            Modify review <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20"
+                                style="vertical-align: middle;">
+                        </button>
+                    </ng-container>
+                </td>
+
               </tr>
           </tbody>
       </table>
