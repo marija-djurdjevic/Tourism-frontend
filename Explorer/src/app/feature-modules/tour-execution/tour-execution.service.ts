@@ -186,4 +186,16 @@ setDeadline(problemId: number, time: Date): Observable<Problem> {
   });
 }
 
+getTour(tourId: number): Observable<Tour> {
+  return this.http.get<Tour>(`${environment.apiHost}administrator/tour/getTour`, {
+    params: {
+      tourId: tourId.toString() 
+    }
+  });
+}
+
+closeTour(tourDto: Tour): Observable<Tour> {
+  return this.http.post<Tour>(`${environment.apiHost}administrator/tour/close-tour`, tourDto);
+}
+
 }
