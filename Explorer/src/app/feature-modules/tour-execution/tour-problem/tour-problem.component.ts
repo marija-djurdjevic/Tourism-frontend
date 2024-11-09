@@ -33,7 +33,8 @@ export class TourProblemComponent {
   allComments: Comment[] =[]
   tourMap: Map<number|undefined, string> = new Map();
 
-  isClosed: string;
+  closeProblemFlag: string;
+  closeTourFlag: string;
   hadDeadlinePassed : string;
 
   constructor(private route: ActivatedRoute, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe, private router : Router, private tourService : TourAuthoringService) {}
@@ -63,8 +64,15 @@ export class TourProblemComponent {
         this.problem = problem as Problem;    
         this.allComments = this.problem.comments;
         this.setComments();
-        this.hadDeadlinePassed = 'false'; 
+        if (this.problem.deadline) {
+          this.hadDeadlinePassed = new Date(this.problem.deadline) < new Date() ? 'true' : 'false';
+        } else {
+          
+          this.hadDeadlinePassed = 'false'; 
+        }
         this.fetchAndMapTours();
+        this.closeProblemFlag = (this.problem.status == 1 && this.hadDeadlinePassed == 'true') || this.problem.status == 1 ? '' : 'disabled';
+        this.closeTourFlag = (this.problem.status == 0 && this.hadDeadlinePassed == 'true') || (this.problem.status == 3 && this.hadDeadlinePassed == 'true')  ? '' : 'disabled';
         });
     }
     if(this.user?.role=='tourist'){
@@ -80,7 +88,8 @@ export class TourProblemComponent {
           this.hadDeadlinePassed = 'false'; 
         }
         this.fetchAndMapTours();
-        this.isClosed = this.problem.status == 3 || this.hadDeadlinePassed == 'false' ? 'disabled' : '';
+        this.closeProblemFlag = (this.problem.status == 1 && this.hadDeadlinePassed == 'true') ? '' : 'disabled';
+        this.closeTourFlag = (this.problem.status == 0 && this.hadDeadlinePassed == 'true') || (this.problem.status == 3 && this.hadDeadlinePassed == 'true')  ? '' : 'disabled';
         });
     }
 
@@ -97,7 +106,8 @@ export class TourProblemComponent {
           this.hadDeadlinePassed = 'false'; 
         }
         this.fetchAndMapTours();
-        this.isClosed = this.problem.status == 3 || this.hadDeadlinePassed == 'false' ? 'disabled' : '';
+        this.closeProblemFlag = (this.problem.status == 1 && this.hadDeadlinePassed == 'true') || this.problem.status == 1 ? '' : 'disabled';
+        this.closeTourFlag = (this.problem.status == 0 && this.hadDeadlinePassed == 'true') || (this.problem.status == 3 && this.hadDeadlinePassed == 'true')  ? '' : 'disabled';
         });
     }
 
@@ -231,6 +241,29 @@ hasDeadLinePassed(input: Date): string {
         }
       });
     }
+}
+
+closeTour():void{
+  if(this.user?.role == 'administrator')
+  {
+    this.service.getTour(this.problem.tourId).subscribe({
+      next: (tour) => {
+   
+        this.service.closeTour(tour).subscribe({
+          next: () => {
+            console.log('Tour closed successfully');
+            this.router.navigate(['/problems']);
+          },
+          error: (err) => {
+            console.error('Failed to close the tour:', err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Failed to retrieve tour:', err);
+      }
+    });
+  }
 }
 
   makeComment():void{
