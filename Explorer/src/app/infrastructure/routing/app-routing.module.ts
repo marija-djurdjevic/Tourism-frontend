@@ -55,7 +55,7 @@ const routes: Routes = [
   {path: 'tour-equipment', component: TourEquipmentComponent, canActivate: [AuthGuard]},
   {path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard]},
   //{path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard]},
-  {path:  'problem', component: TourProblemComponent, canActivate: [AuthGuard]},//
+  {path: 'problem', component: TourProblemComponent, canActivate: [AuthGuard]},//
   {path: 'problems', component: ProblemsListComponent, canActivate: [AuthGuard]},//
   {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard]},
   {path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard]},
