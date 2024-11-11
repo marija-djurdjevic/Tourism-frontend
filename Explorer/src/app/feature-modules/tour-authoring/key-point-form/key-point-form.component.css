@@ -5,7 +5,7 @@
     border: 1px solid #ccc; /* Granica */
     border-radius: 10px; /* Zaobljeni uglovi */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sjenka */
-    background-color: #f9f9f9; /* Pozadinska boja */
+    background-color: var(--background-color); /* Koristi pozadinsku boju iz timskog stila */
     transition: box-shadow 0.3s ease; /* Glatka promena sence */
 }
 
@@ -15,8 +15,11 @@
 
 h3 {
     text-align: center; /* Centriranje naslova */
-    color: #333; /* Boja teksta */
+    color: var(--text-color); /* Koristi boju teksta iz timskog stila */
     margin-bottom: 20px; /* Razmak ispod naslova */
+    font-size: 24px; /* Veličina fonta */
+    font-weight: bold; /* Podebljani font */
+    padding: 20px;
 }
 
 .form-container {
@@ -32,7 +35,7 @@ h3 {
 
 label {
     margin-bottom: 5px; /* Razmak ispod labela */
-    color: #555; /* Boja teksta labela */
+    color: var(--text-color); /* Koristi boju teksta iz timskog stila */
 }
 
 input {
@@ -44,7 +47,7 @@ input {
 }
 
 input:focus {
-    border-color: #007bff; /* Plava boja granice pri fokusu */
+    border-color: var(--secondary-color); /* Koristi sekundarnu boju pri fokusu */
     outline: none; /* Uklanjanje standardnog okvira */
 }
 
@@ -55,8 +58,8 @@ input:focus {
 
 button {
     padding: 10px 20px; /* Unutrašnji razmak dugmeta */
-    background-color: #007bff; /* Plava pozadina */
-    color: white; /* Boja teksta */
+    background-color: var(--secondary-color); /* Koristi sekundarnu boju za pozadinu */
+    color: var(--light-text-color); /* Koristi boju teksta iz timskog stila */
     border: none; /* Uklanjanje granice */
     border-radius: 5px; /* Zaobljeni uglovi dugmeta */
     cursor: pointer; /* Promena kursora na dugmetu */
@@ -64,13 +67,5 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3; /* Tamnija plava boja na hover */
-}
-h3 {
-    text-align: center; /* Centriranje naslova */
-    color: #333; /* Boja teksta */
-    margin-bottom: 20px; /* Razmak ispod naslova */
-    font-size: 24px; /* Veličina fonta */
-    font-weight: bold; /* Podebljani font */
-    padding: 20px;
+    background-color: darken(var(--secondary-color), 10%); /* Tamnija boja na hover */
 }

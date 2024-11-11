@@ -21,7 +21,122 @@ p {
     height: 60px !important;
 }
 
-.login-button{
+.login-button {
     background-color: var(--secondary-color) !important;
-    color: var(--light-text-color)!important;
+    color: var(--light-text-color) !important;
+}
+
+@keyframes shakeWithPause {
+    0%, 90% { transform: translateX(0); }
+    92% { transform: translateX(-2px); }
+    94% { transform: translateX(2px); }
+    96% { transform: translateX(-2px); }
+    98% { transform: translateX(2px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes dropdownSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px); 
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); 
+    }
+}
+
+.transparent-button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    animation: shakeWithPause 2.0s ease-in-out infinite;
+    position: relative;
+}
+
+.transparent-button img {
+    display: block;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.transparent-button:hover img {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+.transparent-button:active img {
+    transform: scale(0.95);
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 10px; 
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    max-height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    z-index: 1000;
+
+    /* Animation */
+    opacity: 0;
+    animation: dropdownSlide 0.3s ease forwards;
+}
+
+.notification-dropdown::-webkit-scrollbar {
+    display: none;
+}
+
+.notification-dropdown {
+    scrollbar-width: none;
+}
+
+.notification-dropdown ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.notification-dropdown li {
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.notification-dropdown li:last-child {
+    border-bottom: none;
+}
+
+.notification-button {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.notification-button:hover {
+    background-color: #f0f0f0;
+}
+
+.notification-button:active {
+    background-color: #e0e0e0;
+}
+
+.notification-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.6);
 }
