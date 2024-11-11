@@ -126,7 +126,7 @@ export class TourExecutionService {
 
 
   getAllTours(): Observable<Tour[]> {
-    return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/all`);
+    return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/allTours`);
   }
 
 
