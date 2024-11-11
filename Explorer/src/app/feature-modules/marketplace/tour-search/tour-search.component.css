@@ -65,4 +65,15 @@
     font-weight: bold;
     color: #3f51b5;
   }
+
+  button {
+    font-size: 1.2em; /* Veći font za dugme */
+    padding: 12px 24px; /* Veći prostor unutar dugmeta */
+    min-width: 200px; /* Postavi minimalnu širinu */
+    color: white; /* Boja teksta */
+    border: none; /* Bez ivica */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    cursor: pointer; /* Pokazivač miša se menja u rukicu kada se pređe preko dugmeta */
+    transition: background-color 0.3s ease; /* Animacija za promenu boje pozadine */
+}
   
