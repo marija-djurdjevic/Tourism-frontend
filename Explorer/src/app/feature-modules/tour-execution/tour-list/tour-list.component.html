@@ -1,0 +1,33 @@
+<div id="tour">
+    <p>Tours</p>
+    <hr>
+    <div id="tour-details">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Difficulty</th>
+                        <th>Status</th>
+                        <th>Price</th>
+                        <th>Tags</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of tours">
+                        <td>{{t.name}}</td>
+                        <td>{{t.description}}</td>
+                        <td>{{getDifficultyLabel(t.difficulty)}}</td> 
+                        <td>{{getStatusLabel(t.status)}}</td> 
+                        <td>{{t.price}}</td>
+                        <td>{{t.tags}}</td>
+                        <td><button mat-button mat-raised-button color="accent" (click)="onStartTourSession(t.id!)">Start Tour</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

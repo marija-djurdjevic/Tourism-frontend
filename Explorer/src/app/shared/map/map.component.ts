@@ -16,7 +16,17 @@ export class MapComponent implements AfterViewInit {
   @Input() onlyOneMarker = false;
   @Input() tourView = false;
   @Output() keyPointSelected = new EventEmitter<{ latitude: number, longitude: number }>();
+  @Output() locationSelected = new EventEmitter<{ latitude: number, longitude: number }>();
   @Output() markerAdded = new EventEmitter<{ latitude: number, longitude: number }>();
+
+  customIcon = new L.Icon({
+    iconUrl: 'assets/current-location.png', // URL do prilagođene slike
+    iconSize: [52, 52], // Širina i visina ikone
+    iconAnchor: [16, 32], // Tačka gde je ikona vezana za koordinate
+    popupAnchor: [0, -32] // Pozicija popup-a u odnosu na ikonu
+  });
+
+
   private map: any;
   message: string = "";
   option: 'walking' | 'driving' | 'cycling' = 'driving';
@@ -69,6 +79,23 @@ export class MapComponent implements AfterViewInit {
       // Ovde možeš da pozoveš funkciju ili uradiš nešto drugo
       this.handleKeyPointsChange();
     }
+
+    if (changes['initialCenter']) {
+      if (this.initialCenter[0] != 0 && this.initialCenter[1] != 0) {
+        this.map.setView(this.initialCenter);
+        if (this.onlyOneMarker) {
+          this.clearMarkers();
+        }
+        const mp = new L.Marker([this.initialCenter[0], this.initialCenter[1]], { icon: this.customIcon }).addTo(this.map).bindPopup(`<b>You are here</b><br>`)
+          .openPopup();
+        this.markers.push(mp);
+        this.service.reverseSearch(this.initialCenter[0], this.initialCenter[1]).subscribe((response) => {
+          this.address = response.display_name; // Dobijena adresa
+          console.log('Dobijena adresa:', this.address);
+        });
+        this.markerAdded.emit({ latitude: this.initialCenter[0], longitude: this.initialCenter[1] }); // Emit the added marker
+      }
+    }
   }
 
   handleKeyPointsChange(): void {
@@ -94,9 +121,9 @@ export class MapComponent implements AfterViewInit {
     if (this.routeControl) {
       this.map.removeControl(this.routeControl);
     }
-    const lineStyle = profile === 'walking' 
-    ? [{ color: 'blue', weight: 4, dashArray: '10, 10' }] // Isprekidana linija za walking
-    : [{ color: 'blue', weight: 4 }]; // Puna linija za ostale profile
+    const lineStyle = profile === 'walking'
+      ? [{ color: 'blue', weight: 4, dashArray: '10, 10' }] // Isprekidana linija za walking
+      : [{ color: 'blue', weight: 4 }]; // Puna linija za ostale profile
 
     this.routeControl = L.Routing.control({
       waypoints: waypoints.map(point => L.latLng(point.lat, point.lng)),
@@ -115,7 +142,7 @@ export class MapComponent implements AfterViewInit {
     this.routeControl.on('routesfound', (e: any) => {
       const routes = e.routes;
       const summary = routes[0].summary;
-      this.message = 'Total distance is ' + (summary.totalDistance / 1000).toFixed(2) + ' km and total time is ' + Math.floor(summary.totalTime /3600) + ' hours ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes';
+      this.message = 'Total distance is ' + (summary.totalDistance / 1000).toFixed(2) + ' km and total time is ' + Math.floor(summary.totalTime / 3600) + ' hours ' + Math.round(summary.totalTime % 3600 / 60) + ' minutes';
 
       const bounds = L.latLngBounds([]);
       routes[0].coordinates.forEach((coord: { lat: number, lng: number }) => {
@@ -136,7 +163,10 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+      iconUrl: 'assets/pin.png',
+      iconSize: [42, 42], // Širina i visina ikone
+      iconAnchor: [16, 32], // Tačka gde je ikona vezana za koordinate
+      popupAnchor: [0, -32] // Pozicija popup-a u odnosu na ikonu
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
@@ -184,10 +214,11 @@ export class MapComponent implements AfterViewInit {
             this.clearMarkers();
           }
           this.keyPointSelected.emit({ latitude: lat, longitude: lon });
+          this.locationSelected.emit({ latitude: lat, longitude: lon });
           this.map.setView([lat, lon], 15);
           const mp = new L.Marker([lat, lon])
             .addTo(this.map)
-            .bindPopup(this.searchQuery)
+            .bindPopup(`<b>${this.searchQuery}</b><br>Pretrazena lokacija`)
             .openPopup();
           this.markers.push(mp)
           this.service.reverseSearch(lat, lon).subscribe((response) => {
@@ -214,6 +245,7 @@ export class MapComponent implements AfterViewInit {
           this.clearMarkers();
         }
         this.keyPointSelected.emit({ latitude: lat, longitude: lng });
+        this.locationSelected.emit({ latitude: lat, longitude: lng });
         this.service.reverseSearch(lat, lng).subscribe((res) => {
           console.log(res.display_name);
         });
