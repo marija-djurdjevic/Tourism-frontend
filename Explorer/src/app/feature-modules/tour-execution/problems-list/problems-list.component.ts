@@ -38,7 +38,7 @@ export class ProblemsListComponent {
     selectedItem : Problem;
     times:string[] =[];
   selectedTime:string;
-                   
+  usernamesMap: Map<number, string> = new Map();
 
   constructor(private service: TourExecutionService,  private cdr: ChangeDetectorRef,private tourService:TourAuthoringService, private router: Router,private authService: AuthService,  private datePipe: DatePipe) {} 
 
@@ -49,11 +49,37 @@ export class ProblemsListComponent {
       this.user = user;
       console.log("User role:", this.user?.role);
       this.loadAllProblems();
+      
       this.fetchAndMapTours();
       this.generateTimeOptions();
-
+      setInterval(() => {
+        this.loadAllProblems(); // Refresh data every 5 minutes or as needed
+    }, 300000); 
+  
   });
   }
+  populateUsernamesT(ids: number[]): void {
+    ids.forEach(id => {
+        this.authService.getUsernameT(id).subscribe(username => {
+            this.usernamesMap.set(id, username);
+        });
+    });
+}
+populateUsernamesAu(ids: number[]): void {
+  ids.forEach(id => {
+      this.authService.getUsernameAu(id).subscribe(username => {
+          this.usernamesMap.set(id, username);
+      });
+  });
+}
+populateUsernamesAd(ids: number[]): void {
+  ids.forEach(id => {
+      this.authService.getUsernameAd(id).subscribe(username => {
+          this.usernamesMap.set(id, username);
+      });
+  });
+}
+
   generateTimeOptions() {
     const startHour = 0; 
     const endHour = 23;  
@@ -91,7 +117,17 @@ export class ProblemsListComponent {
   
     return new Date(year, month, day, hours, minutes, seconds);
   }
-  
+  isOverdue(problem: Problem): boolean {
+    const fiveDaysInMs = 5 * 24 * 60 * 60 * 1000; // Five days in milliseconds
+    const creationDate = new Date(problem.details.time).getTime(); // Ensure that `time` contains a valid date
+    const currentDate = new Date().getTime();
+    const isOverdue = currentDate - creationDate > fiveDaysInMs;
+    
+    // Logging to verify calculation
+    console.log(`Problem ID: ${problem.id}, Created: ${problem.details.time}, Overdue: ${isOverdue}`);
+    return isOverdue;
+}
+
 
   deadlineSet() :void{
     console.log("TIME:" + this.selectedTime);
@@ -112,6 +148,7 @@ export class ProblemsListComponent {
         next: (result: PagedResults<Problem>) => {
           this.entities = result.results;
           this.updateDisplayedEntities();
+          this.populateUsernamesAd(this.displayedEntities.map(e => e.touristId));
           this.totalPages = Math.ceil(this.entities.length / this.pageSize);
         },
         error: (err: any) => {
@@ -124,6 +161,7 @@ export class ProblemsListComponent {
         next: (result: PagedResults<Problem>) => {
           this.entities = result.results;
           this.updateDisplayedEntities();
+          this.populateUsernamesAu(this.displayedEntities.map(e => e.touristId));
           this.totalPages = Math.ceil(this.entities.length / this.pageSize);
         },
         error: (err: any) => {
@@ -136,6 +174,7 @@ export class ProblemsListComponent {
         next: (result: PagedResults<Problem>) => {
           this.entities = result.results;
           this.updateDisplayedEntities();
+          this.populateUsernamesT(this.displayedEntities.map(e => e.touristId));
           this.totalPages = Math.ceil(this.entities.length / this.pageSize);
         },
         error: (err: any) => {
@@ -159,6 +198,14 @@ export class ProblemsListComponent {
     console.log('Solve clicked. flag:', this.flag, 'flag2:', this.flag2); 
     this.cdr.detectChanges();  
 }
+
+getUsername(id: number, callback: (username: string) => void): void {
+  this.authService.getUsernameT(id).subscribe((username: string) => {
+      callback(username);
+  });
+}
+
+
   fetchAndMapTours(): void {
     if(this.user?.role=='administrator'){
       this.tourService.getAllTours().subscribe({

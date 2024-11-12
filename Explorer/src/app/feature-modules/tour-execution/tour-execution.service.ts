@@ -142,7 +142,7 @@ export class TourExecutionService {
   }
 
 getTouristProblems(): Observable<PagedResults<Problem>> {
-  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getAll')
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getByTouristId')
 }
   
 
@@ -156,7 +156,7 @@ touristAddComment(tourProblemId: number, comment: Comment): Observable<Problem> 
 
 
 authorGetProblems(): Observable<PagedResults<Problem>> {
-  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getAll')
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getByAuthorId')
 }
 
 

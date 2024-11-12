@@ -17,14 +17,20 @@
             <th>Date</th>
             <th>Time</th>
         </tr>
-        <tr tabindex="0" *ngFor="let item of displayedEntities" id="ag" (click) = "goToProblem(item.id, getById(item.tourId), item)">
+        <tr 
+        tabindex="0" 
+        *ngFor="let item of displayedEntities" 
+        id="ag" 
+        (click)="goToProblem(item.id, getById(item.tourId), item)"
+        [ngStyle]="{ 'background-color': isOverdue(item) ? 'red' : '#2dad2d' }">
+            
             <td>{{item.details.problemPriority}}</td>
-            <td>Marko</td>
+            <td>{{ usernamesMap.get(item.touristId) }}</td>
             <td>{{getById(item.tourId)}}</td>
             <td>{{ getEnum(item.details.category) }}</td>
             <td><p>{{ getDate(item.details.time) }}</p></td>
             <td><p>{{ getTime(item.details.time) }}</p></td>
-            
+       
             
         </tr> 
         

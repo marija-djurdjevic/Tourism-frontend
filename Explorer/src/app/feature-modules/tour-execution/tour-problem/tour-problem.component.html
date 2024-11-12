@@ -18,7 +18,7 @@
                             <p id="p1"> PROBLEM PRIORITY: {{ problem.details.problemPriority  }}</p>
                             <p id="p1"> PROBLEM CATEGORY: {{ getEnum(problem.details.category) }}</p>
                             <p id="p1"> TIME: {{ getDate(problem.details.time ) }} {{ getTime(problem.details.time ) }}</p>
-                            <p id="p1"> SENT BY: Marko Markovic</p>
+                            <p id="p1"> SENT BY:{{username}}</p>
                         </div>
                         <div id="p2">  
                             <p>{{problem.details.explanation}}</p>
