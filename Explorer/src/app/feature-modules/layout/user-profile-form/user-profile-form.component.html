@@ -1,28 +1,38 @@
 <div class="user-profile-form-container">
-    <form [formGroup]="userProfileForm" (ngSubmit)="updateProfile()">
-      <div>
-        <mat-form-field>
-          <mat-label>First Name</mat-label>
-          <input matInput formControlName="firstName" type="text" placeholder="Enter your first name">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Last Name</mat-label>
-          <input matInput formControlName="lastName" type="text" placeholder="Enter your last name">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Image URL</mat-label>
-          <input matInput formControlName="imageURL" type="text" placeholder="Enter image URL">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Biography</mat-label>
-          <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" formControlName="biography"
-            cdkAutosizeMaxRows="5" placeholder="Tell us about yourself"></textarea>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Motto</mat-label>
-          <input matInput formControlName="motto" type="text" placeholder="Your personal motto">
-        </mat-form-field>
-        <button [disabled]="userProfileForm.invalid" mat-raised-button type="submit" color="primary">Save</button>
+
+  <form [formGroup]="userProfileForm" (ngSubmit)="updateProfile()">
+    <div>
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" type="text" placeholder="Enter your first name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" type="text" placeholder="Enter your last name">
+      </mat-form-field>
+      <!-- Kod za prikaz slike -->
+      <div *ngIf="!showImageUpload; else imageUploadTemplate">
+        <img *ngIf="profile?.imageURL" [src]="profile.imageURL" alt="{{ profile.imageURL }}" class="object-image" />
+        <img *ngIf="!profile?.imageURL" src="assets/default-image.png" alt="The image does not exist." class="object-image" />
+        <button (click)="changeImage()" type="button" mat-raised-button color="primary">Change Image</button>
       </div>
-    </form>
+      
+      <ng-template #imageUploadTemplate>
+        <div style="margin-bottom: 16px;">
+          <!-- kod za upload slike -->
+          <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="imageURL" required></app-image-upload>
+        </div>
+      </ng-template>
+      <mat-form-field>
+        <mat-label>Biography</mat-label>
+        <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" formControlName="biography" cdkAutosizeMaxRows="5"
+          placeholder="Tell us about yourself"></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Motto</mat-label>
+        <input matInput formControlName="motto" type="text" placeholder="Your personal motto">
+      </mat-form-field>
+      <button [disabled]="userProfileForm.invalid" mat-raised-button type="submit" color="primary">Save</button>
+    </div>
+  </form>
 </div>

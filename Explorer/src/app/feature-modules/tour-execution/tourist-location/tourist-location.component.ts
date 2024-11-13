@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output,AfterViewInit } from '@angular/core';
 import { TourExecutionService } from '../tour-execution.service';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
+import { Location as routerLocation } from '@angular/common';
+
 
 @Component({
   selector: 'xp-tourist-location',
@@ -15,7 +17,7 @@ export class TouristLocationComponent implements AfterViewInit {
   location: Location = { latitude: 0, longitude: 0 };
   
 
-  constructor(private service: TourExecutionService) {
+  constructor(private service: TourExecutionService,private routerLocation: routerLocation) {
   }
 
   ngAfterViewInit(): void {
@@ -29,6 +31,10 @@ export class TouristLocationComponent implements AfterViewInit {
         alert('Došlo je do greške prilikom ucitavanja lokacije.');
       }
     });
+  }
+
+  goBack(): void {
+    this.routerLocation.back();
   }
 
   onLocationSelected(event: { latitude: number, longitude: number }): void {

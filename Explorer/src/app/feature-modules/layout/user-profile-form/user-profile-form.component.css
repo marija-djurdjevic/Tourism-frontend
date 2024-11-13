@@ -1,0 +1,9 @@
+.object-image {
+    width: 100px; 
+    height: auto;
+}
+
+.user-profile-form-container{
+    display: flex;
+    justify-content: center;
+}
