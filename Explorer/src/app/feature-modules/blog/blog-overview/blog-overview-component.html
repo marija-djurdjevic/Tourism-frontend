@@ -1,24 +1,12 @@
 <div class="main-container" id="blog">
   <div class="filter-buttons" style="text-align: center; margin: 16px 0">
-    <button
-      mat-button
-      [color]="selectedFilter === 'all' ? 'accent' : 'primary'"
-      (click)="applyFilter('all')"
-    >
+    <button mat-button [color]="selectedFilter === 'all' ? 'accent' : 'primary'" (click)="applyFilter('all')">
       All
     </button>
-    <button
-      mat-button
-      [color]="selectedFilter === 'active' ? 'accent' : 'primary'"
-      (click)="applyFilter('active')"
-    >
+    <button mat-button [color]="selectedFilter === 'active' ? 'accent' : 'primary'" (click)="applyFilter('active')">
       Active
     </button>
-    <button
-      mat-button
-      [color]="selectedFilter === 'famous' ? 'accent' : 'primary'"
-      (click)="applyFilter('famous')"
-    >
+    <button mat-button [color]="selectedFilter === 'famous' ? 'accent' : 'primary'" (click)="applyFilter('famous')">
       Famous
     </button>
   </div>
@@ -27,9 +15,7 @@
     <div class="card-container">
       <mat-card class="blog-card" *ngFor="let blog of filteredBlogs">
         <mat-card-header>
-          <mat-card-title class="primary-title-text"
-            >{{ blog.title }}</mat-card-title
-          >
+          <mat-card-title class="primary-title-text">{{ blog.title }}</mat-card-title>
           <mat-card-subtitle>
             <strong>Author ID:</strong> {{ blog.authorId }}<br />
             <strong>Date:</strong> {{ blog.creationDate | date: 'medium' }}<br />
@@ -41,7 +27,7 @@
 
         <mat-card-actions>
           <button class="link-text" mat-button (click)="viewComments(blog.id)">
-            View Comments
+            View Blog
           </button>
         </mat-card-actions>
       </mat-card>

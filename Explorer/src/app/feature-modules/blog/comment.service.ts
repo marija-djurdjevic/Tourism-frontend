@@ -12,8 +12,8 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
-  getComments(blogId: number): Observable<PagedResults<Comment>> {
-    return this.http.get<PagedResults<Comment>>(environment.apiHost + 'author/blog/' + blogId + '/comments')
+  getComments(blogId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(environment.apiHost + 'author/blog/' + blogId + '/comments');
   }
 
   deleteComment(blogId: number, id: number): Observable<Comment> {

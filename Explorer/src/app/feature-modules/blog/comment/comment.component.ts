@@ -37,7 +37,7 @@ export class CommentComponent {
     private blogService: BlogService,
     private tokenStorage: TokenStorage,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const accessToken = this.tokenStorage.getAccessToken() || '';
@@ -51,6 +51,7 @@ export class CommentComponent {
 
     this.getBlogById();
     this.getComments();
+    console.log(this.comments);
   }
 
   getBlogById() {
@@ -63,7 +64,7 @@ export class CommentComponent {
       error: (error) => {
         console.error('Error fetching blog:', error);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -92,7 +93,6 @@ export class CommentComponent {
           break;
         }
       }
-      console.log(this.hasUserRated);
     }
   }
 
@@ -122,7 +122,7 @@ export class CommentComponent {
       error: (error) => {
         console.error('Error fetching blog:', error);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -146,6 +146,10 @@ export class CommentComponent {
   }
 
   deleteComment(id: any): void {
+    if (this.blog.status === 2) {
+      alert("Blog is CLOSED!");
+      return;
+    }
     this.service.deleteComment(this.blogId, id).subscribe({
       next: () => {
         this.getComments();
@@ -155,10 +159,10 @@ export class CommentComponent {
 
   getComments(): void {
     this.service.getComments(this.blogId).subscribe({
-      next: (result: PagedResults<Comment>) => {
-        this.comments = result.results;
+      next: (result: Comment[]) => {
+        this.comments = result;
       },
-      error: () => {},
+      error: () => { },
     });
   }
 
@@ -168,14 +172,20 @@ export class CommentComponent {
   }
 
   onEditClicked(comment: Comment): void {
+    if (this.blog.status === 2) {
+      alert("Blog is CLOSED!");
+      return;
+    }
     this.selectedComment = comment;
     this.shouldRenderCommentForm = true;
     this.shouldEdit = true;
-    console.log('Username: ', this.username);
-    console.log('author id: ' + comment.authorId + ' & id: ' + this.id);
   }
 
   onAddClicked(): void {
+    if (this.blog.status === 2) {
+      alert("Blog is CLOSED!");
+      return;
+    }
     this.shouldEdit = false;
     this.shouldRenderCommentForm = true;
   }
