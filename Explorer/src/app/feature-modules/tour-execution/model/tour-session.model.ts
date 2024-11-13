@@ -4,6 +4,10 @@ export interface Location {
     longitude: number;
   }
   
+  export interface CompletedKeyPoint {
+    id: number;
+    completedAt: any;
+  }
   export interface TourSession {
     id: number;
     tourId: number;
