@@ -1,6 +1,46 @@
 div {
-    width: 400px;
+    width: 440px; /* Increase the width by 10% from 400px */
     display: flex;
-    gap: 20px;
     flex-direction: column;
+    gap: 20px;
+    padding: 16px;  /* Padding around the form */
+    background-color: white; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 90vh; /* Ensure the form height doesn't exceed 90% of the viewport */
+    overflow: hidden; /* Prevent scrolling if the form height exceeds */
+}
+
+/* Ensure form fields take full width */
+mat-form-field {
+    width: 100%;
+}
+
+/* Styling the input field and its label */
+mat-label {
+    font-size: 14px;
+    color: #333;
+}
+
+mat-input {
+    font-size: 16px;
+    color: #333;
+}
+
+button[type="submit"] {
+    margin-top: 16px;
+    width: 100%;  /* Make the submit button full width */
+}
+
+/* Optional: Image upload container */
+app-image-upload {
+    max-width: 100%; /* Ensure the image upload fits within the container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* If there is an image preview component */
+.image-preview {
+    max-width: 100%;  /* Adjust the preview image width */
+    max-height: 200px;  /* Restrict the image height if necessary */
+    object-fit: cover;  /* Keep the image aspect ratio intact */
 }
