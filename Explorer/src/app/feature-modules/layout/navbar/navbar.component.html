@@ -42,3 +42,6 @@
         </div>
     </div>
 </mat-toolbar>
+<button *ngIf="user && user.role === 'tourist'" class="location-button" mat-icon-button [routerLink]="['/location']" matTooltip="Set your location">
+    <img src="assets/location.png" alt="Set your location" width="30" height="30">
+</button>

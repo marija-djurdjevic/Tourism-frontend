@@ -1,8 +1,12 @@
-div {
-    width: 400px;
-    display:flex;
-    gap: 20px;
-    flex-direction: column;
+.return-button {
+    margin-top: 20px;
+    background-color: green;
+}
+
+.glavni-div{
+    width: 100vw !important;
+    display: flex;
+    justify-content: center;
 }
 
 .mat-icon {
