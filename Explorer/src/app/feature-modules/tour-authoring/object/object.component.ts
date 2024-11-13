@@ -27,6 +27,7 @@ export class ObjectComponent implements OnInit {
       next: (result: PagedResults<Object>) => {
         this.object = result.results
         // kod za ucitavanje slike po id
+        this.imageService.setControllerPath("author/image");
         this.object.forEach(element => {
           this.imageService.getImage(element.imageId.valueOf()).subscribe((blob: Blob) => {
             console.log(blob);  // Proveri sadržaj Blob-a

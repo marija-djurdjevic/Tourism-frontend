@@ -135,6 +135,7 @@ export class ExploreToursComponent implements OnInit {
   getImages(): void {
     for (const review of this.selectedTourReviews) {
       review.reviewImages = [];
+      this.imageService.setControllerPath("tourist/image");
       review.images.split(',').forEach(element => {
         this.imageService.getImage(Number(element).valueOf()).subscribe((blob: Blob) => {
           console.log(blob);  // Proveri sadržaj Blob-a

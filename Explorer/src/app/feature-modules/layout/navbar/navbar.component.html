@@ -8,7 +8,6 @@
             <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>
             <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
             <button *ngIf="user && user.username !== ''" class="primary-button" mat-raised-button [routerLink]="['clubs']">Clubs</button>
-            <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['object']">Show objects</button>
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['tours']">View My Tours</button>
             <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['purchasedTours']">Purchased Tours</button>
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['blogs']">Blogs</button>

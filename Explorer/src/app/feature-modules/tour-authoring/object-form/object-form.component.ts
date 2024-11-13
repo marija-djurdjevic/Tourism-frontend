@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Object } from '../model/object.model'
 import { ImageService } from 'src/app/shared/image.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-object-form',
@@ -17,7 +18,7 @@ export class ObjectFormComponent {
   longitude:Number;
   latitude:Number;
 
-  constructor(private service: TourAuthoringService, private imageService: ImageService) {
+  constructor(private service: TourAuthoringService, private imageService: ImageService,private router: Router) {
     /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
     ODREDJUJE SE NA OSNOVU ULOGE KOJA VRSI OPERACIJU ZBOG AUTORIZACIJE*/
     imageService.setControllerPath("author/image");
@@ -50,6 +51,7 @@ export class ObjectFormComponent {
         image:""
       };
       /*----------------Dio 2 za upload slike---------------*/
+      this.imageService.setControllerPath("author/image");
       this.imageService.uploadImage(this.selectedFile).subscribe((imageId: number) => {
         this.imageService.getImage(imageId);
         object.imageId=imageId;
@@ -58,6 +60,7 @@ export class ObjectFormComponent {
             alert('Objekat uspešno kreiran!');
             this.objectForm.reset();
             this.previewImage = null;
+            this.router.navigate(['/object']);
           },
           error: () => {
             alert('Došlo je do greške prilikom kreiranja objekta.');
