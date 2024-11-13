@@ -90,7 +90,7 @@ export class AuthService {
   }
    
   getUsernameAd(id:number): Observable<string> {
-    return this.http.get<string>('https://localhost:44333/api/user/administrator/getUsername',{
+    return this.http.get<string>('https://localhost:44333/api/administrator/users/getUsername',{
       params: {
         userId: id.toString()
       },

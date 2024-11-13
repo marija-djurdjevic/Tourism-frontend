@@ -252,16 +252,16 @@ hasDeadLinePassed(input: Date): string {
     }
 }
 
-closeTour():void{
-  if(this.user?.role == 'administrator')
-  {
+closeTour(): void {
+  if (this.user?.role === 'administrator') {
     this.service.getTour(this.problem.tourId).subscribe({
       next: (tour) => {
-   
         this.service.closeTour(tour).subscribe({
           next: () => {
             console.log('Tour closed successfully');
-            this.router.navigate(['/problems']);
+            
+            // Call closeTourProblem after closeTour completes
+            this.closeTourProblem();
           },
           error: (err) => {
             console.error('Failed to close the tour:', err);

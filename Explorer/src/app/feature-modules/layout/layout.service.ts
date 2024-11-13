@@ -48,6 +48,6 @@ export class LayoutService {
   }
 
   markAsReadTourist(notification: Notification) : Observable<Notification>{
-    return this.http.put<Notification>(environment.apiHost + `api/tourist/notification/setSeen`, notification)
+    return this.http.put<Notification>(environment.apiHost + `tourist/notification/setSeen`, notification)
   }
 }
