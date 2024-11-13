@@ -6,6 +6,19 @@ div {
     background-color: var(--primary-color);
 }
 
+.location-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+}
+
+.location-button img {
+    width: 30px;
+    height: 30px;
+}
+
 p {
     left: 0;
     margin-top: 10px;
@@ -27,22 +40,42 @@ p {
 }
 
 @keyframes shakeWithPause {
-    0%, 90% { transform: translateX(0); }
-    92% { transform: translateX(-2px); }
-    94% { transform: translateX(2px); }
-    96% { transform: translateX(-2px); }
-    98% { transform: translateX(2px); }
-    100% { transform: translateX(0); }
+
+    0%,
+    90% {
+        transform: translateX(0);
+    }
+
+    92% {
+        transform: translateX(-2px);
+    }
+
+    94% {
+        transform: translateX(2px);
+    }
+
+    96% {
+        transform: translateX(-2px);
+    }
+
+    98% {
+        transform: translateX(2px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
 
 @keyframes dropdownSlide {
     0% {
         opacity: 0;
-        transform: translateY(-10px); 
+        transform: translateY(-10px);
     }
+
     100% {
         opacity: 1;
-        transform: translateY(0); 
+        transform: translateY(0);
     }
 }
 
@@ -72,7 +105,7 @@ p {
 .notification-dropdown {
     position: absolute;
     top: 60px;
-    right: 10px; 
+    right: 10px;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 4px;

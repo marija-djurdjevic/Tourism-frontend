@@ -36,7 +36,7 @@ export class TourProblemComponent {
   closeProblemFlag: string;
   closeTourFlag: string;
   hadDeadlinePassed : string;
-
+  username : string;
   constructor(private route: ActivatedRoute, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe, private router : Router, private tourService : TourAuthoringService) {}
   
   problem: Problem= {
@@ -60,9 +60,13 @@ export class TourProblemComponent {
         this.user = user;
     });
     if(this.user?.role=='administrator'){
+      
       this.service.getById(this.id).subscribe((problem: Problem) => {
         this.problem = problem as Problem;    
         this.allComments = this.problem.comments;
+        this.authService.getUsernameAd(this.problem.touristId).subscribe((username: string) => {
+          this.username = username;
+      });
         this.setComments();
         if (this.problem.deadline) {
           this.hadDeadlinePassed = new Date(this.problem.deadline) < new Date() ? 'true' : 'false';
@@ -79,6 +83,9 @@ export class TourProblemComponent {
       this.service.touristGById(this.id).subscribe((problem: Problem) => {
         this.problem = problem as Problem;    
         this.allComments = this.problem.comments;
+        this.authService.getUsernameT(this.problem.touristId).subscribe((username: string) => {
+          this.username = username;
+      });
         this.setComments();
 
         if (this.problem.deadline) {
@@ -98,7 +105,9 @@ export class TourProblemComponent {
         this.problem = problem as Problem;    
         this.allComments = this.problem.comments;
         this.setComments();
-
+        this.authService.getUsernameAu(this.problem.touristId).subscribe((username: string) => {
+          this.username = username;
+      });
         if (this.problem.deadline) {
           this.hadDeadlinePassed = new Date(this.problem.deadline) < new Date() ? 'true' : 'false';
         } else {
@@ -243,16 +252,16 @@ hasDeadLinePassed(input: Date): string {
     }
 }
 
-closeTour():void{
-  if(this.user?.role == 'administrator')
-  {
+closeTour(): void {
+  if (this.user?.role === 'administrator') {
     this.service.getTour(this.problem.tourId).subscribe({
       next: (tour) => {
-   
         this.service.closeTour(tour).subscribe({
           next: () => {
             console.log('Tour closed successfully');
-            this.router.navigate(['/problems']);
+            
+            // Call closeTourProblem after closeTour completes
+            this.closeTourProblem();
           },
           error: (err) => {
             console.error('Failed to close the tour:', err);

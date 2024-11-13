@@ -1,24 +1,37 @@
-#clubs {
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-#club-details {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    align-items: flex-start;
+/* Container for everything */
+#club-container {
+    margin-top: 40px;
+    padding-left: 30px; /* Shift content slightly */
 }
 
 p {
-    font-size: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+hr {
+    margin-bottom: 20px;
+}
+
+/* Flexbox for side-by-side layout */
+#club-details {
+    display: flex;
+    justify-content: space-between; /* Ensure table and form are on the left and right */
+    align-items: flex-start;
+}
+
+/* Table Container */
+#club-table {
+    width: 50%;               /* Take up 50% of the screen */
+    padding-right: 20px;      /* Add space between table and form */
+    box-sizing: border-box;   /* Ensure padding doesn't push it out of the container */
 }
 
 table {
+    width: 100%;              /* Table takes full width of the container */
     border-collapse: collapse;
-    font-size: 0.9em;
+    font-size: 1em;
     font-family: sans-serif;
-    min-width: 300px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -47,4 +60,20 @@ tbody tr:last-of-type {
 tbody tr.active-row {
     font-weight: bold;
     color: #3f51b5;
+}
+
+.club-image {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Form Container */
+#club-form {
+    width: 50%;              /* Take up the other 50% of the screen */
+    padding-left: 20px;      /* Add space between table and form */
+    box-sizing: border-box;  /* Ensure padding doesn't push it out */
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

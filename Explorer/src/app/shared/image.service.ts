@@ -16,6 +16,10 @@ export class ImageService {
     if(this.controllerPath==""){
       this.controllerPath=path;
       this.apiUrl=this.apiUrl+this.controllerPath;
+    }else if(this.controllerPath!==path){
+      this.controllerPath=path;
+      this.apiUrl = environment.apiHost;
+      this.apiUrl=this.apiUrl+this.controllerPath;
     }
   }
 

@@ -9,6 +9,8 @@ import { UserProfileFormComponent } from './user-profile-form/user-profile-form.
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserRatingComponent } from './user-rating/user-rating.component';
 import { RatingsListComponent } from './ratings-list/ratings-list.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -23,8 +25,10 @@ import { RatingsListComponent } from './ratings-list/ratings-list.component';
     CommonModule,
     MaterialModule,
     RouterModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    MatTooltipModule,
+    SharedModule
+],
   exports: [
     NavbarComponent,
     HomeComponent,

@@ -17,6 +17,9 @@
     align-items: center;
     text-align: center;
 }
+.overdue {
+    background-color: red;
+}
 
 #title {
     grid-column: 2;

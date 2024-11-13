@@ -9,8 +9,10 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { TourPreferences } from 'src/app/shared/model/tour-preferences.model';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
-import { TourSession } from './model/tour-session.model';
+import { CompletedKeyPoint, TourSession } from './model/tour-session.model';
 import { Tour } from '../tour-authoring/model/tour.model';
+import { map } from 'rxjs/operators';
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model'; 
 
 
 @Injectable({
@@ -97,16 +99,23 @@ export class TourExecutionService {
     return this.http.put<Problem>(url, null, { params });
   }
 
-  startTour(tourId: number, latitude: number, longitude: number,touristId:number): Observable<boolean> {
+  // startTour(tourId: number, latitude: number, longitude: number,touristId:number): Observable<boolean> {
+  //   const url = `${environment.apiHost}administration/tourSession/start`;
+  //   const params = new HttpParams()
+  //     .set('tourId', tourId.toString())
+  //     .set('latitude', latitude.toString())
+  //     .set('longitude', longitude.toString())
+  //     .set('touristId',touristId.toString());
+
+  //   return this.http.post<boolean>(url, null, { params });
+
+  // }
+
+  startTour(tourId: number, latitude: number, longitude: number, touristId: number): Observable<boolean> {
     const url = `${environment.apiHost}administration/tourSession/start`;
-    const params = new HttpParams()
-      .set('tourId', tourId.toString())
-      .set('latitude', latitude.toString())
-      .set('longitude', longitude.toString())
-      .set('touristId',touristId.toString());
-
-    return this.http.post<boolean>(url, null, { params });
-
+    const body = { tourId, latitude, longitude, touristId };
+  
+    return this.http.post<boolean>(url, body);
   }
 
   abandonTour(id: number): Observable<boolean> {
@@ -125,10 +134,19 @@ export class TourExecutionService {
   }
 
 
-  getAllTours(): Observable<Tour[]> {
-    return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/allTours`);
-  }
+  // getAllTours(): Observable<Tour[]> {
+  //   return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/all`);
+  // }
 
+  getAllTours(): Observable<Tour[]> {
+    return this.http.get<{ results: Tour[], totalCount: number }>(`${environment.apiHost}tourist/tour/all`)
+      .pipe(
+        map(response => response.results) // Extract only the results array
+      );
+
+    //return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/allTours`);
+
+  }
 
   updateSession(tourId: number, latitude: number, longitude: number): Observable<void> {
     const url = `${environment.apiHost}administration/tourSession/update-session`;
@@ -142,7 +160,7 @@ export class TourExecutionService {
   }
 
 getTouristProblems(): Observable<PagedResults<Problem>> {
-  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getAll')
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getByTouristId')
 }
   
 
@@ -156,7 +174,7 @@ touristAddComment(tourProblemId: number, comment: Comment): Observable<Problem> 
 
 
 authorGetProblems(): Observable<PagedResults<Problem>> {
-  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getAll')
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getByAuthorId')
 }
 
 
@@ -184,6 +202,29 @@ setDeadline(problemId: number, time: Date): Observable<Problem> {
       time: time.toISOString()
     }
   });
+}
+
+
+updateLastActivity(tourId: number): Observable<boolean> {
+  return this.http.post<boolean>(environment.apiHost + `administration/tourSession/updateLastActivity/${tourId}`, {});
+}
+
+getCompletedKeyPoints(tourId: number): Observable<CompletedKeyPoint[]> {
+  const url = `${environment.apiHost}administration/tourSession/getCompletedCheckpoints/${tourId}`;
+  return this.http.get<CompletedKeyPoint[]>(url);
+}
+
+addCompletedKeyPoint(tourId: number, id: number | undefined): Observable<boolean> {
+  const url = `${environment.apiHost}administration/tourSession/addCompletedKeyPoint/${tourId}/${id}`;
+  return this.http.post<boolean>(url, {})
+}
+
+getKeyPoints(tourId: number): Observable<KeyPoint[]> {
+  const url = `${environment.apiHost}administration/tourSession/getKeyPointsByTourId/${tourId}`
+  return this.http.get<KeyPoint[]>(url);
+  //return this.http.get<{ results: KeyPoint[] }>(url).pipe(
+  //  map(response => response.results)
+  //);
 }
 
 getTour(tourId: number): Observable<Tour> {

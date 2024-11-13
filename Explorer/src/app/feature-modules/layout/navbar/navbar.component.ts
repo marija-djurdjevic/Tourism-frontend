@@ -50,6 +50,8 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/problem'], { queryParams: { id: problemId } });
     }); 
     }
+
+    this.showNotifications = !this.showNotifications;
   }
 
   toggleNotifications(): void {
