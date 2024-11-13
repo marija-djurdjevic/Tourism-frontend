@@ -13,7 +13,7 @@ import { ObjectComponent } from 'src/app/feature-modules/tour-authoring/object/o
 import { ObjectFormComponent } from 'src/app/feature-modules/tour-authoring/object-form/object-form.component';
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-execution/tour-preferences/tour-preferences.component';
 import { TourComponent } from 'src/app/feature-modules/tour-authoring/tour/tour.component';
-import { TourFormComponent } from 'src/app/feature-modules/tour-authoring/tour-form/tour-form.component'; 
+import { TourFormComponent } from 'src/app/feature-modules/tour-authoring/tour-form/tour-form.component';
 import { UserRatingComponent } from 'src/app/feature-modules/layout/user-rating/user-rating.component';
 import { RatingsListComponent } from 'src/app/feature-modules/layout/ratings-list/ratings-list.component';
 import { ProblemReportComponent } from 'src/app/feature-modules/tour-execution/problem-report/problem-report.component';
@@ -35,6 +35,7 @@ import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tou
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
+import { ExploreToursComponent } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
 
 
 const routes: Routes = [
@@ -70,7 +71,9 @@ const routes: Routes = [
   {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
   {path: 'review/:tourId/:tourName', component: TourReviewFormComponent, canActivate: [AuthGuard]},
   {path: 'tourSession/:tourId', component: TourSessionComponent },
-  {path:'tourList',component:TourListComponent} 
+  {path:'tourList',component:TourListComponent},
+  {path: 'explore', component: ExploreToursComponent }
+
 
 ];
 

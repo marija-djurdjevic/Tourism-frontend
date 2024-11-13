@@ -8,25 +8,23 @@ import { BlogOverview } from './blog-overview/blog-overview-component';
 import { BlogForm } from './blog-form/blog-form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     CommentComponent,
     CommentFormComponent,
     BlogOverview,
-    BlogForm
+    BlogForm,
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
   ],
-  exports: [
-    CommentComponent,
-    BlogOverview
-  ]
+  exports: [CommentComponent, BlogOverview],
 })
-export class BlogModule { }
+export class BlogModule {}

@@ -1,50 +1,177 @@
-#comments{
-    margin-top: 20px;
-    margin-left: 20px;
+.comment-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-#comments-details{
-    display:flex;
-    flex-direction: row;
-    gap: 50px;
-    align-items: flex-start;
+.main-content {
+  width: 100%;
+  transition: margin-right 0.3s ease;
 }
 
-p{
-    font-size: 20px;
+.blog-image {
+  display: flex;
 }
 
-table{
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+.rating-buttons {
+  display: flex;
+  gap: 10px;
 }
 
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
+.responsive-image {
+  border-radius: 20px;
+  padding-left: 10px;
+  max-width: 500px;
+  max-height: 300px;
 }
 
-th, td {
-    padding: 12px 15px;
+.votes-section {
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-family: Arial, sans-serif;
+  color: #333;
 }
 
-tbody tr {
-    border-bottom: 1px solid #dddddd;
+.votes-section h2 {
+  font-size: 1.5em;
 }
 
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+.no-votes p {
+  font-size: 1.1em;
+  color: #777;
+  text-align: center;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
+.vote-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
+.vote-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #444;
+}
+
+.author-id {
+  color: #555;
+}
+
+.vote-value {
+  color: #007bff;
+}
+
+.vote-date {
+  font-size: 0.9em;
+  color: #777;
+  font-style: italic;
+}
+
+.blog-info {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main-content.scooted {
+  margin-right: 30%;
+}
+
+.rating-section {
+  margin-bottom: 10px;
+  /* Adds spacing above the toggle button */
+}
+
+.toggle-button {
+  align-self: flex-start;
+  /* Optionally aligns the button to the left */
+  margin-bottom: auto;
+}
+
+.vote-buttons {
+  gap: 10px;
+}
+
+/* Flex container to align the button to the right in the header */
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Styling for the toggle button */
+.toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}
+
+.comment-section {
+  margin-top: 20px;
+  background-color: #f5f5f5;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+
+.comment-list {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.comment {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.edit-btn,
+.delete-btn {
+  margin-left: 10px;
+}
+
+.comment-form {
+  padding-top: 30px;
+}
+
+.post-btn {
+  width: 100%;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.post-btn:hover {
+  background-color: #0099b3;
 }

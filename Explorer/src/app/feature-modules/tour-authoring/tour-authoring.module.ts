@@ -5,11 +5,11 @@ import { ClubsFormComponent } from './clubs-form/clubs-form.component';
 import { ObjectComponent } from './object/object.component';
 import { ObjectFormComponent } from './object-form/object-form.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
-import { MatSelectModule } from '@angular/material/select'; 
+import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms'; 
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {TourComponent } from './tour/tour.component'
+import { TourComponent } from './tour/tour.component'
 import { TourFormComponent } from './tour-form/tour-form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { TourEquipmentComponent } from './tour-equipment/tour-equipment.component';
@@ -17,6 +17,7 @@ import { KeyPointComponent } from './key-point/key-point/key-point.component';
 import { FormsModule } from '@angular/forms';
 import { KeyPointFormComponent } from './key-point-form/key-point-form.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ExploreToursComponent } from './explore-tours/explore-tours';
 import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TourReviewFormComponent } from './tour-review-form/tour-review-form.com
     TourComponent,
     TourEquipmentComponent,
     KeyPointComponent,
-    KeyPointFormComponent
+    KeyPointFormComponent,
+    ExploreToursComponent
   ],
   imports: [
     RouterModule,
@@ -37,7 +39,7 @@ import { TourReviewFormComponent } from './tour-review-form/tour-review-form.com
     MaterialModule,
     ReactiveFormsModule,
     SharedModule
-],
+  ],
   exports: [
     ClubsComponent,
     TourComponent,
@@ -50,7 +52,8 @@ import { TourReviewFormComponent } from './tour-review-form/tour-review-form.com
     ObjectComponent,
     ReactiveFormsModule,
     TourComponent,
-    TourFormComponent
+    TourFormComponent,
+    ExploreToursComponent
   ],
 })
 export class TourAuthoringModule { }
