@@ -1,21 +1,16 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TokenStorage } from '../../../infrastructure/auth/jwt/token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Blog } from '../model/blog.model';
-import { BlogService } from '../blog.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'xp-blog-form',
+  selector: 'app-blog-form',
   templateUrl: './blog-form.component.html',
-  styleUrls: ['./blog-form.component.css']
+  styleUrls: ['./blog-form.component.css'],
 })
-export class BlogForm implements OnChanges {
-
-  @Output() blogCreated = new EventEmitter<null>();
-  @Input() blog: Blog;
-  userId: 0;
-
+export class BlogForm implements OnInit {
   blogForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
@@ -23,18 +18,21 @@ export class BlogForm implements OnChanges {
     image: new FormControl('', [Validators.required]),
   });
 
-  constructor(private service: BlogService,
-    private tokenStorage: TokenStorage
+  userId: number = 0;
+
+  constructor(
+    private tokenStorage: TokenStorage,
+    private dialogRef: MatDialogRef<BlogForm>
   ) {}
 
   ngOnInit(): void {
-    const accessToken = this.tokenStorage.getAccessToken() || "";
+    const accessToken = this.tokenStorage.getAccessToken() || '';
     const jwtHelperService = new JwtHelperService();
     this.userId = jwtHelperService.decodeToken(accessToken).id;
   }
 
-  ngOnChanges(): void {
-    this.blogForm.reset();
+  closeForm() {
+    this.dialogRef.close();
   }
 
   addBlog(): void {
@@ -47,9 +45,7 @@ export class BlogForm implements OnChanges {
       status: Number(this.blogForm.value.status) || 0,
       creationDate: new Date(),
     };
-    console.log(newBlog);
-    this.service.addBlog(newBlog).subscribe({
-      next: () => { this.blogCreated.emit(); }
-    });
+
+    this.dialogRef.close(newBlog);
   }
 }
