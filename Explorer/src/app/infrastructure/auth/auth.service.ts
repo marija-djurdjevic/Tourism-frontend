@@ -70,4 +70,32 @@ export class AuthService {
     };
     this.user$.next(user);
   }
+
+  getUsernameT(id:number): Observable<string> {
+    return this.http.get<string>('https://localhost:44333/api/user/tourist/getUsername',{
+      params: {
+        userId: id.toString()
+      },
+      responseType: 'text' as 'json' 
+    })
+  }
+  
+  getUsernameAu(id:number): Observable<string> {
+    return this.http.get<string>('https://localhost:44333/api/user/author/getUsername',{
+      params: {
+        userId: id.toString()
+      },
+      responseType: 'text' as 'json' 
+    })
+  }
+   
+  getUsernameAd(id:number): Observable<string> {
+    return this.http.get<string>('https://localhost:44333/api/administrator/users/getUsername',{
+      params: {
+        userId: id.toString()
+      },
+      responseType: 'text' as 'json' 
+    })
+  }
+
 }

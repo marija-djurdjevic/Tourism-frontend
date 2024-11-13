@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { KeyPointFormComponent } from './key-point-form/key-point-form.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ExploreToursComponent } from './explore-tours/explore-tours';
-
+import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
 @NgModule({
   declarations: [
     ClubsComponent,

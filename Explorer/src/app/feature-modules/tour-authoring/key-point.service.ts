@@ -16,7 +16,7 @@ export class KeyPointService {
 
   getKeyPoints(): Observable<KeyPoint[]> {
     return this.http.get<{ results: KeyPoint[] }>(this.baseUrl).pipe(
-      map(response => response.results) // Uzmi samo niz iz objekta
+      map(response => response.results) 
     );
   }
 

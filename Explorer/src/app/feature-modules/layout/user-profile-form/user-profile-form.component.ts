@@ -1,29 +1,39 @@
-import { Component, Input,Output,EventEmitter } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, Output, EventEmitter,OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LayoutService } from '../layout.service';
 import { UserProfile } from '../model/user-profile.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { ImageService } from 'src/app/shared/image.service';
 
 @Component({
   selector: 'xp-user-profile-form',
   templateUrl: './user-profile-form.component.html',
   styleUrls: ['./user-profile-form.component.css']
 })
-export class UserProfileFormComponent {
+export class UserProfileFormComponent implements OnInit {
 
   @Input() profile: UserProfile
   @Output() profileUpdated = new EventEmitter<string>();
-
+  selectedFile: File;
   user: User;
+  showImageUpload: boolean = false
+  @ViewChild('imageUploadInput') imageUploadInput: ElementRef;
 
-  constructor(private layoutService: LayoutService,private authService: AuthService) { }
+
+  constructor(private layoutService: LayoutService,private imageService: ImageService, private authService: AuthService,private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.userProfileForm.patchValue(this.profile);
     this.authService.user$.subscribe(user => {
-     this.user = user;
-   });
+      this.user = user;
+    });
+  }
+  changeImage() {
+    this.showImageUpload = true
+    setTimeout(() => {
+      this.imageUploadInput.nativeElement.focus();
+    }, 0);
   }
 
   userProfileForm = new FormGroup({
@@ -33,7 +43,12 @@ export class UserProfileFormComponent {
     biography: new FormControl(''),
     motto: new FormControl('')
   })
-
+  /*Dio 1 za upload slika*/
+  onFileSelected(file: File): void {
+    this.selectedFile = file;  // Čuvanje fajla kada ga child komponenta emituje
+    console.log('Selected file:', this.selectedFile);
+  }
+  /*Kraj*/
   updateProfile(): void {
 
     const userProfile: UserProfile = {
@@ -44,11 +59,27 @@ export class UserProfileFormComponent {
       biography: this.userProfileForm.value.biography || "",
       motto: this.userProfileForm.value.motto || ""
     }
-    this.layoutService.updateProfile(userProfile,this.user.role).subscribe({
-      next: (_) => {
-        this.profileUpdated.emit("Profile Successfully updated.")
-      }
-      
-    })
+    if(this.selectedFile){
+      /*----------------Dio 2 za upload slike---------------*/
+    var role=this.user.role
+    this.imageService.setControllerPath(role+"/image");
+    this.imageService.uploadImage(this.selectedFile).subscribe((imageId: number) => {
+      this.imageService.getImage(imageId);
+      userProfile.imageURL=imageId.toString();
+      this.layoutService.updateProfile(userProfile, this.user.role).subscribe({
+        next: (_) => {
+          this.profileUpdated.emit("Profile Successfully updated.")
+        }
+      })
+    });
+    /*---------------------Kraj------------------------*/
+    }else{
+      this.layoutService.updateProfile(userProfile, this.user.role).subscribe({
+        next: (_) => {
+          this.profileUpdated.emit("Profile Successfully updated.")
+        }
+      })
+    }
+    
   }
 }

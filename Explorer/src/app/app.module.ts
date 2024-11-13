@@ -14,9 +14,12 @@ import { AuthModule } from './infrastructure/auth/auth.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { FormsModule } from '@angular/forms';
-
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 
 
 @NgModule({
@@ -35,9 +38,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MarketplaceModule,
     TourAuthoringModule,
     TourExecutionModule,
+    TourShoppingModule,
     AuthModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
   ],
   providers: [
     {

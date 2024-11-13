@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tour } from '../model/tour.model';
+import { TransportInfo, TransportType } from '../model/transportInfo.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+
 
 @Component({
   selector: 'xp-tour-form',
@@ -15,6 +17,8 @@ export class TourFormComponent implements OnChanges {
   @Output() tourUpdated = new EventEmitter<null>();
   @Input() tour: Tour;
   @Input() shouldEdit: boolean = false;
+
+  public TransportType = TransportType;
 
   constructor(private service: TourAuthoringService, private authService: AuthService, private router: Router) {
 }
@@ -31,7 +35,8 @@ export class TourFormComponent implements OnChanges {
     description: new FormControl('', [Validators.required]),
     difficulty: new FormControl(0, [Validators.required]), 
     tags: new FormControl(''),
-    price: new FormControl(0, [Validators.required, Validators.min(0)]) 
+    price: new FormControl(0, [Validators.required, Validators.min(0)]),
+    transportType: new FormControl(TransportType.Car, [Validators.required])
   });
 
   addTour(): void {
@@ -43,8 +48,18 @@ export class TourFormComponent implements OnChanges {
     tags: this.tourForm.value.tags || "",
     status: 0,
     price: this.tourForm.value.price || 0,
-    authorId: loggedInUser.id || 0
-  };
+    authorId: loggedInUser.id || 0,
+    transportInfo: {
+      time: 0,
+      distance: 0,
+      transport: this.tourForm.value.transportType as TransportType,
+    },
+    keyPoints: [], 
+    reviews:[],
+    publishedAt: new Date(Date.now()),
+    archivedAt: new Date(Date.now()),
+    averageScore: 0
+    };
 
   
     console.log('Tour to be added:', tour); 

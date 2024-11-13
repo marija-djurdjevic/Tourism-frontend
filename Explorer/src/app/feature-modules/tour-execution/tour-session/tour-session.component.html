@@ -1,0 +1,37 @@
+<!-- <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location> -->
+<h2>Tour Session of Tour Id {{ tourId }}</h2>
+
+<hr /> 
+<!-- Horizontalna linija za odvajanje naslova -->
+
+<div id="tour">
+    <button (click)="abandonTour()">Napusti turu</button>
+    <h3>Existing Key Points</h3>
+    <div style="display: flex;flex-direction: row;">
+        <div class="card-container">
+            <div class="card" *ngFor="let keyPoint of keyPoints">
+                <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
+                <div class="card-content">
+                    <h4>{{ keyPoint.name }}</h4>
+                    <p><strong>Description:</strong> {{ keyPoint.description }}</p>
+                    <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
+                    <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
+                </div>
+            </div>
+        </div>
+        <!--<div style="width:850px ;">
+            <app-map [tourView]="true" [keyPoints]="keyPoints"></app-map>
+        </div> -->
+    </div>
+    
+    <div *ngIf="showLocationPopup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="close-btn" (click)="closePopup()">✖</button>
+            <div class="component-wrapper">
+                <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location>
+            </div>
+        </div>
+    </div>
+    
+</div> 
+
