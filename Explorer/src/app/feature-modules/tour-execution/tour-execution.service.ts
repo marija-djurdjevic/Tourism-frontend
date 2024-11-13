@@ -215,7 +215,7 @@ getCompletedKeyPoints(tourId: number): Observable<CompletedKeyPoint[]> {
 }
 
 addCompletedKeyPoint(tourId: number, id: number | undefined): Observable<boolean> {
-  const url = `${environment.apiHost}administration/tourSession/addCompletedKeyPoint/${tourId}/${id}`;
+  const url = `${environment.apiHost}administration/tourSession/addCompleteKeyPoint/${tourId}/${id}`;
   return this.http.post<boolean>(url, {})
 }
 

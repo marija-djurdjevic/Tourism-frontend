@@ -113,33 +113,42 @@ export class TourSessionComponent implements OnInit {
 
   closePopup(): void {
     this.showLocationPopup = false;
-
-    this.tourExecutionService.getTouristLocation().subscribe(location => {
-      // Update latitude and longitude with the new values
-      this.location.latitude = location.latitude;
-      this.location.longitude = location.longitude;
-    });
-
-    const nextKeyPoint = this.findFirstIncompleteKeyPoint();
   
-  if (nextKeyPoint) {
-    const distance = this.calculateDistance(
-      this.location.latitude,
-      this.location.longitude,
-      nextKeyPoint.latitude,
-      nextKeyPoint.longitude
+    // First, update the tourist's location
+    this.tourExecutionService.getTouristLocation().subscribe(
+      (location) => {
+        // Update latitude and longitude with the new values
+        this.location.latitude = location.latitude;
+        this.location.longitude = location.longitude;
+  
+        // After updating the location, proceed to find the next incomplete key point
+        const nextKeyPoint = this.findFirstIncompleteKeyPoint();
+        console.log('Next incomplete key point:', nextKeyPoint);
+  
+        if (nextKeyPoint) {
+          const distance = this.calculateDistance(
+            this.location.latitude,
+            this.location.longitude,
+            nextKeyPoint.latitude,
+            nextKeyPoint.longitude
+          );
+  
+          const proximityThreshold = 35000; // Proximity threshold in meters (35 km)
+          if (distance <= proximityThreshold) {
+            this.addKeyPointToCompleted(nextKeyPoint);
+          }
+        }
+      },
+      (error) => {
+        console.error('Error retrieving tourist location:', error);
+      }
     );
-
-    const proximityThreshold = 5000; // Proximity threshold in meters 5 kilometara
-    if (distance <= proximityThreshold ) {
-      this.addKeyPointToCompleted(nextKeyPoint);
-    }
-  }
-
+  
+    // Update the last activity independently of the location
     this.tourExecutionService.updateLastActivity(this.tourId).subscribe({
       next: (response) => console.log('Last activity updated:', response),
-      error: (err) => console.error('Error updating last activity:', err)
-  });
+      error: (err) => console.error('Error updating last activity:', err),
+    });
   }
 
   loadKeyPoints() {
@@ -155,6 +164,10 @@ export class TourSessionComponent implements OnInit {
       (completedKeyPoints) => {
         this.completedKeyPoints = completedKeyPoints;
         console.log('Loaded completed key points:', this.completedKeyPoints);
+        console.log('Loaded completed key points:');
+      this.completedKeyPoints.forEach((keyPoint) => {
+        console.log('Completed key point ID:', keyPoint.keyPointId);
+      });
       },
       (error) => {
         console.error('Error loading completed key points:', error);
@@ -163,16 +176,19 @@ export class TourSessionComponent implements OnInit {
   }
 
   findFirstIncompleteKeyPoint(): KeyPoint | null {
-    for (const keyPoint of this.keyPoints) {
-      const isCompleted = this.completedKeyPoints.some(
-        (completedKP) => completedKP.id === keyPoint.id
-      );
+    // Convert completedKeyPoints to a Set for efficient lookups
+    const completedIds = new Set(this.completedKeyPoints.map((completedKP) => completedKP.keyPointId));
   
-      if (!isCompleted) {
-        return keyPoint; // Found the first incomplete keyPoint
+    // Sort keyPoints by id in ascending order and find the first incomplete one
+    const sortedKeyPoints = [...this.keyPoints].sort((a, b) => (a.id ?? Infinity) - (b.id ?? Infinity));
+  
+    for (const keyPoint of sortedKeyPoints) {
+      // Check if the current keyPoint's id is not in completedIds
+      if (keyPoint.id != null && !completedIds.has(keyPoint.id)) {
+        return keyPoint; // Return the first incomplete key point with the smallest id
       }
     }
-    return null; // All keyPoints are completed
+    return null; // All key points are completed
   }
   
   calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -194,12 +210,17 @@ export class TourSessionComponent implements OnInit {
     this.tourExecutionService.addCompletedKeyPoint(this.tourId, keyPoint.id).subscribe(
       () => {
         this.loadCompletedKeyPoints()
-        console.log('dodao sam ovu broj 1')
+        console.log('dodao sam kljucnu tacku ')
+        alert('Uspesno kompletirana kljucna tacka')
       },
       (error) => {
         console.error('Error adding key point to completed:', error);
       }
     );
+  }
+
+  isKeyPointCompleted(keyPointId: number): boolean {
+    return this.completedKeyPoints.some((completedKP) => completedKP.keyPointId === keyPointId);
   }
 
   ngOnDestroy(): void {
