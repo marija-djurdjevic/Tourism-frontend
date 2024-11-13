@@ -1,29 +1,52 @@
-<div>
-    <div>
-    <table>
-        <thead>
-            <th>Naziv</th>
-            <th>Opis</th>
-        </thead>
-        <tbody>
-            <tr *ngFor="let cl of clubs">
-                <td>{{cl.name}}</td>
-                <td>{{cl.description}}</td>
-                <td>
-                    <button color="accent" (click)="deleteClub(cl.id || 0)" mat-icon-button>
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                    <button color="primary" (click)="onEditClicked(cl)" mat-icon-button>
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <button color="primary" (click)="onAddClicked()" mat-icon-button>
-                    <mat-icon>add</mat-icon>
-                </button>
-            </tr>
-        </tbody>
-    </table>
-    <xp-clubs-form *ngIf="shouldRenderClubForm" [shouldEdit]="shouldEdit" [club]="selectedClub" (clubsUpdated)="getClubs()"></xp-clubs-form>
+<div id="club-container">
+    <p>Clubs</p>
+    <hr>
+    <div id="club-details">
+        <!-- Table Container -->
+        <div id="club-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cl of clubs">
+                        <td>{{ cl.name }}</td>
+                        <td>{{ cl.description }}</td>
+                        <td>
+                            <img *ngIf="cl.image" [src]="cl.image" alt="{{ cl.name }} image" class="club-image" />
+                            <span *ngIf="!cl.image">No image available</span>
+                        </td>
+                        <td>
+                            <button color="accent" (click)="deleteClub(cl.id || 0)" mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button color="primary" (click)="onEditClicked(cl)" mat-icon-button>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            <button color="primary" (click)="onAddClicked()" mat-icon-button>
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Club Form for editing/adding -->
+        <div id="club-form" *ngIf="shouldRenderClubForm">
+            <xp-clubs-form [shouldEdit]="shouldEdit" 
+                           [club]="selectedClub" 
+                           (clubsUpdated)="getClubs()">
+            </xp-clubs-form>
+        </div>
+    </div>
 </div>

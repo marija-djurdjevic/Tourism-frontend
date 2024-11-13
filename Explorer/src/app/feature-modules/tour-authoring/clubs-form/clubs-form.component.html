@@ -12,10 +12,14 @@
           formControlName="description"
           cdkAutosizeMaxRows="5"></textarea>
         </mat-form-field>
-        <mat-form-field>
+        <!-- <mat-form-field>
             <mat-label>Image</mat-label>
             <input matInput formControlName="image" type="text"/>
-        </mat-form-field>
+        </mat-form-field> -->
+        <div style="margin-bottom: 16px;">
+            <!-- kod za upload slike -->
+            <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
+          </div>
     <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addClub()" mat-raised-button>Done</button>
     <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateClub()" mat-raised-button>Done</button>
     </div>
