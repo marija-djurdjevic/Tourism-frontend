@@ -19,9 +19,9 @@
             <span>Image Preview</span>
         </div>
     </ng-template>
-    <div style="display: flex;flex-direction: row;justify-content: space-between;">
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
         <button *ngIf="!selectSingle" (click)="PreviousImage()" mat-raised-button color="primary">Previous</button>
         <button *ngIf="!selectSingle" (click)="NextImage()" mat-raised-button color="primary">Next</button>
     </div>
-    <input type="file" mat-raised-button color="primary" (change)="onFileSelected($event)" multiple>
+    <input type="file" (change)="onFileSelected($event)" mat-raised-button color="primary" multiple>
 </div>

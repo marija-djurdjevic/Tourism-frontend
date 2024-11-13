@@ -1,14 +1,20 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, SimpleChanges, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { PagedResults } from '../model/paged-results.model';
+import { ImageService } from '../image.service';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements OnInit, AfterViewInit {
+  private objects: any[] = [];
   @Input() keyPoints: any[] = [];
   @Input() initialCenter: [number, number] = [45.2396, 19.8227];
   @Input() initialZoom: number = 13;
@@ -27,12 +33,91 @@ export class MapComponent implements AfterViewInit {
   });
 
 
+  ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.loadObjects();
+      console.log('Logged in user:', this.user);
+    });
+  }
+
+  private loadObjects(): void {
+    this.http.get<PagedResults<Object>>('https://localhost:44333/api/'+this.user?.role+'/object').subscribe(data => {
+      this.objects = data.results;
+      this.imageService.setControllerPath(this.user?.role+"/image");
+      this.objects.forEach(element => {
+        this.imageService.getImage(element.imageId.valueOf()).subscribe((blob: Blob) => {
+          console.log(blob);  // Proveri sadržaj Blob-a
+          if (blob.type.startsWith('image')) {
+            element.image = URL.createObjectURL(blob);
+            this.cd.detectChanges();
+            this.addMarker(element);
+          } else {
+            console.error("Blob nije slika:", blob);
+          }
+        });
+
+      });
+    });
+  }
+
+  private addMarker(object: any): void {
+    if (!object.image) {
+      console.error('Image URL is not set for object:', object);
+      return;
+    }
+    var imageUrl = '';
+    switch (object.category) {
+      case 0: imageUrl = 'assets/wc.png'
+        object.category = 'WC'
+        break;
+      case 1: imageUrl = 'assets/restaurant.png'
+        object.category = 'Restaurant'
+        break;
+      case 2: imageUrl = 'assets/parking.png'
+        object.category = 'Parking'
+        break;
+      default:
+        imageUrl = object.image;
+        object.category = 'Other'
+    }
+
+    const marker = L.marker([object.latitude, object.longitude], {
+      icon: L.icon({
+        iconUrl: imageUrl, // URL slike objekta
+        iconSize: [52, 52], // Prilagodite veličinu ikone po potrebi
+        iconAnchor: [26, 52],
+        popupAnchor: [0, -52],
+        shadowSize: [52, 52]
+      }),
+      draggable: false
+    }).addTo(this.map);
+
+    marker.bindPopup(`
+      <div style="text-align: center;">
+        <img src="${object.image}" alt="${object.name}" style="width: 100px; height: auto;"/><br>
+        <strong>${object.name}</strong><br>
+        ${object.description}<br>
+        Category: ${object.category}
+      </div>
+    `);
+
+    marker.on('mouseover', (e) => {
+      marker.openPopup();
+    });
+
+    marker.on('mouseout', (e) => {
+      marker.closePopup();
+    });
+  }
+
   private map: any;
   message: string = "";
   option: 'walking' | 'driving' | 'cycling' = 'driving';
   searchQuery: string = '';
   address: string = '';
   routeControl: any = null;
+  user: User | undefined;
 
   get Option(): 'walking' | 'driving' | 'cycling' {
     return this.option;
@@ -43,7 +128,13 @@ export class MapComponent implements AfterViewInit {
     this.setRouteFromKeyPoints()
   }
 
-  constructor(private service: MapService) { }
+  constructor(
+    private service: MapService,
+    private cd: ChangeDetectorRef,
+    private http: HttpClient,
+    private imageService: ImageService,
+    private authService: AuthService
+  ) { }
 
   private initMap(): void {
     this.map = L.map('map', {
