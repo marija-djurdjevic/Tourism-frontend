@@ -28,7 +28,7 @@
         <div class="popup-content">
             <button class="close-btn" (click)="closePopup()">✖</button>
             <div class="component-wrapper">
-                <xp-tourist-location></xp-tourist-location>
+                <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location>
             </div>
         </div>
     </div>

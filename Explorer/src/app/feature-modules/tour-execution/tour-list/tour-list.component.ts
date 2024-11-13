@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TourExecutionService } from '../tour-execution.service';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { Router } from '@angular/router';
@@ -17,15 +17,15 @@ export class TourListComponent implements OnInit {
   tourId: number;
   location: Location = { latitude: 0, longitude: 0 };
   tourStarted: boolean = false;
-  user:User|undefined;
+  user: User | undefined;
 
-  constructor(private tourExecutionService: TourExecutionService, private router: Router,private authService: AuthService) {}
+  constructor(private tourExecutionService: TourExecutionService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getAllTours();
     this.authService.user$.subscribe((user: User | undefined) => {
       this.user = user;
-  });
+    });
   }
 
 
@@ -58,26 +58,35 @@ export class TourListComponent implements OnInit {
   onStartTourSession(tourId: number): void {
     //this.router.navigate(['/tourSession', tourId]);
     if (tourId) {
-      this.tourExecutionService.startTour(tourId, this.location.latitude, this.location.longitude,this.user?.id as number).subscribe({
-        next: (result) => {
-          if (result) {
-            this.tourStarted = true;
-            console.log('Tura je uspešno započeta!');
-            this.router.navigate(['/tourSession', tourId]);
-          } else {
-            alert('Tura nije mogla biti započeta.');
-          }
+      this.tourExecutionService.getTouristLocation().subscribe({
+        next: (data) => {
+          this.location.latitude = data.latitude
+          this.location.longitude = data.longitude
+          console.log("Turista se nalazi na lokaciji: long"+this.location.longitude+" lat: "+this.location.latitude)
+          this.tourExecutionService.startTour(tourId, this.location.latitude, this.location.longitude, this.user?.id as number).subscribe({
+            next: (result) => {
+              if (result) {
+                this.tourStarted = true;
+                console.log('Tura je uspešno započeta!');
+                this.router.navigate(['/tourSession', tourId]);
+              } else {
+                alert('Tura nije mogla biti započeta.');
+              }
+            },
+            error: () => {
+              alert('Došlo je do greške prilikom pokretanja ture.');
+              window.location.href = 'http://localhost:4200/tourList';
+            }
+          });
         },
         error: () => {
-          alert('Došlo je do greške prilikom pokretanja ture.');
-          window.location.href = 'http://localhost:4200/tourList';
+          alert('Došlo je do greške prilikom ucitavanja lokacije.');
         }
       });
+
     } else {
       console.warn('Lokacija ili tourId nisu dostupni za startovanje ture.');
     }
-    
-   
   }
 
 

@@ -101,14 +101,14 @@ export class TourSessionComponent implements OnInit {
   
 
   updateSession(): void {
-    this.tourExecutionService.updateSession(this.tourId, this.location.latitude, this.location.longitude).subscribe({
-      next: () => {
-        console.log('Sesija uspešno ažurirana.');
-      },
-      error: () => {
-        console.warn('Došlo je do greške prilikom ažuriranja sesije.');
-      }
-    });
+    // this.tourExecutionService.updateSession(this.tourId, this.location.latitude, this.location.longitude).subscribe({
+    //   next: () => {
+    //     console.log('Sesija uspešno ažurirana.');
+    //   },
+    //   error: () => {
+    //     console.warn('Došlo je do greške prilikom ažuriranja sesije.');
+    //   }
+    // });
   }
 
   closePopup(): void {
