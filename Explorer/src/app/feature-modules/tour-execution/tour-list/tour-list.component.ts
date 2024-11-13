@@ -56,7 +56,7 @@ export class TourListComponent implements OnInit {
   }
 
   onStartTourSession(tourId: number): void {
-
+    //this.router.navigate(['/tourSession', tourId]);
     if (tourId) {
       this.tourExecutionService.startTour(tourId, this.location.latitude, this.location.longitude,this.user?.id as number).subscribe({
         next: (result) => {
@@ -93,5 +93,16 @@ export class TourListComponent implements OnInit {
       }
     });
   }
+  // getAllTours(): void {
+  //   this.tourExecutionService.getAllTours().subscribe({
+  //     next: (response: { results: Tour[], totalCount: number }) => {
+  //       this.tours = response.results; // Ensure `tours` is assigned an array
+  //       console.log('Ture su uspešno učitane:', this.tours);
+  //     },
+  //     error: () => {
+  //       console.error('Došlo je do greške prilikom preuzimanja tura.');
+  //     }
+  //   });
+  // }
 }
 
