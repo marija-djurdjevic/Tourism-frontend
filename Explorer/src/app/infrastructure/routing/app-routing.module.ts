@@ -13,7 +13,7 @@ import { ObjectComponent } from 'src/app/feature-modules/tour-authoring/object/o
 import { ObjectFormComponent } from 'src/app/feature-modules/tour-authoring/object-form/object-form.component';
 import { TourPreferencesComponent } from 'src/app/feature-modules/tour-execution/tour-preferences/tour-preferences.component';
 import { TourComponent } from 'src/app/feature-modules/tour-authoring/tour/tour.component';
-import { TourFormComponent } from 'src/app/feature-modules/tour-authoring/tour-form/tour-form.component'; 
+import { TourFormComponent } from 'src/app/feature-modules/tour-authoring/tour-form/tour-form.component';
 import { UserRatingComponent } from 'src/app/feature-modules/layout/user-rating/user-rating.component';
 import { RatingsListComponent } from 'src/app/feature-modules/layout/ratings-list/ratings-list.component';
 import { ProblemReportComponent } from 'src/app/feature-modules/tour-execution/problem-report/problem-report.component';
@@ -23,33 +23,35 @@ import { TourEquipmentComponent } from 'src/app/feature-modules/tour-authoring/t
 import { KeyPointComponent } from 'src/app/feature-modules/tour-authoring/key-point/key-point/key-point.component';
 import { KeyPointFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-form/key-point-form.component';
 import { BlogOverview } from 'src/app/feature-modules/blog/blog-overview/blog-overview-component';
-import {ImageComponent} from '../../shared/image/image.component'
+import { ImageComponent } from '../../shared/image/image.component'
 import { AccountComponent } from 'src/app/feature-modules/administration/account/account.component';
+import { ExploreToursComponent } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
 
 const routes: Routes = [
-  {path: 'key-points/:tourId', component: KeyPointComponent, canActivate: [AuthGuard]},
-  {path: 'key-points-form/:tourId', component: KeyPointFormComponent, canActivate: [AuthGuard]},
-  {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegistrationComponent},
-  {path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard]},
-  {path: 'comments/:blogId', component: CommentComponent},
-  {path: 'image', component: ImageComponent},
-  {path: 'profile', component: UserProfileComponent},
-  {path: 'clubs', component: ClubsComponent},
-  {path: 'object', component: ObjectComponent},
-  {path: 'objectForm', component: ObjectFormComponent},
-  {path: 'tours', component: TourComponent, canActivate: [AuthGuard] },
-  {path: 'add-tour', component: TourFormComponent, canActivate: [AuthGuard] }, 
+  { path: 'key-points/:tourId', component: KeyPointComponent, canActivate: [AuthGuard] },
+  { path: 'key-points-form/:tourId', component: KeyPointFormComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegistrationComponent },
+  { path: 'equipment', component: EquipmentComponent, canActivate: [AuthGuard] },
+  { path: 'comments/:blogId', component: CommentComponent },
+  { path: 'image', component: ImageComponent },
+  { path: 'profile', component: UserProfileComponent },
+  { path: 'clubs', component: ClubsComponent },
+  { path: 'object', component: ObjectComponent },
+  { path: 'objectForm', component: ObjectFormComponent },
+  { path: 'tours', component: TourComponent, canActivate: [AuthGuard] },
+  { path: 'add-tour', component: TourFormComponent, canActivate: [AuthGuard] },
   { path: 'tour-equipment', component: TourEquipmentComponent, canActivate: [AuthGuard] },
-  {path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard],},
-  {path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard],},
-  {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard],},
-  {path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard]},
-  {path: 'blogs', component: BlogOverview, canActivate: [AuthGuard]},
-  { path: 'user-rating', component: UserRatingComponent, canActivate: [AuthGuard] }, 
+  { path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard], },
+  { path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard], },
+  { path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard], },
+  { path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard] },
+  { path: 'blogs', component: BlogOverview, canActivate: [AuthGuard] },
+  { path: 'user-rating', component: UserRatingComponent, canActivate: [AuthGuard] },
   { path: 'ratings-list', component: RatingsListComponent, canActivate: [AuthGuard] },
-  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] } 
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+  { path: 'explore', component: ExploreToursComponent }
 
 ];
 
