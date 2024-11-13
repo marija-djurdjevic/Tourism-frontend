@@ -379,8 +379,29 @@
     padding: 0%;
     margin-top: 0%;
 }
+#closeButton2 {
+    position: absolute;
+    top: 30px;
+    right: 100px;
+    font-family: 'Lobster', cursive;
+    font-size: 0.5vw;
+    font-weight: bold;
+    border: none;
+    width: 50px;
+    height: 50px;
+    background-color:  #f1f1f1;
+    border-radius: 50%;
+    padding: 0%;
+    margin-top: 0%;
+}
 
 #closeButton:hover {
+    border-radius: 50%; /* Make the button circular */
+    background-color: #f1f1f1; /* Change to any color you prefer */
+    color: #333; /* Adjust text color if needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional shadow for effect */
+}
+#closeButton2:hover {
     border-radius: 50%; /* Make the button circular */
     background-color: #f1f1f1; /* Change to any color you prefer */
     color: #333; /* Adjust text color if needed */

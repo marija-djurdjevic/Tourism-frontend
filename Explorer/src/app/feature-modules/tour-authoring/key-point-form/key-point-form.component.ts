@@ -86,7 +86,8 @@ export class KeyPointFormComponent implements OnInit {
   
         this.keyPointService.addKeyPoint(this.newKeyPoint).subscribe({
           next: (keyPoint) => {
-            alert('Uspješno dodata ključna tačka!');
+            
+            alert(`Uspješno dodata ključna tačka! Izračunata distanca: ${distance.toFixed(2)} km, Vreme: ${time.toFixed(0)} minuta.`);
             this.resetForm();
   
             this.tourService.updateTransportInfo(this.tourId, transportInfo).subscribe({

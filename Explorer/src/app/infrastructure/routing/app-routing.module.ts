@@ -30,6 +30,7 @@ import { ShoppingCartComponent } from 'src/app/feature-modules/tour-shopping/sho
 import { ExploreToursComponent } from 'src/app/feature-modules/tour-shopping/explore-tours/explore-tours.component';
 import { ProblemsListComponent } from 'src/app/feature-modules/tour-execution/problems-list/problems-list.component';
 import { TouristLocationComponent } from 'src/app/feature-modules/tour-execution/tourist-location/tourist-location.component';
+import { TourSearchComponent } from 'src/app/feature-modules/marketplace/tour-search/tour-search.component';
 import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tour-problem/tour-problem.component';
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
@@ -54,7 +55,7 @@ const routes: Routes = [
   {path: 'tour-equipment', component: TourEquipmentComponent, canActivate: [AuthGuard]},
   {path: 'tour-preferences', component: TourPreferencesComponent, canActivate: [AuthGuard]},
   //{path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard]},
-  {path:  'problem', component: TourProblemComponent, canActivate: [AuthGuard]},//
+  {path: 'problem', component: TourProblemComponent, canActivate: [AuthGuard]},//
   {path: 'problems', component: ProblemsListComponent, canActivate: [AuthGuard]},//
   {path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard]},
   {path: 'tourReviews', component: TourReviewComponent, canActivate: [AuthGuard]},
@@ -65,11 +66,11 @@ const routes: Routes = [
   {path: 'cart', component: ShoppingCartComponent, canActivate: [AuthGuard]},
   {path: 'explore-tours', component: ExploreToursComponent, canActivate: [AuthGuard]},
   {path: 'location', component: TouristLocationComponent, canActivate: [AuthGuard]},
+  {path: 'tour-search', component: TourSearchComponent, canActivate: [AuthGuard]},
   {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]},
   {path: 'review/:tourId/:tourName', component: TourReviewFormComponent, canActivate: [AuthGuard]},
-  { path: 'tourSession/:tourId', component: TourSessionComponent },
-  { path:'tourList',component:TourListComponent},
-  {path: 'purchasedTours', component: PurchasedToursComponent, canActivate: [AuthGuard]} 
+  {path: 'tourSession/:tourId', component: TourSessionComponent },
+  {path:'tourList',component:TourListComponent} 
 
 ];
 

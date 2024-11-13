@@ -143,6 +143,9 @@ export class TourExecutionService {
       .pipe(
         map(response => response.results) // Extract only the results array
       );
+
+    //return this.http.get<Tour[]>(`${environment.apiHost}tourist/tour/allTours`);
+
   }
 
   updateSession(tourId: number, latitude: number, longitude: number): Observable<void> {
@@ -157,7 +160,7 @@ export class TourExecutionService {
   }
 
 getTouristProblems(): Observable<PagedResults<Problem>> {
-  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getAll')
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/tourist/problem/getByTouristId')
 }
   
 
@@ -171,7 +174,7 @@ touristAddComment(tourProblemId: number, comment: Comment): Observable<Problem> 
 
 
 authorGetProblems(): Observable<PagedResults<Problem>> {
-  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getAll')
+  return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/author/problem/getByAuthorId')
 }
 
 
@@ -201,6 +204,7 @@ setDeadline(problemId: number, time: Date): Observable<Problem> {
   });
 }
 
+
 updateLastActivity(tourId: number): Observable<boolean> {
   return this.http.post<boolean>(environment.apiHost + `administration/tourSession/updateLastActivity/${tourId}`, {});
 }
@@ -221,6 +225,18 @@ getKeyPoints(tourId: number): Observable<KeyPoint[]> {
   //return this.http.get<{ results: KeyPoint[] }>(url).pipe(
   //  map(response => response.results)
   //);
+}
+
+getTour(tourId: number): Observable<Tour> {
+  return this.http.get<Tour>(`${environment.apiHost}administrator/tour/getTour`, {
+    params: {
+      tourId: tourId.toString() 
+    }
+  });
+}
+
+closeTour(tourDto: Tour): Observable<Tour> {
+  return this.http.post<Tour>(`${environment.apiHost}administrator/tour/close-tour`, tourDto);
 }
 
 }

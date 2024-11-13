@@ -1,0 +1,79 @@
+/* Kontejner koji centrira ceo sadržaj na ekranu */
+.container-wrapper {
+    display: flex;
+    justify-content: center;  /* Centriranje u horizontalnom smeru */
+    align-items: flex-start;  /* Poravnanje sa početkom vertikalno */
+    height: 100vh;  /* Postavljanje visine ekrana */
+  }
+  
+  /* Glavni kontejner koji sadrži leve i desne sekcije */
+  .container {
+    display: flex;
+    justify-content: space-between;  /* Razdvaja leve i desne sekcije */
+    width: 70%;  /* Oko 70% širine ekrana */
+    max-width: 1200px; /* Maksimalna širina da se ne rastegne previše */
+  }
+  
+  /* Leva sekcija */
+  .left-section {
+    width: 45%;  /* Leva sekcija zauzima 45% širine */
+  }
+  
+  /* Desna sekcija */
+  .right-section {
+    width: 45%;  /* Desna sekcija zauzima 45% širine */
+    margin-left: 20px;  /* Razmak između leve i desne sekcije */
+  }
+  
+  /* Stil za formu da bude odgovarajuće veličine */
+  form {
+    max-width: 500px;
+  }
+  
+  /* Stil za tabelu */
+  table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 300px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  thead tr {
+    background-color: #3f51b5;
+    color: #ffffff;
+    text-align: left;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+  }
+  
+  tbody tr {
+    border-bottom: 1px solid #dddddd;
+  }
+  
+  tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+  
+  tbody tr:last-of-type {
+    border-bottom: 2px solid #3f51b5;
+  }
+  
+  tbody tr.active-row {
+    font-weight: bold;
+    color: #3f51b5;
+  }
+
+  button {
+    font-size: 1.2em; /* Veći font za dugme */
+    padding: 12px 24px; /* Veći prostor unutar dugmeta */
+    min-width: 200px; /* Postavi minimalnu širinu */
+    color: white; /* Boja teksta */
+    border: none; /* Bez ivica */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    cursor: pointer; /* Pokazivač miša se menja u rukicu kada se pređe preko dugmeta */
+    transition: background-color 0.3s ease; /* Animacija za promenu boje pozadine */
+}
+  
