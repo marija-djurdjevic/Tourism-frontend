@@ -35,6 +35,7 @@ import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tou
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
+import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
 
 const routes: Routes = [
   {
@@ -130,11 +131,11 @@ const routes: Routes = [
   },
   { path: 'tourSession/:tourId', component: TourSessionComponent },
   { path: 'tourList', component: TourListComponent },
-  { path: 'explore', component: ExploreToursComponent },
+  { path: 'explore', component: AllTours },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
