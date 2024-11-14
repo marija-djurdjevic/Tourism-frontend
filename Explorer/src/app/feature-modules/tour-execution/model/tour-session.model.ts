@@ -5,7 +5,7 @@ export interface Location {
   }
   
   export interface CompletedKeyPoint {
-    id: number;
+    keyPointId: number;
     completedAt: any;
   }
   export interface TourSession {

@@ -9,11 +9,15 @@
     <h3>Existing Key Points</h3>
     <div style="display: flex;flex-direction: row;">
         <div class="card-container">
-            <div class="card" *ngFor="let keyPoint of keyPoints">
+            <div class="card" *ngFor="let keyPoint of keyPoints"
+            [ngClass]="{'completed-card': keyPoint.id && isKeyPointCompleted(keyPoint.id)}"
+            >
                 <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
                 <div class="card-content">
                     <h4>{{ keyPoint.name }}</h4>
-                    <p><strong>Description:</strong> {{ keyPoint.description }}</p>
+                    <p *ngIf="keyPoint.id && isKeyPointCompleted(keyPoint.id)">
+                        <strong>Description:</strong> {{ keyPoint.description }}
+                    </p>
                     <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
                     <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
                 </div>

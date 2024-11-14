@@ -1,0 +1,58 @@
+.tour-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.tour-card {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    width: 23%;
+    /* Adjust width for 4 cards per row */
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.tour-header h2 {
+    font-size: 1.2rem;
+    margin: 0 0 10px;
+}
+
+.tour-body p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.tour-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.tour-footer {
+    text-align: right;
+    margin-top: 20px;
+}
+
+button[mat-button] {
+    margin: 0 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .tour-card {
+        width: 48%;
+        /* 2 cards per row for tablet */
+    }
+}
+
+@media (max-width: 600px) {
+    .tour-card {
+        width: 100%;
+        /* 1 card per row for mobile */
+    }
+}
