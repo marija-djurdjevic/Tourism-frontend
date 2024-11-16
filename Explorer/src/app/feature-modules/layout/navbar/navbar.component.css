@@ -14,6 +14,45 @@ div {
     height: 50px;
 }
 
+.cartbutton{
+    background-color: rgba(3, 26, 16, 0.05);
+    border-radius: 20%;
+    border:0px;
+}
+
+.cartbutton:active{
+    background-color:  rgba(61, 66, 64, 0.8);;
+}
+
+.profileButton {
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid green;
+    padding: 0; 
+    width: 50px;
+    height: 50px;
+    background-color: transparent; 
+}
+.nameT{
+    font-family: 'Lucida Handwriting', cursive;
+    margin-left: -0.5%;
+    font-size: medium;
+}
+.loogo{
+    width:70px;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.0);
+}
+.profileButton img {
+    width: 100%;
+    height: 100%; 
+    border-radius: 50%; 
+}
+.profileButton:active img {
+    filter:opacity(80%);
+}
 .location-button img {
     width: 30px;
     height: 30px;

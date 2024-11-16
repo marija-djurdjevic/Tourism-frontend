@@ -73,7 +73,7 @@ const routes: Routes = [
     component: TourPreferencesComponent,
     canActivate: [AuthGuard],
   },
-  //{path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard]},
+ // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
   {
     path: 'problem',
     component: TourProblemComponent,

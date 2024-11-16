@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Notification } from 'src/app/feature-modules/layout/model/notification.model';
 import { LayoutService } from '../layout.service';
 import { Router } from '@angular/router';
+import { UserProfile } from '../model/user-profile.model';
+import { ImageService } from 'src/app/shared/image.service';
 
 @Component({
   selector: 'xp-navbar',
@@ -15,8 +17,9 @@ export class NavbarComponent implements OnInit {
   user: User | undefined;
   notifications: Notification[] = [];
   showNotifications: boolean = false;
+  userProfile: UserProfile;
 
-  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router) {}
+  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -34,8 +37,31 @@ export class NavbarComponent implements OnInit {
           this.notifications = notificationsData;
          });
       }
+      this.layoutService.getProfile(user.role).subscribe({
+        next:(result: UserProfile) => {
+          this.userProfile = result;
+          console.log(result)
+          this.imageService.setControllerPath(user.role+"/image");
+            this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe((blob: Blob) => {
+              console.log(blob);  
+              if (blob.type.startsWith('image')) {
+                this.userProfile.imageURL = URL.createObjectURL(blob);
+                this.cd.detectChanges();
+              } else {
+                console.error("Blob nije slika:", blob);
+              }
+            });
+        },
+        error:(err:any) => {
+          console.log(err)
+        }
+      })
     });
+
+    
   }
+
+   
 
   goToProblem(notification: Notification, problemId: number): void {
     if(this.user?.role === 'tourist') {

@@ -4,6 +4,7 @@ import { LayoutService } from '../layout.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-user-profile',
@@ -16,7 +17,7 @@ export class UserProfileComponent implements OnInit {
   userProfile: UserProfile;
   isEditing =  false;
   role:String='';
-  constructor(private layoutService: LayoutService,private authService: AuthService,private imageService:ImageService, private cd: ChangeDetectorRef) { }
+  constructor(private layoutService: LayoutService,private router:Router, private authService: AuthService,private imageService:ImageService, private cd: ChangeDetectorRef) { }
   
   ngOnInit(): void {
 
@@ -53,6 +54,9 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
+  setPreferences():void{
+    this.router.navigate(['/tour-preferences']);
+  }
   onProfileUpdated() {
     this.getProfile();
     this.isEditing = false;
