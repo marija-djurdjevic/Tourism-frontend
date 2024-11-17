@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   notifications: Notification[] = [];
   showNotifications: boolean = false;
   userProfile: UserProfile;
+  showProfileMenu: boolean=false;
 
   constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef) {}
 
@@ -62,7 +63,14 @@ export class NavbarComponent implements OnInit {
   }
 
    
-
+  myProfile(){
+    this.showProfileMenu = !this.showProfileMenu;
+    this.router.navigate(['/profile']);
+  }
+  toggleProfileMenu(): void {
+    this.showProfileMenu = !this.showProfileMenu;
+    this.cd.detectChanges();
+  }
   goToProblem(notification: Notification, problemId: number): void {
     if(this.user?.role === 'tourist') {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
@@ -85,6 +93,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onLogout(): void {
+    this.showProfileMenu = !this.showProfileMenu;
     this.authService.logout();
     this.notifications = [];
   }

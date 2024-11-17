@@ -16,19 +16,30 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 /* Buttons Styling */
-.primary-button {
+/*.primary-button {
     background-color: var(--secondary-color) !important;
     color: var(--light-text-color) !important;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
+}*/
+.primary-button {
+    background-color: var(--secondary-color)!important; /* Main color */
+    color: var(--light-text-color) !important;
+    padding: 14px 36px; /* Ample padding for a luxurious feel */
+    border: none;
+    border-radius: 30px 15px 30px 15px; 
+    text-transform: uppercase; 
+    position: relative; 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); 
 }
 
 .secondary-button {
     background-color: var(--primary-color) !important;
     color: var(--light-text-color) !important;
     padding: 10px 20px;
-    border-radius: 5px;
+   /* border-radius: 5px;*/
+   border-radius: 30px 15px 30px 15px; 
 }
 
 /* Text Styles */

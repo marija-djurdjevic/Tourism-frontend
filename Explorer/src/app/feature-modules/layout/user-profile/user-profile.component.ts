@@ -54,6 +54,13 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
+  seeProblems():void{
+    this.router.navigate(['/problems']);
+  }
+  myReviews():void{
+    this.router.navigate(['/tourReviews']);
+  }
+
   setPreferences():void{
     this.router.navigate(['/tour-preferences']);
   }

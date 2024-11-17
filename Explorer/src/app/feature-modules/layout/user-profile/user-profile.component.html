@@ -1,3 +1,4 @@
+<div class="overAll">
 <div class="profile-container" *ngIf="userProfile">
   <img [src]="userProfile.imageURL" 
   alt="Profile Image" 
@@ -8,8 +9,14 @@
     <p><strong>Bio:</strong> {{ userProfile.biography }}</p>
     <p><strong>Motto:</strong> {{ userProfile.motto }}</p>
   </div>
+ 
   <button (click)="setPreferences()">Set preferences</button>
   <button mat-raised-button color="primary" (click)="toggleEdit()">Edit</button>
+</div>
+<div  class="b">
+  <button (click)="myReviews()">My reviews</button>
+  <button (click)="seeProblems()">My problems</button>
+</div>
 </div>
 
 <div *ngIf="isEditing">
