@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TourExecutionService } from '../tour-execution.service';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
@@ -26,7 +26,8 @@ export class TourSessionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private tourExecutionService: TourExecutionService,
-    private keyPointService: KeyPointService
+    private keyPointService: KeyPointService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -82,6 +83,9 @@ export class TourSessionComponent implements OnInit {
     });
   }
 
+  reportProblem():void{
+    this.router.navigate(['/report']);
+  }
 
   updateLocation(): void {
     this.tourExecutionService.updateLocation(this.tourId, this.location.latitude, this.location.longitude).subscribe({

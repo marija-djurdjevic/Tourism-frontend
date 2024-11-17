@@ -131,3 +131,13 @@ xp-tourist-location {
     height: auto; /* Auto height */
     max-height: none; /* Allow full height */
 }
+
+#supportButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#report{
+    margin-right: 2%;
+}

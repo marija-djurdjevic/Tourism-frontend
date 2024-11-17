@@ -37,6 +37,9 @@ export class ExploreToursComponent implements OnInit {
     this.getTours();
     this.loadPurchasedTours();
   }
+  searchTours():void{
+    this.router.navigate(['/tour-search']);
+  }
 
   getTours(): void {
     this.service.getTours().subscribe({
