@@ -6,6 +6,7 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { KeyPointService } from '../../tour-authoring/key-point.service';
 import { interval, Subscription } from 'rxjs';
 import { CompletedKeyPoint } from '../model/tour-session.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'xp-tour-session',
   templateUrl: './tour-session.component.html',
@@ -27,7 +28,8 @@ export class TourSessionComponent implements OnInit {
     private route: ActivatedRoute,
     private tourExecutionService: TourExecutionService,
     private keyPointService: KeyPointService,
-    private router: Router
+    private router: Router,
+    private snackBar:MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -72,13 +74,25 @@ export class TourSessionComponent implements OnInit {
         if (result) {
           this.tourStarted = false;
           console.log('Tura je napuštena!');
+          this.snackBar.open('Tour abandoned successfully!', 'Close', {
+            duration: 3000,
+            panelClass:"succesful"
+          });
           window.location.href = 'http://localhost:4200/tourList';
         } else {
-          alert('Tura nije mogla biti napuštena.');
+          console.log('Tura nije mogla biti napuštena.');
+          this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
+            duration: 3000,
+            panelClass:"succesful"
+          });
         }
       },
       error: () => {
-        alert('Došlo je do greške prilikom napuštanja ture.');
+        console.log('Došlo je do greške prilikom napuštanja ture.');
+        this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

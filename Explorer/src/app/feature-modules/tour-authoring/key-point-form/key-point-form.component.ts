@@ -5,6 +5,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { KeyPoint } from '../model/key-point.model';
 import { Tour } from '../model/tour.model';
 import { TransportInfo, TransportType } from '../model/transportInfo.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-key-point-form',
@@ -32,7 +33,7 @@ export class KeyPointFormComponent implements OnInit {
     }
   }
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService, private tourService: TourAuthoringService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar, private tourService: TourAuthoringService, private router: Router) { }
 
   ngOnInit(): void {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId')); 
@@ -43,9 +44,17 @@ export class KeyPointFormComponent implements OnInit {
   }
 
  loadTour() {
-    this.tourService.getKeyPointsByTourId(this.tourId).subscribe(tour => {
-      this.tour = tour; 
-      
+    this.tourService.getKeyPointsByTourId(this.tourId).subscribe( {
+      next:(tour)=>{
+        this.tour = tour;
+      },
+      error:(err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to load tour data. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      }
     });
     
   }
@@ -87,27 +96,47 @@ export class KeyPointFormComponent implements OnInit {
         this.keyPointService.addKeyPoint(this.newKeyPoint).subscribe({
           next: (keyPoint) => {
             
-            alert(`Uspješno dodata ključna tačka! Izračunata distanca: ${distance.toFixed(2)} km, Vreme: ${time.toFixed(0)} minuta.`);
+            console.log(`Uspješno dodata ključna tačka! Izračunata distanca: ${distance.toFixed(2)} km, Vreme: ${time.toFixed(0)} minuta.`);
             this.resetForm();
+            this.snackBar.open('Key point added successfully!', 'Close', {
+              duration: 3000,
+              panelClass:"succesful"
+            });
   
             this.tourService.updateTransportInfo(this.tourId, transportInfo).subscribe({
               next: () => {
                 console.log('Transport info ažuriran uspešno.');
+                this.snackBar.open('Key point added successfully! and Transport info updated successfully!', 'Close', {
+                  duration: 3000,
+                  panelClass:"succesful"
+                });
               },
               error: (error) => {
                 console.error("Greška prilikom ažuriranja transport informacija: ", error);
-                alert('Došlo je do greške prilikom ažuriranja informacija o transportu.');
+                console.error('Došlo je do greške prilikom ažuriranja informacija o transportu.');
+                this.snackBar.open('Failed to load key point. Please try again.', 'Close', {
+                  duration: 3000,
+                  panelClass:"succesful"
+                });
               }
             });
           },
           error: (error) => {
             console.error("Greška prilikom dodavanja ključne tačke: ", error);
             console.error("Detaljne greške: ", error.error.errors);
+            this.snackBar.open('Failed to add key point. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass:"succesful"
+            });
           }
         });
       },
       error: (error) => {
         console.error("Greška prilikom učitavanja ključnih tačaka: ", error);
+        this.snackBar.open('Failed to add key point. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

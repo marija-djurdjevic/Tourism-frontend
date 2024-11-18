@@ -1,23 +1,31 @@
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Is active</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let acc of account">
-                <td>{{acc.username}}</td>
-                <td>{{acc.role}}</td>
-                <td>{{acc.email}}</td>
-                <td>{{acc.isActive}}</td>
-                <td>
-                    <button color="primary" type="submit" mat-raised-button (click)="blockAccount(acc)">Block account</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading accounts...</p>
+</div>
+
+<div *ngIf="!isLoading">
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Is active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let acc of account">
+                    <td>{{acc.username}}</td>
+                    <td>{{acc.role}}</td>
+                    <td>{{acc.email}}</td>
+                    <td>{{acc.isActive}}</td>
+                    <td>
+                        <button color="primary" type="submit" mat-raised-button (click)="blockAccount(acc)">Block
+                            account</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

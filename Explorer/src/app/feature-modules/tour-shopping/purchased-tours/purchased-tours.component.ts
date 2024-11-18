@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-purchased-tours',
@@ -16,8 +17,9 @@ export class PurchasedToursComponent {
   tours: Tour[] = [];
   selectedTourKeyPoints: any[] = []; // Holds key points for the selected tour
   isKeyPointsModalOpen = false; // Tracks whether the modal is open
+  isLoading=false;
 
-  constructor(private service: TourShoppingService, private router: Router, private authService: AuthService) { }
+  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -27,13 +29,19 @@ export class PurchasedToursComponent {
   }
 
   private loadPurchasedTours(): void {
+    this.isLoading=true;
     this.service.getPurchasedTours().subscribe({
       next: (tours: Tour[]) => {
         this.tours = tours;
         console.log(this.tours)
+        this.isLoading=false;
       },
       error: (err) => {
+        this.isLoading=false;
         console.error('Failed to load purchased tours:', err);
+        this.snackBar.open('Failed to load purchased tours', 'Close', {
+          duration: 3000
+        });
       }
     });
   }
