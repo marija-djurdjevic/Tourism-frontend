@@ -4,6 +4,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Notification } from 'src/app/feature-modules/layout/model/notification.model';
 import { LayoutService } from '../layout.service';
 import { Router } from '@angular/router';
+import { NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'xp-navbar',
@@ -15,10 +17,20 @@ export class NavbarComponent implements OnInit {
   user: User | undefined;
   notifications: Notification[] = [];
   showNotifications: boolean = false;
+  hideLocationButton: boolean = false;
 
   constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router) {}
 
   ngOnInit(): void {
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.hideLocationButton = this.router.url.startsWith('/tourSession');
+      console.log('Current URL:', this.router.url);
+      console.log('Hide Location Button:', this.hideLocationButton);
+    });
+    console.log('Current URL:', this.router.url); // Debugging
+    console.log('Hide Location Button:', this.hideLocationButton); // Debugging
     this.authService.user$.subscribe(user => {
       this.user = user;
 
