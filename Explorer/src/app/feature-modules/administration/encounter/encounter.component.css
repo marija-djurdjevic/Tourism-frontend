@@ -1,7 +1,7 @@
 .encounter-card {
     display: flex;
     flex-direction: column;
-    border: 2px solid #d1b7a1; 
+    border: 2px solid var(--secondary-color); 
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 15px 20px;
@@ -10,6 +10,7 @@
     margin-bottom: 15px;
     max-height: 250px; /* Smanjena visina */
     height: auto;
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 .encounter-card:hover {
@@ -38,19 +39,22 @@
 .encounter-name {
     font-size: 1.8rem;
     font-weight: bold;
-    color: #2e8b57; 
+    color: var(--secondary-color); 
     margin-bottom: 10px;
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 .encounter-description {
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 1rem;
     color: #666;
     margin-bottom: 10px;
 }
 
 p strong {
+    font-family: "Helvetica Neue", sans-serif;
     font-weight: bold;
-    color: #2e8b57; 
+    color: var(--secondary-color); 
 }
 
 .button-container {
@@ -58,6 +62,7 @@ p strong {
     justify-content: flex-end;
     margin-top: 10px;
     gap: 10px; /* Razmak između dugmića */
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 .btn-edit,
@@ -66,31 +71,33 @@ p strong {
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    border: 2px solid #2e8b57;
+    border: 2px solid var(--secondary-color);
     padding: 8px 16px;
     background-color: transparent;
-    color: #2e8b57;
+    color: var(--secondary-color);
     font-weight: bold;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 .btn-edit:hover,
 .btn-delete:hover {
-    background-color: #2e8b57;
+    background-color: var(--secondary-color);
     color: white;
 }
 
 .button-dodaj {
-    background-color: #2e8b57;
+    background-color: var(--secondary-color); 
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s ease;
     margin-top: 20px;
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 .button-dodaj:hover {
-    background-color: #26754d;
+    background-color: var(--secondary-color);
 }
