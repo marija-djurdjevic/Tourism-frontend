@@ -1,48 +1,57 @@
-<div id="tour">
-    <p>Tours</p>
-    <hr>
-    <div id="tour-details">
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Difficulty</th>
-                        <th>Status</th>
-                        <th>Price</th>
-                        <th>Tags</th>
-                        <th>Equipment</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of tours">
-                        <td>{{t.name}}</td>
-                        <td>{{t.description}}</td>
-                        <td>{{getDifficultyLabel(t.difficulty)}}</td> 
-                        <td>{{getStatusLabel(t.status)}}</td> 
-                        <td>{{t.price}}</td>
-                        <td>{{t.tags}}</td>
-                        <td *ngIf="t.id"><xp-tour-equipment [tourId]=t.id></xp-tour-equipment></td>
-                        <td>
-                            <!-- Dugmad za ključne tačke -->
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading tours...</p>
+</div>
+
+<div *ngIf="!isLoading">
+    <div id="tour">
+        <p>Tours</p>
+        <hr>
+        <div id="tour-details">
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Difficulty</th>
+                            <th>Status</th>
+                            <th>Price</th>
+                            <th>Tags</th>
+                            <th>Equipment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let t of tours">
+                            <td>{{t.name}}</td>
+                            <td>{{t.description}}</td>
+                            <td>{{getDifficultyLabel(t.difficulty)}}</td>
+                            <td>{{getStatusLabel(t.status)}}</td>
+                            <td>{{t.price}}</td>
+                            <td>{{t.tags}}</td>
+                            <td *ngIf="t.id"><xp-tour-equipment [tourId]=t.id></xp-tour-equipment></td>
+                            <td>
+                                <!-- Dugmad za ključne tačke -->
 
 
-                            <button class="primary-button" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
-                            <button class="primary-button" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
-                            <button class="primary-button" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)">Publish</button>
-                            <button class="primary-button" *ngIf="t.status === 1" (click)="onArchive(t)">Archive</button>
+                                <button class="primary-button" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
+                                <button class="primary-button" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
+                                <button class="primary-button" *ngIf="t.status === 2 || t.status == 0"
+                                    (click)="onPublish(t)">Publish</button>
+                                <button class="primary-button" *ngIf="t.status === 1"
+                                    (click)="onArchive(t)">Archive</button>
 
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7" style="text-align: right;">
-                            <button class="primary-button" (click)="onAddClicked()">Add New Tour</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" style="text-align: right;">
+                                <button class="primary-button" (click)="onAddClicked()">Add New Tour</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

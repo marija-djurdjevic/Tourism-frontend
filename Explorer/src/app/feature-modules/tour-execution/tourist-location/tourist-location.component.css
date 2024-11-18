@@ -4,7 +4,8 @@
 }
 
 .glavni-div{
-    width: 100vw !important;
+    width: 100% !important;
+    height: 100%;
     display: flex;
     justify-content: center;
 }

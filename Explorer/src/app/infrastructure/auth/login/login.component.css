@@ -18,3 +18,23 @@ div {
 p {
     margin-top: 10px;
 }
+
+.custom-spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px groove rgba(0, 0, 0, 0.7);
+    border-top: 10px solid var(--secondary-color);
+    border-radius: 50%;
+    margin-bottom: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

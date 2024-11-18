@@ -4,6 +4,7 @@ import { Tour } from '../model/tour.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-tour',
@@ -16,30 +17,44 @@ export class TourComponent implements OnInit {
   selectedTour: Tour;
   shouldRenderTourForm: boolean = false;
   shouldEdit: boolean = false;
+  isLoading=false;
 
-  constructor(private service: TourAuthoringService, private router: Router, private authService: AuthService) { }
+  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getTours();
   }
 
   getTours(): void {
+    this.isLoading=true;
     this.authService.user$.subscribe((loggedInUser) => {
       if (loggedInUser && loggedInUser.role === 'author') {
         this.service.getToursByAuthorId(loggedInUser.id).subscribe({
           next: (result: PagedResults<Tour>) => {
             console.log(result);
             this.tours = result.results;
+            this.isLoading=false;
           },
           error: () => {
+            this.isLoading=false;
+            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass:"succesful"
+            });
           }
         });
       } else {
         this.service.getTours().subscribe({
           next: (result: PagedResults<Tour>) => {
             this.tours = result.results;
+            this.isLoading=false;
           },
           error: () => {
+            this.isLoading=false;
+            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass:"succesful"
+            });
           }
         });
       }
@@ -91,9 +106,17 @@ export class TourComponent implements OnInit {
       next: (result: Tour) => {
         console.log('Tour published successfully:', result);
         this.getTours(); 
+        this.snackBar.open('Tour published successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
       error: (err) => {
         console.error('Error publishing tour:', err);
+        this.snackBar.open('Failed to publish tour. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }
@@ -103,9 +126,17 @@ export class TourComponent implements OnInit {
       next: (result: Tour) => {
         console.log('Tour published successfully:', result);
         this.getTours(); 
+        this.snackBar.open('Tour archived successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
       error: (err) => {
         console.error('Error publishing tour:', err);
+        this.snackBar.open('Failed to publish tour. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

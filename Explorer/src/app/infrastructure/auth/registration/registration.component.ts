@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Registration } from '../model/registration.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-registration',
@@ -13,7 +14,8 @@ export class RegistrationComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   registrationForm = new FormGroup({
@@ -37,7 +39,14 @@ export class RegistrationComponent {
       this.authService.register(registration).subscribe({
         next: () => {
           this.router.navigate(['home']);
-        },
+          this.snackBar.open('Registration successful', 'Close', {
+            duration: 3000,
+          });
+        },error: (error) => {
+          this.snackBar.open('Registration failed', 'Close', {
+            duration: 3000,
+          });
+        }
       });
     }
   }

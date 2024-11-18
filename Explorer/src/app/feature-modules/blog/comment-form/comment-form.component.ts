@@ -4,6 +4,7 @@ import { Comment } from '../model/comment.model';
 import { CommentService } from '../comment.service';
 import { TokenStorage } from '../../../infrastructure/auth/jwt/token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-comment-form',
@@ -20,7 +21,8 @@ export class CommentFormComponent implements OnChanges {
   id: 0;
 
   constructor(private service: CommentService,
-    private tokenStorage: TokenStorage
+    private tokenStorage: TokenStorage,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -54,9 +56,18 @@ export class CommentFormComponent implements OnChanges {
       username: this.username,
     };
     this.service.addComment(this.blogId, newComment).subscribe({
-      next: () => { this.commentUpdated.emit(); },
+      next: () => { this.commentUpdated.emit(); 
+        this.snackBar.open('Comment added successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      },
       error: () => {
         alert("Blog is CLOSED!");
+        this.snackBar.open('Failed to add comment. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }
@@ -68,9 +79,18 @@ export class CommentFormComponent implements OnChanges {
       editDate: new Date(),
     };
     this.service.updateComment(this.blogId, updatedComment).subscribe({
-      next: () => { this.commentUpdated.emit(); },
+      next: () => { this.commentUpdated.emit(); 
+        this.snackBar.open('Comment updated successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      },
       error: () => {
         alert("Blog is CLOSED!");
+        this.snackBar.open('Failed to update comment. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

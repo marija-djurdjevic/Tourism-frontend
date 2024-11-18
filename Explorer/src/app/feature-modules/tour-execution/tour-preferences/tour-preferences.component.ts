@@ -16,6 +16,7 @@ export class TourPreferencesComponent implements OnInit {
   user: User | undefined;
   tourPreferences: TourPreferences;
   tourPreferencesForm: FormGroup;
+  isLoading=false;
 
   constructor(private authService: AuthService, private service: TourExecutionService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.tourPreferencesForm = this.fb.group({
@@ -52,14 +53,21 @@ export class TourPreferencesComponent implements OnInit {
   }
 
   loadTourPreferences(touristId: number): void {
+    this.isLoading=true;
     this.service.getTourPreferencesByTouristId(touristId).subscribe(
       data => {
         console.log('Tour Preferences:', data);
         this.tourPreferences = data;
         this.tourPreferencesForm.patchValue(data);
+        this.isLoading=false;
       },
       error => {
         console.log('Error fetching tour preferences:', error);
+        this.isLoading=false;
+        this.snackBar.open('Failed to load preferences. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     );
   }
