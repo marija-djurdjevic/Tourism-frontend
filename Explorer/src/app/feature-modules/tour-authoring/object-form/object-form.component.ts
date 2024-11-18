@@ -4,6 +4,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { Object } from '../model/object.model'
 import { ImageService } from 'src/app/shared/image.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-object-form',
@@ -18,7 +19,7 @@ export class ObjectFormComponent {
   longitude:Number;
   latitude:Number;
 
-  constructor(private service: TourAuthoringService, private imageService: ImageService,private router: Router) {
+  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private imageService: ImageService,private router: Router) {
     /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
     ODREDJUJE SE NA OSNOVU ULOGE KOJA VRSI OPERACIJU ZBOG AUTORIZACIJE*/
     imageService.setControllerPath("author/image");
@@ -57,13 +58,21 @@ export class ObjectFormComponent {
         object.imageId=imageId;
         this.service.addObject(object).subscribe({
           next: () => {
-            alert('Objekat uspešno kreiran!');
+            console.log('Objekat uspešno kreiran!');
             this.objectForm.reset();
             this.previewImage = null;
             this.router.navigate(['/object']);
+            this.snackBar.open('Object added successfully!', 'Close', {
+              duration: 3000,
+              panelClass:"succesful"
+            });
           },
           error: () => {
-            alert('Došlo je do greške prilikom kreiranja objekta.');
+            console.log('Došlo je do greške prilikom kreiranja objekta.');
+            this.snackBar.open('Failed to add object. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass:"succesful"
+            });
           }
         });
       });

@@ -11,6 +11,7 @@ import { Blog } from '../model/blog.model';
 import { BlogService } from '../blog.service';
 import { Vote } from '../model/Vote';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-comment',
@@ -31,12 +32,14 @@ export class CommentComponent {
   votes: Vote[] = [];
   user: User;
   currentUserRating: boolean = false;
+  isLoading:boolean=false;
 
   constructor(
     private service: CommentService,
     private blogService: BlogService,
     private tokenStorage: TokenStorage,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -55,26 +58,37 @@ export class CommentComponent {
   }
 
   getBlogById() {
+    this.isLoading=true;
     this.blogService.getBlogById(this.blogId).subscribe({
       next: (blog: Blog) => {
         this.blog = blog;
         this.checkHasUserRated();
         this.votes = this.blog.votes;
+        this.isLoading=false;
       },
       error: (error) => {
+        this.isLoading=false;
         console.error('Error fetching blog:', error);
+        this.snackBar.open('Failed to load data. Please try again.');
       },
       complete: () => { },
     });
   }
 
   getUserById(userId: number) {
+    this.isLoading=true;
     this.blogService.getUserById(userId).subscribe({
       next: (user: User) => {
         this.user = user;
+        this.isLoading=false;
       },
       error: (error) => {
+        this.isLoading=false;
         console.error('Error fetching blog:', error);
+        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
     });
     return this.user.username;
@@ -108,7 +122,18 @@ export class CommentComponent {
         this.getBlogById();
         this.checkHasUserRated();
         this.currentUserRating = !this.currentUserRating;
+        this.snackBar.open('Vote added successfully!', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
       },
+      error: (err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to add vote. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      }
     });
   }
 
@@ -118,9 +143,17 @@ export class CommentComponent {
         this.getBlogById();
         this.votes = this.blog.votes;
         this.hasUserRated = false;
+        this.snackBar.open('Rating removed successfully!', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
       },
       error: (error) => {
         console.error('Error fetching blog:', error);
+        this.snackBar.open('Failed to remove rating. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
       complete: () => { },
     });
@@ -137,7 +170,18 @@ export class CommentComponent {
       next: () => {
         this.getBlogById();
         this.checkHasUserRated();
+        this.snackBar.open('Vote added successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
+      error: (err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to add vote. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      }
     });
   }
 
@@ -154,6 +198,13 @@ export class CommentComponent {
       next: () => {
         this.getComments();
       },
+      error: (err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to delete comment. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      }
     });
   }
 
@@ -161,8 +212,18 @@ export class CommentComponent {
     this.service.getComments(this.blogId).subscribe({
       next: (result: Comment[]) => {
         this.comments = result;
+        this.snackBar.open('Comments loaded successfully!', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
       },
-      error: () => { },
+      error: (err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to load comments. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      }
     });
   }
 

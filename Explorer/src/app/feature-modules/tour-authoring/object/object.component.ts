@@ -5,6 +5,7 @@ import { Object } from '../model/object.model';
 import { RouterModule } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-object',
@@ -15,18 +16,21 @@ export class ObjectComponent implements OnInit {
 
   object: Object[] = []
   image: File;
+  isLoading=false;
 
-  constructor(private service: TourAuthoringService, private imageService: ImageService, private cd: ChangeDetectorRef) {
+  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private imageService: ImageService, private cd: ChangeDetectorRef) {
     /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
     ODREDJUJE SE NA OSNOVU ULOGE KOJA VRSI OPERACIJU ZBOG AUTORIZACIJE*/
     imageService.setControllerPath("author/image");
    }
 
   ngOnInit(): void {
+    this.isLoading=true;
     this.service.getObject().subscribe({
       next: (result: PagedResults<Object>) => {
         this.object = result.results
         // kod za ucitavanje slike po id
+        this.isLoading=false;
         this.imageService.setControllerPath("author/image");
         this.object.forEach(element => {
           this.imageService.getImage(element.imageId.valueOf()).subscribe((blob: Blob) => {
@@ -41,6 +45,14 @@ export class ObjectComponent implements OnInit {
 
         });
         //kraj
+      },
+      error:(err: any) => {
+        console.log(err);
+        this.isLoading=false;
+        this.snackBar.open('Failed to load objects. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
 
     })

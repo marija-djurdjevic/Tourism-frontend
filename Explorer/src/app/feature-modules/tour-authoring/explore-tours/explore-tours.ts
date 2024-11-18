@@ -3,6 +3,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { Tour } from '../model/tour.model';
 import { Router } from '@angular/router';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'xp-tour',
@@ -12,20 +13,28 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 export class ExploreToursComponent implements OnInit {
 
     tours: Tour[] = [];
+    isLoading = false;
 
-    constructor(private service: TourAuthoringService, private router: Router) { }
+    constructor(private service: TourAuthoringService, private router: Router, private snackBar: MatSnackBar) { }
 
     ngOnInit(): void {
         this.getTours();
     }
 
     getTours(): void {
+        this.isLoading = true;
         this.service.getTours().subscribe({
             next: (result: PagedResults<Tour>) => {  // Assuming PagedResults<Tour> is used
                 this.tours = result.results;
                 console.log(this.tours);
+                this.isLoading = false;
             },
-            error: () => { /* Handle error */ }
+            error: () => { /* Handle error */
+                this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+                    duration: 3000,
+                    panelClass: "succesful"
+                });
+            }
         });
     }
 
