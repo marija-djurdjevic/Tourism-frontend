@@ -7,6 +7,7 @@ import { PagedResults } from '../model/paged-results.model';
 import { ImageService } from '../image.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { Coordinates } from 'src/app/feature-modules/administration/model/coordinates.model';
 
 @Component({
   selector: 'app-map',
@@ -21,7 +22,9 @@ export class MapComponent implements OnInit, AfterViewInit {
   @Input() markers: any[] = [];
   @Input() onlyOneMarker = false;
   @Input() tourView = false;
+  @Input() initialCoordinates: Coordinates = { latitude: 0, longitude: 0 };
   @Output() keyPointSelected = new EventEmitter<{ latitude: number, longitude: number }>();
+  @Output() coordinatesSelected = new EventEmitter<{ latitude: number; longitude: number }>();
   @Output() locationSelected = new EventEmitter<{ latitude: number, longitude: number }>();
   @Output() markerAdded = new EventEmitter<{ latitude: number, longitude: number }>();
 
@@ -34,11 +37,18 @@ export class MapComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    if (this.initialCoordinates) {
+      this.setMapMarker(this.initialCoordinates);
+    }
     this.authService.user$.subscribe(user => {
       this.user = user;
       this.loadObjects();
       console.log('Logged in user:', this.user);
     });
+  }
+
+  setMapMarker(coordinates: Coordinates): void {
+    console.log('Postavljene početne koordinate na mapi:', coordinates);
   }
 
   private loadObjects(): void {
@@ -282,6 +292,7 @@ export class MapComponent implements OnInit, AfterViewInit {
           .openPopup();
         this.markers.push(mp)
         this.keyPointSelected.emit({ latitude: latitude, longitude: longitude });
+        this.coordinatesSelected.emit({ latitude, longitude });
         this.service.reverseSearch(latitude, longitude).subscribe((response) => {
           this.address = response.display_name; // Dobijena adresa
           console.log('Dobijena adresa:', this.address);
@@ -305,6 +316,7 @@ export class MapComponent implements OnInit, AfterViewInit {
             this.clearMarkers();
           }
           this.keyPointSelected.emit({ latitude: lat, longitude: lon });
+          this.coordinatesSelected.emit({ latitude: lat, longitude: lon });
           this.locationSelected.emit({ latitude: lat, longitude: lon });
           this.map.setView([lat, lon], 15);
           const mp = new L.Marker([lat, lon])
@@ -336,6 +348,7 @@ export class MapComponent implements OnInit, AfterViewInit {
           this.clearMarkers();
         }
         this.keyPointSelected.emit({ latitude: lat, longitude: lng });
+        this.coordinatesSelected.emit({ latitude: lat, longitude: lng });
         this.locationSelected.emit({ latitude: lat, longitude: lng });
         this.service.reverseSearch(lat, lng).subscribe((res) => {
           console.log(res.display_name);

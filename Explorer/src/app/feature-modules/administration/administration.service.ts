@@ -5,6 +5,7 @@ import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Account } from './model/account.model';
+import { Encounter } from './model/encounter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,23 @@ export class AdministrationService {
 
   blockAccount(account: Account): Observable<Account> {
     return this.http.put<Account>(environment.apiHost + 'administration/account/block-account', account);
+  }
+
+  addEncounter(encounter: Encounter) : Observable<Encounter> {
+    return this.http.post<Encounter>(environment.apiHost + 'administrator/encounter', encounter);
+  }
+
+  getEncounters(): Observable<PagedResults<Encounter>> {
+    return this.http.get<PagedResults<Encounter>>(environment.apiHost + 'administrator/encounter');
+  }
+
+  deleteEncounter(encounterId: number | undefined): Observable<void> {
+    console.log('Deleting encounter with ID: ' + encounterId);
+    return this.http.delete<void>(`${environment.apiHost}administrator/encounter/${encounterId}`);
+  }
+
+  updateEncounter(id: number | undefined, encounter: Encounter): Observable<Encounter> {
+    return this.http.put<Encounter>(`${environment.apiHost}administrator/encounter/${id}`, encounter);
   }
 
 }

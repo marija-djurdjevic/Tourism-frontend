@@ -1,0 +1,96 @@
+.encounter-card {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #d1b7a1; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+    background-color: #f9f6f1; 
+    transition: transform 0.3s ease;
+    margin-bottom: 15px;
+    max-height: 250px; /* Smanjena visina */
+    height: auto;
+}
+
+.encounter-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; /* Prostor između leva i desna */
+}
+
+.encounter-details {
+    width: 30%; /* Leva strana zauzima 65% širine */
+}
+
+.map-container {
+    width: 60%; /* Mapa zauzima 30% širine */
+    height: 150px; 
+    border-radius: 5px;
+    background-color: #e0e0e0; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.encounter-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2e8b57; 
+    margin-bottom: 10px;
+}
+
+.encounter-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+p strong {
+    font-weight: bold;
+    color: #2e8b57; 
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    gap: 10px; /* Razmak između dugmića */
+}
+
+.btn-edit,
+.btn-delete {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 2px solid #2e8b57;
+    padding: 8px 16px;
+    background-color: transparent;
+    color: #2e8b57;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-edit:hover,
+.btn-delete:hover {
+    background-color: #2e8b57;
+    color: white;
+}
+
+.button-dodaj {
+    background-color: #2e8b57;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.button-dodaj:hover {
+    background-color: #26754d;
+}

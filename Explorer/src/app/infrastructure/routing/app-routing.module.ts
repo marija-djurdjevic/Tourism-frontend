@@ -35,6 +35,8 @@ import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tou
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
+import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
+import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
 
 const routes: Routes = [
   {
@@ -126,6 +128,16 @@ const routes: Routes = [
   {
     path: 'review/:tourId/:tourName',
     component: TourReviewFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'encounters',
+    component: EncounterComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'encounter-form',
+    component: EncounterFormComponent,
     canActivate: [AuthGuard],
   },
   { path: 'tourSession/:tourId', component: TourSessionComponent },
