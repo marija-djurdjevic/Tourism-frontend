@@ -128,8 +128,22 @@ xp-tourist-location {
     }
 }
 
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Optional: Adds space between buttons */
+    gap: 10px; /* Optional: Adds spacing between buttons */
+    width: 100%; /* Ensure the container spans the full width */
+}
 
-.abandon-tour-button {
+.abandon-tour-button,
+.report-tour-button {
+    flex-grow: 1; /* Allow buttons to grow equally */
+    text-align: center; /* Ensure text is centered */
+}
+
+
+.abandon-tour-button {  
     background-color: #d9534f; /* Crvena boja */
     color: white; /* Bela boja teksta */
     border: none; /* Bez okvira */
@@ -149,5 +163,28 @@ xp-tourist-location {
 
 .abandon-tour-button:active {
     background-color: #ac2925; /* Još tamnija crvena pri kliku */
+    transform: scale(0.98); /* Blago smanjenje pri kliku */
+}
+
+.report-tour-button {
+    background-color: #ff7b00; /* Crvena boja */
+    color: white; /* Bela boja teksta */
+    border: none; /* Bez okvira */
+    padding: 10px 20px; /* Unutrašnje margine */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    font-size: 16px; /* Veličina fonta */
+    font-weight: bold; /* Podebljan tekst */
+    cursor: pointer; /* Kursor kao na linkovima */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animacija pri hover-u */
+    margin-bottom: 20px; /* Razmak ispod dugmeta */
+}
+
+.report-tour-button:hover {
+    background-color: #f76300; /* Tamnija crvena boja na hover */
+    transform: scale(1.05); /* Blago povećanje */
+}
+
+.report-tour-button:active {
+    background-color: #f76300; /* Još tamnija crvena pri kliku */
     transform: scale(0.98); /* Blago smanjenje pri kliku */
 }

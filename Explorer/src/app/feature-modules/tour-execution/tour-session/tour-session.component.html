@@ -1,7 +1,10 @@
 <div id="tour" class="tour-container">
     <!-- Leva kolona: Ključne tačke -->
     <div class="card-container">
-        <button class="abandon-tour-button" (click)="abandonTour()">Leave the tour</button>
+        <div class="buttons">
+            <button class="abandon-tour-button" (click)="abandonTour()">Leave the tour</button>
+            <button class="report-tour-button" (click)="reportProblem()">Report Problem</button>
+        </div>
         <h3>Existing Key Points</h3>
         <div class="card-wrapper">
             <div

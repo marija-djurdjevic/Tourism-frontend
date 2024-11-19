@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   showNotifications: boolean = false;
   userProfile: UserProfile;
   showProfileMenu: boolean=false;
-  hideLocationButton: boolean = false;
+  showLocationButton: boolean = true;
 
   constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef) {}
 
@@ -29,9 +29,9 @@ export class NavbarComponent implements OnInit {
     this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))
     .subscribe(() => {
-      this.hideLocationButton = this.router.url.startsWith('/tourSession');
+      this.showLocationButton = !this.router.url.startsWith('/tourSession');
       console.log('Current URL:', this.router.url);
-      console.log('Hide Location Button:', this.hideLocationButton);
+      console.log('Hide Location Button:', this.showLocationButton);
     });
 
     this.authService.user$.subscribe(user => {
