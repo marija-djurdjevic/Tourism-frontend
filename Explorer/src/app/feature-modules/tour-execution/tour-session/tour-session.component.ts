@@ -33,9 +33,7 @@ export class TourSessionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
     this.tourId = +this.route.snapshot.paramMap.get('tourId')!;
-
 
     this.loadKeyPoints(); 
     this.loadCompletedKeyPoints();
@@ -100,7 +98,7 @@ export class TourSessionComponent implements OnInit {
   }
 
   reportProblem():void{
-    this.router.navigate(['/report']);
+    this.router.navigate(['/report', this.tourId]);
   }
 
   updateLocation(): void {

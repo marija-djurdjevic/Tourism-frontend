@@ -1,43 +1,45 @@
- <form [formGroup]="problemForm">
-  <div>
-        <mat-form-field>
-            <mat-label>Tour ID</mat-label>
-            <input matInput formControlName="tourId" id="tourId" type="number"/>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-select formControlName="category" id="category" placeholder="Select Problem Category">
-                <mat-option value="0">Other</mat-option>
-                <mat-option value="1">Unclear Instructions</mat-option>
-                <mat-option value="2">Road Obstacles</mat-option>
-                <mat-option value="4">Unreachable Part</mat-option>
-            </mat-select>
-        </mat-form-field>
-        
-        <mat-form-field>
-            <mat-select formControlName="problemPriority" id="problemPriority" placeholder="Select Problem Priority">
-                <mat-option value="1">1</mat-option>
-                <mat-option value="2">2</mat-option>
-                <mat-option value="3">3</mat-option>
-                <mat-option value="4">4</mat-option>
-                <mat-option value="5">5</mat-option>
-            </mat-select>
-        </mat-form-field>
-        
-
-        <mat-form-field>
-            <mat-label>Description</mat-label>
-            <textarea
-                matInput
-                cdkTextareaAutosize
-                cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"
-                formControlName="description">
-            </textarea>
-        </mat-form-field>
-        <button color="primary" type="submit" (click)="addProblem()" [disabled]="problemForm.invalid" mat-raised-button>Done</button>
-    </div>
-</form>
-<div *ngIf="feedbackMessage">
-    {{ feedbackMessage }}
-</div>
+<div>
+    <form [formGroup]="problemDetailsForm" (ngSubmit)="onSubmit()">
+      <h2>Tour Problem</h2>
+  
+      <div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select 
+            id="category"
+            formControlName="category"
+            [class.error]="problemDetailsForm.get('category')?.invalid && problemDetailsForm.get('category')?.touched">
+            <option value="" >None</option>
+            <option [value]="1">Unclear Instructions</option>
+            <option [value]="2">Road Obstacles</option>
+            <option [value]="3">Unreachable Part</option>
+            <option [value]="0">Other</option>
+        </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="problemPriority">Problem Priority</label>
+          <input 
+            id="problemPriority" 
+            type="number" 
+            formControlName="problemPriority" 
+            placeholder="Enter Priority" 
+            min="0" 
+            max="3" 
+            [class.error]="problemDetailsForm.get('problemPriority')?.invalid && problemDetailsForm.get('problemPriority')?.touched"/>
+        </div>
+  
+        <div class="form-group">
+          <label for="explanation">Explanation</label>
+          <textarea 
+            id="explanation" 
+            formControlName="explanation" 
+            placeholder="Enter Explanation" 
+            [class.error]="problemDetailsForm.get('explanation')?.invalid && problemDetailsForm.get('explanation')?.touched"></textarea>
+        </div>
+      </div>
+  
+      <button type="submit" class="primary-button" mat-raised-button>Submit</button>
+    </form>
+  </div>
+  

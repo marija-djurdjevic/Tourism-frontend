@@ -51,8 +51,7 @@ export class TourProblemComponent {
       time: '',
       explanation: '',
     },
-    comments: [],
-    notifications: []
+    comments: []
   };
   
   ngOnInit() {

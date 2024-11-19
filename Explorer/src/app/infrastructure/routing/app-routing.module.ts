@@ -84,7 +84,7 @@ const routes: Routes = [
     component: ProblemsListComponent,
     canActivate: [AuthGuard],
   }, //
-  { path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard] },
+  { path: 'report/:tourId', component: ProblemFormComponent, canActivate: [AuthGuard] },
   {
     path: 'tourReviews',
     component: TourReviewComponent,
