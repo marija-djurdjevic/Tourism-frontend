@@ -35,20 +35,9 @@ export class TourSessionComponent implements OnInit {
   ngOnInit(): void {
     
     this.tourId = +this.route.snapshot.paramMap.get('tourId')!;
-    this.updateSession()
 
-    this.loadKeyPoints(); // Poziv funkcije za učitavanje ključnih tačaka
 
-    // Show pop-up every 10 seconds
-    //this.intervalId = setInterval(() => {
-   //   this.showPopup = true;
-    //}, 10000); // 10000 ms = 10 seconds
-    // Set up a 10-second interval to show the location popup
-    //this.tourExecutionService.startTour(this.tourId, this.location.latitude, this.location.longitude).subscribe(response => {
-      //console.log('Tour started. Completed KeyPoints:', response.completedKeyPoints);
-      // Handle the completed key points as needed
-  //});
-
+    this.loadKeyPoints(); 
     this.loadCompletedKeyPoints();
     this.popupInterval = interval(10000).subscribe(() => {
       this.showLocationPopup = true;
@@ -58,13 +47,26 @@ export class TourSessionComponent implements OnInit {
 
 
   onLocationReceived(location: Location): void {
-   
     this.location = location;
     console.log('Koordinate primljene u TourSessionComponent:', this.location);
     
+    const nextKeyPoint = this.findFirstIncompleteKeyPoint();
+    console.log('Next incomplete key point:', nextKeyPoint);
+  
+    if (nextKeyPoint) {
+      const distance = this.calculateDistance(
+        this.location.latitude,
+        this.location.longitude,
+        nextKeyPoint.latitude,
+        nextKeyPoint.longitude
+      );
+  
+      const proximityThreshold = 50;
+      if (distance <= proximityThreshold) {
+        this.addKeyPointToCompleted(nextKeyPoint);
+      }
+    }
     this.updateLocation();
-    this.updateSession();
- 
   }
 
 
@@ -78,7 +80,7 @@ export class TourSessionComponent implements OnInit {
             duration: 3000,
             panelClass:"succesful"
           });
-          window.location.href = 'http://localhost:4200/tourList';
+          window.location.href = 'http://localhost:4200/purchasedTours';
         } else {
           console.log('Tura nije mogla biti napuštena.');
           this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
@@ -106,7 +108,7 @@ export class TourSessionComponent implements OnInit {
       next: (isNear) => {
         if (isNear) {
           console.log('Nalazite se u blizini ključne tačke ture.');
-          window.location.href = 'http://localhost:4200/tourList';
+          window.location.href = 'http://localhost:4200/purchasedTours';
         } else {
           console.log('Niste u blizini ključne tačke.');
         }
@@ -118,57 +120,7 @@ export class TourSessionComponent implements OnInit {
   }
   
 
-  updateSession(): void {
-    // this.tourExecutionService.updateSession(this.tourId, this.location.latitude, this.location.longitude).subscribe({
-    //   next: () => {
-    //     console.log('Sesija uspešno ažurirana.');
-    //   },
-    //   error: () => {
-    //     console.warn('Došlo je do greške prilikom ažuriranja sesije.');
-    //   }
-    // });
-  }
-
-  closePopup(): void {
-    this.showLocationPopup = false;
-  
-    // First, update the tourist's location
-    this.tourExecutionService.getTouristLocation().subscribe(
-      (location) => {
-        // Update latitude and longitude with the new values
-        this.location.latitude = location.latitude;
-        this.location.longitude = location.longitude;
-  
-        // After updating the location, proceed to find the next incomplete key point
-        const nextKeyPoint = this.findFirstIncompleteKeyPoint();
-        console.log('Next incomplete key point:', nextKeyPoint);
-  
-        if (nextKeyPoint) {
-          const distance = this.calculateDistance(
-            this.location.latitude,
-            this.location.longitude,
-            nextKeyPoint.latitude,
-            nextKeyPoint.longitude
-          );
-  
-          const proximityThreshold = 35000; // Proximity threshold in meters (35 km)
-          if (distance <= proximityThreshold) {
-            this.addKeyPointToCompleted(nextKeyPoint);
-          }
-        }
-      },
-      (error) => {
-        console.error('Error retrieving tourist location:', error);
-      }
-    );
-  
-    // Update the last activity independently of the location
-    this.tourExecutionService.updateLastActivity(this.tourId).subscribe({
-      next: (response) => console.log('Last activity updated:', response),
-      error: (err) => console.error('Error updating last activity:', err),
-    });
-  }
-
+ 
   loadKeyPoints() {
     this.tourExecutionService.getKeyPoints(this.tourId).subscribe(keyPoints => {
       console.log('Vraćeni keyPoints:', keyPoints); 

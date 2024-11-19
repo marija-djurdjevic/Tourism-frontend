@@ -3,6 +3,6 @@
         <label for="">Please select your location on map</label>
         <app-map [onlyOneMarker]="true" [initialCenter]="[location.latitude,location.longitude]"
             (locationSelected)="onLocationSelected($event)"></app-map>
-        <button mat-raised-button class="primary-button" (click)="goBack()">Finish</button>
+            <button  *ngIf="!hideFinishButton" class="return-button" mat-raised-button (click)="goBack()">Finish</button>
     </div>
 </div>

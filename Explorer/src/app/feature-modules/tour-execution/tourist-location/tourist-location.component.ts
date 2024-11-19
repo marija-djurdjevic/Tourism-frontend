@@ -3,6 +3,7 @@ import { TourExecutionService } from '../tour-execution.service';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 import { Location as routerLocation } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,12 +17,15 @@ export class TouristLocationComponent implements AfterViewInit {
   selectedFile: File;
   previewImage: string | null = null
   location: Location = { latitude: 0, longitude: 0 };
+  hideFinishButton: boolean = false;
+
   
 
-  constructor(private service: TourExecutionService,private snackBar:MatSnackBar,private routerLocation: routerLocation) {
+  constructor(private service: TourExecutionService,private snackBar:MatSnackBar,private routerLocation: routerLocation,private router:Router) {
   }
 
   ngAfterViewInit(): void {
+    this.hideFinishButton = this.router.url.includes('tourSession');
     this.service.getTouristLocation().subscribe({
       next: (data) => {
         this.location.latitude = data.latitude

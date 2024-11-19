@@ -24,6 +24,9 @@
             <button *ngIf="user && user.username !== ''" class="profileButton"  (click)="toggleProfileMenu()" ><img [src]="userProfile.imageURL" ></button>
            <!-- <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourList']">Tours</button>-->
 
+           <button *ngIf="!hideLocationButton && user && user.role === 'tourist'" class="location-button" mat-icon-button [routerLink]="['/location']" matTooltip="Set your location"></button>
+           
+           
             <!-- Notification Button -->
             <button *ngIf="notifications.length !== 0" class="transparent-button" (click)="toggleNotifications()">
                 <img src="assets/icons/notification_green.png" alt="Notification" width="50" height="50">
