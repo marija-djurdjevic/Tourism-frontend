@@ -12,6 +12,7 @@
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['tours']">My Tours</button>
             <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['purchasedTours']">Purchased Tours</button>
             <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button [routerLink]="['clubs']">Clubs</button>
+            <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button [routerLink]="['encountersMap']">Encounters</button>
 
             <button *ngIf="user && (user.role === 'administrator' || user.role==='author' )"class="primary-button" mat-raised-button [routerLink]="['problems']">Tour problems</button>
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['blogs']">Blogs</button>

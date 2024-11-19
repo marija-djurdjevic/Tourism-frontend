@@ -44,7 +44,7 @@ export class EncounterComponent implements OnInit, OnDestroy {
     });
   }
 
-  initializeMaps(): void {
+  /*initializeMaps(): void {
     this.encounters.forEach(encounter => {
       const mapId = encounter.id;
       if (mapId !== undefined && !this.mapInitialized.has(mapId)) {
@@ -63,7 +63,40 @@ export class EncounterComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }*/
+
+    initializeMaps(): void {
+      setTimeout(() => {
+        this.encounters.forEach(encounter => {
+          const mapId = encounter.id;
+          if (mapId !== undefined && !this.mapInitialized.has(mapId)) {
+            const mapElement = document.getElementById(`map${mapId}`);
+            if (mapElement && encounter.coordinates?.latitude && encounter.coordinates?.longitude) {
+              const map = L.map(mapElement).setView([encounter.coordinates.latitude, encounter.coordinates.longitude], 13);
+  
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              }).addTo(map);
+  
+              const customIcon = L.icon({
+                iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png', 
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png', 
+                shadowSize: [41, 41]
+              });
+
+              L.marker([encounter.coordinates.latitude, encounter.coordinates.longitude], { icon: customIcon }).addTo(map);
+  
+              this.maps[mapId] = map; 
+              this.mapInitialized.add(mapId); 
+            }
+          }
+        });
+      }, 0);
   }
+  
 
   clearMaps(): void {
     for (const mapId in this.maps) {

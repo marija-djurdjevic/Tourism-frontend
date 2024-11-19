@@ -37,6 +37,7 @@ import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tou
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
 import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
 import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
+import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
 
 const routes: Routes = [
   {
@@ -143,6 +144,7 @@ const routes: Routes = [
   { path: 'tourSession/:tourId', component: TourSessionComponent },
   { path: 'tourList', component: TourListComponent },
   { path: 'explore', component: ExploreToursComponent },
+  { path: 'encountersMap', component: EncountersComponent },
 ];
 
 @NgModule({

@@ -20,11 +20,13 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
+import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    EncountersComponent,
   ],
   imports: [
     FormsModule,
