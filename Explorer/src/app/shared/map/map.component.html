@@ -1,7 +1,7 @@
 <div class="search-bar">
   <input *ngIf="onlyOneMarker" type="text" [(ngModel)]="searchQuery"
     placeholder="Enter address in the format: street, city" />
-  <button type="button"  class="primary-button" *ngIf="onlyOneMarker" (click)="search()">Search</button>
+  <button type="button"  class="primary-button" *ngIf="onlyOneMarker" (click)="search()">Search location</button>
 </div>
 <select name="" [(ngModel)]="Option" *ngIf="tourView" style="font-size: xx-large;" id="">
   <option value="walking">walking</option>

@@ -68,7 +68,7 @@
 
   button {
     font-size: 1.2em; /* Veći font za dugme */
-    padding: 12px 24px; /* Veći prostor unutar dugmeta */
+    padding: 9px 24px; /* Veći prostor unutar dugmeta */
     min-width: 200px; /* Postavi minimalnu širinu */
     color: white; /* Boja teksta */
     border: none; /* Bez ivica */
