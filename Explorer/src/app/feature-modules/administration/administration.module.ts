@@ -7,19 +7,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AccountComponent } from './account/account.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { EncounterComponent } from './encounter/encounter.component';
+import { EncounterFormComponent } from './encounter-form/encounter-form.component';
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   declarations: [
     EquipmentFormComponent,
     EquipmentComponent,
-    AccountComponent
+    AccountComponent,
+    EncounterComponent,
+    EncounterFormComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule,
     MatProgressSpinnerModule
-  ],
+],
+    
+ 
   exports: [
     EquipmentComponent,
     EquipmentFormComponent,
