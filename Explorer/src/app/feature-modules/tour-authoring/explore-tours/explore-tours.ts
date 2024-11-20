@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Tour } from '../model/tour.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -14,11 +14,16 @@ export class ExploreToursComponent implements OnInit {
 
     tours: Tour[] = [];
     isLoading = false;
+    selectedTourId: number | null = null;
 
     constructor(private service: TourAuthoringService, private router: Router, private snackBar: MatSnackBar) { }
 
-    ngOnInit(): void {
+    ngOnInit(): void { 
         this.getTours();
+
+        this.router.routerState.root.queryParams.subscribe(params => {
+            this.selectedTourId = params['selectedTourId'] ? +params['selectedTourId'] : null;
+          });
     }
 
     getTours(): void {
@@ -61,4 +66,8 @@ export class ExploreToursComponent implements OnInit {
                 return 'Unknown';
         }
     }
+
+    isSelectedTour(tourId: number | undefined): boolean {
+        return tourId !== undefined && this.selectedTourId === tourId;
+      }
 }

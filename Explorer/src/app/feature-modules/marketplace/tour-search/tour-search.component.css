@@ -76,4 +76,24 @@
     cursor: pointer; /* Pokazivač miša se menja u rukicu kada se pređe preko dugmeta */
     transition: background-color 0.3s ease; /* Animacija za promenu boje pozadine */
 }
-  
+
+/* Dodajte ručicu na hover za redove u tabeli */
+table tr {
+  cursor: pointer; /* Rucica pri hover-u */
+}
+
+/* Hover efekat samo na redovima sa podacima */
+table tr td:hover {
+  background-color: rgba(0, 123, 255, 0.2); /* Hover efekat na ćelijama sa podacima */
+}
+
+/* Hover efekat na celokupnim redovima sa podacima */
+table tr:hover td {
+  background-color: rgba(0, 123, 255, 0.2); /* Blagi hover efekat za redove sa podacima */
+}
+
+/* Nema hover efekta na oznakama kolona (th) */
+table th:hover {
+  background-color: transparent; /* Bez hover efekta na th elementima */
+}
+

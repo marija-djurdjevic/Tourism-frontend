@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ts of searchedTours">
+              <tr *ngFor="let ts of searchedTours" (click)="onTourClick(ts.id!)">
                 <td>{{ ts.name }}</td>
                 <td>{{ ts.description }}</td>
                 <td>{{ ts.difficulty }}</td>
