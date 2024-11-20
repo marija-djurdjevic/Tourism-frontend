@@ -92,7 +92,7 @@ export class TourSessionComponent implements OnInit {
       next: (isNear) => {
         if (isNear) {
           console.log('Nalazite se u blizini ključne tačke ture.');
-          window.location.href = 'http://localhost:4200/tourList';
+          //window.location.href = 'http://localhost:4200/tourList';
         } else {
           console.log('Niste u blizini ključne tačke.');
         }
@@ -216,6 +216,11 @@ export class TourSessionComponent implements OnInit {
         this.loadCompletedKeyPoints()
         console.log('dodao sam kljucnu tacku ')
         alert('Uspesno kompletirana kljucna tacka')
+        const nextKeyPoint =this.findFirstIncompleteKeyPoint()
+        if (nextKeyPoint == null){
+          alert('presli ste sve kljucne tacke' )
+          window.location.href = 'http://localhost:4200/tourList';
+        }
       },
       (error) => {
         console.error('Error adding key point to completed:', error);
