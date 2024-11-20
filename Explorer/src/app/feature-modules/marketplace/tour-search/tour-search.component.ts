@@ -48,5 +48,18 @@ export class TourSearchComponent {
       console.error('Tour ID is undefined');
     }
   }
+
+  getDifficultyLabel(difficulty: number): string {
+    switch (difficulty) {
+        case 0:
+            return 'Easy';
+        case 1:
+            return 'Medium';
+        case 2:
+            return 'Hard';
+        default:
+            return 'Unknown';
+    }
+}
   
 }

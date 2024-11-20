@@ -26,7 +26,7 @@
             <mat-card *ngFor="let ts of searchedTours" (click)="onTourClick(ts.id!)" class="tour-card">
               <mat-card-header>
                 <mat-card-title>{{ ts.name }}</mat-card-title>
-                <mat-card-subtitle>{{ ts.difficulty }}</mat-card-subtitle>
+                <mat-card-subtitle>{{ getDifficultyLabel(ts.difficulty) }}</mat-card-subtitle>
               </mat-card-header>
               <mat-card-content>
                 <p>{{ ts.description }}</p>
