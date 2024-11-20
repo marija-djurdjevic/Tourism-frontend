@@ -22,24 +22,18 @@
       <div class="right-section">
         <div *ngIf="searchedTours.length > 0">
           <p>Tours in desired area:</p>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Difficulty</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let ts of searchedTours" (click)="onTourClick(ts.id!)">
-                <td>{{ ts.name }}</td>
-                <td>{{ ts.description }}</td>
-                <td>{{ ts.difficulty }}</td>
-                <td>{{ ts.price }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="tour-cards-container">
+            <mat-card *ngFor="let ts of searchedTours" (click)="onTourClick(ts.id!)" class="tour-card">
+              <mat-card-header>
+                <mat-card-title>{{ ts.name }}</mat-card-title>
+                <mat-card-subtitle>{{ ts.difficulty }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>{{ ts.description }}</p>
+                <p><strong>Price:</strong> {{ ts.price }} USD</p>
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
   
         <div *ngIf="noToursFound">
