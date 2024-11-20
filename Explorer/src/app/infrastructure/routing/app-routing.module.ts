@@ -35,6 +35,8 @@ import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tou
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
+import { PublishRequest } from 'src/app/feature-modules/tour-execution/model/publish-request.model';
+import { PublishRequestComponent } from 'src/app/feature-modules/tour-execution/publish-request-list/publish-request-list.component';
 
 const routes: Routes = [
   {
@@ -131,6 +133,7 @@ const routes: Routes = [
   { path: 'tourSession/:tourId', component: TourSessionComponent },
   { path: 'tourList', component: TourListComponent },
   { path: 'explore', component: ExploreToursComponent },
+  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
