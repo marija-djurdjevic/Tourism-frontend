@@ -1,0 +1,29 @@
+<div>
+    <div id="titleCont">
+        <div id="title">Publish Requests</div>
+    </div>
+    <div id="prev">
+        <span>Page {{ currentPage + 1 }} / {{ totalPages }}</span>
+    </div>
+  
+    <table id="t">
+        <tr id="head"> 
+            <th>Author</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th>Accept Request</th> 
+        </tr>
+        <tr 
+            tabindex="0" 
+            *ngFor="let req of entities" 
+            id="ag">
+            <td>{{ usernamesMap.get(req.authorId) }}</td>
+            <td>{{ getEnumForStatus(req.status) }}</td>
+            <td>{{ getEnumForType(req.type) }}</td>
+            <td>
+                <button (click)="acceptRequest(req)">Accept</button>
+            </td>
+        </tr> 
+    </table>
+  </div>
+  
