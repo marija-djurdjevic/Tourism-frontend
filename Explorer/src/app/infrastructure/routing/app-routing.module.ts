@@ -37,6 +37,9 @@ import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tou
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
 import { PublishRequest } from 'src/app/feature-modules/tour-execution/model/publish-request.model';
 import { PublishRequestComponent } from 'src/app/feature-modules/tour-execution/publish-request-list/publish-request-list.component';
+import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
+import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
+import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
 
 const routes: Routes = [
   {
@@ -75,7 +78,7 @@ const routes: Routes = [
     component: TourPreferencesComponent,
     canActivate: [AuthGuard],
   },
-  //{path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard]},
+ // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
   {
     path: 'problem',
     component: TourProblemComponent,
@@ -86,7 +89,7 @@ const routes: Routes = [
     component: ProblemsListComponent,
     canActivate: [AuthGuard],
   }, //
-  { path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard] },
+  { path: 'report/:tourId', component: ProblemFormComponent, canActivate: [AuthGuard] },
   {
     path: 'tourReviews',
     component: TourReviewComponent,
@@ -130,9 +133,20 @@ const routes: Routes = [
     component: TourReviewFormComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'encounters',
+    component: EncounterComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'encounter-form',
+    component: EncounterFormComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'tourSession/:tourId', component: TourSessionComponent },
   { path: 'tourList', component: TourListComponent },
   { path: 'explore', component: ExploreToursComponent },
+  { path: 'encountersMap', component: EncountersComponent },
   { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] }
 ];
 

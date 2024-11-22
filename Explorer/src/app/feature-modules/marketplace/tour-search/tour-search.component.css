@@ -68,7 +68,7 @@
 
   button {
     font-size: 1.2em; /* Veći font za dugme */
-    padding: 12px 24px; /* Veći prostor unutar dugmeta */
+    padding: 9px 24px; /* Veći prostor unutar dugmeta */
     min-width: 200px; /* Postavi minimalnu širinu */
     color: white; /* Boja teksta */
     border: none; /* Bez ivica */
@@ -76,4 +76,48 @@
     cursor: pointer; /* Pokazivač miša se menja u rukicu kada se pređe preko dugmeta */
     transition: background-color 0.3s ease; /* Animacija za promenu boje pozadine */
 }
-  
+
+/* Dodajte ručicu na hover za redove u tabeli */
+table tr {
+  cursor: pointer; /* Rucica pri hover-u */
+}
+
+/* Hover efekat samo na redovima sa podacima */
+table tr td:hover {
+  background-color: rgba(0, 123, 255, 0.2); /* Hover efekat na ćelijama sa podacima */
+}
+
+/* Hover efekat na celokupnim redovima sa podacima */
+table tr:hover td {
+  background-color: rgba(0, 123, 255, 0.2); /* Blagi hover efekat za redove sa podacima */
+}
+
+/* Nema hover efekta na oznakama kolona (th) */
+table th:hover {
+  background-color: transparent; /* Bez hover efekta na th elementima */
+}
+
+.tour-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.tour-card {
+  cursor: pointer;
+  margin: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 3px solid #27ae60; /* Zeleni okvir sa debljinom 3px */
+  transition: transform 0.3s ease-in-out;
+}
+
+.tour-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+}
+

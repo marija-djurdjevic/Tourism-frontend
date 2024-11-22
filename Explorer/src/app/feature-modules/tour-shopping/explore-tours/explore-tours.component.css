@@ -11,6 +11,12 @@
     margin-bottom: 10px;
 }
 
+#buttonPlace{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2%;
+}
+
 hr {
     border: none;
     height: 2px;

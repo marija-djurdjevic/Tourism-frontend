@@ -1,18 +1,23 @@
-<!-- <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location> -->
-<h2>Tour Session of Tour Id {{ tourId }}</h2>
-
-<hr /> 
-<!-- Horizontalna linija za odvajanje naslova -->
-
-<div id="tour">
-    <button (click)="abandonTour()">Napusti turu</button>
-    <h3>Existing Key Points</h3>
-    <div style="display: flex;flex-direction: row;">
-        <div class="card-container">
-            <div class="card" *ngFor="let keyPoint of keyPoints"
-            [ngClass]="{'completed-card': keyPoint.id && isKeyPointCompleted(keyPoint.id)}"
+<div id="tour" class="tour-container">
+    <!-- Leva kolona: Ključne tačke -->
+    <div class="card-container">
+        <div class="buttons">
+            <button class="abandon-tour-button" (click)="abandonTour()">Leave the tour</button>
+            <button class="report-tour-button" (click)="reportProblem()">Report Problem</button>
+        </div>
+        <h3>Existing Key Points</h3>
+        <div class="card-wrapper">
+            <div
+                class="card"
+                *ngFor="let keyPoint of keyPoints"
+                [ngClass]="{ 'completed-card': keyPoint.id && isKeyPointCompleted(keyPoint.id) }"
             >
-                <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
+                <img
+                    *ngIf="keyPoint.imagePath"
+                    [src]="keyPoint.imagePath"
+                    alt="{{ keyPoint.name }}"
+                    class="card-image"
+                />
                 <div class="card-content">
                     <h4>{{ keyPoint.name }}</h4>
                     <p *ngIf="keyPoint.id && isKeyPointCompleted(keyPoint.id)">
@@ -23,19 +28,10 @@
                 </div>
             </div>
         </div>
-        <!--<div style="width:850px ;">
-            <app-map [tourView]="true" [keyPoints]="keyPoints"></app-map>
-        </div> -->
     </div>
-    
-    <div *ngIf="showLocationPopup" class="popup-overlay">
-        <div class="popup-content">
-            <button class="close-btn" (click)="closePopup()">✖</button>
-            <div class="component-wrapper">
-                <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location>
-            </div>
-        </div>
-    </div>
-    
-</div> 
 
+    <!-- Desna kolona: Mapa -->
+    <div class="map-container">
+        <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location>
+    </div>
+</div>

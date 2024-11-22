@@ -1,34 +1,41 @@
-<p>TOUR REVIEWS</p>
-<table>
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Grade</th>
-            <th>Comment</th>
-            <th>ReviewDate</th>
-            <th>VisitDate</th>
-            <th>TourId</th>
-            <th>UserId</th>
-            <th>Username</th>
-            <th>Images</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of tourReview">
-            <td>{{ item.id }}</td>
-            <td>{{ item.grade }}</td>
-            <td>{{ item.comment }}</td>
-            <td>{{ item.tourVisitDate }}</td>
-            <td>{{ item.tourReviewDate }}</td>
-            <td>{{ item.tourId }}</td>
-            <td>{{ item.userId }}</td>
-            <td>{{ item.username }}</td>
-            <td>
-                <div *ngFor="let image of item.reviewImages" style="display: inline-block; margin-right: 5px;">
-                    <img [src]="image" alt="Review Image" width="50" height="50" style="border-radius: 4px;">
-                </div>
-            </td>
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading reviews...</p>
+</div>
 
-        </tr>
-    </tbody>
-</table>
+<div *ngIf="!isLoading">
+    <p>TOUR REVIEWS</p>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Grade</th>
+                <th>Comment</th>
+                <th>ReviewDate</th>
+                <th>VisitDate</th>
+                <th>TourId</th>
+                <th>UserId</th>
+                <th>Username</th>
+                <th>Images</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of tourReview">
+                <td>{{ item.id }}</td>
+                <td>{{ item.grade }}</td>
+                <td>{{ item.comment }}</td>
+                <td>{{ item.tourVisitDate }}</td>
+                <td>{{ item.tourReviewDate }}</td>
+                <td>{{ item.tourId }}</td>
+                <td>{{ item.userId }}</td>
+                <td>{{ item.username }}</td>
+                <td>
+                    <div *ngFor="let image of item.reviewImages" style="display: inline-block; margin-right: 5px;">
+                        <img [src]="image" alt="Review Image" width="50" height="50" style="border-radius: 4px;">
+                    </div>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,10 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /* Color Palette */
 :root {
@@ -16,36 +30,108 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 /* Buttons Styling */
-.primary-button {
+/*.primary-button {
     background-color: var(--secondary-color) !important;
     color: var(--light-text-color) !important;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
+}*/
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('/assets/image.png');
+    /* Putanja do vaše slike */
+    background-size: cover;
+    background-position: center;
+}
+
+.custom-spinner {
+    width: 60px;
+    height: 60px;
+    border: 8px groove rgba(0, 0, 0, 0.7);
+    border-top: 10px solid var(--secondary-color);
+    border-radius: 50%;
+    margin-bottom: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    margin-top: 26px;
+    font-size: 16px;
+    color: var(--light-text-color);
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: 30px 15px 30px 15px;
+}
+
+.background_image {
+    background-image: url('/assets/image.png');
+}
+
+.app_background{
+    background-image: url('/assets/image.png');
+}
+
+/* snackbar classes to be aplied
+.succesful {
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+} */
+
+
+.primary-button {
+    background-color: var(--secondary-color) !important;
+    /* Main color */
+    color: var(--light-text-color) !important;
+    padding: 14px 36px;
+    /* Ample padding for a luxurious feel */
+    border: none;
+    border-radius: 30px 15px 30px 15px;
+    text-transform: uppercase;
+    position: relative;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .secondary-button {
     background-color: var(--primary-color) !important;
     color: var(--light-text-color) !important;
     padding: 10px 20px;
-    border-radius: 5px;
+    /* border-radius: 5px;*/
+    border-radius: 30px 15px 30px 15px;
 }
 
 /* Text Styles */
 .primary-heading-text {
-    font-family: "Helvetica Neue",sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 28px !important;
     font-weight: 500 !important;
 }
 
 .primary-title-text {
-    font-family: "Helvetica Neue",sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 24px !important;
     font-weight: 400 !important;
 }
 
 .primary-body-text {
-    font-family: "Helvetica Neue",sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 12px !important;
 }
 
@@ -58,8 +144,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* Links */
 .link-text {
     text-decoration: underline;
-    font-family: "Helvetica Neue",sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 12px !important;
     color: var(--text-color);
 }
-

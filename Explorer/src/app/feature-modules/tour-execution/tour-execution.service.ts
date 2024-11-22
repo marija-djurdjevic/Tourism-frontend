@@ -24,7 +24,7 @@ export class TourExecutionService {
   constructor(private http : HttpClient) { }
   
   reportProblem(problem : Problem): Observable<Problem>{
-    return this.http.post<Problem>(' https://localhost:44333/api/tourist/problem/report', problem)
+    return this.http.post<Problem>(' https://localhost:44333/api/tourist/problem/create', problem)
   }
   getProblems(): Observable<PagedResults<Problem>> {
     return this.http.get<PagedResults<Problem>>('https://localhost:44333/api/administrator/problem/getAll')

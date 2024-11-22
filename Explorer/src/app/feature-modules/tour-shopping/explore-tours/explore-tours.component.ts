@@ -11,6 +11,7 @@ import { TourReview } from '../../tour-authoring/model/tour-review.model';
 import { Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -24,9 +25,10 @@ export class ExploreToursComponent implements OnInit {
   user: User;
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
+  isLoading=false;
 
 
-  constructor(private service: TourShoppingService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router) {
+  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -37,12 +39,17 @@ export class ExploreToursComponent implements OnInit {
     this.getTours();
     this.loadPurchasedTours();
   }
+  searchTours():void{
+    this.router.navigate(['/tour-search']);
+  }
 
   getTours(): void {
+    this.isLoading=true
     this.service.getTours().subscribe({
       next: (result: Array<Tour>) => {
         this.tours = result;
         console.log(this.tours)
+        this.isLoading=false;
         // Assign a single key point to each tour
         this.tours.forEach(tour => {
           this.assignSingleKeyPoint(tour);
@@ -51,17 +58,29 @@ export class ExploreToursComponent implements OnInit {
       },
       error: (err: any) => {
         console.log(err);
+        this.isLoading=false
+        this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }
 
   private loadPurchasedTours(): void {
+    this.isLoading=true;
     this.service.getPurchasedTours().subscribe({
       next: (tours: Tour[]) => {
         this.purchasedTours = tours;
+        this.isLoading=false
       },
       error: (err) => {
         console.error('Failed to load purchased tours:', err);
+        this.isLoading=false;
+        this.snackBar.open('Failed to load purchased tours. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }
@@ -88,12 +107,20 @@ export class ExploreToursComponent implements OnInit {
 
     if (existingItem) {
       console.log('Item already in cart');
+      this.snackBar.open('Tour is already in cart.', 'Close', {
+        duration: 3000,
+        panelClass:"succesful"
+      });
     } else {
       // If item does not exist, add it with quantity 1
       const newItem: OrderItem = { tourId, tourName, price };
       cart.push(newItem);
-      alert("Added to cart");
+      console.log("Added to cart");
       console.log(`Tour with ID ${tourId} added to cart for user ${this.user.username}`);
+      this.snackBar.open('Tour added to cart successfully!', 'Close', {
+        duration: 3000,
+        panelClass:"succesful"
+      });
     }
 
     // Update the cart in localStorage
@@ -128,6 +155,10 @@ export class ExploreToursComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching reviews:', error);
+        this.snackBar.open('Failed to load reviews. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

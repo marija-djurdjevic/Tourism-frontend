@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-tour-list',
@@ -18,8 +19,9 @@ export class TourListComponent implements OnInit {
   location: Location = { latitude: 0, longitude: 0 };
   tourStarted: boolean = false;
   user: User | undefined;
+  isLoading=false;
 
-  constructor(private tourExecutionService: TourExecutionService, private router: Router, private authService: AuthService) { }
+  constructor(private tourExecutionService: TourExecutionService,private snackBar:MatSnackBar, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getAllTours();
@@ -68,37 +70,63 @@ export class TourListComponent implements OnInit {
               if (result) {
                 this.tourStarted = true;
                 console.log('Tura je uspešno započeta!');
+                this.snackBar.open('Tour started successfully!', 'Close', {
+                  duration: 3000,
+                  panelClass:"succesful"
+                });
                 this.router.navigate(['/tourSession', tourId]);
               } else {
-                alert('Tura nije mogla biti započeta.');
+                console.log('Tura nije mogla biti započeta.');
+                this.snackBar.open('Failed to start tour. Please try again.', 'Close', {
+                  duration: 3000,
+                  panelClass:"succesful"
+                });
               }
             },
             error: () => {
-              alert('Došlo je do greške prilikom pokretanja ture.');
+              console.log('Došlo je do greške prilikom pokretanja ture.');
+              this.snackBar.open('Failed to start tour. Please try again.', 'Close', {
+                duration: 3000,
+                panelClass:"succesful"
+              });
               window.location.href = 'http://localhost:4200/tourList';
             }
           });
         },
         error: () => {
-          alert('Došlo je do greške prilikom ucitavanja lokacije.');
+          console.log('Došlo je do greške prilikom ucitavanja lokacije.');
+          this.snackBar.open('Failed to load location. Please try again.', 'Close', {
+            duration: 3000,
+            panelClass:"succesful"
+          });
         }
       });
 
     } else {
       console.warn('Lokacija ili tourId nisu dostupni za startovanje ture.');
+      this.snackBar.open('Tour unable to start. Please try again.', 'Close', {
+        duration: 3000,
+        panelClass:"succesful"
+      });
     }
   }
 
 
 
   getAllTours(): void {
+    this.isLoading=true
     this.tourExecutionService.getAllTours().subscribe({
       next: (tours) => {
         this.tours = tours;
         console.log('Ture su uspešno učitane:', this.tours);
+        this.isLoading=false;
       },
       error: () => {
         console.error('Došlo je do greške prilikom preuzimanja tura.');
+        this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

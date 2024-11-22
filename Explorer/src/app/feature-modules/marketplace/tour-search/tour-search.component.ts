@@ -3,6 +3,7 @@ import { SearchByDistance } from '../model/search-by-distance.model';
 import { MarketplaceService } from '../marketplace.service';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { Tour } from '../../tour-authoring/model/tour.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-tour-search',
@@ -19,7 +20,7 @@ export class TourSearchComponent {
     longitude: 0 
   };
 
-  constructor(private service: MarketplaceService) { }
+  constructor(private service: MarketplaceService, private router: Router) { }
 
   searchTours(): void {
     // Resetuj `noToursFound` pre svake pretrage
@@ -39,4 +40,26 @@ export class TourSearchComponent {
     this.searchCriteria.longitude = event.longitude;
     console.log('Odabrana tačka za pretragu:', this.searchCriteria.latitude, this.searchCriteria.longitude);
   }
+
+  onTourClick(tourId: number | undefined): void {
+    if (tourId !== undefined) {
+      this.router.navigate(['/explore-tours'], { queryParams: { selectedTourId: tourId } });
+    } else {
+      console.error('Tour ID is undefined');
+    }
+  }
+
+  getDifficultyLabel(difficulty: number): string {
+    switch (difficulty) {
+        case 0:
+            return 'Easy';
+        case 1:
+            return 'Medium';
+        case 2:
+            return 'Hard';
+        default:
+            return 'Unknown';
+    }
+}
+  
 }

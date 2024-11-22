@@ -16,7 +16,6 @@ export interface Problem {
     id?: number; 
     touristId: number;
     tourId: number;
-    notifications: Notification[]; 
     details: Details; 
     comments: Comment[]; 
     status: number;
