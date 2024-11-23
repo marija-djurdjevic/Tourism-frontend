@@ -20,7 +20,7 @@
     <div class="b">
       <button (click)="myReviews()">My reviews</button>
       <button (click)="seeProblems()">My problems</button>
-      <button (click)="seeWallet()">My Wallet</button>
+      <button *ngIf="user.role === 'tourist'" (click)="seeWallet()">My Wallet</button>
     </div>
   </div>
 

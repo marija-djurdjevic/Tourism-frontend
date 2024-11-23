@@ -1,5 +1,6 @@
 export interface Wallet {
-    touristId: number;
-    balance: number;
-  }
+  id: number;  
+  touristId: number;
+  balance: number;
+}
   
