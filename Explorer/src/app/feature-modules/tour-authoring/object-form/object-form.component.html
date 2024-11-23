@@ -54,5 +54,13 @@
     <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
   </div>
 
+  <div>
+    <!-- Checkbox for public/private -->
+    <label>
+      <input type="checkbox" [(ngModel)]="isPublic" name="isPublic" />
+      Mark Object as Public
+    </label>
+  </div>
+
   <button mat-raised-button color="primary" type="submit" (click)="addObject()">Submit</button>
 </form>
