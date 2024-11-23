@@ -87,5 +87,9 @@ export class UserProfileComponent implements OnInit {
   toggleEdit(): void {
     this.isEditing = !this.isEditing; 
   }
+
+  seeWallet():void{
+    this.router.navigate(['/wallet']);
+  }
 }
 
