@@ -12,7 +12,8 @@ import { Location } from 'src/app/feature-modules/tour-execution/model/location.
 import { CompletedKeyPoint, TourSession } from './model/tour-session.model';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { map } from 'rxjs/operators';
-import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model'; 
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model';
+import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
 
 
 @Injectable({
@@ -22,6 +23,10 @@ export class TourExecutionService {
 
   constructor(private http : HttpClient) { }
   
+  getAllEncounters(): Observable<PagedResults<Encounter>> {
+    return this.http.get<PagedResults<Encounter>>(environment.apiHost + 'tourist/encounter');
+  }
+
   reportProblem(problem : Problem): Observable<Problem>{
     return this.http.post<Problem>(' https://localhost:44333/api/tourist/problem/create', problem)
   }

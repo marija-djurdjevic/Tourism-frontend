@@ -1,3 +1,5 @@
+import { Encounter } from '../../encounters/model/encounter.model';
+
 export interface KeyPoint {
     id?: number;  
     tourId: number;  
@@ -6,5 +8,7 @@ export interface KeyPoint {
     imagePath: string;
     latitude: number; 
     longitude: number;
+
+    encounter?: Encounter;
   }
   

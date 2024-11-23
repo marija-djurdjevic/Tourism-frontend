@@ -76,8 +76,6 @@
     background-color: #d0eaff; /* Svetloplava pozadina za završene tačke */
 }
 
-
-
 .map-container {
     flex: 1; /* Mapa zauzima 40% širine */
     display: flex;
@@ -103,11 +101,6 @@ xp-tourist-location {
     display: block; /* Osiguraj blok prikaz */
     margin-top: -100px;
 }
-
-
-
-
-
 
 /* Responzivni dizajn */
 @media screen and (max-width: 768px) {

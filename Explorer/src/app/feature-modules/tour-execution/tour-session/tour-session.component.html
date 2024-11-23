@@ -32,6 +32,6 @@
 
     <!-- Desna kolona: Mapa -->
     <div class="map-container">
-        <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location>
+        <xp-tourist-location [keyPoints]="keyPoints" [showEncounters]="true" (locationSelected)="onLocationReceived($event)"></xp-tourist-location>
     </div>
 </div>

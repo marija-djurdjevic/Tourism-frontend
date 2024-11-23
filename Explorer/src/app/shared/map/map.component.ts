@@ -8,6 +8,7 @@ import { ImageService } from '../image.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Coordinates } from 'src/app/feature-modules/encounters/model/coordinates.model';
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model';
 
 @Component({
   selector: 'app-map',
@@ -17,6 +18,7 @@ import { Coordinates } from 'src/app/feature-modules/encounters/model/coordinate
 export class MapComponent implements OnInit, AfterViewInit {
   private objects: any[] = [];
   @Input() keyPoints: any[] = [];
+  @Input() showEncounters = false;
   @Input() initialCenter: [number, number] = [45.2396, 19.8227];
   @Input() initialZoom: number = 13;
   @Input() markers: any[] = [];
@@ -213,11 +215,11 @@ export class MapComponent implements OnInit, AfterViewInit {
     }));
 
     // Pozovi setRoute sa prikupljenim waypoints i izabranim profilom (npr. 'walking')
-    this.setRoute(waypoints, this.option); // ili 'driving', 'cycling'
+    this.setRoute(this.keyPoints, this.option); // ili 'driving', 'cycling'
   }
 
 
-  setRoute(waypoints: Array<{ lat: number, lng: number }>, profile: 'walking' | 'driving' | 'cycling'): void {
+  setRoute(keyPoints: KeyPoint[], profile: 'walking' | 'driving' | 'cycling'): void {
     // Uklanjanje prethodne rute ako postoji
     if (this.routeControl) {
       this.map.removeControl(this.routeControl);
@@ -227,7 +229,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       : [{ color: 'blue', weight: 4 }]; // Puna linija za ostale profile
 
     this.routeControl = L.Routing.control({
-      waypoints: waypoints.map(point => L.latLng(point.lat, point.lng)),
+      waypoints: keyPoints.map(keyPoint => L.latLng(keyPoint.latitude, keyPoint.longitude)),
       router: L.routing.mapbox('pk.eyJ1IjoiZGp1cmRqZXZpY20iLCJhIjoiY20yaHVzOTgyMGJwbzJqczNteW1xMm0yayJ9.woKtBh92sOV__L25KcUu_Q', {
         profile: `mapbox/${profile}`
       }),
@@ -238,6 +240,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       },
       waypointMode: 'snap', // Markeri će se "zalepiti" za put
       addWaypoints: false, // Zabranjeno dodavanje novih tačaka od strane korisnika
+      
+
     }).addTo(this.map);
 
     this.routeControl.on('routesfound', (e: any) => {
@@ -258,10 +262,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       alert('There was a routing error. Please try again.');
     });
   }
-
-
-
-
+  
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'assets/pin.png',
@@ -271,6 +272,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
+
     this.initMap();
     if (this.onlyOneMarker) {
       this.setCurrentLocation();

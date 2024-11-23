@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output,AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Output,AfterViewInit, Input } from '@angular/core';
 import { TourExecutionService } from '../tour-execution.service';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 import { Location as routerLocation } from '@angular/common';
@@ -12,14 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./tourist-location.component.css']
 })
 export class TouristLocationComponent implements AfterViewInit {
+  @Input() keyPoints: any[] = [];
+  @Input() showEncounters: boolean = false;
   @Output() locationSelected = new EventEmitter<{ latitude: number, longitude: number }>();
   imageId: Number;
   selectedFile: File;
   previewImage: string | null = null
   location: Location = { latitude: 0, longitude: 0 };
   hideFinishButton: boolean = false;
-
-  
 
   constructor(private service: TourExecutionService,private snackBar:MatSnackBar,private routerLocation: routerLocation,private router:Router) {
   }
