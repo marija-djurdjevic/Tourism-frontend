@@ -18,6 +18,7 @@ export class ObjectFormComponent {
   previewImage: string | null = null
   longitude:Number;
   latitude:Number;
+  isPublic: boolean = false;
 
   constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private imageService: ImageService,private router: Router) {
     /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
@@ -49,7 +50,8 @@ export class ObjectFormComponent {
         longitude:this.longitude,
         latitude: this.latitude,
         imageId: -1,
-        image:""
+        image:"",
+        status: this.isPublic ? 0 : 1
       };
       /*----------------Dio 2 za upload slike---------------*/
       this.imageService.setControllerPath("author/image");
