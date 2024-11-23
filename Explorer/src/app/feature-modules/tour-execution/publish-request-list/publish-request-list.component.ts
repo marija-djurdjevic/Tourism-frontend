@@ -142,5 +142,33 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
         },
       });
     }
+    rejectRequest(request: PublishRequest | undefined): void {
+      if (!request) {
+        console.error('Request is undefined.');
+        return;
+      }
     
+      if (!this.user || !this.user.id) {
+        console.error('User is undefined or does not have an ID.');
+        return;
+      }
+    
+      request.status = 2;
+      request.adminId = this.user.id;
+    
+      
+      this.service.updateRequestStatus(request).subscribe({
+        next: (updatedRequest: PublishRequest) => {
+          console.log('Request successfully rejected:', updatedRequest);
+    
+          this.entities = this.entities.filter((e) => e.id !== request.id);
+    
+          
+          this.displayedEntities = [...this.entities];
+        },
+        error: (err) => {
+          console.error('Error updating request:', err);
+        },
+      });
+    }
 }
