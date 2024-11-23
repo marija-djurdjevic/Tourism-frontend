@@ -5,4 +5,10 @@ export interface PublishRequest {
     entityId: number;
     status: number;
     type: number;  
+    name?:string;
+    latitude?:number;
+    longitude?:number;
+    description?:string;
+    imagePath?:string;
+
 }
