@@ -40,9 +40,29 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-            <mat-label>Tags (use # and separate with commas)</mat-label>
-            <input matInput formControlName="tags" placeholder="#tag1, #tag2"/>
-        </mat-form-field>
+            <mat-label>Tags</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="newTag" 
+              [ngModelOptions]="{standalone: true}" 
+              placeholder="Enter a tag" 
+              (keyup.enter)="addTag()">
+          </mat-form-field>
+        
+        <div>
+            <button mat-raised-button color="primary" type="button" (click)="addTag()" [disabled]="tourForm.invalid">
+                Add Tag
+            </button>
+        </div>
+        
+        <div>
+            <mat-chip-list>
+                <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+                    {{ tag }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+        </div>
 
         <div class="button-container">
             <button mat-raised-button color="primary" type="submit" [disabled]="tourForm.invalid">
