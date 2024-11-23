@@ -1,0 +1,107 @@
+<div>
+    <form [formGroup]="problemForm" (ngSubmit)="onSubmit()">
+      <h2>Add Encounter</h2>
+  
+      <div>
+        <!-- Category -->
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select 
+            id="category" 
+            formControlName="category" 
+            [class.error]="problemForm.get('category')?.invalid && problemForm.get('category')?.touched"
+            (change)="onCategoryChange()">
+            <option value="" disabled>Select a category</option>
+            <option [value]="0">Social</option>
+            <option [value]="1">Location</option>
+            <option [value]="3">Misc</option>
+          </select>
+          <div *ngIf="problemForm.get('category')?.invalid && problemForm.get('category')?.touched" class="error-message">
+            Category is required.
+          </div>
+        </div>
+  
+        <!-- Dynamic Fields for 'Social' -->
+        <div *ngIf="selectedCategory === 0">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input 
+              id="name" 
+              type="text" 
+              formControlName="name" 
+              placeholder="Enter Name"
+              [class.error]="problemForm.get('name')?.invalid && problemForm.get('name')?.touched" />
+            <div *ngIf="problemForm.get('name')?.invalid && problemForm.get('name')?.touched" class="error-message">
+              Name is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea 
+              id="description" 
+              formControlName="description" 
+              placeholder="Enter Description"
+              [class.error]="problemForm.get('description')?.invalid && problemForm.get('description')?.touched"></textarea>
+            <div *ngIf="problemForm.get('description')?.invalid && problemForm.get('description')?.touched" class="error-message">
+              Description is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="range">Range</label>
+            <input 
+              id="range" 
+              type="number" 
+              formControlName="range" 
+              placeholder="Enter Range"
+              [class.error]="problemForm.get('range')?.invalid && problemForm.get('range')?.touched" />
+            <div *ngIf="problemForm.get('range')?.invalid && problemForm.get('range')?.touched" class="error-message">
+              Range must be at least 1.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="touristsNumber">Tourists Number</label>
+            <input 
+              id="touristsNumber" 
+              type="number" 
+              formControlName="touristsNumber" 
+              placeholder="Enter Tourists Number"
+              [class.error]="problemForm.get('touristsNumber')?.invalid && problemForm.get('touristsNumber')?.touched" />
+            <div *ngIf="problemForm.get('touristsNumber')?.invalid && problemForm.get('touristsNumber')?.touched" class="error-message">
+              Tourists number must be at least 1.
+            </div>
+          </div>
+        </div>
+  
+        <!-- Dynamic Fields for 'Misc' -->
+        <div *ngIf="selectedCategory === 3">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input 
+              id="name" 
+              type="text" 
+              formControlName="name" 
+              placeholder="Enter Name"
+              [class.error]="problemForm.get('name')?.invalid && problemForm.get('name')?.touched" />
+            <div *ngIf="problemForm.get('name')?.invalid && problemForm.get('name')?.touched" class="error-message">
+              Name is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea 
+              id="description" 
+              formControlName="description" 
+              placeholder="Enter Description"
+              [class.error]="problemForm.get('description')?.invalid && problemForm.get('description')?.touched"></textarea>
+            <div *ngIf="problemForm.get('description')?.invalid && problemForm.get('description')?.touched" class="error-message">
+              Description is required.
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit" class="primary-button" mat-raised-button>Submit</button>
+    </form>
+  </div>
+  
