@@ -38,7 +38,7 @@
             <p><b>Longitude: </b> {{item.longitude}}</p>
             <p><b>Description:</b>  {{item.description}}</p>
             <div>
-            <button class="accept" (click)="acceptRequest(item)">accept</button><button  class="decline">decline</button>
+            <button class="accept" (click)="acceptRequest(item)">accept</button><button  class="decline" (click)="rejectRequest(item)">decline</button>
         </div>
         </div>
     </div>

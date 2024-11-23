@@ -83,19 +83,20 @@ export class NavbarComponent implements OnInit {
     this.cd.detectChanges();
   }
   goToProblem(notification: Notification, problemId: number): void {
+    
     if(this.user?.role === 'tourist') {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      if(notification.notificationType == 'TourProblemComment') this.router.navigate(['/problem'], { queryParams: { id: problemId } });
     }); 
   }
   else if(this.user?.role === 'author') {
     this.layoutService.markAsReadAuthor(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      if(notification.notificationType == 'TourProblemComment') this.router.navigate(['/problem'], { queryParams: { id: problemId } });
     }); 
     }
-
+  
     this.showNotifications = !this.showNotifications;
   }
 
