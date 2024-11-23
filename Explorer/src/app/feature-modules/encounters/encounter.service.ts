@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
-import { Encounter } from '../administration/model/encounter.model'; // Putanja do modela
+import { Encounter } from '../encounters/model/encounter.model'; // Putanja do modela
 
 
 @Injectable({
@@ -15,5 +15,9 @@ export class EncounterService {
 
   getEncounters(): Observable<PagedResults<Encounter>> {
     return this.http.get<PagedResults<Encounter>>(environment.apiHost + 'tourist/encounter');
+  }
+
+  addEncounter(encounter : Encounter): Observable<Encounter>{
+    return this.http.post<Encounter>(' https://localhost:44333/api/author/encounter', encounter)
   }
 }

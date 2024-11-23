@@ -5,7 +5,7 @@ import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Account } from './model/account.model';
-import { Encounter } from './model/encounter.model';
+import { Encounter } from '../encounters/model/encounter.model';
 
 @Injectable({
   providedIn: 'root'

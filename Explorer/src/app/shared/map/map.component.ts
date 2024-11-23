@@ -7,7 +7,7 @@ import { PagedResults } from '../model/paged-results.model';
 import { ImageService } from '../image.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { Coordinates } from 'src/app/feature-modules/administration/model/coordinates.model';
+import { Coordinates } from 'src/app/feature-modules/encounters/model/coordinates.model';
 
 @Component({
   selector: 'app-map',
