@@ -1,4 +1,4 @@
-<div>
+<!--<div>
     <div id="titleCont">
         <div id="title">Publish Requests</div>
     </div>
@@ -26,4 +26,20 @@
         </tr> 
     </table>
   </div>
-  
+-->
+
+<div class="okvir">
+    <div  *ngFor="let item of displayedEntities" >
+        <div class="jedan"> 
+            <h1>KeyPoint request</h1>
+            <img  src={{item.imagePath}}>
+            <p><b>Name: </b> {{item.name}}</p>
+            <p><b>Latitude:</b>  {{item.latitude}}</p>
+            <p><b>Longitude: </b> {{item.longitude}}</p>
+            <p><b>Description:</b>  {{item.description}}</p>
+            <div>
+            <button class="accept" (click)="acceptRequest(item)">accept</button><button  class="decline">decline</button>
+        </div>
+        </div>
+    </div>
+</div>
