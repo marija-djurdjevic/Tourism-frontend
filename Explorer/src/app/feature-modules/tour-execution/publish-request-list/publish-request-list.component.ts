@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Comment} from '../model/problem.model';
 import { DatePipe, CommonModule } from '@angular/common';
+import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 
 
 @Component({
@@ -44,8 +45,9 @@ import { DatePipe, CommonModule } from '@angular/common';
             next: (result: PagedResults<PublishRequest>) => {
               const filteredResults = result.results.filter(e => e.status === 0);
               this.entities = filteredResults;
+              this.displayedEntities = filteredResults;
               this.populateUsernamesAd(this.entities.map(e => e.authorId));
-             
+              this.fetchKeyPointDetails();
             },
             error: (err: any) => {
               console.log(err);
@@ -69,7 +71,27 @@ import { DatePipe, CommonModule } from '@angular/common';
           return 'Unknown'; 
         }
     }
-
+    fetchKeyPointDetails(): void {
+      this.displayedEntities.forEach(request => {
+        if (request.entityId) {
+          this.tourService.getKeyPointById(request.entityId).subscribe({
+            next: (keyPoint: KeyPoint) => {
+              request.name = keyPoint.name; 
+              request.latitude = keyPoint.latitude; 
+              request.longitude = keyPoint.longitude; 
+              request.description = keyPoint.description;
+              request.imagePath = keyPoint.imagePath; 
+            },
+            error: err => {
+              console.error(`Error loading KeyPoint with ID ${request.entityId}:`, err);
+            },
+          });
+        }
+      });
+    }
+  
+  
+    
     getEnumForType(id: number): string {
     
         let ret: string;
@@ -92,29 +114,33 @@ import { DatePipe, CommonModule } from '@angular/common';
         });
     }
     acceptRequest(request: PublishRequest | undefined): void {
-
-      if (request === undefined) {
-        console.error('Request ID is undefined.');
+      if (!request) {
+        console.error('Request is undefined.');
         return;
       }
-
+    
       if (!this.user || !this.user.id) {
         console.error('User is undefined or does not have an ID.');
         return;
       }
-
+    
       request.status = 1;
-      request.adminId = this.user.id; 
-
+      request.adminId = this.user.id;
+    
+      
       this.service.updateRequestStatus(request).subscribe({
         next: (updatedRequest: PublishRequest) => {
           console.log('Request successfully updated:', updatedRequest);
+    
+          this.entities = this.entities.filter((e) => e.id !== request.id);
+    
+          
+          this.displayedEntities = [...this.entities];
         },
         error: (err) => {
           console.error('Error updating request:', err);
         },
       });
-    
-     
     }
+    
 }
