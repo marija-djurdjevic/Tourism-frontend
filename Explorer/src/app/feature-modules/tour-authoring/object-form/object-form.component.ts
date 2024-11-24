@@ -51,7 +51,7 @@ export class ObjectFormComponent {
         latitude: this.latitude,
         imageId: -1,
         image:"",
-        status: this.isPublic ? 0 : 1
+        status: this.isPublic ? 1 : 0
       };
       /*----------------Dio 2 za upload slike---------------*/
       this.imageService.setControllerPath("author/image");

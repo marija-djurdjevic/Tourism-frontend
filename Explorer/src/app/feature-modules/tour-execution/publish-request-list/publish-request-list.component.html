@@ -31,12 +31,14 @@
 <div class="okvir">
     <div  *ngFor="let item of displayedEntities" >
         <div class="jedan"> 
-            <h1>KeyPoint request</h1>
+            <h1 *ngIf="item.type === 1">KeyPoint request</h1>
+            <h1 *ngIf="item.type === 0">Object request</h1>
             <img  src={{item.imagePath}}>
             <p><b>Name: </b> {{item.name}}</p>
             <p><b>Latitude:</b>  {{item.latitude}}</p>
             <p><b>Longitude: </b> {{item.longitude}}</p>
             <p><b>Description:</b>  {{item.description}}</p>
+            <p><b>Author Name:</b>  {{item.authName}}</p>
             <div>
             <button class="accept" (click)="acceptRequest(item)">accept</button><button  class="decline" (click)="rejectRequest(item)">decline</button>
         </div>
