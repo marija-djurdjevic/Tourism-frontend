@@ -23,4 +23,9 @@ export class KeyPointService {
   addKeyPoint(keyPoint: KeyPoint): Observable<KeyPoint> {
     return this.http.post<KeyPoint>(this.baseUrl, keyPoint);
   }
+
+  addTourToKeyPoint(keyPoint: KeyPoint, additionalTourId: number): Observable<KeyPoint> {
+    const url = `${this.baseUrl}/${keyPoint.id}?id=${additionalTourId}`;
+    return this.http.put<KeyPoint>(url, keyPoint);
+  }
 }

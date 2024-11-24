@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   showProfileMenu: boolean=false;
   showLocationButton: boolean = true;
 
-  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef) {}
+  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef, ) {}
 
   ngOnInit(): void {
     this.router.events
