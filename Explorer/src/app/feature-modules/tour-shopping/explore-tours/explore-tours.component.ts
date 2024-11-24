@@ -8,7 +8,7 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { TourReview } from '../../tour-authoring/model/tour-review.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -29,7 +29,7 @@ export class ExploreToursComponent implements OnInit {
   refundId: number | null = null;
   refundedTourId: number;
 
-  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router) {
+  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -37,11 +37,17 @@ export class ExploreToursComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+
     this.getTours();
     this.loadPurchasedTours();
-    if (this.refundId) {
-      this.fetchRefundedTour(this.refundId); // Use the separate method
-    }
+    this.route.queryParams.subscribe(params => {
+      this.refundId = params['refundId'] ? Number(params['refundId']) : null;
+      console.log('Captured refundId:', this.refundId);
+
+      if (this.refundId) {
+        this.fetchRefundedTour(this.refundId); // Fetch the refunded tour
+      }
+    });
   }
   searchTours():void{
     this.router.navigate(['/tour-search']);

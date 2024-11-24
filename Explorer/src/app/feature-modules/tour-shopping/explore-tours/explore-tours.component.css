@@ -18,9 +18,16 @@
 }
 
 .highlighted-tour {
-    background-color: #ffeb3b; /* Highlight with yellow */
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    animation: fadeOut 3s forwards; /* Fades out over 3 seconds */
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      background-color: #ffeb3b; /* Initial highlight color */
+    }
+    100% {
+      background-color: transparent; /* Final color (transparent) */
+    }
   }
   
 
