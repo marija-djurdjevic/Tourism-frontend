@@ -1,4 +1,6 @@
-<form [formGroup]="tourForm" (ngSubmit)="addTour()" class="tour-form">
+<form [formGroup]="tourForm"
+ (ngSubmit)="shouldEdit ? updateTour() : addTour()"
+  class="tour-form">
     <h2>{{ shouldEdit ? 'Update Tour' : 'Add Tour' }}</h2>
     <div class="form-container">
         <mat-form-field appearance="outline">

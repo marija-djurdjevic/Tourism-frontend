@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tour } from '../model/tour.model';
 import { TransportType } from '../model/transportInfo.model';
 import { TourAuthoringService } from '../tour-authoring.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,57 +18,74 @@ export class TourFormComponent implements OnChanges {
   @Input() shouldEdit: boolean = false;
 
   public TransportType = TransportType;
-  tags: string[] = [];  // Lista tagova koja se dinamički menja
-  newTag: string = '';  // Unos novog taga
+  tags: string[] = [];  
+  newTag: string = '';  
 
   constructor(
     private service: TourAuthoringService,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
 
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params['tour']) {
+        const tour = JSON.parse(params['tour']);
+        this.tour = tour;
+        this.shouldEdit = true;
+        this.tourForm.patchValue(this.tour);
+        this.tags = this.tour.tags || [];
+      }
+    });
+  }
+  
   ngOnChanges(): void {
-    this.tourForm.reset();
-    if (this.shouldEdit) {
+    console.log('ngOnChanges triggered:', this.shouldEdit, this.tour);
+  
+    if (this.shouldEdit && this.tour) {
       this.tourForm.patchValue(this.tour);
-      this.tags = this.tour.tags || [];  // Ako postoje tagovi pri editovanju, prikazujemo ih
+      this.tags = this.tour.tags || [];
+    } else {
+      this.tourForm.reset();
     }
   }
+  
 
   tourForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     difficulty: new FormControl(0, [Validators.required]),
-    tags: new FormControl<string[]>([], []),  // Tagovi kao niz stringova
+    tags: new FormControl<string[]>([], []),  
     price: new FormControl(0, [Validators.required, Validators.min(0)]),
     transportType: new FormControl(TransportType.Car, [Validators.required]),
   });
 
-  // Metoda za dodavanje taga
+  
   addTag(): void {
-    if (this.newTag.trim()) {  // Provera da li tag nije prazan
-      this.tags.push(this.newTag.trim());  // Dodavanje taga u listu
-      this.newTag = '';  // Čišćenje unosa nakon dodavanja
+    if (this.newTag.trim()) { 
+      this.tags.push(this.newTag.trim());  
+      this.newTag = '';  
     }
   }
 
-  // Metoda za uklanjanje taga
+
   removeTag(tag: string): void {
     const index = this.tags.indexOf(tag);
     if (index > -1) {
-      this.tags.splice(index, 1);  // Uklanjanje taga iz liste
+      this.tags.splice(index, 1);  
     }
   }
 
-  // Metoda za dodavanje ture
+
   addTour(): void {
     const loggedInUser = this.authService.user$.value;
     const tour: Tour = {
       name: this.tourForm.value.name || '',
       description: this.tourForm.value.description || '',
       difficulty: Number(this.tourForm.value.difficulty) || 0,
-      tags: this.tags,  // Prosleđivanje liste tagova
+      tags: this.tags,  
       status: 0,
       price: this.tourForm.value.price || 0,
       authorId: loggedInUser.id || 0,
@@ -104,4 +121,40 @@ export class TourFormComponent implements OnChanges {
       },
     });
   }
+
+  updateTour(): void {
+    const updatedTour: Tour = {
+      ...this.tour, 
+      name: this.tourForm.value.name || this.tour.name,
+      description: this.tourForm.value.description || this.tour.description,
+      difficulty: Number(this.tourForm.value.difficulty) || this.tour.difficulty,
+      tags: this.tags, 
+      price: this.tourForm.value.price || this.tour.price,
+      transportInfo: {
+        ...this.tour.transportInfo,
+        transport: this.tourForm.value.transportType as TransportType,
+      },
+    };
+  
+    console.log('Tour to be updated:', updatedTour);
+  
+    this.service.updateTour(updatedTour).subscribe({
+      next: () => {
+        this.tourUpdated.emit(); 
+        this.router.navigate(['/tours']);
+        this.snackBar.open('Tour updated successfully!', 'Close', {
+          duration: 3000,
+          panelClass: 'succesful',
+        });
+      },
+      error: (err) => {
+        console.error('Error updating tour:', err);
+        this.snackBar.open('Failed to update tour. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: 'succesful',
+        });
+      },
+    });
+  }
+  
 }
