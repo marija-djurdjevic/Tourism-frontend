@@ -66,7 +66,7 @@ export class KeyPointFormComponent implements OnInit {
     this.keyPointService.getKeyPoints().subscribe({
       next: (allKeyPoints) => {
         // Ensure tourIds is an array before using .includes()
-        const keyPointsForTour = allKeyPoints.filter(kp => Array.isArray(kp.tourIds) && kp.tourIds.includes(this.tourId));
+        const keyPointsForTour = allKeyPoints.filter(kp => Array.isArray(kp.tourIds) && kp.tourIds.includes(this.tourId)) ;
   
         // Add the new key point to the list of key points for the tour
         keyPointsForTour.push(this.newKeyPoint);

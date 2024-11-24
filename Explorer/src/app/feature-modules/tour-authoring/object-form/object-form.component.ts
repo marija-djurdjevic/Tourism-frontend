@@ -31,7 +31,8 @@ export class ObjectFormComponent {
     description: new FormControl('', [Validators.required]),
     category: new FormControl(0, [Validators.required]),
     longitude: new FormControl(0, [Validators.required]),
-    latitude: new FormControl(0, [Validators.required])
+    latitude: new FormControl(0, [Validators.required]),
+    isPublic: new FormControl(false)
   })
 
   /*Dio 1 za upload slika*/
@@ -51,7 +52,7 @@ export class ObjectFormComponent {
         latitude: this.latitude,
         imageId: -1,
         image:"",
-        status: this.isPublic ? 1 : 0
+        status: this.objectForm.value.isPublic ? 0 : 1
       };
       /*----------------Dio 2 za upload slike---------------*/
       this.imageService.setControllerPath("author/image");

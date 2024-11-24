@@ -47,7 +47,7 @@ export class KeyPointComponent implements OnInit {
       this.keyPointService.getKeyPoints().subscribe({
         next: (keyPoints) => {
           console.log('Vraćeni keyPoints:', keyPoints);
-          this.keyPoints = keyPoints.filter(kp => Array.isArray(kp.tourIds) && kp.tourIds.includes(this.tourId) && kp.status != 0); // Ensure tourIds is an array
+          this.keyPoints = keyPoints.filter(kp => Array.isArray(kp.tourIds) && kp.tourIds.includes(this.tourId) && (kp.status == 1 || kp.status ==2)); // Ensure tourIds is an array
           console.log('Filtrirane ključne tačke: ', this.keyPoints);
           this.isLoading = false;
         },
