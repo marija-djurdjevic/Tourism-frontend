@@ -10,6 +10,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Comment} from '../model/problem.model';
 import { DatePipe, CommonModule } from '@angular/common';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
+import { Object } from '../../tour-authoring/model/object.model';
+import { ImageService } from 'src/app/shared/image.service';
 
 
 @Component({
@@ -29,7 +31,7 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 
     usernamesMap: Map<number, string> = new Map();
 
-    constructor(private service: TourExecutionService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService) {} 
+    constructor(private service: TourExecutionService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService) { imageService.setControllerPath("administrator/image");} 
     ngOnInit(): void {
 
         this.authService.user$.subscribe((user: User | undefined) => {
@@ -48,6 +50,8 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
               this.displayedEntities = filteredResults;
               this.populateUsernamesAd(this.entities.map(e => e.authorId));
               this.fetchKeyPointDetails();
+              this.fetchObjectDetails();
+              console.log("posle funkcije");
             },
             error: (err: any) => {
               console.log(err);
@@ -72,10 +76,14 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
         }
     }
     fetchKeyPointDetails(): void {
+     
       this.displayedEntities.forEach(request => {
-        if (request.entityId) {
+      
+        if (request.entityId && request.type==1) {
+        
           this.tourService.getKeyPointById(request.entityId).subscribe({
             next: (keyPoint: KeyPoint) => {
+              
               request.name = keyPoint.name; 
               request.latitude = keyPoint.latitude; 
               request.longitude = keyPoint.longitude; 
@@ -84,6 +92,39 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
             },
             error: err => {
               console.error(`Error loading KeyPoint with ID ${request.entityId}:`, err);
+            },
+          });
+        }
+      });
+    }
+
+    fetchObjectDetails(): void {
+      this.displayedEntities.forEach(request => {
+        if (request.entityId && request.type==0) {
+          this.tourService.getObjectById(request.entityId).subscribe({
+            next: (object: Object) => {
+              request.name = object.name; 
+              request.latitude = object.latitude as number; 
+              request.longitude = object.longitude as number; 
+              request.description = object.description;
+              this.imageService.setControllerPath("administrator/image");
+              this.imageService.getImage(object.imageId.valueOf()).subscribe((blob: Blob) => {
+                  console.log(blob);  
+                  if (blob.type.startsWith('image')) {
+                    object.image = URL.createObjectURL(blob);
+                    request.imagePath = object.image; 
+                    //this.cd.detectChanges();
+                  } else {
+                    console.error("Blob nije slika:", blob);
+                  }
+                });
+              
+                this.authService.getUsernameAd(request.authorId).subscribe(username => {
+                  request.authName = username;
+              });
+            },
+            error: err => {
+              console.error(`Error loading Object with ID ${request.entityId}:`, err);
             },
           });
         }
@@ -127,7 +168,7 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
       request.status = 1;
       request.adminId = this.user.id;
     
-      
+      if(request.type==1){
       this.service.updateRequestStatus(request).subscribe({
         next: (updatedRequest: PublishRequest) => {
           console.log('Request successfully updated:', updatedRequest);
@@ -141,6 +182,21 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
           console.error('Error updating request:', err);
         },
       });
+    }else{
+      this.service.updateRequestStatusObject(request).subscribe({
+        next: (updatedRequest: PublishRequest) => {
+          console.log('Object successfully updated:', updatedRequest);
+    
+          this.entities = this.entities.filter((e) => e.id !== request.id);
+    
+          
+          this.displayedEntities = [...this.entities];
+        },
+        error: (err) => {
+          console.error('Error updating request:', err);
+        },
+      });
+    }
     }
     rejectRequest(request: PublishRequest | undefined): void {
       if (!request) {
@@ -156,7 +212,7 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
       request.status = 2;
       request.adminId = this.user.id;
     
-      
+      if(request.type==1){
       this.service.updateRequestStatus(request).subscribe({
         next: (updatedRequest: PublishRequest) => {
           console.log('Request successfully rejected:', updatedRequest);
@@ -170,5 +226,20 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
           console.error('Error updating request:', err);
         },
       });
+    }else{
+      this.service.updateRequestStatusObject(request).subscribe({
+        next: (updatedRequest: PublishRequest) => {
+          console.log('Object successfully rejected:', updatedRequest);
+    
+          this.entities = this.entities.filter((e) => e.id !== request.id);
+    
+          
+          this.displayedEntities = [...this.entities];
+        },
+        error: (err) => {
+          console.error('Error updating request:', err);
+        },
+      });
+    }
     }
 }

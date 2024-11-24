@@ -249,4 +249,9 @@ updateRequestStatus(requestDto: PublishRequest): Observable<PublishRequest> {
   return this.http.put<PublishRequest>(url, requestDto);
 }
 
+updateRequestStatusObject(requestDto: PublishRequest): Observable<PublishRequest> {
+  const url = `${environment.apiHost}administrator/object/${requestDto.id}`;
+  return this.http.put<PublishRequest>(url, requestDto);
+}
+
 }

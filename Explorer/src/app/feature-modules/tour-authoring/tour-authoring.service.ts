@@ -173,4 +173,8 @@ export class TourAuthoringService {
   getKeyPointById(id:number):Observable<KeyPoint>{
     return this.http.get<KeyPoint>(environment.apiHost + 'administrator/keyPoint?id=' + id);
   }
+
+  getObjectById(id:number):Observable<Object>{
+    return this.http.get<Object>('https://localhost:44333/by?id=' + id);
+  }
 }

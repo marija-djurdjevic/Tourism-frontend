@@ -10,5 +10,5 @@ export interface PublishRequest {
     longitude?:number;
     description?:string;
     imagePath?:string;
-
+    authName? : string;
 }
