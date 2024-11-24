@@ -1,5 +1,5 @@
-<h3>Add New Key Point</h3>
-<form (ngSubmit)="onAddKeyPoint()" class="tour-form">
+<h3>{{ isUpdate ? 'Update Key Point' : 'Add New Key Point' }}</h3>
+<form  (ngSubmit)="onAddKeyPoint()" class="tour-form">
   <div class="form-container">
     <div class="form-group">
       <label for="name">Name:</label>

@@ -13,8 +13,19 @@
         <div class="tour-content">
             <div class="card-container">
                 <div class="card" *ngFor="let keyPoint of keyPoints">
-                    <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}"
-                        class="card-image" />
+                   
+                    <div class="card-header">
+                        
+                        <button class="btn edit-btn" >
+                            Edit
+                        </button>
+                       
+                        <button class="btn delete-btn" (click)="keyPoint.id !== undefined ? onDelete(keyPoint.id) : null">
+                            Delete
+                        </button>
+                    </div>
+                    
+                    <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
                     <div class="card-content">
                         <h4>{{ keyPoint.name }}</h4>
                         <p><strong>Description:</strong> {{ keyPoint.description }}</p>

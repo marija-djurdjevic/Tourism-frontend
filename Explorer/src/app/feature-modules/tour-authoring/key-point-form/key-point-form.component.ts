@@ -19,6 +19,8 @@ export class KeyPointFormComponent implements OnInit {
   tour: Tour;
   imagePath: string | ArrayBuffer | null;
   isPublic: Boolean = false;
+  isUpdate: boolean = false;  
+  selectedKeyPoint: KeyPoint | null = null;
 
 
   onImageSelected(event: Event) {
