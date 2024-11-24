@@ -40,6 +40,7 @@ import { PublishRequestComponent } from 'src/app/feature-modules/tour-execution/
 import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
 import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
 import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
+import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
 
 const routes: Routes = [
   {
@@ -147,6 +148,11 @@ const routes: Routes = [
   { path: 'tourList', component: TourListComponent },
   { path: 'explore', component: ExploreToursComponent },
   { path: 'encountersMap', component: EncountersComponent },
+  {
+    path: 'wallet',
+    component: WalletComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] }
 ];
 
