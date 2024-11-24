@@ -9,6 +9,7 @@ import { endOfISOWeek } from 'date-fns';
 import { ShoppingCart } from './model/shopping-cart.model';
 import { KeyPoint } from '../tour-authoring/model/key-point.model';
 import { map } from 'rxjs/operators';
+import { Wallet } from './model/wallet.model';
 
 
 @Injectable({
@@ -35,6 +36,10 @@ export class TourShoppingService {
     return this.http.get<{ results: KeyPoint[] }>(environment.apiHost + "tourist/tour/keyPoints").pipe(
       map(response => response.results) // Uzmi samo niz iz objekta
     );
+  }
+
+  getWallet(): Observable<Wallet> {
+    return this.http.get<Wallet>(environment.apiHost + "tourist/wallet/balance")
   }
   
 }
