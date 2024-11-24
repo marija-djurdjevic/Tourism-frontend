@@ -17,6 +17,13 @@
     margin-right: 2%;
 }
 
+.highlighted-tour {
+    background-color: #ffeb3b; /* Highlight with yellow */
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+
 hr {
     border: none;
     height: 2px;

@@ -47,6 +47,7 @@ export class NavbarComponent implements OnInit {
       else if(user.role === 'tourist') {
         this.layoutService.getTouristNotifications(user.id).subscribe(notificationsData => {
           this.notifications = notificationsData;
+          console.log(this.notifications)
          });
       }
       this.layoutService.getProfile(user.role).subscribe({
@@ -86,7 +87,11 @@ export class NavbarComponent implements OnInit {
     if(this.user?.role === 'tourist') {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      if(notification.type == 1) {
+        this.router.navigate(['explore-tours'], { queryParams: { refundId: notification.referenceId } });
+      } else {
+        this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      }
     }); 
   }
   else if(this.user?.role === 'author') {

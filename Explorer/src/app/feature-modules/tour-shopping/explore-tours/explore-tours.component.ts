@@ -26,7 +26,8 @@ export class ExploreToursComponent implements OnInit {
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
   isLoading=false;
-
+  refundId: number | null = null;
+  refundedTourId: number;
 
   constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router) {
     imageService.setControllerPath("tourist/image");
@@ -38,10 +39,30 @@ export class ExploreToursComponent implements OnInit {
     });
     this.getTours();
     this.loadPurchasedTours();
+    if (this.refundId) {
+      this.fetchRefundedTour(this.refundId); // Use the separate method
+    }
   }
   searchTours():void{
     this.router.navigate(['/tour-search']);
   }
+
+  fetchRefundedTour(refundId: number): void {
+    this.service.getRefundedTour(refundId).subscribe({
+      next: (refundedTourId: number) => {
+        this.refundedTourId = refundedTourId; // Assign the value from the observable
+        console.log('Refunded Tour ID:', this.refundedTourId);
+      },
+      error: (err) => {
+        console.error('Error fetching refunded tour ID:', err);
+        this.snackBar.open('Failed to fetch refunded tour ID.', 'Close', {
+          duration: 3000,
+          panelClass: 'error'
+        });
+      }
+    });
+  }
+  
 
   getTours(): void {
     this.isLoading=true

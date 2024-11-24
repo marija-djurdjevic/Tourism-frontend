@@ -1,7 +1,7 @@
 export interface Notification {
     id: number;
     content: string;
-    notificationType: string;     
+    type: number;     
     referenceId: number;
     recieverId: number;
     isRead: boolean;

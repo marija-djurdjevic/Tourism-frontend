@@ -110,6 +110,28 @@ onStartTourSession(tourId: number): void {
   }
 }
 
+confirmAction(tourId: number): void {
+  
+  const message ='Are you sure you want to refund this tour?';
+
+  if (window.confirm(message)) {
+    this.onRefundTour(tourId);
+  }
+}
+
+
+onRefundTour(tourId: number) {
+  this.service.refundTour(tourId).subscribe({
+    next: (tour) => {
+      console.log('Tour refunded successfully:', tour);
+      this.loadPurchasedTours();
+    },
+    error: (err) => {
+      console.error('Error refunding tour:', err);
+    },
+  });
+}
+
 
 
 }
