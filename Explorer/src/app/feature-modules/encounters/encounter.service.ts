@@ -6,6 +6,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Encounter } from '../encounters/model/encounter.model'; // Putanja do modela
 
 
+
 @Injectable({
   providedIn: 'root'
 })

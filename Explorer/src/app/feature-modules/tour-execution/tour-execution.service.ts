@@ -14,7 +14,7 @@ import { Tour } from '../tour-authoring/model/tour.model';
 import { map } from 'rxjs/operators';
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model';
 import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
-
+import { EncounterExecution } from 'src/app/feature-modules/encounters/model/encounter-execution.model';
 
 @Injectable({
   providedIn: 'root'
@@ -244,4 +244,11 @@ closeTour(tourDto: Tour): Observable<Tour> {
   return this.http.post<Tour>(`${environment.apiHost}administrator/tour/close-tour`, tourDto);
 }
 
+createEncounterExecution(EncounterExecution : EncounterExecution): Observable<EncounterExecution>{
+  return this.http.post<EncounterExecution>(' https://localhost:44333/api/tourist/encounterExecution/create', EncounterExecution)
+}
+
+updateEncounterExecution(EncounterExecution : EncounterExecution): Observable<EncounterExecution>{
+  return this.http.post<EncounterExecution>(' https://localhost:44333/api/tourist/encounterExecution/update', EncounterExecution)
+}
 }

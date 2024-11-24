@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Coordinates } from 'src/app/feature-modules/encounters/model/coordinates.model';
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model';
+import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
 
 @Component({
   selector: 'app-map',
@@ -229,7 +230,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       : [{ color: 'blue', weight: 4 }]; // Puna linija za ostale profile
 
     this.routeControl = L.Routing.control({
-      waypoints: keyPoints.map(keyPoint => L.latLng(keyPoint.latitude, keyPoint.longitude)),
+      waypoints: keyPoints.map(keyPoint => ({
+        latLng: L.latLng(keyPoint.latitude, keyPoint.longitude),
+      })),
       router: L.routing.mapbox('pk.eyJ1IjoiZGp1cmRqZXZpY20iLCJhIjoiY20yaHVzOTgyMGJwbzJqczNteW1xMm0yayJ9.woKtBh92sOV__L25KcUu_Q', {
         profile: `mapbox/${profile}`
       }),
@@ -240,9 +243,89 @@ export class MapComponent implements OnInit, AfterViewInit {
       },
       waypointMode: 'snap', // Markeri će se "zalepiti" za put
       addWaypoints: false, // Zabranjeno dodavanje novih tačaka od strane korisnika
+      createMarker: (i, waypoint, n) => {
+        // Provera da li su koordinate validne
+        if (!waypoint || !waypoint.latLng) {
+          console.error('Waypoint is invalid:', waypoint);
+          return null;
+        }
       
-
-    }).addTo(this.map);
+        // Kreiranje markera sa prilagođenom ikonom
+        const marker = L.marker(waypoint.latLng, {
+          icon: L.icon({
+            iconUrl: 'assets/icons/download.png', // URL prilagođene ikone
+            iconSize: [41, 41],       // Veličina ikone
+            iconAnchor: [20, 20],     // Tačka gde se ikona vezuje za koordinate
+            popupAnchor: [1, -34]     // Pozicija popup-a u odnosu na ikonu
+          })
+        });
+      
+        // Dodavanje sadržaja popup-a
+        marker.bindPopup(`
+          <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; padding: 10px; max-width: 250px;">
+            <h3 style="margin: 0 0 10px; font-size: 1.2em; color: #0056b3;">
+              ${keyPoints[i]?.encounter?.type === 0
+                ? 'Social'
+                : keyPoints[i]?.encounter?.type === 1
+                ? 'Location'
+                : keyPoints[i]?.encounter?.type === 2
+                ? 'Misc'
+                : 'Unknown'
+              } Encounter
+            </h3>
+            <p style="margin: 0 0 5px;">
+              <strong>Name:</strong> ${keyPoints[i]?.encounter?.name || 'N/A'}
+            </p>
+            <p style="margin: 0 0 10px;">
+              <strong>Description:</strong> ${keyPoints[i]?.encounter?.description || 'No description available'}
+            </p>
+            <p style="margin: 0 0 10px; color: #28a745;">
+              <strong>XP:</strong> ${keyPoints[i]?.encounter?.xp || 0} XP
+            </p>
+        
+            ${
+              keyPoints[i]?.encounter?.type === 0
+                ? `
+                <p style="margin: 0 0 5px;">
+                  <strong>Range:</strong> ${keyPoints[i]?.encounter?.range || 0}m
+                </p>
+                <p style="margin: 0 0 10px;">
+                  <strong>Tourists Required:</strong> ${keyPoints[i]?.encounter?.touristNumber || 0}
+                </p>
+                `
+                : ''
+            }
+        
+            ${
+              keyPoints[i]?.encounter?.type === 1
+                ? `
+                <p style="margin: 0 0 5px;">
+                  <strong>Range:</strong> ${keyPoints[i]?.encounter?.range || 0}m
+                </p>
+                <div style="text-align: center;">
+                  <img src="${keyPoints[i]?.encounter?.imagePath || ''}" alt="KeyPoint Image" 
+                    style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" />
+                </div>
+                `
+                : ''
+            }
+          </div>
+        `);
+      
+        // Dodavanje događaja za otvaranje i zatvaranje popup-a
+        marker.on('mouseover', () => {
+          if(keyPoints[i]?.encounter?.description){
+            marker.openPopup();
+          }
+        });
+      
+        marker.on('mouseout', () => {
+          marker.closePopup();
+        });
+      
+        return marker;
+      }
+    }).addTo(this.map);  
 
     this.routeControl.on('routesfound', (e: any) => {
       const routes = e.routes;

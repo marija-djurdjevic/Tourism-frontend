@@ -9,6 +9,7 @@ import { CompletedKeyPoint } from '../model/tour-session.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Encounter } from '../../encounters/model/encounter.model';
 import { switchMap } from 'rxjs';
+import { EncounterExecution } from '../../encounters/model/encounter-execution.model';
 
 @Component({
   selector: 'xp-tour-session',
@@ -49,7 +50,6 @@ export class TourSessionComponent implements OnInit {
       .pipe(
         switchMap((keyPoints) => {
           this.keyPoints = keyPoints;
-          console.log('Loaded keyPoints:', this.keyPoints);
 
           return this.tourExecutionService.getAllEncounters();
         })
@@ -57,13 +57,10 @@ export class TourSessionComponent implements OnInit {
       .subscribe({
         next: (encounters) => {
           this.encounters = encounters.results;
-          console.log('Loaded encounters:', this.encounters);
           this.keyPoints.forEach((keyPoint) => {
             keyPoint.encounter = this.encounters.find(
               (encounter) => encounter.keyPointId === keyPoint.id
             );
-
-            console.log('Updated KeyPoint with encounter:', keyPoint);
           });
         },
         error: (error) => {
@@ -74,10 +71,8 @@ export class TourSessionComponent implements OnInit {
 
   onLocationReceived(location: Location): void {
     this.location = location;
-    console.log('Location received in TourSessionComponent:', this.location);
 
     const nextKeyPoint = this.findFirstIncompleteKeyPoint();
-    console.log('Next incomplete key point:', nextKeyPoint);
 
     if (nextKeyPoint) {
       const distance = this.calculateDistance(
@@ -92,22 +87,69 @@ export class TourSessionComponent implements OnInit {
         this.addKeyPointToCompleted(nextKeyPoint);
       }
     }
-    this.updateLocation();
+
+    const neareastKeyPointWithEncounter = this.findNearestKeyPointWithEncounter();
+
+    if(neareastKeyPointWithEncounter && neareastKeyPointWithEncounter.encounter?.status === 1) {
+    const neareastEncounterDistance = this.calculateDistance(
+      this.location.latitude,
+      this.location.longitude,
+      neareastKeyPointWithEncounter.latitude,
+      neareastKeyPointWithEncounter.longitude
+    );
+  
+    const proximityThreshold = 50;
+      if (neareastEncounterDistance <= proximityThreshold) {
+      //dodaj EncounterExecution ili ako vec postoji uradi nesto u zavisnosti od izazova
+        console.log("Encounter found!");
+        const encounterExecution: EncounterExecution = {
+          id: 0,
+          encounterId: neareastKeyPointWithEncounter.encounter.id,
+          touristId: 0
+        };
+
+        this.tourExecutionService.createEncounterExecution(encounterExecution).subscribe({
+          next: (result) => {
+            console.log(result); 
+            this.updateEncounterExecution(result);
+          },
+          error: (error) => {
+            console.error('Error occurred:', error); 
+          }
+        }); 
+      }
+      else{
+      //obrisi EncounterExecution ako vec postoji
+
+        console.log("Encounter not found!");
+      }
   }
+
+  this.updateLocation();
+}
+
+updateEncounterExecution(encounterExecution : EncounterExecution): void{
+  this.tourExecutionService.updateEncounterExecution(encounterExecution).subscribe({
+    next: (result) => {
+      console.log(result); 
+    },
+    error: (error) => {
+      console.error('Error occurred:', error); 
+    }
+  });
+}
 
   abandonTour(): void {
     this.tourExecutionService.abandonTour(this.tourId).subscribe({
       next: (result) => {
         if (result) {
           this.tourStarted = false;
-          console.log('Tour abandoned!');
           this.snackBar.open('Tour abandoned successfully!', 'Close', {
             duration: 3000,
             panelClass: "succesful"
           });
           window.location.href = 'http://localhost:4200/purchasedTours';
         } else {
-          console.log('Tour could not be abandoned.');
           this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
             duration: 3000,
             panelClass: "succesful"
@@ -115,7 +157,6 @@ export class TourSessionComponent implements OnInit {
         }
       },
       error: () => {
-        console.log('Error abandoning the tour.');
         this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
           duration: 3000,
           panelClass: "succesful"
@@ -132,11 +173,8 @@ export class TourSessionComponent implements OnInit {
     this.tourExecutionService.updateLocation(this.tourId, this.location.latitude, this.location.longitude).subscribe({
       next: (isNear) => {
         if (isNear) {
-          console.log('You are near a key point.');
           window.location.href = 'http://localhost:4200/purchasedTours';
-        } else {
-          console.log('You are not near a key point.');
-        }
+        } 
       },
       error: () => {
         console.warn('Error updating location.');
@@ -148,12 +186,35 @@ export class TourSessionComponent implements OnInit {
     this.tourExecutionService.getCompletedKeyPoints(this.tourId).subscribe({
       next: (completedKeyPoints) => {
         this.completedKeyPoints = completedKeyPoints;
-        console.log('Loaded completed key points:', this.completedKeyPoints);
       },
       error: (error) => {
         console.error('Error loading completed key points:', error);
       }
     });
+  }
+
+  findNearestKeyPointWithEncounter(): KeyPoint | null {
+    const sortedKeyPoints = [...this.keyPoints].sort((a, b) => {
+      const distanceA = this.calculateDistance(
+        this.location.latitude,
+        this.location.longitude,
+        a.latitude,
+        a.longitude
+      );
+      const distanceB = this.calculateDistance(
+        this.location.latitude,
+        this.location.longitude,
+        b.latitude,
+        b.longitude
+      );
+
+      return distanceA - distanceB;
+    });
+
+    if(sortedKeyPoints[0].encounter)
+      return sortedKeyPoints[0];
+    else
+      return null;
   }
 
   findFirstIncompleteKeyPoint(): KeyPoint | null {
@@ -188,7 +249,6 @@ export class TourSessionComponent implements OnInit {
     this.tourExecutionService.addCompletedKeyPoint(this.tourId, keyPoint.id).subscribe({
       next: () => {
         this.loadCompletedKeyPoints();
-        console.log('Key point completed successfully.');
         alert('Successfully completed key point');
       },
       error: (error) => {
