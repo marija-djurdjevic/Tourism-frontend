@@ -21,6 +21,11 @@ import { EncounterExecution } from 'src/app/feature-modules/encounters/model/enc
 })
 export class TourExecutionService {
 
+
+  getUserLevel(): Observable<number> {
+    return this.http.get<number>(environment.apiHost + 'user/tourist/level');
+  }
+
   constructor(private http : HttpClient) { }
   
   getAllEncounters(): Observable<PagedResults<Encounter>> {

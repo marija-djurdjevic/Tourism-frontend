@@ -21,8 +21,6 @@ export class TourSessionComponent implements OnInit {
   @ViewChild(TouristLocationComponent) mapComponent: TouristLocationComponent;
   @ViewChild('imageContainer', { static: false }) imageContainer!: ElementRef;
 
-
-
   tourId: number;
   location: Location = { latitude: 0, longitude: 0 };
   tourStarted: boolean = false;
@@ -41,6 +39,7 @@ export class TourSessionComponent implements OnInit {
   isWithinRange: boolean = false;
   timer: number = 30;
   interval: any;
+  userLevel: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +49,7 @@ export class TourSessionComponent implements OnInit {
     private snackBar: MatSnackBar,
     private imageService: ImageService,
     private cd: ChangeDetectorRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) { }
 
   ngOnInit(): void {
@@ -72,11 +71,24 @@ export class TourSessionComponent implements OnInit {
     });
   }
 
+  loadUserLevel(): void {
+    this.tourExecutionService.getUserLevel().subscribe({
+      next: (userLevel) => {
+        console.log('User level:', userLevel);
+        this.userLevel = userLevel;
+      },
+      error: (error) => {
+        console.error('Error loading user level:', error);
+      }
+    });
+  }
+
   loadEncounters(): void {
+    this.loadUserLevel();
     this.tourExecutionService.getAllEncountersForTour(this.tourId).subscribe({
       next: (encounters) => {
         this.encounters = encounters.sort((a, b) => (a.creator != 0 ? 1 : 0) - (b.creator != 0 ? 1 : 0));
-        this.required = this.encounters.filter(e => e.creator == 0);
+        this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
         this.completed = this.encounters.filter(e => e.isCompletedByMe == true);
         if (this.encounters) {
           this.snackBar.open('There are encounters for you, please check.', 'Close', {
@@ -128,8 +140,15 @@ export class TourSessionComponent implements OnInit {
       );
 
       const proximityThreshold = 50;
-      if (distance <= proximityThreshold) {
+      this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
+      if (distance <= proximityThreshold && this.required.length < 1) {
         this.addKeyPointToCompleted(nextKeyPoint);
+      }
+      if(this.required.length == 0){
+        this.snackBar.open('You have required encounters to complete.', 'Close', {
+          duration: 3000,
+          panelClass: "error"
+        });
       }
     }
 
@@ -432,15 +451,21 @@ export class TourSessionComponent implements OnInit {
       touristId: 0,
       CompletedTime: new Date()
     };
-    this.selectedTab = 'completed';
+    this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
+    this.completed = this.encounters.filter(e => e.isCompletedByMe == true);
     this.loadEncounters();
     this.createExecution(encounterExecution);
+    this.selectedTab = 'completed';
   }
 
   markAsCompleated(encounter: Encounter): void {
     if (!encounter.isCompletedByMe && encounter.type == 3) {
       this.createExecution({ id: 0, encounterId: encounter.id, touristId: 0, CompletedTime: new Date() });
       encounter.isCompletedByMe = true;
+      this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
+      this.completed = this.encounters.filter(e => e.isCompletedByMe == true);
+      this.selectedTab = 'completed';
+      this.loadUserLevel();
     } else {
       this.snackBar.open('You can\'t mark as completed this encounter.', 'Close', {
         duration: 3000,
