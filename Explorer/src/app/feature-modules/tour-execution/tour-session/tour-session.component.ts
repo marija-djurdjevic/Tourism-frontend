@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TourExecutionService } from '../tour-execution.service';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
@@ -19,6 +19,9 @@ import { ImageService } from 'src/app/shared/image.service';
 })
 export class TourSessionComponent implements OnInit {
   @ViewChild(TouristLocationComponent) mapComponent: TouristLocationComponent;
+  @ViewChild('imageContainer', { static: false }) imageContainer!: ElementRef;
+
+
 
   tourId: number;
   location: Location = { latitude: 0, longitude: 0 };
@@ -34,6 +37,10 @@ export class TourSessionComponent implements OnInit {
   completedKeyPoints: CompletedKeyPoint[] = [];
   sortedPoints: KeyPoint[] = [];
   selectedTab: string = 'all';
+  currentActiveEncounter: Encounter | null = null;
+  isWithinRange: boolean = false;
+  timer: number = 30;
+  interval: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +49,8 @@ export class TourSessionComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private imageService: ImageService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +75,7 @@ export class TourSessionComponent implements OnInit {
   loadEncounters(): void {
     this.tourExecutionService.getAllEncountersForTour(this.tourId).subscribe({
       next: (encounters) => {
-        this.encounters = encounters.sort((a, b) => (a.creator!=0 ? 1 : 0) - (b.creator!=0 ? 1 : 0));
+        this.encounters = encounters.sort((a, b) => (a.creator != 0 ? 1 : 0) - (b.creator != 0 ? 1 : 0));
         this.required = this.encounters.filter(e => e.creator == 0);
         this.completed = this.encounters.filter(e => e.isCompletedByMe == true);
         if (this.encounters) {
@@ -105,6 +113,9 @@ export class TourSessionComponent implements OnInit {
 
   onLocationReceived(location: Location): void {
     this.location = location;
+    if (this.currentActiveEncounter) {
+      this.startHiddenLocationChallenge(this.currentActiveEncounter);
+    }
 
     const nextKeyPoint = this.findFirstIncompleteKeyPoint();
 
@@ -313,7 +324,95 @@ export class TourSessionComponent implements OnInit {
   }
 
   activateEncounter(encounter: any) {
-    // Logic to activate the encounter
-    console.log('Activating encounter:', encounter);
+    if (encounter.type === 1) {
+      this.snackBar.open('This is a hidden location challenge. Please wait for the image to load.', 'Close', {
+        duration: 3000,
+        panelClass: "info"
+      });
+
+      // Postavite tab na 'active'
+      this.currentActiveEncounter = encounter;
+      this.selectedTab = 'active';
+
+      // Osvežite prikaz pre nego što pristupite DOM-u
+      setTimeout(() => {
+        const imageContainer = this.imageContainer?.nativeElement;
+        if (!imageContainer) {
+          console.error('imageContainer is not available in DOM.');
+          return;
+        }
+
+        // Kreirajte i prikažite sliku
+        const imageElement = this.renderer.createElement('img');
+        this.renderer.setAttribute(imageElement, 'src', encounter.image);
+        this.renderer.setStyle(imageElement, 'maxWidth', '100%');
+        this.renderer.setStyle(imageElement, 'height', 'auto');
+        this.renderer.setStyle(imageElement, 'borderRadius', '5px');
+        this.renderer.setStyle(imageElement, 'boxShadow', '0 2px 5px rgba(0,0,0,0.1)');
+        this.renderer.setProperty(imageContainer, 'innerHTML', '');
+        this.renderer.appendChild(imageContainer, imageElement);
+
+        // Počnite izazov
+        this.startHiddenLocationChallenge(encounter);
+      }, 0); // Dodajte kratko kašnjenje da Angular osveži DOM
+    }
+  }
+
+
+  startHiddenLocationChallenge(encounter: Encounter): void {
+    // Logic to start the hidden location challenge
+    // For example, you can use geolocation to check if the user is within 5 meters of the target location
+    // and start a 30-second timer to complete the challenge
+
+    const distance = this.calculateDistance(this.location.latitude, this.location.longitude, encounter.coordinates.latitude, encounter.coordinates.longitude);
+    if (distance <= 5) {
+      this.snackBar.open('You are within 5 meters of the target location. Hold your position for 30 seconds.', 'Close', {
+        duration: 3000,
+        panelClass: "info"
+      });
+      this.isWithinRange = true;
+      this.startTimer();
+    } else {
+      this.isWithinRange = false;
+      this.stopTimer();
+      this.snackBar.open('You are not within 5 meters of the target location. Try again.', 'Close', {
+        duration: 3000,
+        panelClass: "error"
+      });
+    }
+  }
+
+  startTimer() {
+    this.timer = 30;
+    this.interval = setInterval(() => {
+      if (this.timer > 0) {
+        this.timer--;
+      } else if (this.timer == 0) {
+        if (this.currentActiveEncounter){
+          this.completeHiddenLocationChallenge(this.currentActiveEncounter);
+        }
+        this.stopTimer();
+      }
+      else {
+        this.stopTimer();
+        // Logic to handle completion of encounter
+      }
+    }, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.interval);
+  }
+
+  completeHiddenLocationChallenge(encounter: Encounter): void {
+    // Logic to mark the challenge as completed
+    encounter.isCompletedByMe = true;
+    this.snackBar.open('Challenge completed successfully!', 'Close', {
+      duration: 3000,
+      panelClass: "success"
+    });
+
+    // Update the encounter status in the backend if necessary
+    // this.tourExecutionService.updateEncounterStatus(encounter).subscribe();
   }
 }

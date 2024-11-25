@@ -102,6 +102,10 @@ export class AddEncounterComponent implements OnInit {
     this.encounter.xp = parseInt(this.encounterForm.get('xp')?.value);
     this.encounter.touristNumber = parseInt(this.encounterForm.get('touristsNumber')?.value);
     this.encounter.creator = this.encounterForm.get('creator')?.value ? 0 : 1;
+    this.encounter.coordinates.latitude = parseFloat(this.encounterForm.get('latitude')?.value);
+    this.encounter.coordinates.longitude = parseFloat(this.encounterForm.get('longitude')?.value);
+
+    console.log('location:', this.encounter.coordinates);
 
     console.log('Payload being sent:', this.encounter);
     if(this.encounter.type==1){
