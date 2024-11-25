@@ -101,8 +101,7 @@ export class KeyPointComponent implements OnInit {
       this.keyPoints = this.keyPoints.filter(k => k.id !== keyPointId); 
     });
   }
-  
-  
+    
   onUpdateKeyPoint() {
     if (this.selectedKeyPoint && this.selectedKeyPoint.id !== undefined) {
       // Pozivanje servisa sa id-jem i podacima o ključnoj tački

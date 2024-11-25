@@ -3,6 +3,7 @@
     margin-top: 20px;
     margin-left: 20px;
     font-family: "Helvetica Neue", sans-serif;
+    
 }
 
 /* Stilovi za podnaslov */
@@ -10,6 +11,11 @@ h3 {
     font-size: 20px;
     color: var(--primary-color);
     margin-bottom: 10px;
+    text-align: center;
+}
+.status-label {
+    font-weight: bold;
+    color: var(--secondary-color);
 }
 
 /* Horizontalna linija */
@@ -109,6 +115,7 @@ hr {
 /* Kontejner za mapu */
 .map-container {
     width: 850px;
+    
 }
 
 /* Responsive stilovi */
@@ -130,4 +137,48 @@ h2 {
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 20px;
+}
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px;
+    border-top: 1px solid #eee;
+    background-color: #f9f9f9;
+}
+
+.btn.secondary-btn {
+    background-color: var(--secondary-color); 
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn.secondary-btn:hover {
+    background-color: #4caf50;
+}
+.success-snackbar {
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
+  
+  .error-snackbar {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+  
+  .confirmation-snackbar {
+    background-color: #ff9800; /* Orange */
+    color: white;
+  }
+
+  .author-message {
+    font-size: 1.1rem;
+    color: black;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    text-align: center;
 }
