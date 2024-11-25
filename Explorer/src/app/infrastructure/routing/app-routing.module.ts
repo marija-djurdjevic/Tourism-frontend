@@ -41,6 +41,7 @@ import { EncounterComponent } from 'src/app/feature-modules/administration/encou
 import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
 import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
 import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
+import { KeyPointUpdateFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-update-form/key-point-update-form.component';
 
 const routes: Routes = [
   {
@@ -153,7 +154,8 @@ const routes: Routes = [
     component: WalletComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] }
+  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] },
+  { path: 'key-points/edit/:id', component: KeyPointUpdateFormComponent }
 ];
 
 @NgModule({

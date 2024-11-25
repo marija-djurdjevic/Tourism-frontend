@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { KeyPointService } from '../../key-point.service'; 
 import { KeyPoint } from '../../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xp-key-point',
@@ -17,7 +18,7 @@ export class KeyPointComponent implements OnInit {
   isUpdate: boolean = false;  
   selectedKeyPoint: KeyPoint | null = null;
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar) { }
+  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId')); // Uzimanje tourId iz URL-a
@@ -25,9 +26,9 @@ export class KeyPointComponent implements OnInit {
     this.loadKeyPoints(); // Poziv funkcije za učitavanje ključnih tačaka
   }
 
-  onEditKeyPoint(keyPoint: KeyPoint): void {
-    this.selectedKeyPoint = { ...keyPoint }; 
-    this.isUpdate = true; 
+  onEdit(keyPoint: KeyPoint) {
+    console.log("Navigacija ka ruti za editovanje", keyPoint.id);
+    this.router.navigate(['/key-points/edit', keyPoint.id]);
   }
 
   /*loadKeyPoints() {
