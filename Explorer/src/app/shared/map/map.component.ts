@@ -225,12 +225,14 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (this.routeControl) {
       this.map.removeControl(this.routeControl);
     }
+    const sortedKeyPoints = [...this.keyPoints].sort((a, b) => (a.id ?? Infinity) - (b.id ?? Infinity));
+
     const lineStyle = profile === 'walking'
       ? [{ color: 'blue', weight: 4, dashArray: '10, 10' }] // Isprekidana linija za walking
       : [{ color: 'blue', weight: 4 }]; // Puna linija za ostale profile
 
     this.routeControl = L.Routing.control({
-      waypoints: keyPoints.map(keyPoint => ({
+      waypoints: sortedKeyPoints.map(keyPoint => ({
         latLng: L.latLng(keyPoint.latitude, keyPoint.longitude),
       })),
       router: L.routing.mapbox('pk.eyJ1IjoiZGp1cmRqZXZpY20iLCJhIjoiY20yaHVzOTgyMGJwbzJqczNteW1xMm0yayJ9.woKtBh92sOV__L25KcUu_Q', {
@@ -249,9 +251,29 @@ export class MapComponent implements OnInit, AfterViewInit {
           console.error('Waypoint is invalid:', waypoint);
           return null;
         }
+        var marker: any;
+        if(i === 0){
+          marker= L.marker(waypoint.latLng, {
+            icon: L.icon({
+              iconUrl: 'assets/start.png', // URL prilagođene ikone
+              iconSize: [41, 41],       // Veličina ikone
+              iconAnchor: [20, 20],     // Tačka gde se ikona vezuje za koordinate
+              popupAnchor: [1, -34]     // Pozicija popup-a u odnosu na ikonu
+            })
+          });
+        }else if(i === n - 1){
+          marker= L.marker(waypoint.latLng, {
+            icon: L.icon({
+              iconUrl: 'assets/finish.png', // URL prilagođene ikone
+              iconSize: [41, 41],       // Veličina ikone
+              iconAnchor: [20, 20],     // Tačka gde se ikona vezuje za koordinate
+              popupAnchor: [1, -34]     // Pozicija popup-a u odnosu na ikonu
+            })
+          });
+        }else{
       
         // Kreiranje markera sa prilagođenom ikonom
-        const marker = L.marker(waypoint.latLng, {
+        marker = L.marker(waypoint.latLng, {
           icon: L.icon({
             iconUrl: 'assets/icons/download.png', // URL prilagođene ikone
             iconSize: [41, 41],       // Veličina ikone
@@ -259,62 +281,22 @@ export class MapComponent implements OnInit, AfterViewInit {
             popupAnchor: [1, -34]     // Pozicija popup-a u odnosu na ikonu
           })
         });
-      
+        }
         // Dodavanje sadržaja popup-a
         marker.bindPopup(`
           <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; padding: 10px; max-width: 250px;">
-            <h3 style="margin: 0 0 10px; font-size: 1.2em; color: #0056b3;">
-              ${keyPoints[i]?.encounter?.type === 0
-                ? 'Social'
-                : keyPoints[i]?.encounter?.type === 1
-                ? 'Location'
-                : keyPoints[i]?.encounter?.type === 2
-                ? 'Misc'
-                : 'Unknown'
-              } Encounter
-            </h3>
-            <p style="margin: 0 0 5px;">
-              <strong>Name:</strong> ${keyPoints[i]?.encounter?.name || 'N/A'}
+            <p style="margin: 0 0 5px; color: #28a745;">
+              <strong>Name:</strong> ${sortedKeyPoints[i]?.name || 'N/A'}
             </p>
             <p style="margin: 0 0 10px;">
-              <strong>Description:</strong> ${keyPoints[i]?.encounter?.description || 'No description available'}
+              <strong>Description:</strong> ${sortedKeyPoints[i]?.description || 'No description available'}
             </p>
-            <p style="margin: 0 0 10px; color: #28a745;">
-              <strong>XP:</strong> ${keyPoints[i]?.encounter?.xp || 0} XP
-            </p>
-        
-            ${
-              keyPoints[i]?.encounter?.type === 0
-                ? `
-                <p style="margin: 0 0 5px;">
-                  <strong>Range:</strong> ${keyPoints[i]?.encounter?.range || 0}m
-                </p>
-                <p style="margin: 0 0 10px;">
-                  <strong>Tourists Required:</strong> ${keyPoints[i]?.encounter?.touristNumber || 0}
-                </p>
-                `
-                : ''
-            }
-        
-            ${
-              keyPoints[i]?.encounter?.type === 1
-                ? `
-                <p style="margin: 0 0 5px;">
-                  <strong>Range:</strong> ${keyPoints[i]?.encounter?.range || 0}m
-                </p>
-                <div style="text-align: center;">
-                  <img src="${keyPoints[i]?.encounter?.imagePath || ''}" alt="KeyPoint Image" 
-                    style="max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" />
-                </div>
-                `
-                : ''
-            }
           </div>
         `);
       
         // Dodavanje događaja za otvaranje i zatvaranje popup-a
         marker.on('mouseover', () => {
-          if(keyPoints[i]?.encounter?.description){
+          if(sortedKeyPoints[i]?.description){
             marker.openPopup();
           }
         });
@@ -454,6 +436,10 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.map.removeLayer(marker);
     });
     this.markers = [];
+  }
+
+  setCenter(latitude: number, longitude: number): void {
+    this.map.setView([latitude, longitude], 15);
   }
 
 }

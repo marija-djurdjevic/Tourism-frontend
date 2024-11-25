@@ -11,8 +11,9 @@ export interface Encounter {
 	status: number;
 	type: number;
 	creator: number;
-	
+	isCompletedByMe?: boolean;
 	range?: number;
 	touristNumber?: number;
-	imagePath?: string;
+	imagePath?: number;
+	image?: string;
 }

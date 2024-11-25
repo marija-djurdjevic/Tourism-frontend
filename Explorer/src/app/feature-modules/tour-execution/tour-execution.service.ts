@@ -27,6 +27,10 @@ export class TourExecutionService {
     return this.http.get<PagedResults<Encounter>>(environment.apiHost + 'tourist/encounter');
   }
 
+  getAllEncountersForTour(tourId: number): Observable<Encounter[]> {
+    return this.http.get<Encounter[]>(`${environment.apiHost}tourist/encounter/${tourId}`);
+  }
+
   reportProblem(problem : Problem): Observable<Problem>{
     return this.http.post<Problem>(' https://localhost:44333/api/tourist/problem/create', problem)
   }

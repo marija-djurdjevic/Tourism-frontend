@@ -7,6 +7,50 @@
     height: 100vh; /* Puna visina prozora */
 }
 
+.encounters-container {
+    margin-top: 20px;
+}
+
+.object-image {
+    width: 200px; 
+    height: auto;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.tabs button.active-tab {
+    background-color: #19191E !important;
+    color: white !important;
+}
+
+.encounters-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 20px; /* Space between cards */
+}
+
+.encounter-card {
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+}
+
+.required-encounter {
+    background-color: rgba(255, 0, 0, 0.5);
+    color: white;
+}
+
+.completed-encounter {
+    background-color: rgba(0, 128, 0, 0.5);
+    color: white;
+}
+
 /* Ključne tačke (leva kolona) */
 .card-container {
     flex: 1; /* 60% prostora za ključne tačke */
@@ -33,6 +77,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Senka */
     overflow: hidden;
     transition: transform 0.3s ease; /* Efekat na hover */
+    padding: 5px;
 }
 
 .card-container::-webkit-scrollbar {
@@ -73,7 +118,7 @@
 
 /* Stil za završene ključne tačke */
 .completed-card {
-    background-color: #d0eaff; /* Svetloplava pozadina za završene tačke */
+    background-color: rgba(0, 128, 0, 0.5); /* Svetloplava pozadina za završene tačke */
 }
 
 .map-container {
@@ -89,6 +134,7 @@
     height: auto; /* Automatska visina */
     max-height: calc(100vh - 20px); /* Maksimalna visina unutar ekrana */
     margin-right: 20px; /* Dodatni prostor sa desne strane */
+    margin-top: 10px;
 }
 
 xp-tourist-location {
@@ -180,4 +226,18 @@ xp-tourist-location {
 .report-tour-button:active {
     background-color: #f76300; /* Još tamnija crvena pri kliku */
     transform: scale(0.98); /* Blago smanjenje pri kliku */
+}
+
+.activate-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.activate-button:hover {
+    background-color: #0056b3;
 }

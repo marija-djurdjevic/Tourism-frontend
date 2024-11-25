@@ -1,5 +1,5 @@
 <div class="glavni-div">
-    <div style="width: 800px;">
+    <div style="width: 800px;margin-top: 10px;">
         <label for="">Please select your location on map</label>
         <app-map [keyPoints]="keyPoints" [showEncounters]="showEncounters" [onlyOneMarker]="true" [initialCenter]="[location.latitude,location.longitude]"
             (locationSelected)="onLocationSelected($event)"></app-map>

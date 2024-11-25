@@ -59,6 +59,18 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="xp">XP</label>
+            <input 
+              id="xp" 
+              type="number" 
+              formControlName="xp" 
+              placeholder="Enter XP"
+              [class.error]="encounterForm.get('xp')?.invalid && encounterForm.get('xp')?.touched" />
+            <div *ngIf="encounterForm.get('xp')?.invalid && encounterForm.get('xp')?.touched" class="error-message">
+              XP must be at least 1 and max 100.
+            </div>
+          </div>
+          <div class="form-group">
             <label for="touristsNumber">Tourists Number</label>
             <input 
               id="touristsNumber" 
@@ -68,6 +80,64 @@
               [class.error]="encounterForm.get('touristsNumber')?.invalid && encounterForm.get('touristsNumber')?.touched" />
             <div *ngIf="encounterForm.get('touristsNumber')?.invalid && encounterForm.get('touristsNumber')?.touched" class="error-message">
               Tourists number must be at least 2.
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Fields for 'Location' -->
+        <div *ngIf="selectedCategory === 1">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input 
+              id="name" 
+              type="text" 
+              formControlName="name" 
+              placeholder="Enter Name"
+              [class.error]="encounterForm.get('name')?.invalid && encounterForm.get('name')?.touched" />
+            <div *ngIf="encounterForm.get('name')?.invalid && encounterForm.get('name')?.touched" class="error-message">
+              Name is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea 
+              id="description" 
+              formControlName="description" 
+              placeholder="Enter Description"
+              [class.error]="encounterForm.get('description')?.invalid && encounterForm.get('description')?.touched"></textarea>
+            <div *ngIf="encounterForm.get('description')?.invalid && encounterForm.get('description')?.touched" class="error-message">
+              Description is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="xp">XP</label>
+            <input 
+              id="xp" 
+              type="number" 
+              formControlName="xp" 
+              placeholder="Enter XP"
+              [class.error]="encounterForm.get('xp')?.invalid && encounterForm.get('xp')?.touched" />
+            <div *ngIf="encounterForm.get('xp')?.invalid && encounterForm.get('xp')?.touched" class="error-message">
+              XP must be at least 1 and max 100.
+            </div>
+          </div>
+          <div style="margin-bottom: 16px;">
+            <!-- kod za upload slike -->
+            <app-image-upload formControlName="imagePath" [class.error]="encounterForm.get('imagePath')?.invalid && encounterForm.get('imagePath')?.touched"  (fileSelected)="onFileSelected($event)" required></app-image-upload>
+            <div style="color: red; display: flex;justify-content: center;" *ngIf="encounterForm.get('imagePath')?.invalid && encounterForm.get('imagePath')?.touched" class="error-message">
+              Image is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="location">Location</label>
+            <div class="form-group">
+              <label for="longitude">Longitude:</label>
+              <input type="number" id="longitude" formControlName="longitude" required />
+            </div>
+            <div class="form-group">
+              <label for="latitude">Latitude:</label>
+              <input type="number" id="latitude" formControlName="latitude" required />
+              <app-map [onlyOneMarker]="true" (locationSelected)="onLocationSelected($event)"></app-map>
             </div>
           </div>
         </div>
@@ -95,6 +165,18 @@
               [class.error]="encounterForm.get('description')?.invalid && encounterForm.get('description')?.touched"></textarea>
             <div *ngIf="encounterForm.get('description')?.invalid && encounterForm.get('description')?.touched" class="error-message">
               Description is required.
+            </div>
+            <div class="form-group">
+              <label for="xp">XP</label>
+              <input 
+                id="xp" 
+                type="number" 
+                formControlName="xp" 
+                placeholder="Enter XP"
+                [class.error]="encounterForm.get('xp')?.invalid && encounterForm.get('xp')?.touched" />
+              <div *ngIf="encounterForm.get('xp')?.invalid && encounterForm.get('xp')?.touched" class="error-message">
+                XP must be at least 1 and max 100.
+              </div>
             </div>
           </div>
         </div>
