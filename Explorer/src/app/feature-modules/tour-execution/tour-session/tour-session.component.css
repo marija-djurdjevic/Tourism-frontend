@@ -100,7 +100,7 @@
 .encounter-card {
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 255, 0, 0.5);
     display: flex;
     flex-direction: row;
 }
@@ -305,3 +305,8 @@ xp-tourist-location {
 .activate-button:hover {
     background-color: #0056b3;
 }
+
+.encounter-card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(0, 128, 0, 0.5) !important;
+  }
