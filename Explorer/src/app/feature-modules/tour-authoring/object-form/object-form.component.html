@@ -54,5 +54,10 @@
     <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
   </div>
 
+  
+  <div>
+    <input type="checkbox" formControlName = "isPublic">
+    <label>Mark As Public</label>
+  </div>
   <button mat-raised-button color="primary" type="submit" (click)="addObject()">Submit</button>
 </form>

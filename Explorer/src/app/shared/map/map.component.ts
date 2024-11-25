@@ -8,6 +8,7 @@ import { ImageService } from '../image.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Coordinates } from 'src/app/feature-modules/administration/model/coordinates.model';
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model';
 
 @Component({
   selector: 'app-map',
@@ -16,6 +17,9 @@ import { Coordinates } from 'src/app/feature-modules/administration/model/coordi
 })
 export class MapComponent implements OnInit, AfterViewInit {
   private objects: any[] = [];
+  private points:any[] = [];
+  private newKeyPoint:KeyPoint;
+  @Input() isAddingKeyPoints: boolean = false; 
   @Input() keyPoints: any[] = [];
   @Input() initialCenter: [number, number] = [45.2396, 19.8227];
   @Input() initialZoom: number = 13;
@@ -43,6 +47,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
       this.loadObjects();
+      this.loadKeyPoints();
       console.log('Logged in user:', this.user);
     });
   }
@@ -71,6 +76,66 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private loadKeyPoints(): void {
+   
+   
+    this.http.get<PagedResults<KeyPoint>>('https://localhost:44333/api/'+this.user?.role+'/keyPoint/public').subscribe(data => {
+      console.log('API Response:', data);
+      console.log('data.results:', data.results);
+      console.log('Type of data.results:', typeof data.results);
+      this.points = Array.isArray(data.results) ? data.results : Array.isArray(data) ? data : [];
+      console.log('this.points:', this.points);
+      this.points.forEach(element => {      
+            this.cd.detectChanges();
+            this.addMarker2(element);
+        });
+
+      });
+  }
+  private addMarker2(point: any): void {
+    if (!point.imagePath) {
+      console.error('Image  is not set for keypoint:', point);
+      return;
+    }
+    var imageURL='assets/publicPoint.png'
+    point.category ='Public Point';
+
+    const marker = L.marker([point.latitude, point.longitude], {
+      icon: L.icon({
+        iconUrl: imageURL, // URL slike objekta
+        iconSize: [52, 52], // Prilagodite veličinu ikone po potrebi
+        iconAnchor: [26, 52],
+        popupAnchor: [0, -52],
+        shadowSize: [52, 52]
+      }),
+      draggable: false
+    }).addTo(this.map);
+
+    marker.bindPopup(`
+      <div style="text-align: center;">
+        <img src="${point.imagePath}" alt="${point.name}" style="width: 100px; height: auto;"/><br>
+        <strong>${point.name}</strong><br>
+        ${point.description}<br>
+        Category: ${point.category}
+      </div>
+    `);
+
+    marker.on('mouseover', (e) => {
+      marker.openPopup();
+    });
+
+    marker.on('mouseout', (e) => {
+      marker.closePopup();
+    });
+
+    marker.on('click', () => {
+      if (this.isAddingKeyPoints) {
+        console.log('Marker clicked:', point);
+        this.keyPointSelected.emit(point); // Emit the full point object
+      }
+    });
+  }
+  
   private addMarker(object: any): void {
     if (!object.image) {
       console.error('Image URL is not set for object:', object);
@@ -119,6 +184,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     marker.on('mouseout', (e) => {
       marker.closePopup();
     });
+
+   
   }
 
   private map: any;

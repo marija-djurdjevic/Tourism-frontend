@@ -35,9 +35,12 @@ import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tou
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
+import { PublishRequest } from 'src/app/feature-modules/tour-execution/model/publish-request.model';
+import { PublishRequestComponent } from 'src/app/feature-modules/tour-execution/publish-request-list/publish-request-list.component';
 import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
 import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
 import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
+import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
 
 const routes: Routes = [
   {
@@ -145,6 +148,12 @@ const routes: Routes = [
   { path: 'tourList', component: TourListComponent },
   { path: 'explore', component: ExploreToursComponent },
   { path: 'encountersMap', component: EncountersComponent },
+  {
+    path: 'wallet',
+    component: WalletComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

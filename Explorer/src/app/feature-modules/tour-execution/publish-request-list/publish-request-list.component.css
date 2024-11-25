@@ -1,0 +1,359 @@
+/*
+#wrap {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#titleCont {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    margin-top: 1%;
+    align-items: center;
+    text-align: center;
+}
+.overdue {
+    background-color: red;
+}
+
+#title {
+    grid-column: 2;
+    padding: 10px 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(1, 5, 4);
+    color: antiquewhite;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#prev {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#prev button {
+    padding: 8px 16px;
+    background-color: rgb(1, 5, 4);
+    color: antiquewhite;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#prev button:hover:enabled {
+    background-color: rgb(31, 119, 31);
+}
+
+#prev button:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+#t {
+    width: 85%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid black;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#t th, #t td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#t th {
+    background-color: rgb(1, 5, 4);
+    color: antiquewhite;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#t tr:hover:not(:first-child) {
+    background-color: rgb(96, 152, 96);
+    transition: background-color 0.3s ease;
+}
+
+#t tr:focus {
+    background-color: rgb(82, 101, 79);
+    outline: none;
+}
+
+#t tr:focus-within {
+    background-color: rgb(31, 119, 31);
+}
+
+#ag {
+    background-color: var(--secondary-color, rgb(52, 115, 52)); 
+    color: antiquewhite;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+
+#pop {
+    background-color: rgba(49, 46, 46, 0.45);
+    border: 2px solid white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 30%;
+    width: 30%;
+    z-index: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+
+}
+
+#pop button {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: rgb(1, 5, 4);
+    color: antiquewhite;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pop :focus-within{
+    background-color:  rgb(31, 119, 31, 0.4);
+}
+
+#pop button:hover {
+    background-color: rgb(31, 119, 31);
+}
+
+#pop2 {
+    background-color: rgba(49, 46, 46, 0.45);
+    border: 2px solid white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 30%;
+    width: 30%;
+    z-index: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    
+}
+
+#pop2 button {
+    padding: 5px 10px;
+    margin: 5px;
+    height:20%;
+    width:15%;
+    border-radius: 5px;
+    background-color: rgb(31, 119, 31);
+   font-weight: bold;
+    color: antiquewhite;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pop2 button:hover {
+    background-color: rgb(12, 45, 31);
+    color:rgb(32, 35, 39,0);
+}
+
+
+#pop2  button img{
+    height:90%;
+    width:90%;
+    margin-bottom: 20%;
+    z-index: -20;
+}
+
+
+#pop2 input{
+    height: 30%; 
+    width: 70%;
+    padding: 10px 15px; 
+    font-size: 16px; 
+}
+.hidden {
+    display: none !important;
+}
+
+#iks{
+    position: absolute;
+    top: 10px; 
+    right: 10px;
+}
+
+#ikss{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    height: 15% !important;
+    width: 10% !important;
+}
+
+
+
+
+#pop3 {
+    background-color: rgba(49, 46, 46, 0.45);
+    border: 2px solid white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 30%;
+    width: 30%;
+    z-index: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+
+}
+
+#pop3 button {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: rgb(1, 5, 4);
+    color: antiquewhite;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pop3 :focus-within{
+    background-color:  rgb(31, 119, 31, 0.4);
+}
+
+#pop3 button:hover {
+    background-color: rgb(31, 119, 31);
+}
+
+#pop4 {
+    background-color: rgba(49, 46, 46, 0.45);
+    border: 2px solid white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 30%;
+    width: 30%;
+    z-index: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    
+}
+
+#pop4 button {
+    padding: 5px 10px;
+    margin: 5px;
+    height:20%;
+    width:15%;
+    border-radius: 5px;
+    background-color: rgb(31, 119, 31);
+   font-weight: bold;
+    color: antiquewhite;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pop4 button:hover {
+    background-color: rgb(12, 45, 31);
+    color:rgb(32, 35, 39,0);
+}
+
+
+#pop4  button img{
+    height:90%;
+    width:90%;
+    margin-bottom: 20%;
+    z-index: -20;
+}
+
+
+#pop4 input{
+    height: 30%; 
+    width: 70%;
+    padding: 10px 15px; 
+    font-size: 16px; 
+}
+*/
+
+.okvir {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap:5%; 
+    padding: 2%; 
+}
+
+.jedan {
+    background-color: rgb(88, 181, 86);
+    border-radius: 8px;
+    text-align: center;
+    box-sizing: border-box; 
+    height: 430px; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between; 
+}
+
+.jedan img {
+    width: 100%; 
+    height: 45%;
+}
+
+.jedan h2 {
+    margin: 0.5%;
+}
+
+
+
+button{
+    background-color: var(--primary-color) ;
+    color: var(--light-text-color);
+    border-radius: 30px 15px 30px 15px;
+}
+button:active{
+    background-color: green;
+}
