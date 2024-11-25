@@ -153,15 +153,7 @@ export class TourSessionComponent implements OnInit {
           touristId: 0
         };
 
-        this.tourExecutionService.createEncounterExecution(encounterExecution).subscribe({
-          next: (result) => {
-            console.log(result);
-            this.updateEncounterExecution(result);
-          },
-          error: (error) => {
-            console.error('Error occurred:', error);
-          }
-        });
+        this.createExecution(encounterExecution);
       }
       else {
         //obrisi EncounterExecution ako vec postoji
@@ -171,6 +163,26 @@ export class TourSessionComponent implements OnInit {
     }
 
     this.updateLocation();
+  }
+
+  createExecution(encounterExecution: any): void {
+    this.tourExecutionService.createEncounterExecution(encounterExecution).subscribe({
+      next: (result) => {
+        console.log(result);
+        this.updateEncounterExecution(result);
+        this.snackBar.open('Encounter execution created!', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
+      },
+      error: (error) => {
+        console.error('Error occurred:', error);
+        this.snackBar.open('Failed to create encounter execution. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: "error"
+        });
+      }
+    });
   }
 
   updateEncounterExecution(encounterExecution: EncounterExecution): void {
@@ -388,7 +400,7 @@ export class TourSessionComponent implements OnInit {
       if (this.timer > 0) {
         this.timer--;
       } else if (this.timer == 0) {
-        if (this.currentActiveEncounter){
+        if (this.currentActiveEncounter) {
           this.completeHiddenLocationChallenge(this.currentActiveEncounter);
         }
         this.stopTimer();
@@ -396,6 +408,9 @@ export class TourSessionComponent implements OnInit {
       else {
         this.stopTimer();
         // Logic to handle completion of encounter
+      }
+      if (this.selectedTab != 'active') {
+        this.stopTimer();
       }
     }, 1000);
   }
@@ -411,8 +426,27 @@ export class TourSessionComponent implements OnInit {
       duration: 3000,
       panelClass: "success"
     });
-
-    // Update the encounter status in the backend if necessary
-    // this.tourExecutionService.updateEncounterStatus(encounter).subscribe();
+    const encounterExecution: EncounterExecution = {
+      id: 0,
+      encounterId: encounter.id,
+      touristId: 0,
+      CompletedTime: new Date()
+    };
+    this.selectedTab = 'completed';
+    this.loadEncounters();
+    this.createExecution(encounterExecution);
   }
+
+  markAsCompleated(encounter: Encounter): void {
+    if (!encounter.isCompletedByMe && encounter.type == 3) {
+      this.createExecution({ id: 0, encounterId: encounter.id, touristId: 0, CompletedTime: new Date() });
+      encounter.isCompletedByMe = true;
+    } else {
+      this.snackBar.open('You can\'t mark as completed this encounter.', 'Close', {
+        duration: 3000,
+        panelClass: "error"
+      });
+    }
+  }
+
 }

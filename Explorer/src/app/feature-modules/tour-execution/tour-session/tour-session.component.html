@@ -60,10 +60,13 @@
                                 encounter.range }}m</p>
                             <p *ngIf="encounter.type === 0"><strong>Tourists Required:</strong> {{
                                 encounter.touristNumber }}</p>
-                            <button *ngIf="encounter.type === 1" mat-button
+                            <button *ngIf="encounter.type === 1 && encounter.isCompletedByMe==false" mat-button
                                 style="background-color: #ff7b00;color: white;"
                                 (click)="activateEncounter(encounter)">Activate
                                 Encounter</button>
+                            <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="markAsCompleated(encounter)">Mark as Completed</button>
                         </div>
                         <td *ngIf="encounter.type === 1">
                             <img *ngIf="encounter.image" [src]="encounter.image" alt="{{ encounter.image }}"
@@ -91,10 +94,13 @@
                                 encounter.range }}m</p>
                             <p *ngIf="encounter.type === 0"><strong>Tourists Required:</strong> {{
                                 encounter.touristNumber }}</p>
-                            <button *ngIf="encounter.type === 1" mat-button
+                            <button *ngIf="encounter.type === 1 && encounter.isCompletedByMe==false" mat-button
                                 style="background-color: #ff7b00;color: white;"
                                 (click)="activateEncounter(encounter)">Activate
                                 Encounter</button>
+                                <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="markAsCompleated(encounter)">Mark as Completed</button>
                         </div>
                         <td *ngIf="encounter.type === 1">
                             <img *ngIf="encounter.image" [src]="encounter.image" alt="{{ encounter.image }}"
@@ -126,6 +132,9 @@
                                 style="background-color: #ff7b00;color: white;"
                                 (click)="activateEncounter(encounter)">Activate
                                 Encounter</button>
+                                <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="markAsCompleated(encounter)">Mark as Completed</button>
                         </div>
                         <td *ngIf="encounter.type === 1">
                             <img *ngIf="encounter.image" [src]="encounter.image" alt="{{ encounter.image }}"
