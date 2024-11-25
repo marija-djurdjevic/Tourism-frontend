@@ -29,6 +29,7 @@ export class TourSessionComponent implements OnInit {
   required: Encounter[] = [];
   completed: Encounter[] = [];
   showPopup: boolean = false;
+  keyPointForEncounter: KeyPoint | null = null;
   private intervalId: any;
   showLocationPopup = false;
   private popupInterval: Subscription | undefined;
@@ -40,6 +41,7 @@ export class TourSessionComponent implements OnInit {
   timer: number = 30;
   interval: any;
   userLevel: number = 0;
+  showAddEncounterForm: boolean = false;
 
   constructor(
     private route: ActivatedRoute,

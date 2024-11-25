@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Encounter } from '../model/encounter.model';
 import { Coordinates } from '../model/coordinates.model';
@@ -14,6 +14,9 @@ import { range } from 'rxjs';
   styleUrls: ['./add-encounter.component.css']
 })
 export class AddEncounterComponent implements OnInit {
+  @Input() createdByTourist: boolean = false;
+  @Input() inputKeyPoint: number= -110;
+
   keyPointId: number;
   encounterForm: FormGroup;
   selectedCategory: number = 0;
@@ -21,8 +24,12 @@ export class AddEncounterComponent implements OnInit {
   selectedFile: File;
   coordinates: Coordinates = { latitude: 0, longitude: 0 };
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute,private snackBar:MatSnackBar, private service: EncounterService, private imageService: ImageService) {
-    imageService.setControllerPath("author/image");
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private snackBar: MatSnackBar, private service: EncounterService, private imageService: ImageService) {
+    if (this.createdByTourist) {
+      this.imageService.setControllerPath("tourist/image");
+    } else {
+      imageService.setControllerPath("author/image");
+    }
     this.encounterForm = this.fb.group({
       category: [0, Validators.required], // Podrazumevano postavljeno na 0 i dodan validator
       name: ['', Validators.required],
@@ -30,22 +37,25 @@ export class AddEncounterComponent implements OnInit {
       longitude: [this.coordinates.longitude, Validators.required],
       latitude: [this.coordinates.latitude, Validators.required],
       range: [null, [Validators.required, Validators.min(10)]],
-      xp: [null, [Validators.required, Validators.min(1),Validators.max(100)]],
+      xp: [null, [Validators.required, Validators.min(1), Validators.max(100)]],
       touristsNumber: [null, [Validators.required, Validators.min(2)]],
       creator: [false, []]
     });
   }
 
   ngOnInit(): void {
-    this.keyPointId = +this.route.snapshot.paramMap.get('id')!; 
+    this.keyPointId = +this.route.snapshot.paramMap.get('id')!;
+    if(this.inputKeyPoint!=-110){
+      this.keyPointId = this.inputKeyPoint;
+    }
 
     this.encounter = {
       id: 0,
-      userId: 0, 
+      userId: 0,
       keyPointId: 0,
       name: '',
-      description: '', 
-      xp: 0, 
+      description: '',
+      xp: 0,
       coordinates: this.coordinates,
       status: 0,
       type: 0,
@@ -62,28 +72,28 @@ export class AddEncounterComponent implements OnInit {
     } else if (this.selectedCategory === 3) {
       this.encounterForm.patchValue({ name: '', description: '' });
     } else {
-      this.encounterForm.patchValue({ name: null, description: null, range: null,selectedFile:undefined,longitude:0,latitude:0, touristsNumber: null });
+      this.encounterForm.patchValue({ name: null, description: null, range: null, selectedFile: undefined, longitude: 0, latitude: 0, touristsNumber: null });
     }
   }
 
   onSubmit(): void {
-    if(this.encounterForm.get('category')?.value == 1){
+    if (this.encounterForm.get('category')?.value == 1) {
       this.encounterForm.patchValue({
         range: 20,
         touristsNumber: 20
       });
-    }else if(this.encounterForm.get('category')?.value == 3){
+    } else if (this.encounterForm.get('category')?.value == 3) {
       this.encounterForm.patchValue({
         range: 20,
         touristsNumber: 20
       });
     }
     if (this.encounterForm.invalid || (this.encounterForm.get('category')?.value == 1 && this.selectedFile === undefined)) {
-      this.encounterForm.markAllAsTouched(); 
-      if(this.encounterForm.get('category')?.value == 1 && this.selectedFile === undefined){
+      this.encounterForm.markAllAsTouched();
+      if (this.encounterForm.get('category')?.value == 1 && this.selectedFile === undefined) {
         this.snackBar.open('Please select an image.', 'Close', {
           duration: 3000,
-          panelClass:"error"
+          panelClass: "error"
         });
       }
       return;
@@ -108,37 +118,41 @@ export class AddEncounterComponent implements OnInit {
     console.log('location:', this.encounter.coordinates);
 
     console.log('Payload being sent:', this.encounter);
-    if(this.encounter.type==1){
+    if (this.encounter.type == 1) {
       /*----------------Dio 2 za upload slike---------------*/
-      this.imageService.setControllerPath("author/image");
+      if (this.createdByTourist) {
+        this.imageService.setControllerPath("tourist/image");
+      } else {
+        this.imageService.setControllerPath("author/image");
+      }
       this.imageService.uploadImage(this.selectedFile).subscribe((imageId: number) => {
         this.imageService.getImage(imageId);
-        this.encounter.imagePath=imageId;
+        this.encounter.imagePath = imageId;
         this.addEncounter(this.encounter);
       });
-  
+
       /*---------------------Kraj------------------------*/
-    }else{
+    } else {
       this.addEncounter(this.encounter);
     }
-  } 
+  }
 
-  addEncounter(encounter : Encounter): void {
-    this.service.addEncounter(encounter).subscribe({
-      next: (response) => { 
-        console.log('Added Encounter', response); 
+  addEncounter(encounter: Encounter): void {
+    this.service.addEncounter(encounter,this.createdByTourist?'tourist':'author').subscribe({
+      next: (response) => {
+        console.log('Added Encounter', response);
         this.snackBar.open('Encounter added successfully!', 'Close', {
           duration: 3000,
-          panelClass:"succesful"
+          panelClass: "succesful"
         });
-       },
-       error: () => {
-         console.log('Došlo je do greške prilikom kreiranja encountera.');
-         this.snackBar.open('Failed to add encounter. Please try again.', 'Close', {
-           duration: 3000,
-           panelClass:"succesful"
-         });
-       }
+      },
+      error: () => {
+        console.log('Došlo je do greške prilikom kreiranja encountera.');
+        this.snackBar.open('Failed to add encounter. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
+      }
     });
   }
 
@@ -155,7 +169,7 @@ export class AddEncounterComponent implements OnInit {
       longitude: event.longitude
     });
   }
-  
+
   /*Dio 1 za upload slika*/
   onFileSelected(file: File): void {
     this.selectedFile = file;  // Čuvanje fajla kada ga child komponenta emituje

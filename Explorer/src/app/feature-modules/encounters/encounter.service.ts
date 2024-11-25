@@ -18,7 +18,7 @@ export class EncounterService {
     return this.http.get<PagedResults<Encounter>>(environment.apiHost + 'tourist/encounter');
   }
 
-  addEncounter(encounter : Encounter): Observable<Encounter>{
-    return this.http.post<Encounter>(' https://localhost:44333/api/author/encounter', encounter)
+  addEncounter(encounter : Encounter,user:string): Observable<Encounter>{
+    return this.http.post<Encounter>(' https://localhost:44333/api/'+user+'/encounter', encounter)
   }
 }

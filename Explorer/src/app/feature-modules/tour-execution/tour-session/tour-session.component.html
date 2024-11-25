@@ -19,7 +19,19 @@
                     <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
                     <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
                 </div>
+                <button *ngIf="userLevel > 9" mat-button (click)="showAddEncounterForm = true; keyPointForEncounter = keyPoint" style="background-color: #ff7b00; color: white; margin-right: 50px;">
+                    Add Encounter
+                </button>
+                
             </div>
+        </div>
+    </div>
+
+    <!-- Add Encounter Form Modal -->
+    <div *ngIf="showAddEncounterForm" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="showAddEncounterForm = false">&times;</span>
+            <xp-add-encounter [createdByTourist]="true" [inputKeyPoint]="keyPointForEncounter?.id || -110"></xp-add-encounter>
         </div>
     </div>
 
@@ -32,7 +44,9 @@
         </div>
 
         <div class="encounters-container">
-            <h3>Encounters for current key point</h3>
+            <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                Encounters for current key point
+            </h3>
             <div class="tabs">
                 <button class="primary-button" (click)="selectedTab = 'all'"
                     [ngClass]="{ 'active-tab': selectedTab === 'all' }">All</button>
@@ -98,7 +112,7 @@
                                 style="background-color: #ff7b00;color: white;"
                                 (click)="activateEncounter(encounter)">Activate
                                 Encounter</button>
-                                <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                            <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
                                 style="background-color: #ff7b00;color: white;"
                                 (click)="markAsCompleated(encounter)">Mark as Completed</button>
                         </div>
@@ -132,7 +146,7 @@
                                 style="background-color: #ff7b00;color: white;"
                                 (click)="activateEncounter(encounter)">Activate
                                 Encounter</button>
-                                <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                            <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
                                 style="background-color: #ff7b00;color: white;"
                                 (click)="markAsCompleated(encounter)">Mark as Completed</button>
                         </div>

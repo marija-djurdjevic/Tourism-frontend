@@ -21,7 +21,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
-import { AddEncounterComponent } from './feature-modules/encounters/add-encounter/add-encounter.component';
 import { SharedModule } from "./shared/shared.module";
 
 
@@ -29,7 +28,6 @@ import { SharedModule } from "./shared/shared.module";
   declarations: [
     AppComponent,
     EncountersComponent,
-    AddEncounterComponent,
   ],
   imports: [
     FormsModule,
