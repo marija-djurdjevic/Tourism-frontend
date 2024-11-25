@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { KeyPointService } from '../key-point.service';
 import { KeyPoint } from '../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Map, Marker } from 'leaflet';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'xp-key-point-update-form',
@@ -19,6 +21,8 @@ export class KeyPointUpdateFormComponent implements OnInit {
     longitude: 0,
     status: 1
 };
+private map: Map;
+
 constructor(
   private route: ActivatedRoute,
   private keyPointService: KeyPointService,
@@ -31,8 +35,32 @@ ngOnInit(): void {
   if (keyPointId) {
     this.getKeyPointById(keyPointId);
   }
+  this.initializeMap();
+}
+ngOnDestroy() {
+  // Uništavanje mape pri uništavanju komponente
+  if (this.map) {
+    this.map.remove();
+  }
 }
 
+initializeMap() {
+  // Ako mapa već postoji, prvo je ukloni
+  if (this.map) {
+    this.map.remove();
+  }
+
+  // Inicijalizuj novu mapu
+  this.map = L.map('mapid').setView([51.505, -0.09], 13); // Postavi poziciju i zoom nivo
+
+  // Dodaj Tile Layer (kartu)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+
+  // Dodaj marker (ako je potrebno)
+  L.marker([51.5, -0.09]).addTo(this.map)
+    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+    .openPopup();
+}
 onImageSelected(event: Event): void {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
