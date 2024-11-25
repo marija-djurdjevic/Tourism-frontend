@@ -140,4 +140,30 @@ export class TourComponent implements OnInit {
       }
     });
   }
+
+  onEdit(tour: Tour) {
+    this.shouldEdit = true;
+    this.selectedTour = tour;
+    this.router.navigate(['/add-tour'], {
+      queryParams: {
+        tour: JSON.stringify({
+          id: tour.id,
+          name: tour.name,
+          description: tour.description, 
+          difficulty: tour.difficulty,
+          tags: tour.tags,
+          status: tour.status,
+          price: tour.price,
+          publishedAt: tour.publishedAt,
+          archivedAt: tour.archivedAt,
+          avarageScore: tour.averageScore,
+          authorId: tour.authorId,
+          transportInfo: tour.transportInfo,
+          keyPoints: tour.keyPoints,
+          reviews: tour.reviews,
+          reviewStatus: tour.reviewStatus
+        })
+      }
+    })
+  }
 }
