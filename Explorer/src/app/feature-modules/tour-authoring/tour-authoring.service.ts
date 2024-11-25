@@ -165,7 +165,8 @@ export class TourAuthoringService {
   private toRad(value: number): number {
     return value * Math.PI / 180;
   }
+
   updateTransportInfo(tourId: number, transportInfo: TransportInfo): Observable<void> {
     return this.http.put<void>(`${environment.apiHost}administration/tour/${tourId}/transport-info`, transportInfo);
-}
+  }
 }
