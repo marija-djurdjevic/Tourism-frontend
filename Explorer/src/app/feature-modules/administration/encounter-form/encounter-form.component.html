@@ -1,6 +1,6 @@
 <form [formGroup]="encounterForm" 
       (ngSubmit)="shouldEdit ? updateEncounter() : addEncounter()" 
-      class="tour-form">
+      class="encounter-form">
     <h2>{{ shouldEdit ? 'Update Encounter' : 'Add Encounter' }}</h2>
     <div class="form-container">
         <mat-form-field appearance="outline">
@@ -45,7 +45,7 @@
 
 
         <div class="button-container">
-            <button mat-raised-button color="primary" type="submit" [disabled]="encounterForm.invalid">
+            <button mat-raised-button color="button" type="submit" [disabled]="encounterForm.invalid">
                 {{ shouldEdit ? 'Update Encounter' : 'Add Encounter' }}
             </button>
         </div>
