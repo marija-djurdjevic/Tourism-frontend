@@ -4,38 +4,34 @@
 </div>
 
 <div *ngIf="!isLoading">
-    <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Email</th>
-                    <th>Is active</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let acc of account">
-                    <td>{{acc.username}}</td>
-                    <td>{{acc.role}}</td>
-                    <td>{{acc.email}}</td>
-                    <td>{{acc.isActive}}</td>
-                    <td>
-                        <button color="primary" type="submit" mat-raised-button (click)="showWallet(acc.id ?? 0)"> 
-                            Manage Wallet $
+    <div id="account">
+        <p class="account-title">Accounts review</p>
+        <hr>
+        <div id="acount-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let acc of account">
+                    <div class="card-content">
+                        <h3>{{acc.username}}</h3>
+                        <p>{{acc.role}}</p>
+                        <p><strong>Email:</strong> 
+                            {{acc.email}}
+                        </p>
+                        <p><strong>Status:</strong> 
+                            {{acc.isActive}}
+                        </p>
+                    </div>
+                    <div class="card-actions">
+                        <button color="primary" (click)="showWallet(acc.id ?? 0)" type="submit" mat-icon-button>
+                            <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
                         </button>
-                    </td>
-                    <td>
-                        <button color="primary" type="submit" mat-raised-button (click)="blockAccount(acc)">Block
-                            account</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <button color="accent" (click)="blockAccount(acc)" mat-icon-button>
+                            <img src="assets/icons/block.png" alt="Block Icon"/>
+                        </button>
+                    </div>
+                </div>               
+            </div>
+        </div>
     </div>
-    <!-- Inline Popup for Wallet -->
     <div *ngIf="showWalletPopup" class="wallet-popup">
         <div class="popup-content">
             <h2>Manage Wallet</h2>
