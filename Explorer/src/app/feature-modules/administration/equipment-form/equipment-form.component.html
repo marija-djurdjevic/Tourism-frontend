@@ -1,6 +1,6 @@
 <form [formGroup]="equipmentForm" class="equipment-form">
     <div>
-        <h2>Add equipment</h2>
+        <h2>{{ shouldEdit ? 'Update Equipment' : 'Add Equipment' }}</h2>
         <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" type="text"/>
