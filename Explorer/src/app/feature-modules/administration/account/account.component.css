@@ -74,33 +74,12 @@
     width: 100%; /* Osigurava da dugmadi popunjavaju širinu kartice */
     justify-content: center; /* Centriranje dugmadi */
 }
-  
 
   .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
   }
-
-.map-container {
-    width: 300px; 
-    height: 300px; 
-    border-radius: 5px;
-    background-color: #e0e0e0; 
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.add-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px; /* Ista širina kao ostale kartice */
-    height: auto; /* Automatska visina kao kod ostalih kartica, možete postaviti konkretno ako želite */
-    border: 2px dashed #ddd; /* Zeleni okvir kao kod ostalih kartica */
-    color: #aaa;
-    text-align: center;
-}
-
 
 .wallet-popup {
     position: fixed;
@@ -122,7 +101,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 400px;
+    color: #666;
 }
+
+.popup-content h2 {
+    color: black;
+  }
 
 .popup-actions {
     margin-top: 20px;
@@ -130,12 +114,11 @@
     justify-content: space-between;
 }
 
-.plus{
-    margin-right: 5px;
-    font-size: large;
+.save-button {
+    background-color: #34AB45; /* Zelena boja */
+    color: white; /* Boja teksta */
 }
 
-.minus{
-    margin-left: 5px;
-    font-size: large;
+.save-button:hover {
+    background-color: #2ecc71;
 }
