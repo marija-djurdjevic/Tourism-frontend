@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClubsComponent } from './clubs/clubs.component';
 import { ClubsFormComponent } from './clubs-form/clubs-form.component';
@@ -19,7 +19,15 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ExploreToursComponent } from './explore-tours/explore-tours';
 import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
+
 import { KeyPointUpdateFormComponent } from './key-point-update-form/key-point-update-form.component';
+
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 @NgModule({
   declarations: [
     ClubsComponent,
@@ -40,7 +48,11 @@ import { KeyPointUpdateFormComponent } from './key-point-update-form/key-point-u
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    MatChipsModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   exports: [
     ClubsComponent,
@@ -57,5 +69,6 @@ import { KeyPointUpdateFormComponent } from './key-point-update-form/key-point-u
     TourFormComponent,
     ExploreToursComponent
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TourAuthoringModule { }
