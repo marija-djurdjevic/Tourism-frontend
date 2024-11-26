@@ -5,9 +5,7 @@
 
 <div *ngIf="!isLoading">
     <div id="wrap">
-        <div id="titleCont">
-            <div id="title">Tour Problems</div>
-        </div>
+        <p class="problems-list-title">Tour Problems</p>
         <div *ngIf="totalPages!=0" id="prev">
             <button (click)="goToPreviousPage()" [disabled]="currentPage === 0">prev</button>
             <span>Page {{ currentPage + 1 }} / {{ totalPages }}</span>
@@ -25,7 +23,7 @@
             </tr>
             <tr tabindex="0" *ngFor="let item of displayedEntities" id="ag"
                 (click)="goToProblem(item.id, getById(item.tourId), item)"
-                [ngStyle]="{ 'background-color': isOverdue(item) ? 'red' : '#2dad2d' }">
+                [ngStyle]="{ 'background-color': isOverdue(item) ? 'red' : '#34AB45' }">
 
                 <td>{{item.details.problemPriority}}</td>
                 <td>{{ usernamesMap.get(item.touristId) }}</td>

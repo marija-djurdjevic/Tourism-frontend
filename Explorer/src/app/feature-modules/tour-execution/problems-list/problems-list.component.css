@@ -21,16 +21,12 @@
     background-color: red;
 }
 
-#title {
-    grid-column: 2;
-    padding: 10px 0;
-    font-size: 1.8rem;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(1, 5, 4);
-    color: antiquewhite;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+.problems-list-title {
+    font-size: 2em; /* Povećava veličinu fonta */
+    font-weight: bold; /* Čini tekst debljim */
+    text-align: center; /* Centriranje naslova */
+    margin-bottom: 10px; /* Razmak između naslova i linije */
+    color: black; /* Boja naslova (možeš prilagoditi) */
 }
 
 #prev {
@@ -43,21 +39,21 @@
 
 #prev button {
     padding: 8px 16px;
-    background-color: rgb(1, 5, 4);
-    color: antiquewhite;
+    background-color: #d3d3d3; /* Siva boja za onemogućeno dugme */
+    color: white !important; /* Bela boja za tekst */
+    cursor: not-allowed; /* Menja kursor na "ne može" kad je dugme onemogućeno */
     border: none;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-#prev button:hover:enabled {
-    background-color: rgb(31, 119, 31);
+#prev button:enabled {
+    background-color: #34AB45 !important; /* Zelena boja kad je dugme omogućeno */
+    cursor: pointer; /* Kursor se menja u normalan kad je dugme omogućeno */
 }
 
-#prev button:disabled {
-    background-color: #888;
-    cursor: not-allowed;
+#prev button:hover:enabled {
+    background-color: #2ecc71 !important;
 }
 
 #t {
@@ -77,10 +73,9 @@
 }
 
 #t th {
-    background-color: rgb(1, 5, 4);
-    color: antiquewhite;
+    background-color: black;
+    color: white;
     font-size: 1rem;
-    font-weight: bold;
 }
 
 #t tr:hover:not(:first-child) {
