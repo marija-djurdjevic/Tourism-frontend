@@ -4,41 +4,27 @@
 </div>
 
 <div *ngIf="!isLoading">
-    <div class="ratings-list-container">
-        <h2>User Ratings</h2>
-        <table mat-table [dataSource]="ratings" class="mat-elevation-z8">
-            <!-- Rating Column -->
-            <ng-container matColumnDef="rating">
-                <th mat-header-cell *matHeaderCellDef> Rating </th>
-                <td mat-cell *matCellDef="let rating">
-                    <span *ngFor="let star of [].constructor(5); let idx = index">
-                        <span *ngIf="idx < rating.rating" class="filled-star">★</span>
-                        <span *ngIf="idx >= rating.rating" class="empty-star">☆</span>
-                    </span>
-                </td>
-            </ng-container>
-
-            <!-- Comment Column -->
-            <ng-container matColumnDef="comment">
-                <th mat-header-cell *matHeaderCellDef> Comment </th>
-                <td mat-cell *matCellDef="let rating">{{ rating.comment }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="user">
-                <th mat-header-cell *matHeaderCellDef> User </th>
-                <td mat-cell *matCellDef="let rating">{{ rating.username }}</td>
-            </ng-container>
-
-            <!-- Created At Column -->
-            <ng-container matColumnDef="createdAt">
-                <th mat-header-cell *matHeaderCellDef> Created At </th>
-                <td mat-cell *matCellDef="let rating">{{ rating.createdAt | date:'short' }}</td>
-            </ng-container>
-
-
-
-            <tr mat-header-row *matHeaderRowDef="['rating', 'comment', 'user','createdAt']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['rating', 'comment', 'user', 'createdAt'];"></tr>
-        </table>
+    <div id="rating">
+        <p class="rating-title">User Ratings</p>
+        <hr>
+        <div id="rating-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let rating of ratings">
+                    <div class="card-content">
+                        <div class="rating-stars">
+                            <span *ngFor="let star of [].constructor(5); let idx = index">
+                                <span *ngIf="idx < rating.rating" class="filled-star">★</span>
+                                <span *ngIf="idx >= rating.rating" class="empty-star">☆</span>
+                            </span>
+                        </div>
+                        <p class="comment">{{ rating.comment }}</p>
+                        <div class="card-footer">
+                            <span class="username">{{ rating.username }}</span>
+                            <span class="created-at">{{ rating.createdAt | date:'short' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
