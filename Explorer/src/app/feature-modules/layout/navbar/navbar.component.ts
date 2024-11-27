@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { Notification } from 'src/app/feature-modules/layout/model/notification.model';
+import { Notification, NotificationType } from 'src/app/feature-modules/layout/model/notification.model';
 import { LayoutService } from '../layout.service';
 import { Router } from '@angular/router';
 import { UserProfile } from '../model/user-profile.model';
@@ -87,7 +87,8 @@ export class NavbarComponent implements OnInit {
     if(this.user?.role === 'tourist') {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      if(notification.type == 1) {
+      console.log("TYPE: ",notification.type)
+      if(notification.type == NotificationType.TourRefund) {
         this.router.navigate(['explore-tours'], { queryParams: { refundId: notification.referenceId } });
       } else {
         this.router.navigate(['/problem'], { queryParams: { id: problemId } });
