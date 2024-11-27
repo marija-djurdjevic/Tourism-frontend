@@ -202,7 +202,12 @@ newCoupon: {
     this.shoppingService.getCouponsByAuthorId(loggedInUser.id).subscribe({
       next: (response) => {
         // Assuming PagedResults has a `results` array with the tourists
-        this.coupons = response;
+        //this.coupons = response;
+        this.coupons = response.map((coupon) => ({
+          ...coupon,
+          // Map discountedTourId to tour name using the tours list
+          tourName: this.tours.find((tour) => tour.id === coupon.discountedTourId)?.name || "N/A",
+        }));
         console.log(this.coupons)
       },
       error: (err) => {
@@ -219,6 +224,11 @@ newCoupon: {
   }
 
   updateCoupon(): void {
+    if (!this.newCoupon.allDiscounted && (!this.newCoupon.discountedTourId || this.newCoupon.discountedTourId===-999)) {
+      alert("Please select a tour or mark 'All Tours' as discounted.");
+      return; // Prevent submission
+    }
+
     if (!this.currentCouponId) {
       console.error("No coupon selected for update.");
       return;
@@ -248,6 +258,7 @@ newCoupon: {
         const index = this.coupons.findIndex(c => c.id === this.currentCouponId);
         if (index !== -1) this.coupons[index] = response;
         this.resetEditForm();
+        this.loadCoupons();
       },
       (error) => {
         console.error('Error updating coupon:', error);
@@ -289,9 +300,16 @@ newCoupon: {
 
   toggleCouponForm(): void {
     this.isCouponFormVisible = !this.isCouponFormVisible;
+    if(!this.isCouponFormVisible){
+      this.resetEditForm()
+    }
   }
 
   createCoupon(): void {
+    if (!this.newCoupon.allDiscounted && !this.newCoupon.discountedTourId) {
+      alert("Please select a tour or mark 'All Tours' as discounted.");
+      return; // Prevent submission
+    }
     // Map the form values to the `Coupon` object for submission
     const coupon : Omit<Coupon,  'id' >= {
       discountedTourId: this.newCoupon.allDiscounted ? -999 : this.newCoupon.discountedTourId!,
@@ -319,11 +337,14 @@ newCoupon: {
         // Refresh the list or reset form as needed
         this.coupons.push(createdCoupon);
         this.resetCouponForm();
+        this.loadCoupons();
       },
       error: (error) => {
         console.error('Failed to create coupon:', error);
       }
     });
+
+    //this.loadCoupons();
   }
   
   // Reset the form for creating a new coupon
