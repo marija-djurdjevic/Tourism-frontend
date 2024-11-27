@@ -14,69 +14,73 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UserProfileComponent implements OnInit {
 
-  user : User
+  user: User
   userProfile: UserProfile;
-  isEditing =  false;
-  role:String='';
-  isLoading=false;
+  isEditing = false;
+  role: String = '';
+  isLoading = false;
 
   constructor(private layoutService: LayoutService,
-    private router:Router,
+    private router: Router,
     private authService: AuthService,
-    private imageService:ImageService, 
+    private imageService: ImageService,
     private cd: ChangeDetectorRef,
-    private snackBar:MatSnackBar) { }
-  
+    private snackBar: MatSnackBar) { }
+
   ngOnInit(): void {
 
     this.authService.user$.subscribe(user => {
       this.user = user;
-      this.role=user.role;
+      this.role = user.role;
     });
     this.getProfile()
-    
+
   }
 
   getProfile() {
-    this.isLoading=true;
+    this.isLoading = true;
     this.layoutService.getProfile(this.user.role).subscribe({
-      next:(result: UserProfile) => {
+      next: (result: UserProfile) => {
         this.userProfile = result;
         console.log(result)
         // kod za ucitavanje slike po id
-        this.isLoading=false;
-        this.imageService.setControllerPath(this.role+"/image");
-          this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe((blob: Blob) => {
-            console.log(blob);  // Proveri sadržaj Blob-a
-            if (blob.type.startsWith('image')) {
-              this.userProfile.imageURL = URL.createObjectURL(blob);
-              this.cd.detectChanges();
-            } else {
-              console.error("Blob nije slika:", blob);
-            }
-          });
+        this.isLoading = false;
+        this.imageService.setControllerPath(this.role + "/image");
+        this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe((blob: Blob) => {
+          console.log(blob);  // Proveri sadržaj Blob-a
+          if (blob.type.startsWith('image')) {
+            this.userProfile.imageURL = URL.createObjectURL(blob);
+            this.cd.detectChanges();
+          } else {
+            console.error("Blob nije slika:", blob);
+          }
+        });
 
         //kraj
       },
-      error:(err:any) => {
+      error: (err: any) => {
         console.log(err)
         this.isLoading = false;
         this.snackBar.open('Failed to load profile. Please try again.', 'Close', {
           duration: 3000,
-          panelClass:"succesful"
+          panelClass: "succesful"
         });
       }
     })
   }
 
-  seeProblems():void{
+  seeProblems(): void {
     this.router.navigate(['/problems']);
   }
-  myReviews():void{
+  myReviews(): void {
     this.router.navigate(['/tourReviews']);
   }
 
-  setPreferences():void{
+  myBundles(): void {
+    this.router.navigate(['/bundles']);
+  }
+
+  setPreferences(): void {
     this.router.navigate(['/tour-preferences']);
   }
   onProfileUpdated() {
@@ -85,10 +89,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   toggleEdit(): void {
-    this.isEditing = !this.isEditing; 
+    this.isEditing = !this.isEditing;
   }
 
-  seeWallet():void{
+  seeWallet(): void {
     this.router.navigate(['/wallet']);
   }
 }

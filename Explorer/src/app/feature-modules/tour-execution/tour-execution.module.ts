@@ -43,8 +43,8 @@ import { PublishRequestComponent } from './publish-request-list/publish-request-
     MatNativeDateModule,
 
 
-],
-  exports: [ 
+  ],
+  exports: [
     ProblemReportComponent,
     ProblemFormComponent,
     TourPreferencesComponent,

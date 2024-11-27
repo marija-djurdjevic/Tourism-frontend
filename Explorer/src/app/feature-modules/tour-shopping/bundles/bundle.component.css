@@ -1,0 +1,89 @@
+#bundle {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+#bundle p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3f51b5;
+    margin-bottom: 10px;
+}
+
+#buttonPlace {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2%;
+}
+
+#bundle-details {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+    font-family: 'Arial', sans-serif;
+    min-width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead tr {
+    background-color: #3f51b5;
+    color: #ffffff;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 15px 20px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #303f9f;
+    color: #ffffff;
+}
+
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:last-of-type {
+    border-bottom: 2px solid #3f51b5;
+}
+
+button {
+    background-color: #3f51b5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #303f9f;
+}
+
+button:focus {
+    outline: none;
+}
