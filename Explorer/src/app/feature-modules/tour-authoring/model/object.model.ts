@@ -5,5 +5,6 @@ export interface Object {
     imageId: Number,
     longitude: Number,
     latitude: Number,
-    image: string
+    image: string,
+    status: number;
 }

@@ -113,12 +113,19 @@ export class ExploreToursComponent implements OnInit {
   }
 
   assignSingleKeyPoint(tour: Tour): void {
-    this.service.getKeyPoints().subscribe(keyPoints => {
-      const keyPoint = keyPoints.find(kp => kp.tourId === tour.id);
-      if (keyPoint) {
-        tour.keyPoints[0] = keyPoint; // Assign the first matching key point
-      }
-    });
+    if (tour.id !== undefined) { // Ensure tour.id is defined
+      this.service.getKeyPoints().subscribe(keyPoints => {
+        const keyPoint = keyPoints.find(kp => kp.tourIds.includes(tour.id!)); // Use `!` after `tour.id`
+        if (keyPoint) {
+          if (!tour.keyPoints) {
+            tour.keyPoints = []; // Initialize `keyPoints` if it is undefined
+          }
+          tour.keyPoints[0] = keyPoint; // Assign the first matching key point
+        }
+      });
+    } else {
+      console.error('Tour ID is undefined');
+    }
   }
 
   addToCart(tourId: number, tourName: string, price: number): void {

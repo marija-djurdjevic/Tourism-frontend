@@ -8,7 +8,7 @@
     background-color: #f9f6f1; 
     transition: transform 0.3s ease;
     margin-bottom: 15px;
-    max-height: 250px; /* Smanjena visina */
+    max-height: 250px; 
     height: auto;
     font-family: "Helvetica Neue", sans-serif;
 }
@@ -21,15 +21,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px; /* Prostor između leva i desna */
+    gap: 20px; 
 }
 
 .encounter-details {
-    width: 30%; /* Leva strana zauzima 65% širine */
+    width: 30%; 
 }
 
 .map-container {
-    width: 60%; /* Mapa zauzima 30% širine */
+    width: 60%; 
     height: 150px; 
     border-radius: 5px;
     background-color: #e0e0e0; 
@@ -61,7 +61,7 @@ p strong {
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
-    gap: 10px; /* Razmak između dugmića */
+    gap: 10px; 
     font-family: "Helvetica Neue", sans-serif;
 }
 

@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   showProfileMenu: boolean=false;
   showLocationButton: boolean = true;
 
-  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef) {}
+  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef, ) {}
 
   ngOnInit(): void {
     this.router.events
@@ -84,6 +84,7 @@ export class NavbarComponent implements OnInit {
     this.cd.detectChanges();
   }
   goToProblem(notification: Notification, problemId: number): void {
+    
     if(this.user?.role === 'tourist') {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
@@ -98,10 +99,10 @@ export class NavbarComponent implements OnInit {
   else if(this.user?.role === 'author') {
     this.layoutService.markAsReadAuthor(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      if(notification.notificationType == 'TourProblemComment') this.router.navigate(['/problem'], { queryParams: { id: problemId } });
     }); 
     }
-
+  
     this.showNotifications = !this.showNotifications;
   }
 

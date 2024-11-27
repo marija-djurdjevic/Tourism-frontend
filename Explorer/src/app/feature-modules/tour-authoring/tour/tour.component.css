@@ -1,104 +1,120 @@
 #tour {
     margin-top: 20px;
     margin-left: 20px;
-    font-family: "Helvetica Neue", sans-serif; /* Promenjeno na timsku konvenciju */
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 #tour p {
     font-size: 24px;
     font-weight: bold;
-    color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
+    color: var(--primary-color); 
     margin-bottom: 10px;
 }
 
-hr {
-    border: none;
-    height: 2px;
-    background-color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
-    margin-bottom: 20px;
+
+.tour-card .tour-name {
+    font-size: 1.8em; 
+    font-weight: bold;
+    color: var(--primary-color); 
+    margin-bottom: 10px;
+    text-align: center; 
 }
 
-#tour-details {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    align-items: flex-start;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95em;
-    font-family: "Helvetica Neue", sans-serif; /* Promenjeno na timsku konvenciju */
-    min-width: 400px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-thead tr {
-    background-color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
-    color: var(--light-text-color); /* Promenjeno na timsku konvenciju za boju teksta */
-    text-align: left;
-}
-
-th, td {
-    padding: 15px 20px;
-    text-align: left;
-    vertical-align: middle;
-}
-
-th {
-    background-color: var(--secondary-color); /* Promenjeno na varijablu za sekundarnu boju */
-    color: var(--light-text-color); /* Promenjeno na timsku konvenciju za boju teksta */
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-    transition: background-color 0.3s ease;
-}
-
-tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f9f9f9;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
-}
-
-button {
-    background-color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
-    color: var(--light-text-color); /* Promenjeno na timsku konvenciju za boju teksta */
+.add-new-tour button {
+    margin-bottom: 15px; 
+    background-color: var(--primary-color); 
+    color: var(--light-text-color); 
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: var(--secondary-color); /* Promenjeno na varijablu za sekundarnu boju */
+.add-new-tour button:hover {
+    background-color: var(--secondary-color); 
 }
 
-button:focus {
-    outline: none;
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-tbody tr.active-row {
+.tour-card {
+    background-color: #f9f6f1; 
+    border: 2px solid var(--primary-color); 
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tour-card h3 {
+    font-size: 1.4em; 
     font-weight: bold;
-    color: var(--primary-color); /* Promenjeno na varijablu za primarnu boju */
+    margin-bottom: 10px;
+    color: var(--primary-color); 
+}
+
+.tour-card p {
+    font-size: 0.9em;
+    color: #555; 
+    margin: 5px 0;
+}
+
+.tour-card p span {
+    font-weight: bold;
+    color: var(--primary-color); 
+}
+
+.card-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.card-buttons .primary-button {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1 1 calc(50% - 10px);
+    text-align: center;
+}
+
+.card-buttons .primary-button:hover {
+    background-color: var(--secondary-color);
 }
 
 @media screen and (max-width: 768px) {
-    table {
-        font-size: 0.8em;
+    .card-container {
+        flex-direction: column;
+        align-items: center;
     }
-    
-    th, td {
-        padding: 10px 15px;
+
+    .tour-card {
+        width: 90%; 
+    }
+
+    .card-buttons .primary-button {
+        flex: 1 1 100%;
     }
 }
