@@ -13,6 +13,7 @@ import { CompletedKeyPoint, TourSession } from './model/tour-session.model';
 import { Tour } from '../tour-authoring/model/tour.model';
 import { map } from 'rxjs/operators';
 import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model'; 
+import { PublishRequest } from './model/publish-request.model';
 
 
 @Injectable({
@@ -237,6 +238,20 @@ getTour(tourId: number): Observable<Tour> {
 
 closeTour(tourDto: Tour): Observable<Tour> {
   return this.http.post<Tour>(`${environment.apiHost}administrator/tour/close-tour`, tourDto);
+}
+
+getPublishRequests(): Observable<PagedResults<PublishRequest>>{
+  return this.http.get<PagedResults<PublishRequest>>(`${environment.apiHost}administrator/publishRequest/getAll`);
+}
+
+updateRequestStatus(requestDto: PublishRequest): Observable<PublishRequest> {
+  const url = `${environment.apiHost}administrator/keyPoint/${requestDto.id}`;
+  return this.http.put<PublishRequest>(url, requestDto);
+}
+
+updateRequestStatusObject(requestDto: PublishRequest): Observable<PublishRequest> {
+  const url = `${environment.apiHost}administrator/object/${requestDto.id}`;
+  return this.http.put<PublishRequest>(url, requestDto);
 }
 
 }

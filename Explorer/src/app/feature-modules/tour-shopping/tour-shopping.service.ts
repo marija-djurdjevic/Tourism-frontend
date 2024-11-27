@@ -41,5 +41,15 @@ export class TourShoppingService {
   getWallet(): Observable<Wallet> {
     return this.http.get<Wallet>(environment.apiHost + "tourist/wallet/balance")
   }
+
+  refundTour(tourId: number): Observable<Tour> {
+    return this.http.post<Tour>(`${environment.apiHost}tourist/shopping/refund`,tourId)
+  }
+
+  getRefundedTour(referenceId: number): Observable<number> {
+    return this.http.get<number>(`${environment.apiHost}tourist/shopping/refund/${referenceId}`);
+  }
+  
+  
   
 }
