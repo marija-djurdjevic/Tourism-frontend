@@ -47,7 +47,7 @@ export class NavbarComponent implements OnInit {
       else if(user.role === 'tourist') {
         this.layoutService.getTouristNotifications(user.id).subscribe(notificationsData => {
           this.notifications = notificationsData;
-          console.log(this.notifications)
+          console.log("NOTIFICATIONS : ",this.notifications)
          });
       }
       this.layoutService.getProfile(user.role).subscribe({
@@ -87,8 +87,8 @@ export class NavbarComponent implements OnInit {
     if(this.user?.role === 'tourist') {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      console.log("TYPE: ",notification.type)
-      if(notification.type == NotificationType.TourRefund) {
+
+      if(notification.notificationType == NotificationType.TourRefund) {
         this.router.navigate(['explore-tours'], { queryParams: { refundId: notification.referenceId } });
       } else {
         this.router.navigate(['/problem'], { queryParams: { id: problemId } });
