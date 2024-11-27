@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
-import { Notification } from 'src/app/feature-modules/layout/model/notification.model';
+import { Notification, NotificationType } from 'src/app/feature-modules/layout/model/notification.model';
 import { LayoutService } from '../layout.service';
 import { Router } from '@angular/router';
 import { UserProfile } from '../model/user-profile.model';
@@ -47,6 +47,7 @@ export class NavbarComponent implements OnInit {
       else if(user.role === 'tourist') {
         this.layoutService.getTouristNotifications(user.id).subscribe(notificationsData => {
           this.notifications = notificationsData;
+          console.log("NOTIFICATIONS : ",this.notifications)
          });
       }
       this.layoutService.getProfile(user.role).subscribe({
@@ -87,13 +88,18 @@ export class NavbarComponent implements OnInit {
     if(this.user?.role === 'tourist') {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      if(notification.notificationType == 'TourProblemComment') this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+
+      if(notification.notificationType == NotificationType.TourRefund) {
+        this.router.navigate(['explore-tours'], { queryParams: { refundId: notification.referenceId } });
+      } else {
+        this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      }
     }); 
   }
   else if(this.user?.role === 'author') {
     this.layoutService.markAsReadAuthor(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
-      if(notification.notificationType == 'TourProblemComment') this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      if(notification.notificationType == NotificationType.TourProblem) this.router.navigate(['/problem'], { queryParams: { id: problemId } });
     }); 
     }
   

@@ -28,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let t of tours">
+                        <tr *ngFor="let t of tours" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
                             <td>{{ t.name }}</td>
                             <td>{{ t.description }}</td>
                             <td>{{ t.price | currency }}</td>
