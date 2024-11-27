@@ -3,7 +3,8 @@
         <p>Tours</p>
         <div class="add-new-tour">
             <button class="primary-button" (click)="onAddClicked()">Add New Tour</button>
-        </div>
+            <button class="primary-button" (click)="onCouponsClicked()">My coupons</button>
+        </div>  
         <hr>
         <div id="tour-details" class="card-container">
             <div class="tour-card" *ngFor="let t of tours">
@@ -37,4 +38,99 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" *ngIf="isCouponModalOpen">
+        <div class="modal-content">
+          <div class="close-modal" (click)="closeCouponModal()">×</div>
+          <div class="modal-header">Coupons</div>
+          <button color="primary" (click)="toggleCouponForm()">
+            {{ isCouponFormVisible ? (editMode ? 'Close Edit Form' : 'Close Form') : 'Add New Coupon' }}
+          </button>
+      
+          <div *ngIf="isCouponFormVisible" class="coupon-form">
+            <form (ngSubmit)="editMode ? updateCoupon() : createCoupon()" class="form-inline">
+              <div class="form-group">
+                <label for="discount">Discount</label>
+                <input
+                  type="number"
+                  id="discount"
+                  [(ngModel)]="newCoupon.discount"
+                  name="discount"
+                  placeholder="Discount"
+                  required
+                />
+              </div>
+      
+              <div class="form-group">
+                <label for="tourName">Tour</label>
+                <select
+                  id="tourName"
+                  [(ngModel)]="newCoupon.discountedTourId"
+                  name="tourName"
+                  required
+                >
+                  <option *ngFor="let tour of tours" [value]="tour.id">
+                    {{ tour.name }}
+                  </option>
+                </select>
+              </div>
+      
+              <div class="form-group">
+                <label for="expiryDate">Expiry</label>
+                <input
+                  type="date"
+                  id="expiryDate"
+                  [(ngModel)]="newCoupon.expiryDate"
+                  name="expiryDate"
+                />
+              </div>
+      
+              <div class="form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="newCoupon.allDiscounted"
+                    name="allDiscounted"
+                  />
+                  All Tours
+                </label>
+              </div>
+      
+              <button type="submit" color="primary">{{ editMode ? 'Update' : 'Create' }}</button>
+            </form>
+          </div>
+      
+          <div *ngIf="coupons.length > 0; else noCoupons">
+            <table>
+              <thead>
+                <tr>
+                  <th>Coupon Code</th>
+                  <th>Discount</th>
+                  <th>Expiry Date</th>
+                  <th>Tour Name</th>
+                  <th>All discounted</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let coupon of coupons">
+                  <td>{{ coupon.code }}</td>
+                  <td>{{ coupon.discount }}</td>
+                  <td>{{ coupon.expiryDate }}</td>
+                  <td>{{ coupon.tourName }}</td>
+                  <td>{{ coupon.allDiscounted }}</td>
+                  <td>
+                    <button color="primary" (click)="onEditClicked(coupon)">Edit</button>
+                    <button color="warn" (click)="deleteCoupon(coupon.id!)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template #noCoupons>
+            <p>No coupons available.</p>
+          </ng-template>
+        </div>
+      </div>
+    
 </div>
