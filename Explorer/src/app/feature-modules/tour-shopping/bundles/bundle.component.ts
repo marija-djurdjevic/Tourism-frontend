@@ -5,6 +5,7 @@ import { BundleService } from "../bundle.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "src/app/infrastructure/auth/auth.service";
 import { Router } from "@angular/router";
+import { Tour } from "../../tour-authoring/model/tour.model";
 
 @Component({
     selector: 'xp-bundles',
@@ -29,6 +30,7 @@ export class BundleComponent implements OnInit {
             this.user = user;
             this.getBundles();
         });
+        console.log(this.user)
     }
 
     // Fetch bundles for the author
@@ -55,16 +57,19 @@ export class BundleComponent implements OnInit {
         this.router.navigate(['/bundle-create']);
     }
 
-    updateBundleStatus(bundle: any): void {
+    async updateBundleStatus(bundle: Bundle) {
         let newStatus: number;
 
         if (bundle.status === 0) {
-            //checkTourStatus();
+            const canResolve = await this.checkTourStatus(bundle);
+            if (!canResolve) {
+                return;
+            }
             newStatus = 1;
         } else if (bundle.status === 1) {
             newStatus = 2;
         } else {
-            return; // Don't update if the status is already 2
+            return;
         }
 
         const updatedBundle = { ...bundle, status: newStatus };
@@ -82,41 +87,27 @@ export class BundleComponent implements OnInit {
         });
     }
 
-    // checkTourStatus(bundle: Bundle): boolean {
-    //     let publishedCount = 0; // Counter for published tours
-    //     let tourFetchCount = 0; // To keep track of how many tours have been fetched
-
-    //     for (let tourId of bundle.tourIds) {
-    //         this.tourService.getTourById(tourId).subscribe({
-    //             next: (tour: any) => {
-    //                 tourFetchCount++;
-
-    //                 // Check if the tour is published
-    //                 if (tour.status === 'published' || tour.status === 1) {
-    //                     publishedCount++;
-    //                 }
-
-    //                 // If two published tours are found, update the bundle status and stop checking further
-    //                 if (publishedCount >= 2) {
-    //                     this.updateBundleStatus(bundle, 1); // Mark the bundle as published
-    //                     return true;
-    //                 }
-
-    //                 // If all tours have been checked and there are not enough published tours
-    //                 if (tourFetchCount === bundle.tourIds.length && publishedCount < 2) {
-    //                     this.snackBar.open('You need at least 2 published tours to publish the bundle', 'Close', { duration: 3000 });
-    //                     return false;
-    //                 }
-    //                 return false;
-    //             },
-    //             error: (err) => {
-    //                 console.error(err);
-    //                 this.snackBar.open('Failed to load tour', 'Close', { duration: 3000 });
-    //             }
-    //         });
-    //     }
-    //     return false;
-    // }
+    checkTourStatus(bundle: Bundle): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            this.service.getBundleTours(bundle.authorId, bundle.id!).subscribe({
+                next: (tours: Tour[]) => {
+                    console.log(tours); // Will now be logged properly
+                    const publishedTours = tours.filter(tour => tour.status === 1);
+                    if (publishedTours.length >= 2) {
+                        resolve(true); // Resolve the promise with true
+                    } else {
+                        this.snackBar.open('You need at least 2 published tours to publish the bundle', 'Close', { duration: 3000 });
+                        resolve(false); // Resolve the promise with false
+                    }
+                },
+                error: (err) => {
+                    console.error(err); // Will now log errors properly
+                    this.snackBar.open('Failed to load tours', 'Close', { duration: 3000 });
+                    resolve(false); // Handle error case
+                }
+            });
+        });
+    }
 
     getButtonLabel(status: number): string {
         if (status === 0) {

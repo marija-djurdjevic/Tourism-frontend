@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/env/environment";
 import { Bundle } from "./model/bundle.model";
+import { Tour } from "../tour-authoring/model/tour.model";
 
 @Injectable({
     providedIn: 'root'
@@ -21,5 +22,9 @@ export class BundleService {
 
     updateBundleStatus(bundle: Bundle): Observable<Bundle> {
         return this.http.put<Bundle>(`${environment.apiHost}author/bundle`, bundle);
+    }
+
+    getBundleTours(authorId: number, bundleId: number): Observable<Tour[]> {
+        return this.http.get<Tour[]>(`${environment.apiHost}author/bundle/${authorId}/${bundleId}`);
     }
 }
