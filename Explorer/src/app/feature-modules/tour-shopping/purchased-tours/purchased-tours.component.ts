@@ -124,7 +124,7 @@ onRefundTour(tourId: number) {
   this.service.refundTour(tourId).subscribe({
     next: (tour) => {
       console.log('Tour refunded successfully:', tour);
-      this.loadPurchasedTours();
+      window.location.reload()
     },
     error: (err) => {
       console.error('Error refunding tour:', err);
