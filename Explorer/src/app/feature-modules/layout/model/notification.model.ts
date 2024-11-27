@@ -1,6 +1,7 @@
 export enum NotificationType {
     TourProblem = 0,
-    TourRefund = 1,
+    PublicRequest = 1,
+    TourRefund = 2,
 }
 
 export interface Notification {
