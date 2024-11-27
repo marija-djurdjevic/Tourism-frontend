@@ -4,30 +4,42 @@
 </div>
 
 <div *ngIf="!isLoading">
-  <div class="overAll">
-    <div class="profile-container" *ngIf="userProfile">
-      <img [src]="userProfile.imageURL" alt="Profile Image" class="profile-image">
-      <div class="profile-info">
-        <p><strong>First Name:</strong> {{ userProfile.firstName }}</p>
-        <p><strong>Last Name:</strong> {{ userProfile.lastName }}</p>
-        <p><strong>Bio:</strong> {{ userProfile.biography }}</p>
-        <p><strong>Motto:</strong> {{ userProfile.motto }}</p>
-      </div>
-
-      <button (click)="setPreferences()">Set preferences</button>
-      <button mat-raised-button color="primary" (click)="toggleEdit()">Edit</button>
-    </div>
-    <div class="b">
-      <button (click)="myReviews()">My reviews</button>
-      <button (click)="seeProblems()">My problems</button>
-      <button *ngIf="user.role === 'tourist'" (click)="seeWallet()">My Wallet</button>
-    </div>
+  <div id="profile">
+    <p class="profile-title">My Profile</p>
+    <hr>
+    <div id="profile-details">
+      <div class="card-container">
+        <div class="card" *ngIf="userProfile">
+          <img [src]="userProfile.imageURL" alt="Profile Image" class="profile-image">
+          <div class="card-content">
+            <h3>{{ userProfile.firstName }} {{ userProfile.lastName }}</h3>
+            <p>{{ userProfile.biography }}</p>
+            <p><strong>Motto:</strong> 
+              {{ userProfile.motto }}
+            </p>
+          </div>
+          <div class="card-actions">
+            <button color="primary" *ngIf="user.role === 'tourist'" (click)="seeWallet()" mat-icon-button>
+              <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
+            </button>
+            <button color="primary" (click)="toggleEdit()" mat-icon-button>
+              <img src="assets/icons/edit.png" alt="Edit Icon"/>
+            </button>
+          </div>
+        </div>    
+        <div class="profile-buttons">
+          <button mat-raised-button (click)="setPreferences()">Set preferences</button>
+          <button mat-raised-button (click)="myReviews()">My reviews</button>
+          <button mat-raised-button (click)="seeProblems()">My problems</button>
+        </div>
+      </div>      
+     </div>
   </div>
 
   <div *ngIf="isEditing">
     <xp-user-profile-form [profile]="userProfile" (profileUpdated)="onProfileUpdated()"></xp-user-profile-form>
   </div>
-
+  
   <div *ngIf="!userProfile" class="loading-message">
     <p>Loading user profile...</p>
   </div>
