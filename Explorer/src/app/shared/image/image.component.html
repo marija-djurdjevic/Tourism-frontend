@@ -8,7 +8,8 @@
         </div>
     </ng-template>
 
-    <input type="file" (change)="onFileSelected($event)">
+    <label for="file-upload" class="choose-file-button">Choose file</label>
+    <input id="file-upload" type="file" (change)="onFileSelected($event)" style="display: none;">
 </div>
 <div *ngIf="!selectSingle" class="container">
     <div class="image-preview" *ngIf="imageSrcs && imageSrcs.length > 0; else placeholder">
@@ -23,5 +24,6 @@
         <button *ngIf="!selectSingle" (click)="PreviousImage()" mat-raised-button color="primary">Previous</button>
         <button *ngIf="!selectSingle" (click)="NextImage()" mat-raised-button color="primary">Next</button>
     </div>
-    <input type="file" (change)="onFileSelected($event)" mat-raised-button color="primary" multiple>
+    <label for="file-upload-multiple" class="choose-file-button">Choose files</label>
+    <input id="file-upload-multiple" type="file" (change)="onFileSelected($event)" style="display: none;" multiple>
 </div>
