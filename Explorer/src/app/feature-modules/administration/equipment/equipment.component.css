@@ -47,17 +47,21 @@
     border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
     transition: transform 0.3s ease-in-out;
   }
+
+  .card-content {
+    margin: 10px;
+    text-align: left; /* Tekst poravnat na levo */
+    width: 100%; /* Puni širinu kartice */
+  }
   
   .card-content h3 {
     margin: 0;
-    text-align: center;
     font-size: 20px;  /* Adjust this value to make it larger or smaller */
     font-weight: bold;  /* Make the text bold */
 }
   
   .card-content p {
     margin: 8px 0;
-    text-align: center;
     color: #666;
   }
   
