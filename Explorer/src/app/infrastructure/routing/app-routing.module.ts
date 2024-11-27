@@ -39,6 +39,8 @@ import { EncounterComponent } from 'src/app/feature-modules/administration/encou
 import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
 import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
 import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
+import { BundleComponent } from 'src/app/feature-modules/tour-shopping/bundles/bundle.component';
+import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bundle-create/bundle-create.component';
 
 const routes: Routes = [
   {
@@ -77,7 +79,7 @@ const routes: Routes = [
     component: TourPreferencesComponent,
     canActivate: [AuthGuard],
   },
- // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
+  // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
   {
     path: 'problem',
     component: TourProblemComponent,
@@ -151,10 +153,20 @@ const routes: Routes = [
     component: WalletComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'bundles',
+    component: BundleComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bundle-create',
+    component: BundleCreateComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

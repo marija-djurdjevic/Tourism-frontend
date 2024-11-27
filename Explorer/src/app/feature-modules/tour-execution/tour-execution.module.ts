@@ -29,7 +29,7 @@ import { TourListComponent } from './tour-list/tour-list.component';
     ProblemsListComponent,
     TourProblemComponent,
     TourSessionComponent,
-    TourListComponent   
+    TourListComponent
   ],
   imports: [
     CommonModule,
@@ -41,8 +41,8 @@ import { TourListComponent } from './tour-list/tour-list.component';
     MatNativeDateModule,
 
 
-],
-  exports: [ 
+  ],
+  exports: [
     ProblemReportComponent,
     ProblemFormComponent,
     TourPreferencesComponent,
