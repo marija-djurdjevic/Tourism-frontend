@@ -30,7 +30,7 @@
         <div class="profile-buttons">
           <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="setPreferences()">Set preferences</button>
           <button mat-raised-button (click)="myReviews()">My reviews</button>
-          <button mat-raised-button (click)="seeProblems()">My problems</button>
+          <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="seeProblems()">My problems</button>
         </div>
       </div>      
      </div>
