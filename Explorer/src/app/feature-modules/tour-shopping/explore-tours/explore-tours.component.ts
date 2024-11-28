@@ -8,7 +8,7 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { TourReview } from '../../tour-authoring/model/tour-review.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -26,9 +26,10 @@ export class ExploreToursComponent implements OnInit {
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
   isLoading=false;
+  refundId: number | null = null;
+  refundedTourId: number;
 
-
-  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router) {
+  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -36,12 +37,38 @@ export class ExploreToursComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+
     this.getTours();
     this.loadPurchasedTours();
+    this.route.queryParams.subscribe(params => {
+      this.refundId = params['refundId'] ? Number(params['refundId']) : null;
+      console.log('Captured refundId:', this.refundId);
+
+      if (this.refundId) {
+        this.fetchRefundedTour(this.refundId); // Fetch the refunded tour
+      }
+    });
   }
   searchTours():void{
     this.router.navigate(['/tour-search']);
   }
+
+  fetchRefundedTour(refundId: number): void {
+    this.service.getRefundedTour(refundId).subscribe({
+      next: (refundedTourId: number) => {
+        this.refundedTourId = refundedTourId; // Assign the value from the observable
+        console.log('Refunded Tour ID:', this.refundedTourId);
+      },
+      error: (err) => {
+        console.error('Error fetching refunded tour ID:', err);
+        this.snackBar.open('Failed to fetch refunded tour ID.', 'Close', {
+          duration: 3000,
+          panelClass: 'error'
+        });
+      }
+    });
+  }
+  
 
   getTours(): void {
     this.isLoading=true
