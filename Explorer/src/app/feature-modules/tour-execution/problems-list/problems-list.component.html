@@ -53,27 +53,31 @@
             <button (click)="finalSolve()"> <img src="../../../../assets/icons/resolve.png"></button>
         </div>
         <div id="pop3" *ngIf="flag3">
-            <button id="iks" (click)="close()">X</button>
-            <button (click)="seeProb()">See problem</button>
-            <button (click)="deadline()">Set deadline</button>
+            <div class="popup-content3">
+                <button mat-button id="iks" (click)="close()">X</button>
+                <button mat-raised-button class="pop-button" (click)="seeProb()">See problem</button>
+                <button mat-raised-button class="pop-button" (click)="deadline()">Set deadline</button>
+            </div>
         </div>
         <div id="pop4" *ngIf="flag4">
-            <button id="ikss" (click)="close()">X</button>
-            <mat-form-field appearance="fill">
-                <mat-label for="dateInput">Choose date</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" id="dateInput" name="selectedDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+            <div class="popup-content4">
+                <button mat-button id="iks" (click)="close()">X</button>
+                <mat-form-field appearance="outline">
+                    <mat-label for="dateInput">Choose date</mat-label>
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" id="dateInput" name="selectedDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label for="timeSelect">Choose a time</mat-label>
+                    <mat-select [(ngModel)]="selectedTime" id="timeSelect" name="selectedTime">
+                        <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="fill">
-                <mat-label for="timeSelect">Choose a time</mat-label>
-                <mat-select [(ngModel)]="selectedTime" id="timeSelect" name="selectedTime">
-                    <mat-option *ngFor="let time of times" [value]="time">{{ time }}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <button (click)=deadlineSet()> <img src="../../../../assets/icons/deadline.png"></button>
+            <button mat-raised-button class="pop-button" (click)=deadlineSet()>Set deadline</button>
+            </div>
         </div>
 
 
