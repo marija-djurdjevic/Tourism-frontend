@@ -1,120 +1,101 @@
-#tour {
-    margin-top: 20px;
-    margin-left: 20px;
-    font-family: "Helvetica Neue", sans-serif;
-}
-
-#tour p {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--primary-color); 
-    margin-bottom: 10px;
-}
-
-
-.tour-card .tour-name {
-    font-size: 1.8em; 
-    font-weight: bold;
-    color: var(--primary-color); 
-    margin-bottom: 10px;
-    text-align: center; 
-}
-
-.add-new-tour button {
-    margin-bottom: 15px; 
-    background-color: var(--primary-color); 
-    color: var(--light-text-color); 
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.add-new-tour button:hover {
-    background-color: var(--secondary-color); 
-}
-
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.tour-card {
-    background-color: #f9f6f1; 
-    border: 2px solid var(--primary-color); 
-    border-radius: 8px;
-    padding: 20px;
-    width: 300px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.tour-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-.tour-card h3 {
-    font-size: 1.4em; 
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--primary-color); 
-}
-
-.tour-card p {
-    font-size: 0.9em;
-    color: #555; 
-    margin: 5px 0;
-}
-
-.tour-card p span {
-    font-weight: bold;
-    color: var(--primary-color); 
-}
-
-.card-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
-}
-
-.card-buttons .primary-button {
-    background-color: var(--primary-color);
-    color: var(--light-text-color);
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    flex: 1 1 calc(50% - 10px);
-    text-align: center;
-}
-
-.card-buttons .primary-button:hover {
-    background-color: var(--secondary-color);
-}
-
-@media screen and (max-width: 768px) {
-    .card-container {
-        flex-direction: column;
-        align-items: center;
+#imgb {
+    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    top: 0;
+    left: 0;
+    height: 100%;  /* Pokriva celu visinu ekrana */
+    width: 100%;   /* Pokriva celu širinu ekrana */
+    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+    z-index: -1;  /* Da bude ispod sadržaja */
+    opacity: 0.5;  /* Bleda slika */
+  }
+  
+  #tour {
+      display: flex;
+      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+      align-items: center; /* Horizontalno centrirano */
+      flex-direction: column; /* Elementi idu vertikalno */
+      min-height: 100vh; /* Da pokrije visinu ekrana */
+      margin-top: 20px; /* Dodatni razmak od vrha */
+  }
+  
+  #tour-details {
+      display: flex;
+      flex-direction: column; /* Ili row ako kartice treba horizontalno */
+      justify-content: center; /* Centriranje horizontalno */
+      align-items: center; /* Centriranje vertikalno */
+      gap: 50px; /* Razmak između elemenata */
+      width: 100%; /* Koristi celu širinu roditelja */
+  }
+  
+  .tour-title {
+      font-size: 2em; /* Povećava veličinu fonta */
+      font-weight: bold; /* Čini tekst debljim */
+      text-align: center; /* Centriranje naslova */
+      margin-bottom: 10px; /* Razmak između naslova i linije */
+      color: black; /* Boja naslova (možeš prilagoditi) */
+  }
+  
+  .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Razmak između kartica */
+      justify-content: center; /* Centriranje kartica */
+      width: 100%; /* Osiguraj da zauzima punu širinu */
+      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
+      margin: 0 auto; /* Centriranje na sredinu */
+  }
+    
+    .card {
+      border-radius: 8px; /* Zaobljeni uglovi */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
+      width: 300px; /* Širina kartice */
+      height: auto;
+      padding: 16px; /* Unutrašnji razmak */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px;
+      background-color: #ffffff;
+      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      transition: transform 0.3s ease-in-out;
     }
-
-    .tour-card {
-        width: 90%; 
+  
+    .card-content {
+      margin: 10px;
+      text-align: left; /* Tekst poravnat na levo */
+      width: 100%; /* Puni širinu kartice */
     }
-
-    .card-buttons .primary-button {
-        flex: 1 1 100%;
+    
+    .card-content h3 {
+      margin: 0;
+      font-size: 20px;  /* Adjust this value to make it larger or smaller */
+      font-weight: bold;  /* Make the text bold */
+  }
+    
+    .card-content p {
+      margin: 8px 0;
+      color: #666;
     }
-}
+    
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+  
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+    }
+    
+    .add-card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: auto; /* Visina dodaj kartice */
+      border: 2px dashed #ddd; /* Stilska granica za dodavanje */
+      color: #aaa;
+      text-align: center;
+    }
