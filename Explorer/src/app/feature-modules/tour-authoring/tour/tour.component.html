@@ -15,27 +15,27 @@
                     <p><strong>Tags:</strong> {{t.tags}}</p>
                   </div>
                   <div class="card-actions">
-                    <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button>
+                      <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button>
                         <img src="assets/icons/add-keypoint.png" alt="Add Keypoint Icon"/>
-                    </button>
-                    <!-- <button color="primary" mat-icon-button>
-                        <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
-                      </button> -->
-                    <button color="primary" (click)="onShowKeyPoints(t.id!)" mat-icon-button>
-                        <img src="assets/icons/keypoints.png" alt="Keypoints Icon"/>
                       </button>
-                    <button color="primary" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)" mat-icon-button>
-                        <img src="assets/icons/publish.png" alt="Publish Icon"/>
+                      <!-- <button color="primary" mat-icon-button>
+                          <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
+                        </button> -->
+                      <button color="primary" (click)="onShowKeyPoints(t.id!)" mat-icon-button>
+                          <img src="assets/icons/keypoints.png" alt="Keypoints Icon"/>
+                        </button>
+                      <button color="primary" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)" mat-icon-button>
+                          <img src="assets/icons/publish.png" alt="Publish Icon"/>
+                        </button>
+                      <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button>
+                          <img src="assets/icons/archive.png" alt="Archive Icon"/>
                       </button>
-                    <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button>
-                        <img src="assets/icons/archive.png" alt="Archive Icon"/>
-                    </button>
-                    <button color="primary" *ngIf="t.status === 0" (click)="onEdit(t)" mat-icon-button>
-                      <img src="assets/icons/edit.png" alt="Edit Icon"/>
-                    </button>
-                    <!-- <div *ngIf="t.id" class="equipment">
-                        <xp-tour-equipment [tourId]="t.id"></xp-tour-equipment>
-                    </div> -->
+                      <button color="primary" *ngIf="t.status === 0" (click)="onEdit(t)" mat-icon-button>
+                        <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                      </button>
+                  </div>
+                  <div *ngIf="t.id">
+                    <xp-tour-equipment [tourId]="t.id"></xp-tour-equipment>
                   </div>
                 </div>
                 <div class="card add-card">
