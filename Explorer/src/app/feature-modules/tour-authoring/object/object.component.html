@@ -4,37 +4,34 @@
 </div>
 
 <div *ngIf="!isLoading">
-    <div class="table-container">
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>Naziv</th>
-                    <th>Opis</th>
-                    <th>Kategorija</th>
-                    <th>Longitude</th>
-                    <th>Latitude</th>
-                    <th>Slika</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr *ngFor="let obj of object">
-                    <td>{{obj.name}}</td>
-                    <td>{{obj.description}}</td>
-                    <td>{{obj.category}}</td>
-                    <td>{{obj.longitude}}</td>
-                    <td>{{obj.latitude}}</td>
-                    <!-- Kod za prikaz slike -->
-                    <td>
-                        <img *ngIf="obj.image" [src]="obj.image" alt="{{ obj.image }}" class="object-image" />
-                        <img *ngIf="!obj.image" [src]="obj.image" alt="The image does not exist."
-                            class="object-image" />
-                    </td>
-                    <!-- kraj prikaza -->
-                </tr>
-            </tbody>
-        </table>
-
-        <button color="primary" mat-raised-button [routerLink]="['/objectForm']">Add</button>
+    <div id="object">
+        <img id="imgb" src="../../../../assets/screenshot4.png">
+            <p class="object-title">Facilities</p>
+            <hr>
+            <div id="object-details">
+                <div class="card-container">
+                    <div class="card" *ngFor="let obj of object">
+                      <div class="card-content">
+                        <img *ngIf="obj.image" [src]="obj.image" alt="{{ obj.image }}" class="card-image" />
+                        <img *ngIf="!obj.image" [src]="obj.image" alt="The image does not exist." class="card-image" />
+                        <h3>{{ obj.name }}</h3>
+                        <p>{{ obj.description }}</p>
+                        <p><strong>Category:</strong> 
+                            {{ obj.category }}
+                        </p>
+                        <p><strong>Longitude:</strong> 
+                            {{obj.longitude}}
+                        </p>
+                        <p><strong>Latitude:</strong> 
+                            {{obj.latitude}}
+                        </p>
+                      </div>
+                  </div>
+                  <div class="card add-card">
+                    <button color="primary" [routerLink]="['/objectForm']" mat-icon-button>
+                      <img src="assets/icons/add.png" alt="Add Icon"/>
+                  </button>                
+                  </div>
+            </div>
     </div>
 </div>
