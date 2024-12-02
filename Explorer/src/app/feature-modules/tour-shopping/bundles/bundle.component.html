@@ -1,0 +1,47 @@
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading bundles...</p>
+</div>
+
+<div *ngIf="!isLoading">
+    <div id="bundle">
+        <p>Bundles</p>
+        <hr>
+        <div id="buttonPlace">
+            <button (click)="createNewBundle()">Create New Bundle</button> <!-- New Create button -->
+        </div>
+        <br>
+        <div id="bundle-details">
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tours</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let b of bundles">
+                            <td>{{ b.id }}</td>
+                            <td>
+                                <a href="javascript:void(0)" (click)="viewTours(b.tourIds)">
+                                    {{ b.tourIds.length }} tours
+                                </a>
+                            </td>
+                            <td>{{ b.price | currency }}</td>
+                            <td>{{ getStatusText(b.status) }}</td>
+                            <td>
+                                <button (click)="updateBundleStatus(b)">
+                                    {{ getButtonLabel(b.status) }}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

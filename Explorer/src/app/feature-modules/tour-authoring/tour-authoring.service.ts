@@ -9,6 +9,7 @@ import { Object } from './model/object.model';
 import { Tour } from './model/tour.model';
 import { environment } from 'src/env/environment';
 import { TransportInfo, TransportType } from './model/transportInfo.model';
+import { KeyPoint } from './model/key-point.model';
 
 @Injectable({
   providedIn: 'root'
@@ -165,7 +166,16 @@ export class TourAuthoringService {
   private toRad(value: number): number {
     return value * Math.PI / 180;
   }
+
   updateTransportInfo(tourId: number, transportInfo: TransportInfo): Observable<void> {
     return this.http.put<void>(`${environment.apiHost}administration/tour/${tourId}/transport-info`, transportInfo);
-}
+  }
+
+  getKeyPointById(id:number):Observable<KeyPoint>{
+    return this.http.get<KeyPoint>(environment.apiHost + 'administrator/keyPoint?id=' + id);
+  }
+
+  getObjectById(id:number):Observable<Object>{
+    return this.http.get<Object>('https://localhost:44333/by?id=' + id);
+  }
 }

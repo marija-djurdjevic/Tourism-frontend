@@ -35,10 +35,15 @@ import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tou
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
+import { PublishRequest } from 'src/app/feature-modules/tour-execution/model/publish-request.model';
+import { PublishRequestComponent } from 'src/app/feature-modules/tour-execution/publish-request-list/publish-request-list.component';
 import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
 import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
 import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
 import { AddEncounterComponent } from 'src/app/feature-modules/encounters/add-encounter/add-encounter.component';
+import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
+import { BundleComponent } from 'src/app/feature-modules/tour-shopping/bundles/bundle.component';
+import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bundle-create/bundle-create.component';
 
 const routes: Routes = [
   {
@@ -77,7 +82,7 @@ const routes: Routes = [
     component: TourPreferencesComponent,
     canActivate: [AuthGuard],
   },
- // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
+  // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
   {
     path: 'problem',
     component: TourProblemComponent,
@@ -153,10 +158,26 @@ const routes: Routes = [
   { path: 'tourList', component: TourListComponent },
   { path: 'explore', component: ExploreToursComponent },
   { path: 'encountersMap', component: EncountersComponent },
+  {
+    path: 'wallet',
+    component: WalletComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bundles',
+    component: BundleComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bundle-create',
+    component: BundleCreateComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

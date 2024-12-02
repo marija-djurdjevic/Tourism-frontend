@@ -65,12 +65,15 @@ export class PurchasedToursComponent {
 
 
   showKeyPoints(tour: Tour): void {
-    this.service.getKeyPoints().subscribe(keyPoints => {
-      this.selectedTourKeyPoints = keyPoints.filter(kp => kp.tourId === tour.id);
-      this.isKeyPointsModalOpen = true; // Open the modal
-    });
+    if (tour.id !== undefined) { // Check if tour.id is defined
+      this.service.getKeyPoints().subscribe(keyPoints => {
+        this.selectedTourKeyPoints = keyPoints.filter(kp => kp.tourIds.includes(tour.id!)); // Use tour.id safely
+        this.isKeyPointsModalOpen = true; // Open the modal
+      });
+    } else {
+      console.error('Tour ID is undefined');
+    }
   }
-
   closeKeyPointsModal(): void {
     this.isKeyPointsModalOpen = false; // Close the modal
     this.selectedTourKeyPoints = []; // Clear key points data
@@ -108,6 +111,28 @@ onStartTourSession(tourId: number): void {
   } else {
     console.warn('Lokacija ili tourId nisu dostupni za startovanje ture.');
   }
+}
+
+confirmAction(tourId: number): void {
+  
+  const message ='Are you sure you want to refund this tour?';
+
+  if (window.confirm(message)) {
+    this.onRefundTour(tourId);
+  }
+}
+
+
+onRefundTour(tourId: number) {
+  this.service.refundTour(tourId).subscribe({
+    next: (tour) => {
+      console.log('Tour refunded successfully:', tour);
+      window.location.reload()
+    },
+    error: (err) => {
+      console.error('Error refunding tour:', err);
+    },
+  });
 }
 
 

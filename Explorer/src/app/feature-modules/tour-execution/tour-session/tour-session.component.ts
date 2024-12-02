@@ -454,6 +454,7 @@ export class TourSessionComponent implements OnInit {
       CompletedTime: new Date()
     };
     this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
+    encounter.isCompletedByMe = true;
     this.completed = this.encounters.filter(e => e.isCompletedByMe == true);
     this.loadEncounters();
     this.createExecution(encounterExecution);

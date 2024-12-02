@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Account } from './model/account.model';
 import { Encounter } from '../encounters/model/encounter.model';
+// import { Encounter } from './model/encounter.model';
+import { Wallet } from '../tour-shopping/model/wallet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +55,14 @@ export class AdministrationService {
 
   updateEncounter(id: number | undefined, encounter: Encounter): Observable<Encounter> {
     return this.http.put<Encounter>(`${environment.apiHost}administrator/encounter/${id}`, encounter);
+  }
+
+  getAllWallets(): Observable<PagedResults<Wallet>> {
+    return this.http.get<PagedResults<Wallet>>(environment.apiHost + 'administrator/wallet')
+  }
+
+  updateWallet(updatedWallet: Wallet): Observable<Wallet> {
+    return this.http.put<Wallet>(environment.apiHost + 'administrator/wallet', updatedWallet)
   }
 
 }

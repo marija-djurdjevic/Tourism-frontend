@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { TourSessionComponent } from './tour-session/tour-session.component';
 import { TourListComponent } from './tour-list/tour-list.component';
 import { AddEncounterComponent } from '../encounters/add-encounter/add-encounter.component';
+import { PublishRequestComponent } from './publish-request-list/publish-request-list.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AddEncounterComponent } from '../encounters/add-encounter/add-encounter
     TourProblemComponent,
     TourSessionComponent,
     TourListComponent,
-    AddEncounterComponent
+    AddEncounterComponent,
+    PublishRequestComponent
   ],
   imports: [
     CommonModule,
@@ -42,8 +44,8 @@ import { AddEncounterComponent } from '../encounters/add-encounter/add-encounter
     MatNativeDateModule,
 
 
-],
-  exports: [ 
+  ],
+  exports: [
     ProblemReportComponent,
     ProblemFormComponent,
     TourPreferencesComponent,

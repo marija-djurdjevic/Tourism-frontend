@@ -12,6 +12,8 @@
                     <th>Role</th>
                     <th>Email</th>
                     <th>Is active</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,11 +23,32 @@
                     <td>{{acc.email}}</td>
                     <td>{{acc.isActive}}</td>
                     <td>
+                        <button color="primary" type="submit" mat-raised-button (click)="showWallet(acc.id ?? 0)"> 
+                            Manage Wallet $
+                        </button>
+                    </td>
+                    <td>
                         <button color="primary" type="submit" mat-raised-button (click)="blockAccount(acc)">Block
                             account</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <!-- Inline Popup for Wallet -->
+    <div *ngIf="showWalletPopup" class="wallet-popup">
+        <div class="popup-content">
+            <h2>Manage Wallet</h2>
+            <p><strong>Tourist ID:</strong> {{ selectedWallet?.touristId }}</p>
+            <p><strong>Balance:</strong> {{ selectedWallet?.balance }}</p>
+            <div>
+                <button class="plus" mat-raised-button color="primary" (click)="increaseBalance()">+</button>
+                <button class="minus" mat-raised-button color="warn" (click)="decreaseBalance()">-</button>
+            </div>
+            <div class="popup-actions">
+                <button mat-button (click)="closePopup()">Cancel</button>
+                <button mat-raised-button color="primary" (click)="saveWallet()">Save</button>
+            </div>
+        </div>
     </div>
 </div>

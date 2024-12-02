@@ -126,6 +126,10 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate(['/tourReviews']);
   }
 
+  myBundles(): void {
+    this.router.navigate(['/bundles']);
+  }
+
   setPreferences(): void {
     this.router.navigate(['/tour-preferences']);
   }
@@ -136,6 +140,10 @@ export class UserProfileComponent implements OnInit {
 
   toggleEdit(): void {
     this.isEditing = !this.isEditing;
+  }
+
+  seeWallet(): void {
+    this.router.navigate(['/wallet']);
   }
 }
 
