@@ -1,79 +1,104 @@
-/* Container for everything */
-#club-container {
-    margin-top: 40px;
-    padding-left: 30px; /* Shift content slightly */
-}
+#imgb {
+    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    top: 0;
+    left: 0;
+    height: 100%;  /* Pokriva celu visinu ekrana */
+    width: 100%;   /* Pokriva celu širinu ekrana */
+    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+    z-index: -1;  /* Da bude ispod sadržaja */
+    opacity: 0.5;  /* Bleda slika */
+  }
+  
+  #club {
+      display: flex;
+      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+      align-items: center; /* Horizontalno centrirano */
+      flex-direction: column; /* Elementi idu vertikalno */
+      margin-top: 20px; /* Dodatni razmak od vrha */
+  }
+  
+  #club-details {
+      display: flex;
+      flex-direction: column; /* Ili row ako kartice treba horizontalno */
+      justify-content: center; /* Centriranje horizontalno */
+      align-items: center; /* Centriranje vertikalno */
+      gap: 50px; /* Razmak između elemenata */
+      width: 100%; /* Koristi celu širinu roditelja */
+  }
+  
+  .club-title {
+      font-size: 2em; /* Povećava veličinu fonta */
+      font-weight: bold; /* Čini tekst debljim */
+      text-align: center; /* Centriranje naslova */
+      margin-bottom: 10px; /* Razmak između naslova i linije */
+      color: black; /* Boja naslova (možeš prilagoditi) */
+  }
+  
+  .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Razmak između kartica */
+      justify-content: center; /* Centriranje kartica */
+      width: 100%; /* Osiguraj da zauzima punu širinu */
+      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
+      margin: 0 auto; /* Centriranje na sredinu */
+  }
+    
+    .card {
+      border-radius: 8px; /* Zaobljeni uglovi */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
+      width: 300px; /* Širina kartice */
+      padding: 16px; /* Unutrašnji razmak */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px;
+      background-color: #ffffff;
+      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      transition: transform 0.3s ease-in-out;
+    }
+  
+    .card-content {
+      margin: 10px;
+      text-align: left; /* Tekst poravnat na levo */
+      width: 100%; /* Puni širinu kartice */
+    }
 
-p {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-hr {
-    margin-bottom: 20px;
-}
-
-/* Flexbox for side-by-side layout */
-#club-details {
-    display: flex;
-    justify-content: space-between; /* Ensure table and form are on the left and right */
-    align-items: flex-start;
-}
-
-/* Table Container */
-#club-table {
-    width: 50%;               /* Take up 50% of the screen */
-    padding-right: 20px;      /* Add space between table and form */
-    box-sizing: border-box;   /* Ensure padding doesn't push it out of the container */
-}
-
-table {
-    width: 100%;              /* Table takes full width of the container */
-    border-collapse: collapse;
-    font-size: 1em;
-    font-family: sans-serif;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
-}
-
-th, td {
-    padding: 12px 15px;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
-}
-
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
-}
-
-.club-image {
-    width: 100px;
-    height: auto;
-    border-radius: 5px;
-    object-fit: cover;
-}
-
-/* Form Container */
-#club-form {
-    width: 50%;              /* Take up the other 50% of the screen */
-    padding-left: 20px;      /* Add space between table and form */
-    box-sizing: border-box;  /* Ensure padding doesn't push it out */
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .card-content h3 {
+      margin: 0;
+      font-size: 20px;  /* Adjust this value to make it larger or smaller */
+      font-weight: bold;  /* Make the text bold */
+  }
+    
+    .card-content p {
+      margin: 8px 0;
+      color: #666;
+    }
+    
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+  
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+    }
+    
+    .add-card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: auto; /* Visina dodaj kartice */
+      border: 2px dashed #ddd; /* Stilska granica za dodavanje */
+      color: #aaa;
+      text-align: center;
+    }
