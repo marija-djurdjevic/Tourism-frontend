@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { TourSessionComponent } from './tour-session/tour-session.component';
 import { TourListComponent } from './tour-list/tour-list.component';
 import { PublishRequestComponent } from './publish-request-list/publish-request-list.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { PublishRequestComponent } from './publish-request-list/publish-request-
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-
+    MatTooltipModule
 
   ],
   exports: [

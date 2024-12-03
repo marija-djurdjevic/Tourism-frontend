@@ -60,7 +60,7 @@
                       <div class="card-actions">
                         <!-- Ikonica za review -->
                         <div class="icon-item">
-                          <button color="primary" (click)="showReviews(t.id ?? 0)" mat-icon-button>
+                          <button color="primary" (click)="showReviews(t.id ?? 0)" mat-icon-button matTooltip="Show reviews">
                             <img src="assets/icons/review.png" alt="Review Icon" />
                           </button>
                           <span class="status-text" style="color: #34AB45;" *ngIf="isPurchased(t.id ?? 0)">Purchased</span>
@@ -70,7 +70,7 @@
                         <!-- Ikonica za shopping cart -->
                         <div class="icon-item">
                           <ng-container *ngIf="!isPurchased(t.id ?? 0) && !isTourInCart(t.id ?? 0)">
-                            <button color="primary" (click)="addToCart(t.id ?? 0, t.name, t.price)" mat-icon-button>
+                            <button color="primary" (click)="addToCart(t.id ?? 0, t.name, t.price)" mat-icon-button matTooltip="Add to cart">
                               <img src="assets/icons/shopping-cart.png" alt="Shopping Cart" />
                             </button>
                           </ng-container>

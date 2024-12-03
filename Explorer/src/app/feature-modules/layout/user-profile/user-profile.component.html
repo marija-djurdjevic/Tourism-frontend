@@ -20,10 +20,10 @@
             </p>
           </div>
           <div class="card-actions">
-            <button color="primary" *ngIf="user.role === 'tourist'" (click)="seeWallet()" mat-icon-button>
+            <button color="primary" *ngIf="user.role === 'tourist'" (click)="seeWallet()" mat-icon-button matTooltip="Show wallet">
               <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
             </button>
-            <button color="primary" (click)="toggleEdit()" mat-icon-button>
+            <button color="primary" (click)="toggleEdit()" mat-icon-button matTooltip="Edit profile">
               <img src="assets/icons/edit.png" alt="Edit Icon"/>
             </button>
           </div>

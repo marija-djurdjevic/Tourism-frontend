@@ -18,16 +18,16 @@
                   <p><strong>XP:</strong> {{ encounter.xp }}</p>
                 </div>
                 <div class="card-actions">
-                  <button color="accent" (click)="deleteEncounter(encounter)" mat-icon-button>
+                  <button color="accent" (click)="deleteEncounter(encounter)" mat-icon-button matTooltip="Delete encounter">
                     <img src="assets/icons/delete.png" alt="Delete Icon"/>
                   </button>
-                  <button color="primary" (click)="editEncounter(encounter)" mat-icon-button>
+                  <button color="primary" (click)="editEncounter(encounter)" mat-icon-button matTooltip="Edit encounter">
                     <img src="assets/icons/edit.png" alt="Edit Icon"/>
                   </button>
                 </div>
               </div>
               <div class="card add-card">
-                <button color="primary" (click)="navigateToAddEncounter()" mat-icon-button>
+                <button color="primary" (click)="navigateToAddEncounter()" mat-icon-button matTooltip="Add new encounter">
                   <img src="assets/icons/add.png" alt="Add Icon"/>
               </button>                
               </div>

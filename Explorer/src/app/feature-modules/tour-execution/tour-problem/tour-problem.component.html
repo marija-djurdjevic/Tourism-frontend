@@ -99,7 +99,7 @@
                                 <mat-form-field appearance="outline">
                                     <input matInput [(ngModel)]="comm.content" placeholder="Type your comment"/>
                                 </mat-form-field>
-                                <button color="primary" class="send-button" [disabled]="comm.content === ''" (click)="makeComment()" mat-icon-button>
+                                <button color="primary" class="send-button" [disabled]="comm.content === ''" (click)="makeComment()" mat-icon-button matTooltip="Send message">
                                     <img src="assets/icons/send.png" alt="Send Icon"/>
                                 </button>
                             </div>

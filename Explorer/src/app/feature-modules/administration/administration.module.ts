@@ -10,6 +10,7 @@ import { EncounterComponent } from './encounter/encounter.component';
 import { EncounterFormComponent } from './encounter-form/encounter-form.component';
 import { SharedModule } from "../../shared/shared.module";
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MatCardModule } from '@angular/material/card';
     ReactiveFormsModule,
     SharedModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule
 ],
     
  

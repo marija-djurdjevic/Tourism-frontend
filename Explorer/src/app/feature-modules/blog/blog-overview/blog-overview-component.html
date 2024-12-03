@@ -37,13 +37,13 @@
               </p>
             </div>
             <div class="card-actions">
-              <button color="accent" (click)="viewComments(blog.id)" mat-icon-button>
+              <button color="accent" (click)="viewComments(blog.id)" mat-icon-button matTooltip="View comments">
                 <img src="assets/icons/view.png" alt="View Icon"/>
               </button>
             </div>
           </div>
           <div class="card add-card">
-            <button color="primary" (click)="openNewBlogForm()" mat-icon-button>
+            <button color="primary" (click)="openNewBlogForm()" mat-icon-button matTooltip="Add new blog">
               <img src="assets/icons/add.png" alt="Add Icon"/>
             </button>                
           </div>
