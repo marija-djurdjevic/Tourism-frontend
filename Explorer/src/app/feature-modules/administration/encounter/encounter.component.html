@@ -17,7 +17,7 @@
                   </p>
                   <p><strong>XP:</strong> {{ encounter.xp }}</p>
                 </div>
-                <div class="card-actions">
+                <div class="card-actions" *ngIf="isAdmin(encounter.userId)">
                   <button color="accent" (click)="deleteEncounter(encounter)" mat-icon-button matTooltip="Delete encounter">
                     <img src="assets/icons/delete.png" alt="Delete Icon"/>
                   </button>

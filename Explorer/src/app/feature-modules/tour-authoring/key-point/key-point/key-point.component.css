@@ -89,3 +89,31 @@ h2 {
     letter-spacing: 1px;
     padding: 20px;
 }
+
+
+
+
+
+
+.add-encounter-button {  
+    background-color: #2ecc71; /* Svetlija zelena boja */
+    color: white; /* Bela boja teksta */
+    border: none; /* Bez okvira */
+    padding: 10px 20px; /* Unutrašnje margine */
+    border-radius: 5px; /* Zaobljeni uglovi */
+    font-size: 16px; /* Veličina fonta */
+    font-weight: bold; /* Podebljan tekst */
+    cursor: pointer; /* Kursor kao na linkovima */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animacija pri hover-u */
+    margin-bottom: 20px; /* Razmak ispod dugmeta */
+}
+
+.add-encounter-button:hover {
+    background-color: #27ae60; /* Tamnija zelena boja na hover */
+    transform: scale(1.05); /* Blago povećanje */
+}
+
+.add-encounter-button:active {
+    background-color: #1e8449; /* Još tamnija zelena pri kliku */
+    transform: scale(0.98); /* Blago smanjenje pri kliku */
+}
