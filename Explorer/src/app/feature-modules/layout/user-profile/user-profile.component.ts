@@ -6,6 +6,9 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EncounterService } from '../../encounters/encounter.service';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Encounter } from '../../encounters/model/encounter.model';
 
 @Component({
   selector: 'xp-user-profile',
@@ -19,12 +22,18 @@ export class UserProfileComponent implements OnInit {
   isEditing = false;
   role: String = '';
   isLoading = false;
+  isAdmin: boolean = false;
+  showEncountersModal: boolean = false;
+  selectedStatus: string = 'all';
+  encounters: any[] = [];
+  filteredEncounters: any[] = [];
 
   constructor(private layoutService: LayoutService,
     private router: Router,
     private authService: AuthService,
     private imageService: ImageService,
     private cd: ChangeDetectorRef,
+    private encounterService: EncounterService,
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -32,9 +41,50 @@ export class UserProfileComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
       this.role = user.role;
+      if (this.role == 'administrator') {
+        this.isAdmin = true;
+      }
     });
     this.getProfile()
+    this.loadEncounters();
+  }
 
+  loadEncounters(): void {
+    this.encounterService.getAllEncountersForAdmin().subscribe((result: PagedResults<Encounter>) => {
+      this.encounters = result.results;
+      this.filterEncounters();
+    });
+  }
+
+  showEncounters(): void {
+    this.showEncountersModal = true;
+  }
+
+  filterEncounters(): void {
+    if (this.selectedStatus === 'draft') {
+      this.filteredEncounters = this.encounters.filter(encounter => encounter.status == 0);
+    } else {
+      this.filteredEncounters = this.encounters;
+    }
+  }
+
+  activateEncounter(encounter: any): void {
+    // Logic to activate encounter
+    if (encounter.status == 0) {
+      this.encounterService.activateEncounter(encounter.id).subscribe({
+        next: (result: Encounter) => {
+          encounter.status = 1;
+          this.filterEncounters();
+          this.snackBar.open('Encounter activated', 'Close', { duration: 3000 });
+        },
+        error: () => {
+          this.snackBar.open('Unable to activate encounter', 'Close', { duration: 3000 });
+        }
+      });
+
+    } else {
+      this.snackBar.open('Unable to activate becouse status is not draft', 'Close', { duration: 3000 });
+    }
   }
 
   getProfile() {

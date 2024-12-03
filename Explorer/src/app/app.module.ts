@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
+import { SharedModule } from "./shared/shared.module";
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { EncountersComponent } from './feature-modules/encounters/encounters/enc
     MatSelectModule,
     MatOptionModule,
     MatInputModule,
-  ],
+    SharedModule
+],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

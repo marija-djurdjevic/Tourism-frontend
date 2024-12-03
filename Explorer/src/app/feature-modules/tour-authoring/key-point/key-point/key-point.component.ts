@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KeyPointService } from '../../key-point.service'; 
 import { KeyPoint } from '../../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,7 +15,7 @@ export class KeyPointComponent implements OnInit {
   newKeyPoint: KeyPoint; 
   isLoading=false;
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar) { }
+  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar,private router:Router) { }
 
   ngOnInit(): void {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId')); // Uzimanje tourId iz URL-a
@@ -85,6 +85,12 @@ export class KeyPointComponent implements OnInit {
         });
       }
     });
+  }
+
+
+
+  addEncounter(id:number|undefined){
+    this.router.navigate(['/add-encounter',id]);
   }
   
 }

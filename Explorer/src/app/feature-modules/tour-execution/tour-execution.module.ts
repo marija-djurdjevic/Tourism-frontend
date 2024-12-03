@@ -16,8 +16,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { TourSessionComponent } from './tour-session/tour-session.component';
 import { TourListComponent } from './tour-list/tour-list.component';
+import { AddEncounterComponent } from '../encounters/add-encounter/add-encounter.component';
 import { PublishRequestComponent } from './publish-request-list/publish-request-list.component';
-
 
 @NgModule({
   declarations: [
@@ -31,6 +31,7 @@ import { PublishRequestComponent } from './publish-request-list/publish-request-
     TourProblemComponent,
     TourSessionComponent,
     TourListComponent,
+    AddEncounterComponent,
     PublishRequestComponent
   ],
   imports: [

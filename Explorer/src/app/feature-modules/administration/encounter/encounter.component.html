@@ -20,7 +20,7 @@
         </div>
   
        
-        <div *ngIf="isAdmin(encounter.administratorId)" class="button-container">
+        <div *ngIf="isAdmin(encounter.userId)" class="button-container">
           <button (click)="editEncounter(encounter)" class="btn btn-edit">Edit</button>
           <button (click)="deleteEncounter(encounter)" class="btn btn-delete">Delete</button>
         </div>
