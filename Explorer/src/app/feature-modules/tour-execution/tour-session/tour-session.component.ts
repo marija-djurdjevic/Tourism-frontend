@@ -100,7 +100,6 @@ export class TourSessionComponent implements OnInit {
         }
         // kod za ucitavanje slike po id
         if (this.encounters) {
-
           this.imageService.setControllerPath("tourist/image");
           this.encounters.forEach(element => {
             if (element.imagePath) {
@@ -114,7 +113,6 @@ export class TourSessionComponent implements OnInit {
                 }
               });
             }
-
           });
         }
         //kraj
@@ -154,23 +152,22 @@ export class TourSessionComponent implements OnInit {
       }
     }
 
-    const neareastKeyPointWithEncounter = this.findNearestKeyPointWithEncounter();
+    const neareastKeyPointWithEncounter = this.findNearestSocialEncounter();
 
-    if (neareastKeyPointWithEncounter && neareastKeyPointWithEncounter.encounter?.status === 1) {
-      const neareastEncounterDistance = this.calculateDistance(
+    if (neareastKeyPointWithEncounter) {
+      const distance = this.calculateDistance(
         this.location.latitude,
         this.location.longitude,
-        neareastKeyPointWithEncounter.latitude,
-        neareastKeyPointWithEncounter.longitude
+        neareastKeyPointWithEncounter.coordinates.latitude,
+        neareastKeyPointWithEncounter.coordinates.longitude
       );
 
-      const proximityThreshold = 50;
-      if (neareastEncounterDistance <= proximityThreshold) {
+      if (distance <= (neareastKeyPointWithEncounter.range || 50)) {
         //dodaj EncounterExecution ili ako vec postoji uradi nesto u zavisnosti od izazova
         console.log("Encounter found!");
         const encounterExecution: EncounterExecution = {
           id: 0,
-          encounterId: neareastKeyPointWithEncounter.encounter.id,
+          encounterId: neareastKeyPointWithEncounter.id,
           touristId: 0
         };
 
@@ -210,6 +207,7 @@ export class TourSessionComponent implements OnInit {
     this.tourExecutionService.updateEncounterExecution(encounterExecution).subscribe({
       next: (result) => {
         console.log(result);
+        this.loadEncounters();
       },
       error: (error) => {
         console.error('Error occurred:', error);
@@ -271,26 +269,28 @@ export class TourSessionComponent implements OnInit {
     });
   }
 
-  findNearestKeyPointWithEncounter(): KeyPoint | null {
-    const sortedKeyPoints = [...this.keyPoints].sort((a, b) => {
-      const distanceA = this.calculateDistance(
-        this.location.latitude,
-        this.location.longitude,
-        a.latitude,
-        a.longitude
-      );
-      const distanceB = this.calculateDistance(
-        this.location.latitude,
-        this.location.longitude,
-        b.latitude,
-        b.longitude
-      );
+  findNearestSocialEncounter(): Encounter | null {
+    const sortedSocialEncounters = this.encounters
+      .filter(a => a.type === 0) 
+      .sort((a, b) => {
+    const distanceA = this.calculateDistance(
+      this.location.latitude,
+      this.location.longitude,
+      a.coordinates.latitude,
+      a.coordinates.longitude
+    );
+    const distanceB = this.calculateDistance(
+      this.location.latitude,
+      this.location.longitude,
+      b.coordinates.latitude,
+      b.coordinates.longitude
+    );
 
-      return distanceA - distanceB;
-    });
+    return distanceA - distanceB;
+  });
 
-    if (sortedKeyPoints[0].encounter)
-      return sortedKeyPoints[0];
+    if (sortedSocialEncounters[0])
+      return sortedSocialEncounters[0];
     else
       return null;
   }
