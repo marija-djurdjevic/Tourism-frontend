@@ -155,7 +155,7 @@ export class MapComponent implements OnInit, AfterViewInit {
         object.category = 'Parking'
         break;
       default:
-        imageUrl = object.image;
+        imageUrl = imageUrl = 'assets/other.png';
         object.category = 'Other'
     }
 

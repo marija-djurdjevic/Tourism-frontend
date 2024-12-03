@@ -1,35 +1,64 @@
-<h3>Add New Key Point</h3>
-<form (ngSubmit)="onAddKeyPoint()" class="tour-form">
-  <div class="form-container">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" [(ngModel)]="newKeyPoint.name" name="name" required />
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form (ngSubmit)="onAddKeyPoint()" class="keypoint-form">
+    <h2>Add Keypoint</h2>
+    <div class="form-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="newKeyPoint.name" type="text" name="name" placeholder="Enter keypoint name" required/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput
+                      [(ngModel)]="newKeyPoint.description"
+                      name="description"
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      placeholder="Enter keypoint description"
+                      cdkAutosizeMaxRows="5" required></textarea>
+        </mat-form-field>
+
+        <div>
+          <label for="image">Upload Image:</label>
+          <input type="file" id="image" (change)="onImageSelected($event)" />
+        </div>
+      <!-- <div *ngIf="!showImageUpload; else imageUploadTemplate" class="object-image-container">
+        <img *ngIf="profile?.imageURL" [src]="profile.imageURL" alt="{{ profile.imageURL }}" class="object-image" />
+        <img *ngIf="!profile?.imageURL" src="assets/default-image.png" alt="The image does not exist." class="object-image" />
+        <button (click)="changeImage()" type="button" mat-raised-button color="button">Change image</button>
+      </div>
+      
+      <ng-template #imageUploadTemplate>
+        <div style="margin-bottom: 16px;">
+          <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="imageURL" required></app-image-upload>
+        </div>
+      </ng-template> -->
+
+        <mat-form-field appearance="outline">
+          <mat-label>Longitude</mat-label>
+          <input matInput [(ngModel)]="newKeyPoint.longitude" name="longitude" type="number" required/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Latitude</mat-label>
+          <input matInput [(ngModel)]="newKeyPoint.latitude" name="latitude" type="number" required/>
+        </mat-form-field>
+
+        <app-map
+        [onlyOneMarker]="true"
+        (keyPointSelected)="onKeyPointSelected($event)"
+        [isAddingKeyPoints]="true">
+        </app-map>
+
+        <label>
+          <input type="checkbox" [(ngModel)]="isPublic" name="isPublic" />
+          Mark Key Point as Public
+        </label>
+
+        <div class="button-container">
+            <button mat-raised-button color="button" type="submit">
+                Add Keypoint
+            </button>
+        </div>
     </div>
-    <div class="form-group">
-      <label for="description">Description:</label>
-      <input type="text" id="description" [(ngModel)]="newKeyPoint.description" name="description" required />
-    </div>
-    <div class="form-group">
-        <label for="image">Upload Image:</label>
-        <input type="file" id="image" (change)="onImageSelected($event)" />
-    </div>
-    <div class="form-group">
-      <label for="longitude">Longitude:</label>
-      <input type="number" id="longitude" [(ngModel)]="newKeyPoint.longitude" name="longitude" required />
-    </div>
-    <div class="form-group">
-      <label for="latitude">Latitude:</label>
-      <input type="number" id="latitude" [(ngModel)]="newKeyPoint.latitude" name="latitude" required />
-      <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"  [isAddingKeyPoints]="true" ></app-map>
-    </div>
-    <div class="form-group">
-      <label>
-        <input type="checkbox" [(ngModel)]="isPublic" name="isPublic" />
-        Mark Key Point as Public
-      </label>
-    </div>
-    <div class="button-container">
-      <button type="submit" class="primary-button">Add Key Point</button>
-    </div>
-  </div>
 </form>

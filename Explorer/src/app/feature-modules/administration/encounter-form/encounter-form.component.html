@@ -1,6 +1,7 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
 <form [formGroup]="encounterForm" 
       (ngSubmit)="shouldEdit ? updateEncounter() : addEncounter()" 
-      class="tour-form">
+      class="encounter-form">
     <h2>{{ shouldEdit ? 'Update Encounter' : 'Add Encounter' }}</h2>
     <div class="form-container">
         <mat-form-field appearance="outline">
@@ -31,9 +32,9 @@
         <mat-form-field appearance="outline">
             <mat-label>Type</mat-label>
             <mat-select formControlName="type" required>
-                <mat-option value="0">Social</mat-option>
-                <mat-option value="1">Location</mat-option>
-                <mat-option value="2">Misc</mat-option>
+                <mat-option [value]="0">Social</mat-option>
+                <mat-option [value]="1">Location</mat-option>
+                <mat-option [value]="2">Misc</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -45,7 +46,7 @@
 
 
         <div class="button-container">
-            <button mat-raised-button color="primary" type="submit" [disabled]="encounterForm.invalid">
+            <button mat-raised-button color="button" type="submit" [disabled]="encounterForm.invalid">
                 {{ shouldEdit ? 'Update Encounter' : 'Add Encounter' }}
             </button>
         </div>

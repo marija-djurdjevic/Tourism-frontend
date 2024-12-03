@@ -1,3 +1,4 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
 <form [formGroup]="tourForm"
  (ngSubmit)="shouldEdit ? updateTour() : addTour()"
   class="tour-form">
@@ -41,18 +42,17 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Tags</mat-label>
-            <input 
-              matInput 
-              [(ngModel)]="newTag" 
-              [ngModelOptions]="{standalone: true}" 
-              placeholder="Enter a tag" 
-              (keyup.enter)="addTag()">
-          </mat-form-field>
-        
-        <div>
-            <button mat-raised-button color="primary" type="button" (click)="addTag()" [disabled]="tourForm.invalid">
+        <div class="add-tag">
+            <mat-form-field appearance="outline">
+                <mat-label>Tags</mat-label>
+                <input 
+                  matInput 
+                  [(ngModel)]="newTag" 
+                  [ngModelOptions]="{standalone: true}" 
+                  placeholder="Enter a tag" 
+                  (keyup.enter)="addTag()">
+            </mat-form-field>
+            <button mat-raised-button class="add-tag-button" type="button" (click)="addTag()" [disabled]="tourForm.invalid">
                 Add Tag
             </button>
         </div>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="button-container">
-            <button mat-raised-button color="primary" type="submit" [disabled]="tourForm.invalid">
+            <button mat-raised-button color="button" type="submit" [disabled]="tourForm.invalid">
                 {{ shouldEdit ? 'Update Tour' : 'Add Tour' }}
             </button>
         </div>
