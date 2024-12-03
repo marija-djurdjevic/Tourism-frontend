@@ -1,12 +1,12 @@
 <img id="imgb" src="../../../../assets/screenshot4.png">
 <form #searchForm="ngForm" 
       class="search-form">
-    <h2>Tour Search</h2>
+    <h2>Please select the desired location on the map</h2>
     <div class="form-container">
 
         <mat-form-field appearance="outline">
           <mat-label>Distance (km)</mat-label>
-          <input matInput type="number" id="distance" name="distance" placeholder="Enter distance" [(ngModel)]="searchCriteria.distance" required #distanceInput="ngModel"/>
+          <input matInput type="number" id="distance" min="1" name="distance" placeholder="Enter distance" [(ngModel)]="searchCriteria.distance" required #distanceInput="ngModel"/>
         </mat-form-field>
 
         <div *ngIf="distanceInput.invalid && distanceInput.touched">
