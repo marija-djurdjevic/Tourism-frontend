@@ -42,15 +42,26 @@
 
         </table>
         <div id="pop" *ngIf="flag">
-            <button id="iks" (click)="close()">X</button>
-            <button (click)="seeProb()">See problem</button>
-            <button (click)="solve()">Mark as solved</button>
+            <div class="popup-content">
+                <button mat-button id="iks" (click)="close()">X</button>
+                <button mat-raised-button class="pop-button" (click)="seeProb()">See problem</button>
+                <button mat-raised-button class="pop-button" (click)="solve()">Mark as solved</button>
+            </div>
         </div>
         <div id="pop2" *ngIf="flag2">
-            <button id="ikss" (click)="close()">X</button>
-            Leave comment:
-            <input type="text" [(ngModel)]="comm.content">
-            <button (click)="finalSolve()"> <img src="../../../../assets/icons/resolve.png"></button>
+            <div class="popup-content2">
+                <button mat-button id="iks" (click)="close()">X</button>
+                <mat-form-field appearance="outline">
+                    <mat-label>Comment</mat-label>
+                    <textarea matInput
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="1"
+                    [(ngModel)]="comm.content"
+                    cdkAutosizeMaxRows="5"></textarea>
+                </mat-form-field>
+
+                <button mat-raised-button class="pop-button" (click)="finalSolve()">Mark as solved</button>
+            </div>
         </div>
         <div id="pop3" *ngIf="flag3">
             <div class="popup-content3">
@@ -76,7 +87,7 @@
                     </mat-select>
                 </mat-form-field>
 
-            <button mat-raised-button class="pop-button" (click)=deadlineSet()>Set deadline</button>
+                <button mat-raised-button class="pop-button" (click)=deadlineSet()>Set deadline</button>
             </div>
         </div>
 
