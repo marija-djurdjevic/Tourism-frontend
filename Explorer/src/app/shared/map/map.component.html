@@ -1,8 +1,8 @@
 <div class="search-bar">
   <div class="input-button">
     <mat-form-field appearance="outline">
-      <mat-label>Address (street, city)</mat-label>
-      <input matInput *ngIf="onlyOneMarker" [(ngModel)]="searchQuery" placeholder="Enter Street, City" />
+      <mat-label>Address (Optional)</mat-label>
+      <input matInput *ngIf="onlyOneMarker" [(ngModel)]="searchQuery" placeholder="Enter in format Street, City" />
     </mat-form-field>  
     <button color="primary" (click)="search()" mat-icon-button>
       <img src="assets/icons/search.png" alt="Search Icon"/>
