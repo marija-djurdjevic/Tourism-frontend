@@ -1,8 +1,18 @@
-<div class="glavni-div">
-    <div style="width: 800px;">
-        <label for="">Please select your location on map</label>
-        <app-map [onlyOneMarker]="true" [initialCenter]="[location.latitude,location.longitude]"
-            (locationSelected)="onLocationSelected($event)"></app-map>
-            <button  *ngIf="!hideFinishButton" class="return-button" mat-raised-button (click)="goBack()">Finish</button>
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form class="location-form">
+    <h2>Please select your location on the map</h2>
+    <div class="form-container">
+
+        <app-map
+        [onlyOneMarker]="true"
+        [initialCenter]="[location.latitude,location.longitude]"
+        (locationSelected)="onLocationSelected($event)">
+        </app-map>
+
+        <div class="button-container">
+            <button mat-raised-button color="button" (click)="goBack()" *ngIf="!hideFinishButton">
+                Finish
+            </button>
+        </div>
     </div>
-</div>
+</form>
