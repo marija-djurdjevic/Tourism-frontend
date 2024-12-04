@@ -19,7 +19,7 @@ export class ShoppingCartComponent implements OnInit{
   user: User;
   isLoading = false;
   enteredCouponCode: string = '';
-  appliedCoupons: Coupon[] | null = null
+  appliedCoupons: Coupon[] | null = []
   constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private authService: AuthService, private tourService: TourAuthoringService) {}
 
   ngOnInit(): void {
