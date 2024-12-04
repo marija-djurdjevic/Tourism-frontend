@@ -4,6 +4,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ExploreToursComponent } from './explore-tours/explore-tours.component';
 import { PurchasedToursComponent } from './purchased-tours/purchased-tours.component';
 import { WalletComponent } from './wallet/wallet.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +16,8 @@ import { WalletComponent } from './wallet/wallet.component';
     WalletComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ]
 })
 export class TourShoppingModule { }

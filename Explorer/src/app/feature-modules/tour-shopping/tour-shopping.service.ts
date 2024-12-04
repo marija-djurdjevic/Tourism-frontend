@@ -43,6 +43,10 @@ export class TourShoppingService {
     return this.http.get<Wallet>(environment.apiHost + "tourist/wallet/balance")
   }
 
+  updateWallet(wallet: Wallet): Observable<Wallet> {
+    return this.http.put<Wallet>(`${environment.apiHost}tourist/wallet/update`, wallet);
+  }
+
   getCouponsByAuthorId(id: number): Observable<Coupon[]> {
     return this.http.get<Coupon[]>(environment.apiHost + "author/coupon/" + id)
   }
@@ -57,6 +61,10 @@ export class TourShoppingService {
 
   updateCoupon(coupon: Coupon): Observable<Coupon> {
     return this.http.put<Coupon>(environment.apiHost + 'author/coupon/' + coupon.id, coupon);
+  }
+
+  getCouponByCode(code: string): Observable<Coupon>{
+    return this.http.get<Coupon>(environment.apiHost + "tourist/coupon/" + code)
   }
 
   
