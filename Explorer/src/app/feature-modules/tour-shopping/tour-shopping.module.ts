@@ -9,6 +9,8 @@ import { BundleCreateComponent } from './bundle-create/bundle-create.component';
 import { FormsModule } from '@angular/forms';
 import { SalesComponent } from './sales/sales.component';
 import { SaleCreationComponent } from './sales-create/sales-create.component';
+import { MaterialModule } from 'src/app/infrastructure/material/material.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { SaleCreationComponent } from './sales-create/sales-create.component';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    MaterialModule,
+    MatTooltipModule
   ]
 })
 export class TourShoppingModule { }

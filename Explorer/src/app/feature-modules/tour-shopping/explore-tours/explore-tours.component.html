@@ -5,128 +5,105 @@
 
 <div *ngIf="!isLoading">
     <div id="tour">
-        <p>Explore Tours</p>
-        <hr>
-        <div id="buttonPlace">
-            <button (click)="searchTours()">Search tours</button>
-        </div>
-        <br>
-        <div id="tour-details">
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>Tags</th>
-                            <th>Starting Key Point</th> <!-- New column for the first key point -->
-                            <th>Duration</th> <!-- New column for duration -->
-                            <th>Distance</th> <!-- New column for distance -->
-                            <th>Reviews</th>
-                            <th>Status / Action</th> <!-- Merged column for status and actions -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let t of tours" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
-                            <td>{{ t.name }}</td>
-                            <td>{{ t.description }}</td>
-                            <td>{{ t.price | currency }}</td>
-                            <td>{{ t.tags }}</td>
-                            <td>
-                                <!-- Check if there is at least one key point and display properties on separate lines -->
-                                <div *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
-                                    <!-- Name of the first key point -->
-                                    <div>{{ t.keyPoints[0].name }}</div>
-
-                                    <!-- Image of the first key point -->
-                                    <div>
-                                        <img [src]="t.keyPoints[0].imagePath" alt="{{ t.keyPoints[0].name }}" width="80"
-                                            height="auto" style="margin-top: 5px;">
-                                    </div>
-
-                                    <!-- Description of the first key point -->
-                                    <div>{{ t.keyPoints[0].description }}</div>
-                                </div>
-
-                                <!-- Fallback for when there are no key points -->
-                                <ng-template #noKeyPoint>
-                                    <div>N/A</div>
-                                </ng-template>
-                            </td>
-
-                            <!-- Duration Column -->
-                            <td>
-                                <ng-container *ngIf="t.transportInfo; else noTransportInfo">
-                                    {{ t.transportInfo.time }} minutes
-                                </ng-container>
-                                <ng-template #noTransportInfo>
-                                    <div>N/A</div>
-                                </ng-template>
-                            </td>
-
-                            <!-- Distance Column -->
-                            <td>
-                                <ng-container *ngIf="t.transportInfo; else noTransportInfoDistance">
-                                    {{ t.transportInfo.distance }} km
-                                </ng-container>
-                                <ng-template #noTransportInfoDistance>
-                                    <div>N/A</div>
-                                </ng-template>
-                            </td>
-                            <td>
-                                <button (click)="showReviews(t.id ?? 0)">
-                                    Show Reviews
-                                </button>
-                            </td>
-
-                            <!-- Merged Status / Action Column -->
-                            <td>
-                                <ng-container *ngIf="isPurchased(t.id ?? 0); else notPurchased">
-                                    <span style="color: green; font-weight: bold;">Purchased</span>
-                                </ng-container>
-                                <ng-template #notPurchased>
-                                    <ng-container *ngIf="isTourInCart(t.id ?? 0); else addToCartButton">
-                                        <span style="color: blue; font-weight: bold;">In Cart</span>
-                                    </ng-container>
-                                    <ng-template #addToCartButton>
-                                        <button (click)="addToCart(t.id ?? 0, t.name, t.price)">
-                                            Add <img src="assets/icons/cart.png" alt="Shopping Cart" width="20"
-                                                height="20" style="vertical-align: middle;">
-                                        </button>
-                                    </ng-template>
-                                </ng-template>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <img id="imgb" src="../../../../assets/screenshot4.png">
+            <p class="tour-title">Explore Tours</p>
+            <hr>
+            <div class="button-container">
+                <button mat-raised-button class="search-button" (click)="searchTours()">
+                    Search tours
+                </button>
             </div>
-        </div>
+            <div id="tour-details">
+                <div class="card-container">
+                    <div class="card" *ngFor="let t of tours" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
+                      <div class="card-content">
+                        <h3>{{ t.name }}</h3>
+                        <p>{{ t.description }}</p>
+                        <p><strong>Price:</strong> 
+                            {{ t.price | currency }}
+                        </p>
+                        <p><strong>Tags:</strong> 
+                            {{ t.tags }}
+                        </p>
+                        <p><strong>Tags:</strong> 
+                            <ng-container *ngIf="t.transportInfo; else noTransportInfo">
+                                {{ t.transportInfo.time }} minutes
+                            </ng-container>
+                            <ng-template #noTransportInfo>
+                                <div>N/A</div>
+                            </ng-template>
+                        </p>
+                        <p><strong>Distance:</strong> 
+                            <ng-container *ngIf="t.transportInfo; else noTransportInfoDistance">
+                                {{ t.transportInfo.distance }} km
+                            </ng-container>
+                            <ng-template #noTransportInfoDistance>
+                                <div>N/A</div>
+                            </ng-template>
+                        </p>
+                        <div *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
+                            <img [src]="t.keyPoints[0].imagePath" alt="{{ t.keyPoints[0].name }}" class="card-image" />
+                            <p><strong>First keypoint's name: </strong> 
+                                {{ t.keyPoints[0].name }}
+                            </p>
+                            <p><strong>First keypoint's description: </strong> 
+                                {{ t.keyPoints[0].description }}
+                            </p>
+                        </div>
 
+                        <ng-template #noKeyPoint>
+                            <p><strong>First keypoint's name: N/A</strong> 
+                            </p>
+                        </ng-template>
 
-        <!-- Reviews Modal -->
-        <div class="modal-overlay" *ngIf="isReviewsModalOpen">
-            <div class="modal-content">
-                <h2 style="color: #2ecc71;">Reviews</h2>
+                      </div>
+                      <div class="card-actions">
+                        <!-- Ikonica za review -->
+                        <div class="icon-item">
+                          <button color="primary" (click)="showReviews(t.id ?? 0)" mat-icon-button matTooltip="Show reviews">
+                            <img src="assets/icons/review.png" alt="Review Icon" />
+                          </button>
+                          <span class="status-text" style="color: #34AB45;" *ngIf="isPurchased(t.id ?? 0)">Purchased</span>
+                          <span class="status-text" style="color: black;" *ngIf="!isPurchased(t.id ?? 0) && isTourInCart(t.id ?? 0)">In Cart</span>
+                        </div>
+                      
+                        <!-- Ikonica za shopping cart -->
+                        <div class="icon-item">
+                          <ng-container *ngIf="!isPurchased(t.id ?? 0) && !isTourInCart(t.id ?? 0)">
+                            <button color="primary" (click)="addToCart(t.id ?? 0, t.name, t.price)" mat-icon-button matTooltip="Add to cart">
+                              <img src="assets/icons/shopping-cart.png" alt="Shopping Cart" />
+                            </button>
+                          </ng-container>
+                        </div>
+                      </div>
+                      
+                  </div>
+            </div>
+    </div>
 
-                <!-- Reviews displayed as cards -->
-                <p style="color: #2ecc71;" *ngIf="!selectedTourReviews || selectedTourReviews.length === 0">No reviews
-                    for this tour</p>
+    <!-- Reviews Modal -->
+    <div class="modal-overlay" *ngIf="isReviewsModalOpen">
+        <div class="modal-content">
+            <h2>Reviews</h2>
+
+            <!-- Reviews displayed as cards -->
+            <p *ngIf="!selectedTourReviews || selectedTourReviews.length === 0">No reviews
+                for this tour</p>
+            <div class="card-list">
                 <div *ngFor="let review of selectedTourReviews" class="review-card">
                     <div class="card-header">
-                        <h3 style="color: #2ecc71;">{{ review.username }}</h3>
-                        <span class="rating">
-
+                        <h3>{{ review.username }}</h3>
+                        <span>
                             <ng-container *ngFor="let star of [].constructor(5); let i = index">
-                                <span [style.color]="(review.grade || 0) > i ? '#f1c40f' : '#ccc'">
+                                <span [style.color]="(review.grade || 0) > i ? 'gold' : 'lightgray'">
                                     {{ (review.grade || 0) > i ? '★' : '☆' }}
                                 </span>
                             </ng-container>
                         </span>
                     </div>
                     <div class="card-content">
-                        <p style="color: black; font-size: 20px;"><strong>{{ review.comment }}</strong> </p>
-
+                        <p>{{ review.comment }}</p>
+    
                         <!-- Images Section -->
                         <div *ngFor="let image of review.reviewImages"
                             style="display: inline-block; margin-right: 5px;">
@@ -134,10 +111,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-
-
-                <button (click)="closeReviewsModal()" class="close-button">Close</button>
+            <div class="popup-actions">
+                <button mat-button id="iks" (click)="closeReviewsModal()">X</button>
             </div>
         </div>
     </div>
+</div>
+

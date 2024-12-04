@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EncounterService } from '../encounter.service'; 
-import { Encounter } from '../../administration/model/encounter.model'; 
+import { Encounter } from '../../encounters/model/encounter.model'; 
 import * as L from 'leaflet';
 
 @Component({

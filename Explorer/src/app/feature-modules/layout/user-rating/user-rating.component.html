@@ -1,7 +1,8 @@
-<form [formGroup]="ratingForm">
-    <div class="rating-container">
-        <!-- Rating Selection (Stars) -->
-        <mat-form-field appearance="fill">
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form [formGroup]="ratingForm" class="rating-form">
+  <h2>Add Rating</h2>
+    <div class="form-container">
+        <mat-form-field appearance="outline">
           <mat-label>Rate us</mat-label>
           <mat-select matInput formControlName="rating" class="stars" required>
             <mat-option *ngFor="let star of [5, 4, 3, 2, 1]" [value]="star">
@@ -13,17 +14,22 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      
-        <!-- Comment Box -->
-        <mat-form-field appearance="fill">
+
+        <mat-form-field appearance="outline">
           <mat-label>Comment (optional)</mat-label>
-          <textarea matInput placeholder="Write your comment..." matInput formControlName="comment"></textarea>
+          <textarea matInput
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="1"
+                        formControlName="comment"
+                        placeholder="Enter your comment"
+                        cdkAutosizeMaxRows="5"></textarea>
         </mat-form-field>
-      
-        <!-- Submit Button -->
-        <button mat-raised-button color="primary" (click)="submitRating()" [disabled]="!ratingForm.valid">
-          Submit Rating
-        </button>
+
+        <div class="button-container">
+            <button mat-raised-button color="button" type="submit" (click)="submitRating()" [disabled]="!ratingForm.valid">
+              Add Rating
+            </button>
+        </div>
     </div>
 </form>
 
