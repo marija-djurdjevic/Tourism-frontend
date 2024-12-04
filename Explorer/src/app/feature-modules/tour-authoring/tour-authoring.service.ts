@@ -10,6 +10,7 @@ import { Tour } from './model/tour.model';
 import { environment } from 'src/env/environment';
 import { TransportInfo, TransportType } from './model/transportInfo.model';
 import { Tourist } from './model/tourist.model';
+import { KeyPoint } from './model/key-point.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,16 @@ export class TourAuthoringService {
 
   getToursByAuthorId(authorId: number, page: number = 1, pageSize: number = 10): Observable<PagedResults<Tour>> {
     return this.http.get<PagedResults<Tour>>(`${environment.apiHost}administration/tour/by-author`, {
+      params: {
+        id: authorId.toString(),
+        page: page.toString(),
+        pageSize: pageSize.toString()
+      }
+    });
+  }
+
+  getToursByAuthorIdAsTourist(authorId: number, page: number = 1, pageSize: number = 100): Observable<PagedResults<Tour>> {
+    return this.http.get<PagedResults<Tour>>(`${environment.apiHost}tourist/tour/by-author`, {
       params: {
         id: authorId.toString(),
         page: page.toString(),
@@ -166,6 +177,7 @@ export class TourAuthoringService {
   private toRad(value: number): number {
     return value * Math.PI / 180;
   }
+
   updateTransportInfo(tourId: number, transportInfo: TransportInfo): Observable<void> {
     return this.http.put<void>(`${environment.apiHost}administration/tour/${tourId}/transport-info`, transportInfo);
 }
@@ -197,4 +209,12 @@ getInvitations(): Observable<PagedResults<Clubs>> {
   return this.http.get<PagedResults<Clubs>>(`${environment.apiHost}administration/club/invitations`);
 }
 
+
+  getKeyPointById(id:number):Observable<KeyPoint>{
+    return this.http.get<KeyPoint>(environment.apiHost + 'administrator/keyPoint?id=' + id);
+  }
+
+  getObjectById(id:number):Observable<Object>{
+    return this.http.get<Object>('https://localhost:44333/by?id=' + id);
+  }
 }

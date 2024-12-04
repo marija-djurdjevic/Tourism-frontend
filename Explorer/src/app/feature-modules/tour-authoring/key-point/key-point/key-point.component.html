@@ -1,23 +1,48 @@
-<h2>Key Points for Tour {{ tourId }}</h2>
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading key points...</p>
+</div>
 
-<hr />
+<div *ngIf="!isLoading">
+    <h2>Key Points for Tour {{ tourId }}</h2>
 
-<div id="tour" class="tour-container">
-    <h3>Existing Key Points</h3>
-    <div class="tour-content">
-        <div class="card-container">
-            <div class="card" *ngFor="let keyPoint of keyPoints">
-                <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
-                <div class="card-content">
-                    <h4>{{ keyPoint.name }}</h4>
-                    <p><strong>Description:</strong> {{ keyPoint.description }}</p>
-                    <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
-                    <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
+    <h3 >
+        Here you can view all the key points for this tour. Feel free to edit or delete any key point as needed to ensure the tour information is accurate and up-to-date.
+    </h3>
+
+    <div id="tour" class="tour-container">
+        
+        <div class="tour-content">
+            <div class="card-container">
+                <div class="card" *ngFor="let keyPoint of keyPoints">
+                    <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
+                    <div class="card-content">
+                        <h4>{{ keyPoint.name }}</h4>
+                        <p><strong>Description:</strong> {{ keyPoint.description }}</p>
+                        <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
+                        <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
+                        <button class="add-encounter-button" (click)="addEncounter(keyPoint.id)" >Add encounter</button>
+                    </div>
+                    <div class="card-footer">
+                        <ng-container *ngIf="keyPoint.status === 2">
+                            <span class="status-label">This key point is public!</span>
+                        </ng-container>
+                        <ng-container *ngIf="keyPoint.status !== 2">
+                            <button class="btn secondary-btn" (click)="onEdit(keyPoint)">
+                                Edit
+                            </button>
+                            <button class="btn secondary-btn" (click)="keyPoint.id !== undefined ? onDelete(keyPoint.id) : null">
+                                Delete
+                            </button>
+                        </ng-container>
+                    </div>
+                    
                 </div>
             </div>
-        </div>
-        <div class="map-container">
-            <app-map [tourView]="true" [keyPoints]="keyPoints"></app-map>
+            
+            <div class="map-container">
+                <app-map [tourView]="true" [keyPoints]="keyPoints"></app-map>
+            </div>
         </div>
     </div>
 </div>

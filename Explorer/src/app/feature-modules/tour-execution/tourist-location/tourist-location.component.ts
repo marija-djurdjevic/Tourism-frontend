@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Output,AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Output, AfterViewInit, Input, ViewChild } from '@angular/core';
 import { TourExecutionService } from '../tour-execution.service';
 import { Location } from 'src/app/feature-modules/tour-execution/model/location.model';
 import { Location as routerLocation } from '@angular/common';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { MapComponent } from 'src/app/shared/map/map.component';
 
 @Component({
   selector: 'xp-tourist-location',
@@ -10,17 +12,22 @@ import { Location as routerLocation } from '@angular/common';
   styleUrls: ['./tourist-location.component.css']
 })
 export class TouristLocationComponent implements AfterViewInit {
+  @Input() keyPoints: any[] = [];
+  @Input() showEncounters: boolean = false;
   @Output() locationSelected = new EventEmitter<{ latitude: number, longitude: number }>();
+  @ViewChild(MapComponent) mapComponent: MapComponent;
+
   imageId: Number;
   selectedFile: File;
   previewImage: string | null = null
   location: Location = { latitude: 0, longitude: 0 };
-  
+  hideFinishButton: boolean = false;
 
-  constructor(private service: TourExecutionService,private routerLocation: routerLocation) {
+  constructor(private service: TourExecutionService, private snackBar: MatSnackBar, private routerLocation: routerLocation, private router: Router) {
   }
 
   ngAfterViewInit(): void {
+    this.hideFinishButton = this.router.url.includes('tourSession');
     this.service.getTouristLocation().subscribe({
       next: (data) => {
         this.location.latitude = data.latitude
@@ -48,10 +55,22 @@ export class TouristLocationComponent implements AfterViewInit {
         this.location.latitude = data.latitude
         this.location.longitude = data.longitude
         console.log(this.location.longitude + " " + this.location.latitude)
+        this.snackBar.open('Location saved successfully!', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
       },
       error: () => {
-        alert('Došlo je do greške prilikom dodavanja lokacije.');
+        console.log('Došlo je do greške prilikom dodavanja lokacije.');
+        this.snackBar.open('Failed to save location. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
       }
     });
+  }
+
+  setCenter(latitude: number, longitude: number) {
+    this.mapComponent.setCenter(latitude, longitude);
   }
 }

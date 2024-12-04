@@ -1,0 +1,31 @@
+<h3>{{ 'Update Key Point' }}</h3>
+<form (ngSubmit)="onUpdateKeyPoint()" class="edit-form">
+  <div class="form-container">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="selectedKeyPoint.name" name="name" required />
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" id="description" [(ngModel)]="selectedKeyPoint.description" name="description" required />
+    </div>
+    <div class="form-group">
+      <label for="image">Upload Image:</label>
+      <input type="file" id="image" (change)="onImageSelected($event)" />
+    </div>
+    <div class="form-group">
+      <label for="longitude">Longitude:</label>
+      <input type="number" id="longitude" [(ngModel)]="selectedKeyPoint.longitude" name="longitude" required />
+    </div>
+    <div class="form-group">
+      <label for="latitude">Latitude:</label>
+      <input type="number" id="latitude" [(ngModel)]="selectedKeyPoint.latitude" name="latitude" required />
+      <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)" [isAddingKeyPoints]="false"></app-map>
+    </div>
+    
+    <div class="button-container">
+      <button type="submit" class="primary-button">Update Key Point</button>
+    </div>
+  </div>
+</form>
+

@@ -6,6 +6,7 @@ import { ImageService } from 'src/app/shared/image.service';
 import { Tourist } from '../model/tourist.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-clubs',
@@ -30,7 +31,10 @@ export class ClubsComponent implements OnInit {
   user : User
 
   constructor(private service: TourAuthoringService, private imageService: ImageService, 
-    private cd: ChangeDetectorRef, private authService: AuthService) {
+    private cd: ChangeDetectorRef, private authService: AuthService,
+               private snackBar: MatSnackBar
+              ) {
+  isLoading = false;
     imageService.setControllerPath("tourist/image");
   }
 
@@ -44,11 +48,13 @@ export class ClubsComponent implements OnInit {
 
   }
   getClubs(): void {
+    this.isLoading = true;
     this.service.getClubs().subscribe({
       next: (result: PagedResults<Clubs>) => {
         console.log(result)
         this.clubs = result.results
         // kod za ucitavanje slike po id
+        this.isLoading = false;
         this.clubs.forEach(element => {
           this.imageService.getImage(element.imageId.valueOf()).subscribe((blob: Blob) => {
             console.log(blob);  // Proveri sadržaj Blob-a
@@ -63,17 +69,33 @@ export class ClubsComponent implements OnInit {
         });
         //kraj
       },
-  error: (err: any) => {
-    console.log(err)
-  }
-  })
+      error: (err: any) => {
+        console.log(err)
+        this.isLoading = false;
+        this.snackBar.open('Failed to load clubs. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
+      }
+    })
   }
 
   deleteClub(id: number): void {
     this.service.deleteClub(id).subscribe({
       next: () => {
         this.getClubs();
+        this.snackBar.open('Club deleted successfully!', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
       },
+      error: (err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to delete club. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: "succesful"
+        });
+      }
     })
   }
 

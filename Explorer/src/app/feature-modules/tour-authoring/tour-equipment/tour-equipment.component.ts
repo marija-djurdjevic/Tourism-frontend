@@ -3,6 +3,7 @@ import { TourEquipment } from '../model/tourEquipment.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { elementAt, Unsubscribable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-tour-equipment',
@@ -16,7 +17,7 @@ export class TourEquipmentComponent {
   prikaz: boolean = true;
   @Input() tourId: number;
 
-  constructor(private service: TourAuthoringService) { }
+  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar) { }
 
   ngOnInit(): void {
     this.getTourEquipment();
@@ -26,7 +27,18 @@ export class TourEquipmentComponent {
     this.service.deleteTourEquipment(id).subscribe({
       next: () => {
         this.getTourEquipment();
+        this.snackBar.open('Equipment deleted from tour successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
+      error:(err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to delete equipment. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      }
     })
   }
 
@@ -35,7 +47,18 @@ export class TourEquipmentComponent {
     this.service.addTourEquipment(tourEq).subscribe({
       next: () => {
         this.getTourEquipment()
+        this.snackBar.open('Equipment added to tour successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
+      error:(err: any) => {
+        console.log(err);
+        this.snackBar.open('Failed to delete equipment. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
+      }
     })
   }
 
@@ -46,6 +69,10 @@ export class TourEquipmentComponent {
         this.getAllTourEquipments();
       },
       error: () => {
+        this.snackBar.open('Failed to load equipments. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     })
   }
@@ -76,6 +103,10 @@ export class TourEquipmentComponent {
         this.popuniSve()
       },
       error: () => {
+        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     })
   }

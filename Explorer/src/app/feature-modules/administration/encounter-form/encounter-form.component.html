@@ -1,0 +1,54 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form [formGroup]="encounterForm" 
+      (ngSubmit)="shouldEdit ? updateEncounter() : addEncounter()" 
+      class="encounter-form">
+    <h2>{{ shouldEdit ? 'Update Encounter' : 'Add Encounter' }}</h2>
+    <div class="form-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" type="text" placeholder="Enter encounter name" required/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      formControlName="description"
+                      placeholder="Enter tour description"
+                      cdkAutosizeMaxRows="5" required></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Xp</mat-label>
+            <textarea matInput
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      formControlName="xp"
+                      placeholder="Enter Xp"
+                      cdkAutosizeMaxRows="5" required></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type" required>
+                <mat-option [value]="0">Social</mat-option>
+                <mat-option [value]="1">Location</mat-option>
+                <mat-option [value]="2">Misc</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <app-map
+        [onlyOneMarker]="true"
+        [initialCoordinates]="initialCoordinates"
+        (coordinatesSelected)="onCoordinatesSelected($event)">
+        </app-map>
+
+
+        <div class="button-container">
+            <button mat-raised-button color="button" type="submit" [disabled]="encounterForm.invalid">
+                {{ shouldEdit ? 'Update Encounter' : 'Add Encounter' }}
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,84 +1,125 @@
-<div class="comment-container">
-  <div class="main-content">
-    <div class="content-header">
-      <!-- blog content -->
-      <h1> {{blog.title}}</h1>
-      <p class="creation-date">Published on: {{ blog.creationDate| date:'longDate' }}</p>
-    </div>
+<div *ngIf="isLoading" class="loading-spinner">
+  <div class="custom-spinner"></div>
+  <p class="loading-text">Loading comments...</p>
+</div>
 
-    <div class="content-body">
-      <div class="blog-image">
-        <img [src]="blog.image" alt="blog picture" class="responsive-image" />
-        <div class="blog-info">
-          <p class="blog-description">{{ blog.description }}</p>
+<div *ngIf="!isLoading">
 
-          <div class="rating-section">
-            <p *ngIf="!hasUserRated">Leave a rating:</p>
-            <div *ngIf="hasUserRated">Your blog rating:
-              <span *ngIf="currentUserRating === true">👍 Like</span>
-              <span *ngIf="currentUserRating === false">👎 Dislike</span>
-              <div class="vote-buttons">
-                <button class="primary-button" style="margin-right: 10px;" (click)="changeRating()">Changed your
-                  mind?</button>
-                <button class="primary-button" (click)="removeRating()">Remove rating</button>
+  <div class="comment-container">
+    <div class="main-content">
+      <div class="content-header">
+        <!-- blog content -->
+        <h1> {{blog.title}}</h1>
+        <p class="creation-date">Published on: {{ blog.creationDate| date:'longDate' }}</p>
+      </div>
+
+      <div class="content-body">
+        <div class="blog-image">
+          <img [src]="blog.image" alt="blog picture" class="responsive-image" />
+          <div class="blog-info">
+            <p class="blog-description">{{ blog.description }}</p>
+
+            <div class="rating-section">
+              <p *ngIf="!hasUserRated">Leave a rating:</p>
+              <div *ngIf="hasUserRated">Your blog rating:
+                <span *ngIf="currentUserRating === true">👍 Like</span>
+                <span *ngIf="currentUserRating === false">👎 Dislike</span>
+                <div class="vote-buttons">
+                  <button class="primary-button" style="margin-right: 10px;" (click)="changeRating()">Changed your
+                    mind?</button>
+                  <button class="primary-button" (click)="removeRating()">Remove rating</button>
+                </div>
+              </div>
+
+              <div *ngIf="!hasUserRated" class="rating-buttons">
+                <button class="primary-button" (click)="rateBlog('like')">👍</button>
+                <button class="primary-button" (click)="rateBlog('dislike')">👎</button>
               </div>
             </div>
 
-            <div *ngIf="!hasUserRated" class="rating-buttons">
-              <button class="primary-button" (click)="rateBlog('like')">👍</button>
-              <button class="primary-button" (click)="rateBlog('dislike')">👎</button>
-            </div>
-          </div>
 
-
-          <button class="toggle-button secondary-button" (click)="toggleCommentsSection()">
-            {{ isCommentsOpen ? 'Close Comments' : 'Open Comments' }}
-          </button>
-        </div>
-      </div>
-
-
-      <div class="votes-section">
-        <h2>Total Votes: {{ votes.length }}</h2>
-
-        <div *ngIf="votes.length === 0" class="no-votes">
-          <p>No votes on this blog.</p>
-        </div>
-
-        <div *ngFor="let vote of votes" class="vote-card">
-          <div class="vote-header">
-            <!-- <span class="author-id">{{ getUserById(vote.authorId) }}</span> -->
-            <span class="vote-value">{{ vote.value ? '👍 Liked' : '👎 Disliked' }}</span>
-            <span class="vote-date">{{ vote.creationDate | date: 'medium' }}</span>
+            <button class="toggle-button secondary-button" (click)="toggleCommentsSection()">
+              {{ isCommentsOpen ? 'Close Comments' : 'Open Comments' }}
+            </button>
           </div>
         </div>
 
-      </div>
-    </div>
 
-    <!-- comment section -->
-    <div class="comment-section" *ngIf="isCommentsOpen">
-      <div class="comment-list">
-        <h3>Comments</h3>
-        <ul>
-          <li *ngFor="let comment of comments">
-            <div class="comment">
-              <p><strong>{{ comment.username }}:</strong> {{ comment.text }}</p>
-              <p class="comment-date">{{ formatDate(comment.editDate) }}</p>
-              <button *ngIf="comment.authorId == id" class="primary-button" mat-raised-button class="edit-btn"
-                (click)="onEditClicked(comment)">Edit</button>
-              <button *ngIf="comment.authorId == id" class="primary-button" mat-raised-button class="delete-btn"
-                (click)="deleteComment(comment.id)">Delete</button>
+        <div class="votes-section">
+          <h2>Total Votes: {{ votes.length }}</h2>
+
+          <div *ngIf="votes.length === 0" class="no-votes">
+            <p>No votes on this blog.</p>
+          </div>
+
+          <div *ngFor="let vote of votes" class="vote-card">
+            <div class="vote-header">
+              <!-- <span class="author-id">{{ getUserById(vote.authorId) }}</span> -->
+              <span class="vote-value">{{ vote.value ? '👍 Liked' : '👎 Disliked' }}</span>
+              <span class="vote-date">{{ vote.creationDate | date: 'medium' }}</span>
             </div>
-          </li>
-        </ul>
+          </div>
+
+        </div>
       </div>
 
-      <!-- form -->
-      <div class="comment-form">
-        <xp-comment-form *ngIf="shouldRenderCommentForm" [comment]="selectedComment" [shouldEdit]="shouldEdit"
-          [blogId]="blogId" [username]="username" (commentUpdated)="getComments()"></xp-comment-form>
-        <button class="post-btn" class="primary-button" (click)="onAddClicked()">+</button>
+      <!-- comment section -->
+      <div class="comment-section" *ngIf="isCommentsOpen">
+        <div class="comment-list">
+          <h3>Comments</h3>
+          <ul>
+            <li *ngFor="let comment of comments">
+              <div class="comment">
+                <p><strong>{{ comment.username }}:</strong> {{ comment.text }}</p>
+                <p class="comment-date">{{ formatDate(comment.editDate) }}</p>
+                <button *ngIf="comment.authorId == id" class="primary-button" mat-raised-button class="edit-btn"
+                  (click)="onEditClicked(comment)">Edit</button>
+                <button *ngIf="comment.authorId == id" class="primary-button" mat-raised-button class="delete-btn"
+                  (click)="deleteComment(comment.id)">Delete</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- form -->
+        <div class="comment-form">
+          <xp-comment-form *ngIf="shouldRenderCommentForm" [comment]="selectedComment" [shouldEdit]="shouldEdit"
+            [blogId]="blogId" [username]="username" (commentUpdated)="getComments()"></xp-comment-form>
+          <button class="post-btn" class="primary-button" (click)="onAddClicked()">+</button>
+        </div>
       </div>
     </div>
   </div>
+
+<!-- <div class="blog-container">
+  <img alt="Blog Image" class="blog-image" />
+
+  <div class="blog-content">
+    <h1 class="blog-title">Blog Title</h1>
+    <p class="blog-description">Short description of the blog...</p>
+  </div>
+
+  <div class="blog-actions">
+    <button class="action-button like">👍 Like</button>
+    <button class="action-button dislike">👎 Dislike</button>
+    <button class="action-button comment-toggle">
+      💬 Comments (5)
+    </button>
+  </div>
+
+  <div class="comment-section">
+    <div *ngFor="let comment of comments" class="comment">
+      <p class="comment-text"></p>
+      <span class="comment-author"></span>
+    </div>
+
+    <div class="add-comment">
+      <input
+        type="text"
+        placeholder="Add a comment..."
+        class="comment-input"
+      />
+      <button class="add-comment-button">Post</button>
+    </div>
+  </div>
+</div> -->

@@ -9,6 +9,8 @@ import { BlogForm } from './blog-form/blog-form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ],
   exports: [CommentComponent, BlogOverview],
 })

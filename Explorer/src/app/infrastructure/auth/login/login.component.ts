@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Login } from '../model/login.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-login',
@@ -11,9 +12,11 @@ import { Login } from '../model/login.model';
 })
 export class LoginComponent {
 
+  isLoading = false;
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   loginForm = new FormGroup({
@@ -28,10 +31,18 @@ export class LoginComponent {
     };
 
     if (this.loginForm.valid) {
+      this.isLoading = true;
       this.authService.login(login).subscribe({
         next: () => {
           this.router.navigate(['/']);
-        },
+          this.isLoading = false;
+        },error: (error) => {
+          this.isLoading = false;
+          this.snackBar.open('Invalid username or password', 'Close', {
+            duration: 5000,
+            panelClass: ['mat-toolbar', 'mat-warn']
+          });
+        }
       });
     }
   }

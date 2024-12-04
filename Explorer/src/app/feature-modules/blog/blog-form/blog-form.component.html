@@ -1,49 +1,42 @@
-<form [formGroup]="blogForm">
-  <button type="button" class="close-button" (click)="closeForm()">x</button>
-  <div class="form-container">
-    <div class="form-column">
-      <mat-form-field>
-        <mat-label>Title</mat-label>
-        <input matInput formControlName="title" type="text" />
-      </mat-form-field>
+<form [formGroup]="blogForm" class="blog-form">
+  <h2>Add Blog</h2>
+    <div class="form-container">
+      <!-- <button type="button" class="close-button" (click)="closeForm()">X</button> -->
+        <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" type="text" placeholder="Enter blog title"/>
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Image</mat-label>
-        <input matInput formControlName="image" type="text" />
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Image</mat-label>
+          <input matInput formControlName="image" type="text" placeholder="Enter blog title"/>
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="status">
-          <mat-option value="0">Draft</mat-option>
-          <mat-option value="1">Published</mat-option>
-          <mat-option value="2">Closed</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="0">Draft</mat-option>
+            <mat-option value="1">Published</mat-option>
+            <mat-option value="2">Closed</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            placeholder="Enter blog description"
+            cdkAutosizeMaxRows="5">
+          </textarea>
+        </mat-form-field>
+
+        <div class="button-container">
+            <button mat-raised-button color="button" type="submit" (click)="addBlog()" [disabled]="!blogForm.valid">
+                Add Blog
+            </button>
+        </div>
     </div>
-
-    <div class="form-column">
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea
-          matInput
-          formControlName="description"
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="8"
-          cdkAutosizeMaxRows="8"
-        >
-        </textarea>
-      </mat-form-field>
-
-      <button
-        class="primary-button"
-        type="submit"
-        (click)="addBlog()"
-        [disabled]="!blogForm.valid"
-        mat-raised-button
-      >
-        Add new blog
-      </button>
-    </div>
-  </div>
 </form>

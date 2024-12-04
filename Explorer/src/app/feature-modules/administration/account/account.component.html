@@ -1,23 +1,55 @@
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Is active</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let acc of account">
-                <td>{{acc.username}}</td>
-                <td>{{acc.role}}</td>
-                <td>{{acc.email}}</td>
-                <td>{{acc.isActive}}</td>
-                <td>
-                    <button color="primary" type="submit" mat-raised-button (click)="blockAccount(acc)">Block account</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading accounts...</p>
+</div>
+
+<div *ngIf="!isLoading">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+    <div id="account">
+        <p class="account-title">Accounts review</p>
+        <hr>
+        <div id="acount-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let acc of account">
+                    <div class="card-content">
+                        <h3>{{acc.username}}</h3>
+                        <p>{{acc.role}}</p>
+                        <p><strong>Email:</strong> 
+                            {{acc.email}}
+                        </p>
+                        <p><strong>Status:</strong> 
+                            {{acc.isActive}}
+                        </p>
+                    </div>
+                    <div class="card-actions">
+                        <button color="primary" (click)="showWallet(acc.id ?? 0)" type="submit" mat-icon-button matTooltip="Show wallet">
+                            <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
+                        </button>
+                        <button color="accent" (click)="blockAccount(acc)" mat-icon-button matTooltip="Block user">
+                            <img src="assets/icons/block.png" alt="Block Icon"/>
+                        </button>
+                    </div>
+                </div>               
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showWalletPopup" class="wallet-popup">
+        <div class="popup-content">
+            <h2>Manage Wallet</h2>
+            <p><strong>Tourist ID:</strong> {{ selectedWallet?.touristId }}</p>
+            <p><strong>Balance:</strong> {{ selectedWallet?.balance }}</p>
+            <div>
+                <button color="primary" (click)="decreaseBalance()" mat-icon-button matTooltip="Reduce">
+                    <img src="assets/icons/reduce.png" alt="Reduce Icon"/>
+                </button>
+                <button color="primary" (click)="increaseBalance()" mat-icon-button matTooltip="Add">
+                    <img src="assets/icons/add.png" alt="Add Icon"/>
+                </button>
+            </div>
+            <div class="popup-actions">
+                <button mat-button id="iks" (click)="closePopup()">X</button>
+                <button mat-raised-button class="save-button" (click)="saveWallet()">Save</button>
+            </div>
+        </div>
+    </div>
 </div>

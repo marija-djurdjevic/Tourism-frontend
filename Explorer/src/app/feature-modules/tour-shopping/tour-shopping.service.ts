@@ -9,6 +9,8 @@ import { endOfISOWeek } from 'date-fns';
 import { ShoppingCart } from './model/shopping-cart.model';
 import { KeyPoint } from '../tour-authoring/model/key-point.model';
 import { map } from 'rxjs/operators';
+import { Wallet } from './model/wallet.model';
+import { Coupon } from './model/coupon.model';
 
 
 @Injectable({
@@ -36,5 +38,43 @@ export class TourShoppingService {
       map(response => response.results) // Uzmi samo niz iz objekta
     );
   }
+
+  getWallet(): Observable<Wallet> {
+    return this.http.get<Wallet>(environment.apiHost + "tourist/wallet/balance")
+  }
+
+
+  updateWallet(wallet: Wallet): Observable<Wallet> {
+    return this.http.put<Wallet>(`${environment.apiHost}tourist/wallet/update`, wallet);
+  }
+
+  getCouponsByAuthorId(id: number): Observable<Coupon[]> {
+    return this.http.get<Coupon[]>(environment.apiHost + "author/coupon/" + id)
+  }
+
+  createCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>(environment.apiHost + "author/coupon/", coupon);
+  }
+
+  deleteCoupon(id: number): Observable<Coupon> {
+    return this.http.delete<Coupon>(environment.apiHost + 'author/coupon/' + id);
+  }
+
+  updateCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.put<Coupon>(environment.apiHost + 'author/coupon/' + coupon.id, coupon);
+  }
+
+  getCouponByCode(code: string): Observable<Coupon>{
+    return this.http.get<Coupon>(environment.apiHost + "tourist/coupon/" + code)
+  }
+
+  refundTour(tourId: number): Observable<Tour> {
+    return this.http.post<Tour>(`${environment.apiHost}tourist/shopping/refund`,tourId)
+  }
+
+  getRefundedTour(referenceId: number): Observable<number> {
+    return this.http.get<number>(`${environment.apiHost}tourist/shopping/refund/${referenceId}`);
+  }
+
   
 }

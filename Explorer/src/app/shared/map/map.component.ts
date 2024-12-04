@@ -7,6 +7,9 @@ import { PagedResults } from '../model/paged-results.model';
 import { ImageService } from '../image.service';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
+import { Coordinates } from 'src/app/feature-modules/encounters/model/coordinates.model';
+import { KeyPoint } from 'src/app/feature-modules/tour-authoring/model/key-point.model';
+import { Encounter } from 'src/app/feature-modules/encounters/model/encounter.model';
 
 @Component({
   selector: 'app-map',
@@ -15,13 +18,19 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 })
 export class MapComponent implements OnInit, AfterViewInit {
   private objects: any[] = [];
+  private points:any[] = [];
+  private newKeyPoint:KeyPoint;
+  @Input() isAddingKeyPoints: boolean = false; 
   @Input() keyPoints: any[] = [];
+  @Input() showEncounters = false;
   @Input() initialCenter: [number, number] = [45.2396, 19.8227];
   @Input() initialZoom: number = 13;
   @Input() markers: any[] = [];
   @Input() onlyOneMarker = false;
   @Input() tourView = false;
+  @Input() initialCoordinates: Coordinates = { latitude: 0, longitude: 0 };
   @Output() keyPointSelected = new EventEmitter<{ latitude: number, longitude: number }>();
+  @Output() coordinatesSelected = new EventEmitter<{ latitude: number; longitude: number }>();
   @Output() locationSelected = new EventEmitter<{ latitude: number, longitude: number }>();
   @Output() markerAdded = new EventEmitter<{ latitude: number, longitude: number }>();
 
@@ -34,11 +43,19 @@ export class MapComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    if (this.initialCoordinates) {
+      this.setMapMarker(this.initialCoordinates);
+    }
     this.authService.user$.subscribe(user => {
       this.user = user;
       this.loadObjects();
+      this.loadKeyPoints();
       console.log('Logged in user:', this.user);
     });
+  }
+
+  setMapMarker(coordinates: Coordinates): void {
+    console.log('Postavljene početne koordinate na mapi:', coordinates);
   }
 
   private loadObjects(): void {
@@ -61,6 +78,66 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private loadKeyPoints(): void {
+   
+   
+    this.http.get<PagedResults<KeyPoint>>('https://localhost:44333/api/'+this.user?.role+'/keyPoint/public').subscribe(data => {
+      console.log('API Response:', data);
+      console.log('data.results:', data.results);
+      console.log('Type of data.results:', typeof data.results);
+      this.points = Array.isArray(data.results) ? data.results : Array.isArray(data) ? data : [];
+      console.log('this.points:', this.points);
+      this.points.forEach(element => {      
+            this.cd.detectChanges();
+            this.addMarker2(element);
+        });
+
+      });
+  }
+  private addMarker2(point: any): void {
+    if (!point.imagePath) {
+      console.error('Image  is not set for keypoint:', point);
+      return;
+    }
+    var imageURL='assets/publicPoint.png'
+    point.category ='Public Point';
+
+    const marker = L.marker([point.latitude, point.longitude], {
+      icon: L.icon({
+        iconUrl: imageURL, // URL slike objekta
+        iconSize: [52, 52], // Prilagodite veličinu ikone po potrebi
+        iconAnchor: [26, 52],
+        popupAnchor: [0, -52],
+        shadowSize: [52, 52]
+      }),
+      draggable: false
+    }).addTo(this.map);
+
+    marker.bindPopup(`
+      <div style="text-align: center;">
+        <img src="${point.imagePath}" alt="${point.name}" style="width: 100px; height: auto;"/><br>
+        <strong>${point.name}</strong><br>
+        ${point.description}<br>
+        Category: ${point.category}
+      </div>
+    `);
+
+    marker.on('mouseover', (e) => {
+      marker.openPopup();
+    });
+
+    marker.on('mouseout', (e) => {
+      marker.closePopup();
+    });
+
+    marker.on('click', () => {
+      if (this.isAddingKeyPoints) {
+        console.log('Marker clicked:', point);
+        this.keyPointSelected.emit(point); // Emit the full point object
+      }
+    });
+  }
+  
   private addMarker(object: any): void {
     if (!object.image) {
       console.error('Image URL is not set for object:', object);
@@ -78,7 +155,7 @@ export class MapComponent implements OnInit, AfterViewInit {
         object.category = 'Parking'
         break;
       default:
-        imageUrl = object.image;
+        imageUrl = imageUrl = 'assets/other.png';
         object.category = 'Other'
     }
 
@@ -109,6 +186,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     marker.on('mouseout', (e) => {
       marker.closePopup();
     });
+
+   
   }
 
   private map: any;
@@ -203,21 +282,25 @@ export class MapComponent implements OnInit, AfterViewInit {
     }));
 
     // Pozovi setRoute sa prikupljenim waypoints i izabranim profilom (npr. 'walking')
-    this.setRoute(waypoints, this.option); // ili 'driving', 'cycling'
+    this.setRoute(this.keyPoints, this.option); // ili 'driving', 'cycling'
   }
 
 
-  setRoute(waypoints: Array<{ lat: number, lng: number }>, profile: 'walking' | 'driving' | 'cycling'): void {
+  setRoute(keyPoints: KeyPoint[], profile: 'walking' | 'driving' | 'cycling'): void {
     // Uklanjanje prethodne rute ako postoji
     if (this.routeControl) {
       this.map.removeControl(this.routeControl);
     }
+    const sortedKeyPoints = [...this.keyPoints].sort((a, b) => (a.id ?? Infinity) - (b.id ?? Infinity));
+
     const lineStyle = profile === 'walking'
       ? [{ color: 'blue', weight: 4, dashArray: '10, 10' }] // Isprekidana linija za walking
       : [{ color: 'blue', weight: 4 }]; // Puna linija za ostale profile
 
     this.routeControl = L.Routing.control({
-      waypoints: waypoints.map(point => L.latLng(point.lat, point.lng)),
+      waypoints: sortedKeyPoints.map(keyPoint => ({
+        latLng: L.latLng(keyPoint.latitude, keyPoint.longitude),
+      })),
       router: L.routing.mapbox('pk.eyJ1IjoiZGp1cmRqZXZpY20iLCJhIjoiY20yaHVzOTgyMGJwbzJqczNteW1xMm0yayJ9.woKtBh92sOV__L25KcUu_Q', {
         profile: `mapbox/${profile}`
       }),
@@ -228,7 +311,69 @@ export class MapComponent implements OnInit, AfterViewInit {
       },
       waypointMode: 'snap', // Markeri će se "zalepiti" za put
       addWaypoints: false, // Zabranjeno dodavanje novih tačaka od strane korisnika
-    }).addTo(this.map);
+      createMarker: (i, waypoint, n) => {
+        // Provera da li su koordinate validne
+        if (!waypoint || !waypoint.latLng) {
+          console.error('Waypoint is invalid:', waypoint);
+          return null;
+        }
+        var marker: any;
+        if(i === 0){
+          marker= L.marker(waypoint.latLng, {
+            icon: L.icon({
+              iconUrl: 'assets/start.png', // URL prilagođene ikone
+              iconSize: [41, 41],       // Veličina ikone
+              iconAnchor: [20, 20],     // Tačka gde se ikona vezuje za koordinate
+              popupAnchor: [1, -34]     // Pozicija popup-a u odnosu na ikonu
+            })
+          });
+        }else if(i === n - 1){
+          marker= L.marker(waypoint.latLng, {
+            icon: L.icon({
+              iconUrl: 'assets/finish.png', // URL prilagođene ikone
+              iconSize: [41, 41],       // Veličina ikone
+              iconAnchor: [20, 20],     // Tačka gde se ikona vezuje za koordinate
+              popupAnchor: [1, -34]     // Pozicija popup-a u odnosu na ikonu
+            })
+          });
+        }else{
+      
+        // Kreiranje markera sa prilagođenom ikonom
+        marker = L.marker(waypoint.latLng, {
+          icon: L.icon({
+            iconUrl: 'assets/icons/download.png', // URL prilagođene ikone
+            iconSize: [41, 41],       // Veličina ikone
+            iconAnchor: [20, 20],     // Tačka gde se ikona vezuje za koordinate
+            popupAnchor: [1, -34]     // Pozicija popup-a u odnosu na ikonu
+          })
+        });
+        }
+        // Dodavanje sadržaja popup-a
+        marker.bindPopup(`
+          <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333; padding: 10px; max-width: 250px;">
+            <p style="margin: 0 0 5px; color: #28a745;">
+              <strong>Name:</strong> ${sortedKeyPoints[i]?.name || 'N/A'}
+            </p>
+            <p style="margin: 0 0 10px;">
+              <strong>Description:</strong> ${sortedKeyPoints[i]?.description || 'No description available'}
+            </p>
+          </div>
+        `);
+      
+        // Dodavanje događaja za otvaranje i zatvaranje popup-a
+        marker.on('mouseover', () => {
+          if(sortedKeyPoints[i]?.description){
+            marker.openPopup();
+          }
+        });
+      
+        marker.on('mouseout', () => {
+          marker.closePopup();
+        });
+      
+        return marker;
+      }
+    }).addTo(this.map);  
 
     this.routeControl.on('routesfound', (e: any) => {
       const routes = e.routes;
@@ -248,10 +393,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       alert('There was a routing error. Please try again.');
     });
   }
-
-
-
-
+  
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'assets/pin.png',
@@ -261,6 +403,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
+
     this.initMap();
     if (this.onlyOneMarker) {
       this.setCurrentLocation();
@@ -282,6 +425,7 @@ export class MapComponent implements OnInit, AfterViewInit {
           .openPopup();
         this.markers.push(mp)
         this.keyPointSelected.emit({ latitude: latitude, longitude: longitude });
+        this.coordinatesSelected.emit({ latitude, longitude });
         this.service.reverseSearch(latitude, longitude).subscribe((response) => {
           this.address = response.display_name; // Dobijena adresa
           console.log('Dobijena adresa:', this.address);
@@ -305,6 +449,7 @@ export class MapComponent implements OnInit, AfterViewInit {
             this.clearMarkers();
           }
           this.keyPointSelected.emit({ latitude: lat, longitude: lon });
+          this.coordinatesSelected.emit({ latitude: lat, longitude: lon });
           this.locationSelected.emit({ latitude: lat, longitude: lon });
           this.map.setView([lat, lon], 15);
           const mp = new L.Marker([lat, lon])
@@ -336,6 +481,7 @@ export class MapComponent implements OnInit, AfterViewInit {
           this.clearMarkers();
         }
         this.keyPointSelected.emit({ latitude: lat, longitude: lng });
+        this.coordinatesSelected.emit({ latitude: lat, longitude: lng });
         this.locationSelected.emit({ latitude: lat, longitude: lng });
         this.service.reverseSearch(lat, lng).subscribe((res) => {
           console.log(res.display_name);
@@ -356,6 +502,10 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.map.removeLayer(marker);
     });
     this.markers = [];
+  }
+
+  setCenter(latitude: number, longitude: number): void {
+    this.map.setView([latitude, longitude], 15);
   }
 
 }
