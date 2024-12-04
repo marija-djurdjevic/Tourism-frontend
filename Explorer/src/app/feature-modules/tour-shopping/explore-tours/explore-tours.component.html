@@ -12,16 +12,34 @@
                 <button mat-raised-button class="search-button" (click)="searchTours()">
                     Search tours
                 </button>
+                <button mat-raised-button class="search-button" style="margin-left: 10px;" (click)="toggleDiscountFilter()">
+                    {{ showDiscountedOnly ? 'Show All Tours' : 'Show Discounted Tours Only' }}
+                </button>
             </div>
             <div id="tour-details">
                 <div class="card-container">
-                    <div class="card" *ngFor="let t of tours" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
+                    <div class="card" *ngFor="let t of getFilteredTours()" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
                       <div class="card-content">
                         <h3>{{ t.name }}</h3>
                         <p>{{ t.description }}</p>
-                        <p><strong>Price:</strong> 
-                            {{ t.price | currency }}
-                        </p>
+                        <p>
+                            <strong>Price:</strong>
+                          
+                            <!-- Display discounted price if it exists and is different from the regular price -->
+                            <span *ngIf="getDiscountedPrice(t) !== t.price" style="color: red; margin-left: 5px;">
+                              {{ getDiscountedPrice(t) | currency }}
+                            </span>
+                            
+                            <!-- Display original price with strikethrough if discounted price exists and is different -->
+                            <span *ngIf="getDiscountedPrice(t) !== t.price" style="text-decoration: line-through; color: grey; margin-left: 5px;">
+                              {{ t.price | currency }}
+                            </span>
+                          
+                            <!-- Display regular price if discounted price is the same -->
+                            <span *ngIf="getDiscountedPrice(t) === t.price" style="margin-left: 5px;">
+                              {{ t.price | currency }}
+                            </span>
+                          </p>
                         <p><strong>Tags:</strong> 
                             {{ t.tags }}
                         </p>
