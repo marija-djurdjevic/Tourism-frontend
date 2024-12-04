@@ -152,6 +152,19 @@
     color: black;
 }
 
+.highlighted-tour {
+    animation: fadeOut 3s forwards; /* Fades out over 3 seconds */
+  }
+
+@keyframes fadeOut {
+    0% {
+      background-color: #ffeb3b; /* Initial highlight color */
+    }
+    100% {
+      background-color: white; /* Final color (transparent) */
+    }
+  }
+
 #iks{
     position: absolute;
     top: 10px; 
