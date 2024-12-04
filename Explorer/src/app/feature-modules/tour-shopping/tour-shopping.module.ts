@@ -8,9 +8,15 @@ import { BundleComponent } from './bundles/bundle.component';
 import { BundleCreateComponent } from './bundle-create/bundle-create.component';
 import { FormsModule } from '@angular/forms';
 import { ExploreBundlesComponent } from './explore-bundles/explore-bundles.component';
+import { SalesComponent } from './sales/sales.component';
+import { SaleCreationComponent } from './sales-create/sales-create.component';
+import { MaterialModule } from 'src/app/infrastructure/material/material.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
+    SaleCreationComponent,
+    SalesComponent,
     ShoppingCartComponent,
     ExploreToursComponent,
     PurchasedToursComponent,
@@ -21,7 +27,9 @@ import { ExploreBundlesComponent } from './explore-bundles/explore-bundles.compo
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    MaterialModule,
+    MatTooltipModule
   ]
 })
 export class TourShoppingModule { }

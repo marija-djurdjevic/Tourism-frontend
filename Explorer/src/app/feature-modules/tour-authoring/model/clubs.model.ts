@@ -3,5 +3,8 @@ export interface Clubs {
     name: string,
     description: string,
     image: string,
-    imageId: number
+    imageId: number,
+    ownerId?: number,
+    memberIds: number[]; // Array of user IDs who are members of the club
+    invitationIds: number[];
 }

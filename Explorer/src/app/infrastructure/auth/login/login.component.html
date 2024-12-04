@@ -6,11 +6,11 @@
 <div *ngIf="!isLoading" style="width: 100%;display: flex;flex-direction: column;justify-content: center;">
     <form [formGroup]="loginForm" (ngSubmit)="login()">
         <div>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Username</mat-label>
                 <input matInput formControlName="username" type="text" />
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
                 <input matInput formControlName="password" type="password" />
             </mat-form-field>

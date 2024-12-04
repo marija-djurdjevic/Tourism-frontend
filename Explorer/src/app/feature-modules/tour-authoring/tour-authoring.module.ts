@@ -19,10 +19,15 @@ import { KeyPointFormComponent } from './key-point-form/key-point-form.component
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ExploreToursComponent } from './explore-tours/explore-tours';
 import { TourReviewFormComponent } from './tour-review-form/tour-review-form.component';
+
+import { KeyPointUpdateFormComponent } from './key-point-update-form/key-point-update-form.component';
+
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +40,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     TourEquipmentComponent,
     KeyPointComponent,
     KeyPointFormComponent,
-    ExploreToursComponent
+    ExploreToursComponent,
+    KeyPointUpdateFormComponent
   ],
   imports: [
     RouterModule,
@@ -47,7 +53,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatChipsModule,
     MatIconModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatTooltipModule
   ],
   exports: [
     ClubsComponent,

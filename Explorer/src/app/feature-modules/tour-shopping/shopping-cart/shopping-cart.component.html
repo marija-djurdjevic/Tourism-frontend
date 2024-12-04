@@ -1,45 +1,47 @@
-<div id="tour">
-    <p>Shopping Cart</p>
-    <hr>
-    <div id="tour-details">
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of orderItems">
-                        <td>{{ t.tourId }}</td>
-                        <td>{{ t.tourName }}</td>
-                        <td>{{ t.price | currency }}</td> <!-- Currency pipe to format as price -->
-                        <td>
-                            <button (click)="removeFromCart(t.tourId)" style="padding: 5px 10px; background-color: #f44336; color: white; border: none; cursor: pointer; font-size: 16px;">
-                                X
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
 
-            <!-- Summary Container -->
+<div id="cart">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+        <p class="cart-title">Shopping Cart</p>
+        <hr>
+        <div id="cart-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let t of orderItems">
+                    <div class="card-content">
+                        <h3>{{ t.tourName }}</h3>
+                        <p><strong>Price:</strong> 
+                            {{ t.price | currency }}
+                        </p>
+                    </div>
+                    <div class="card-actions">
+                        <button color="primary" (click)="removeFromCart(t.tourId)" mat-icon-button matTooltip="Remove from cart">
+                            <img src="assets/icons/block.png" alt="Block Icon" />
+                          </button>
+                    </div>
+                </div>
+            </div>
+          
+            <div style="margin-top: 20px; padding: 10px; border-top: 1px solid #ccc;">
+                <p style="font-size: 18px; font-weight: bold;"> Enter Coupon code</p>
+                <input type="text" placeholder="Code"
+                [(ngModel)]="enteredCouponCode"
+                style="padding: 5px; font-size: 16px; width: 200px;">
+                <button 
+                (click)="useCoupon()"
+                style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;"> Use coupon </button>
+            </div>
+          
             <div id="summary-container" style="margin-top: 20px; padding: 10px; border-top: 1px solid #ccc;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <p style="font-size: 18px; font-weight: bold;">Total Price: {{ getTotalPrice() | currency }}</p>
                     <div>
-                        <button (click)="resetCart()" style="margin-left: 30px; padding: 10px 20px; background-color: #f44336; color: white; border: none; cursor: pointer; font-size: 16px; margin-right: 10px;">
+                        <button mat-raised-button (click)="resetCart()" class="reset-button">
                             Reset Cart
                         </button>
-                        <button (click)="checkout()" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">
+                        <button mat-raised-button (click)="checkout()" class="checkout-button">
                             Checkout
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </div>

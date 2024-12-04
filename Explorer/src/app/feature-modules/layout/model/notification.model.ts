@@ -7,7 +7,7 @@ export enum NotificationType {
 export interface Notification {
     id: number;
     content: string;
-    notificationType: number;
+    type: NotificationType;
     referenceId: number;
     recieverId: number;
     isRead: boolean;

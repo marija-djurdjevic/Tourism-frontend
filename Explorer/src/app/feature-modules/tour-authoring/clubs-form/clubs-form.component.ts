@@ -59,7 +59,9 @@ export class ClubsFormComponent implements OnChanges {
       name: this.clubForm.value.name || "",
       description: this.clubForm.value.description || "",
       imageId: -1,
-      image: ""
+      image: "",
+      memberIds: [],
+      invitationIds: []
     };
 
     this.imageService.uploadImage(this.selectedFile).subscribe((imageId: number) => {
@@ -93,7 +95,9 @@ export class ClubsFormComponent implements OnChanges {
       name: this.clubForm.value.name || "",
       description: this.clubForm.value.description || "",
       imageId: this.club.imageId, // Default to existing imageId
-      image: this.club.image
+      image: this.club.image,
+      memberIds: this.club.memberIds,
+      invitationIds: this.club.invitationIds
     };
 
     club.id = this.club.id;

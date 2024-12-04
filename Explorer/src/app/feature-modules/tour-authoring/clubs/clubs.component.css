@@ -1,8 +1,69 @@
-/* Container for everything */
-#club-container {
-    margin-top: 40px;
-    padding-left: 30px; /* Shift content slightly */
-}
+#imgb {
+    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    top: 0;
+    left: 0;
+    height: 100%;  /* Pokriva celu visinu ekrana */
+    width: 100%;   /* Pokriva celu širinu ekrana */
+    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+    z-index: -1;  /* Da bude ispod sadržaja */
+    opacity: 0.5;  /* Bleda slika */
+  }
+  
+  #club {
+      display: flex;
+      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+      align-items: center; /* Horizontalno centrirano */
+      flex-direction: column; /* Elementi idu vertikalno */
+      margin-top: 20px; /* Dodatni razmak od vrha */
+  }
+  
+  #club-details {
+      display: flex;
+      flex-direction: column; /* Ili row ako kartice treba horizontalno */
+      justify-content: center; /* Centriranje horizontalno */
+      align-items: center; /* Centriranje vertikalno */
+      gap: 50px; /* Razmak između elemenata */
+      width: 100%; /* Koristi celu širinu roditelja */
+  }
+  
+  .club-title {
+      font-size: 2em; /* Povećava veličinu fonta */
+      font-weight: bold; /* Čini tekst debljim */
+      text-align: center; /* Centriranje naslova */
+      margin-bottom: 10px; /* Razmak između naslova i linije */
+      color: black; /* Boja naslova (možeš prilagoditi) */
+  }
+  
+  .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Razmak između kartica */
+      justify-content: center; /* Centriranje kartica */
+      width: 100%; /* Osiguraj da zauzima punu širinu */
+      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
+      margin: 0 auto; /* Centriranje na sredinu */
+  }
+    
+    .card {
+      border-radius: 8px; /* Zaobljeni uglovi */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
+      width: 300px; /* Širina kartice */
+      padding: 16px; /* Unutrašnji razmak */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px;
+      background-color: #ffffff;
+      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      transition: transform 0.3s ease-in-out;
+    }
+  
+    .card-content {
+      margin: 10px;
+      text-align: left; /* Tekst poravnat na levo */
+      width: 100%; /* Puni širinu kartice */
+    }
+
 
 p {
     font-size: 24px;
@@ -77,3 +138,331 @@ tbody tr.active-row {
     background-color: #f9f9f9;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+
+/* Modal - Light themed with centered positioning */
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(173, 216, 230, 0.8); /* Soft light blue transparent background */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Modal content - centered, clean, and modern */
+  .modal-content {
+    background-color: #f0f8ff; /* AliceBlue for a fresh appearance */
+    color: #2c3e50; /* Darker text color for contrast */
+    border-radius: 12px;
+    width: 60%;
+    max-width: 900px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    overflow-y: auto;
+    border: 2px solid #add8e6; /* Light blue border to match theme */
+    max-height: 80%; /* Prevents overflow on smaller screens */
+  }
+  
+  /* Close button (X) for modal */
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.6rem;
+    color: #00796b; /* Mild green */
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+  }
+  
+  .close-modal:hover {
+    color: #004d40; /* Darker green for hover */
+    transform: scale(1.2); /* Slight zoom effect */
+  }
+  
+  /* Header for the modal content */
+  .modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #00796b;
+  }
+  
+  /* Content container with a clean column layout */
+  .modal-content-container {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr; /* Three columns: username, email, and action */
+    gap: 15px; /* Space between rows */
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  /* Styling for column headers */
+  .modal-column-header {
+    font-weight: bold;
+    color: #4682b4; /* Steel blue for headers */
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #add8e6; /* Light blue underline for clarity */
+  }
+  
+  /* Styling for individual rows */
+  .modal-row {
+    display: contents; /* Keeps alignment consistent without visible borders */
+  }
+  
+  /* Username and email text */
+  .modal-row span {
+    color: #2c3e50; /* Darker text for readability */
+    font-size: 1rem;
+  }
+  
+  /* Invite button */
+  .modal-row button {
+    background-color: #add8e6; /* Light blue */
+    color: #2c3e50; /* Darker text for contrast */
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .modal-row button:hover {
+    background-color: #87ceeb; /* SkyBlue on hover */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
+  }
+  
+  .modal-row button:active {
+    background-color: #4682b4; /* SteelBlue on click */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed effect */
+  }
+  
+  
+  /* Buttons inside the modal */
+  .modal-content button {
+    background-color: #add8e6; /* Light blue */
+    color: #2c3e50; /* Darker text for contrast */
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 10px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .modal-content button:hover {
+    background-color: #87ceeb; /* SkyBlue on hover */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
+  }
+  
+  .modal-content button:active {
+    background-color: #4682b4; /* SteelBlue on click */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed effect */
+  }
+  
+  /* Input fields inside the modal */
+  .modal-content input,
+  .modal-content textarea {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #add8e6; /* Matching blue border */
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .modal-content input:focus,
+  .modal-content textarea:focus {
+    border-color: #4682b4; /* Highlighted border on focus */
+    box-shadow: 0 0 5px #4682b4; /* Subtle glow effect */
+  }
+
+  .modal-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.modal-tabs button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #add8e6;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.modal-tabs button.active {
+    background-color: #4682b4;
+    color: white;
+}
+
+/* Container for the modal */
+.invitation-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content */
+.invitation-modal-content {
+    background-color: #f8f9fa; /* Light background for contrast */
+    color: #2c3e50; /* Dark text color for readability */
+    border-radius: 12px;
+    width: 50%;
+    max-width: 800px;
+    padding: 20px 30px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    max-height: 80%;
+}
+
+/* Close button */
+.invitation-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #3f51b5; /* Same as header background color */
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.invitation-modal-close:hover {
+    color: #283593; /* Slightly darker on hover */
+    transform: scale(1.2); /* Slight zoom */
+}
+
+/* Modal header */
+.invitation-modal-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #3f51b5;
+    border-bottom: 2px solid #3f51b5;
+    padding-bottom: 10px;
+}
+
+/* Modal body */
+.invitation-modal-body {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #2c3e50;
+    line-height: 1.5;
+}
+
+/* Form within the modal */
+.invitation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.invitation-form input,
+.invitation-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.invitation-form input:focus,
+.invitation-form textarea:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 5px #3f51b5;
+    outline: none;
+}
+
+/* Buttons */
+.invitation-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.invitation-modal-button {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.invitation-modal-button:hover {
+    background-color: #283593;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.invitation-modal-button:active {
+    background-color: #1a237e;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+    .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .card-content h3 {
+      margin: 0;
+      font-size: 20px;  /* Adjust this value to make it larger or smaller */
+      font-weight: bold;  /* Make the text bold */
+  }
+    
+    .card-content p {
+      margin: 8px 0;
+      color: #666;
+    }
+    
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+  
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+    }
+    
+    .add-card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: auto; /* Visina dodaj kartice */
+      border: 2px dashed #ddd; /* Stilska granica za dodavanje */
+      color: #aaa;
+      text-align: center;
+    }

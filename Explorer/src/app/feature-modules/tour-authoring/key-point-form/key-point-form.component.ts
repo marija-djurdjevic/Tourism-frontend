@@ -6,6 +6,7 @@ import { KeyPoint } from '../model/key-point.model';
 import { Tour } from '../model/tour.model';
 import { TransportInfo, TransportType } from '../model/transportInfo.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'xp-key-point-form',
@@ -19,7 +20,7 @@ export class KeyPointFormComponent implements OnInit {
   tour: Tour;
   imagePath: string | ArrayBuffer | null;
   isPublic: Boolean = false;
-
+    
 
   onImageSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];

@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 import { Wallet } from './model/wallet.model';
 import { PaymentRecord } from './model/payment-record.model';
 import { Bundle } from './model/bundle.model';
+import { Coupon } from './model/coupon.model';
 
 
 @Injectable({
@@ -42,6 +43,31 @@ export class TourShoppingService {
 
   getWallet(): Observable<Wallet> {
     return this.http.get<Wallet>(environment.apiHost + "tourist/wallet/balance")
+  }
+
+
+  updateWallet(wallet: Wallet): Observable<Wallet> {
+    return this.http.put<Wallet>(`${environment.apiHost}tourist/wallet/update`, wallet);
+  }
+
+  getCouponsByAuthorId(id: number): Observable<Coupon[]> {
+    return this.http.get<Coupon[]>(environment.apiHost + "author/coupon/" + id)
+  }
+
+  createCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.post<Coupon>(environment.apiHost + "author/coupon/", coupon);
+  }
+
+  deleteCoupon(id: number): Observable<Coupon> {
+    return this.http.delete<Coupon>(environment.apiHost + 'author/coupon/' + id);
+  }
+
+  updateCoupon(coupon: Coupon): Observable<Coupon> {
+    return this.http.put<Coupon>(environment.apiHost + 'author/coupon/' + coupon.id, coupon);
+  }
+
+  getCouponByCode(code: string): Observable<Coupon>{
+    return this.http.get<Coupon>(environment.apiHost + "tourist/coupon/" + code)
   }
 
   refundTour(tourId: number): Observable<Tour> {

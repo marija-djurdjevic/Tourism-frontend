@@ -12,6 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SaleService } from '../sales.service';
+import { Sale } from '../model/sale.model';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -21,6 +23,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
+  sales: Sale[] = [];
+
+  showDiscountedOnly: boolean = false;
   isReviewsModalOpen = false;
   user: User;
   purchasedTours: Tour[] = [];
@@ -29,7 +34,7 @@ export class ExploreToursComponent implements OnInit {
   refundId: number | null = null;
   refundedTourId: number;
 
-  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
+  constructor(private service: TourShoppingService, private saleService: SaleService, private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -39,6 +44,7 @@ export class ExploreToursComponent implements OnInit {
     });
 
     this.getTours();
+    this.loadSalesData();
     this.loadPurchasedTours();
     this.route.queryParams.subscribe(params => {
       this.refundId = params['refundId'] ? Number(params['refundId']) : null;
@@ -49,6 +55,30 @@ export class ExploreToursComponent implements OnInit {
       }
     });
   }
+
+  loadSalesData(): void {
+    // Fetch sales data
+    this.saleService.getSales().subscribe({
+      next: ( results: PagedResults<Sale> ) => {
+          this.sales =results.results
+          console.log("Sales:", this.sales); 
+      },
+      error: () => {
+          console.log("ERROR LOADING SALES");
+      }
+  });
+  }
+
+  getDiscountedPrice(tour: Tour): number {
+    const sale = this.sales.find(s => s.tourIds.includes(tour.id as number));
+    if (sale) {
+      // Apply discount (percentage discount)
+      const discountAmount = (tour.price * sale.discount) / 100;
+      return tour.price - discountAmount;
+    }
+    return tour.price; // Return original price if no sale
+  }
+
   searchTours():void{
     this.router.navigate(['/tour-search']);
   }
@@ -69,6 +99,17 @@ export class ExploreToursComponent implements OnInit {
     });
   }
   
+  getFilteredTours() {
+    if (this.showDiscountedOnly) {
+      return this.tours.filter(tour => this.getDiscountedPrice(tour) !== tour.price);
+    }
+    return this.tours;
+  }
+
+  // This method toggles the filter
+  toggleDiscountFilter() {
+    this.showDiscountedOnly = !this.showDiscountedOnly;
+  }
 
   getTours(): void {
     this.isLoading=true
