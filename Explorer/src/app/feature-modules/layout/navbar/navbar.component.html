@@ -18,6 +18,7 @@
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['blogs']">Blogs</button>
           <!-- <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourReviews']">See tour reviews</button>--> 
             <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['object']">Facilities</button>
+            <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['sales']">Sales</button>
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['ratings-list']">Ratings</button>
             <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" class="primary-button" mat-raised-button [routerLink]="['user-rating']">Rate us!</button>
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>          

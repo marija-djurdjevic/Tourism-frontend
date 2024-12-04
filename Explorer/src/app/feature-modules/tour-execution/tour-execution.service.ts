@@ -164,6 +164,10 @@ export class TourExecutionService {
 
   }
 
+  getAllPublishedTours(): Observable<Tour[]> {
+    return this.http.get<Tour[]>(environment.apiHost + 'tourist/tour')
+  }
+
   updateSession(tourId: number, latitude: number, longitude: number): Observable<void> {
     const url = `${environment.apiHost}administration/tourSession/update-session`;
 
