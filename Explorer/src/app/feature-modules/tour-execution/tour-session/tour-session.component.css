@@ -196,20 +196,20 @@
     padding: 0; /* Ukloni unutrašnje margine */
     box-sizing: border-box; /* Uključi border i padding u dimenzije */
     height: auto; /* Automatska visina */
-    max-height: calc(100vh - 20px); /* Maksimalna visina unutar ekrana */
+    max-height: calc(100vh +0px); /* Maksimalna visina unutar ekrana */
     margin-right: 20px; /* Dodatni prostor sa desne strane */
     margin-top: 10px;
 }
 
 xp-tourist-location {
-    transform: scale(0.8); /* Smanji komponentu za 50% */
-    transform-origin: center; /* Skaliranje iz centra */
-    width: auto; /* Automatska širina */
+    /*transform: scale(1.0); /* Smanji komponentu za 50% */
+    /*transform-origin: center; /* Skaliranje iz centra */
+    width: 100vw; /* Automatska širina */
     height: auto; /* Automatska visina */
     max-width: 100%; /* Spreči prelazak širine */
-    max-height: 100%; /* Spreči prelazak visine */
+    max-height: 150%; /* Spreči prelazak visine */
     display: block; /* Osiguraj blok prikaz */
-    margin-top: -100px;
+    margin-top: -80px;
 }
 
 /* Responzivni dizajn */
