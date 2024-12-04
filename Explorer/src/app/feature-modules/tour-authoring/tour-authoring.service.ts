@@ -61,6 +61,16 @@ export class TourAuthoringService {
     });
   }
 
+  getToursByAuthorIdAsTourist(authorId: number, page: number = 1, pageSize: number = 100): Observable<PagedResults<Tour>> {
+    return this.http.get<PagedResults<Tour>>(`${environment.apiHost}tourist/tour/by-author`, {
+      params: {
+        id: authorId.toString(),
+        page: page.toString(),
+        pageSize: pageSize.toString()
+      }
+    });
+  }
+
   publishTour(tour: Tour): Observable<Tour> {
     console.log(tour);
     return this.http.post<Tour>(environment.apiHost + 'administration/tour/publish-tour', tour);
