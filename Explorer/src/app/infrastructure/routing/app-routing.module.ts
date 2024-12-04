@@ -43,6 +43,7 @@ import { EncountersComponent } from 'src/app/feature-modules/encounters/encounte
 import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
 import { BundleComponent } from 'src/app/feature-modules/tour-shopping/bundles/bundle.component';
 import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bundle-create/bundle-create.component';
+import { ExploreBundlesComponent } from 'src/app/feature-modules/tour-shopping/explore-bundles/explore-bundles.component';
 
 const routes: Routes = [
   {
@@ -165,7 +166,12 @@ const routes: Routes = [
     component: BundleCreateComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] }
+  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] },
+  {
+    path: 'explore-bundles',
+    component: ExploreBundlesComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

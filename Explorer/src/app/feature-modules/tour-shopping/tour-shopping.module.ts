@@ -7,6 +7,7 @@ import { WalletComponent } from './wallet/wallet.component';
 import { BundleComponent } from './bundles/bundle.component';
 import { BundleCreateComponent } from './bundle-create/bundle-create.component';
 import { FormsModule } from '@angular/forms';
+import { ExploreBundlesComponent } from './explore-bundles/explore-bundles.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     PurchasedToursComponent,
     WalletComponent,
     BundleComponent,
-    BundleCreateComponent
+    BundleCreateComponent,
+    ExploreBundlesComponent
   ],
   imports: [
     CommonModule,
