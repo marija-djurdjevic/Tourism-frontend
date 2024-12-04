@@ -42,9 +42,11 @@ import { EncounterFormComponent } from 'src/app/feature-modules/administration/e
 import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
 import { AddEncounterComponent } from 'src/app/feature-modules/encounters/add-encounter/add-encounter.component';
 import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
+import { KeyPointUpdateFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-update-form/key-point-update-form.component';
 import { BundleComponent } from 'src/app/feature-modules/tour-shopping/bundles/bundle.component';
 import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bundle-create/bundle-create.component';
 import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
+
 
 const routes: Routes = [
   {
@@ -168,6 +170,10 @@ const routes: Routes = [
     component: WalletComponent,
     canActivate: [AuthGuard],
   },
+
+  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] },
+  { path: 'key-points/edit/:id', component: KeyPointUpdateFormComponent },
+
   {
     path: 'bundles',
     component: BundleComponent,
@@ -188,6 +194,7 @@ const routes: Routes = [
     component: SalesComponent, 
     canActivate: [AuthGuard] 
   },
+
 ];
 
 @NgModule({
