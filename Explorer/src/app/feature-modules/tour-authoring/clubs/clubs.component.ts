@@ -21,7 +21,7 @@ export class ClubsComponent implements OnInit {
   image: File;
   tourists : Tourist[] = [] ; // List of tourists to display in modal
   isModalOpen = false;
-
+  isLoading = false;
   members: Tourist[] = [];
   activeTab: string = 'invites';
 
@@ -34,7 +34,7 @@ export class ClubsComponent implements OnInit {
     private cd: ChangeDetectorRef, private authService: AuthService,
                private snackBar: MatSnackBar
               ) {
-  isLoading = false;
+    this.isLoading = false;
     imageService.setControllerPath("tourist/image");
   }
 
