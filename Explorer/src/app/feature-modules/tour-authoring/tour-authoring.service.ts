@@ -9,6 +9,7 @@ import { Object } from './model/object.model';
 import { Tour } from './model/tour.model';
 import { environment } from 'src/env/environment';
 import { TransportInfo, TransportType } from './model/transportInfo.model';
+import { Tourist } from './model/tourist.model';
 import { KeyPoint } from './model/key-point.model';
 
 @Injectable({
@@ -179,7 +180,35 @@ export class TourAuthoringService {
 
   updateTransportInfo(tourId: number, transportInfo: TransportInfo): Observable<void> {
     return this.http.put<void>(`${environment.apiHost}administration/tour/${tourId}/transport-info`, transportInfo);
-  }
+}
+
+getTourists(): Observable<Tourist[]> {
+  return this.http.get<Tourist[]>(environment.apiHost + 'user/tourist/getTourists')
+}
+
+// Invite a user to the club
+inviteUser(clubId: number, userId: number): Observable<void> {
+  return this.http.post<void>(`${environment.apiHost}administration/club/${clubId}/invite`, userId);
+}
+
+// Accept an invitation
+acceptInvitation(clubId: number): Observable<void> {
+  return this.http.post<void>(`${environment.apiHost}administration/club/${clubId}/accept`, {});
+}
+
+// Reject an invitation
+rejectInvitation(clubId: number): Observable<void> {
+  return this.http.post<void>(`${environment.apiHost}administration/club/${clubId}/reject`, {});
+}
+
+removeMember(clubId: number, memberId: number): Observable<void> {
+  return this.http.post<void>(`${environment.apiHost}administration/club/${clubId}/remove`, memberId);
+}
+
+getInvitations(): Observable<PagedResults<Clubs>> {
+  return this.http.get<PagedResults<Clubs>>(`${environment.apiHost}administration/club/invitations`);
+}
+
 
   getKeyPointById(id:number):Observable<KeyPoint>{
     return this.http.get<KeyPoint>(environment.apiHost + 'administrator/keyPoint?id=' + id);

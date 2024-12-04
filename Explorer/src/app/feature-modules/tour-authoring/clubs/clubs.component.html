@@ -5,37 +5,121 @@
 
 <div *ngIf="!isLoading">
     <div id="club">
-        <img id="imgb" src="../../../../assets/screenshot4.png">
-            <p class="club-title">Clubs</p>
-            <hr>
-            <div id="club-details">
-                <div class="card-container">
-                    <div class="card" *ngFor="let cl of clubs">
-                      <div class="card-content">
+        <img id="imgb" src="../../../../assets/screenshot4.png" />
+        <p class="club-title">Clubs</p>
+        <hr />
+        <div id="club-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let cl of clubs">
+                    <div class="card-content">
                         <img *ngIf="cl.image" [src]="cl.image" alt="{{ cl.name }} image" class="card-image" />
-                        <img *ngIf="!cl.image" alt="The image does not exist." class="card-image" />
+                        <img *ngIf="!cl.image" alt="No image available." class="card-image" />
                         <h3>{{ cl.name }}</h3>
                         <p>{{ cl.description }}</p>
-                      </div>
-                      <div class="card-actions">
+                    </div>
+                    <div class="card-actions">
                         <button color="accent" (click)="deleteClub(cl.id || 0)" mat-icon-button matTooltip="Delete club">
-                          <img src="assets/icons/delete.png" alt="Delete Icon"/>
+                            <img src="assets/icons/delete.png" alt="Delete Icon" />
                         </button>
                         <button color="primary" (click)="onEditClicked(cl)" mat-icon-button matTooltip="Edit club">
-                          <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                            <img src="assets/icons/edit.png" alt="Edit Icon" />
                         </button>
-                      </div>
-                  </div>
-                  <div class="card add-card">
+                        <button color="primary" (click)="openModal(cl)" mat-icon-button matTooltip="Manage club">
+                            <img src="assets/icons/manage.png" alt="Manage Icon" />
+                        </button>
+                    </div>
+                </div>
+                <div class="card add-card">
                     <button color="primary" (click)="onAddClicked()" mat-icon-button matTooltip="Add new club">
-                      <img src="assets/icons/add.png" alt="Add Icon"/>
-                    </button>                
-                  </div>
-
-                  <div id="club-form" *ngIf="shouldRenderClubForm">
-                    <xp-clubs-form [shouldEdit]="shouldEdit" [club]="selectedClub" (clubsUpdated)="getClubs()">
-                    </xp-clubs-form>
+                        <img src="assets/icons/add.png" alt="Add Icon" />
+                    </button>
                 </div>
             </div>
+
+            <div id="club-form" *ngIf="shouldRenderClubForm">
+                <xp-clubs-form [shouldEdit]="shouldEdit" [club]="selectedClub" (clubsUpdated)="getClubs()">
+                </xp-clubs-form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <div class="close-modal" (click)="closeModal()">×</div>
+            <div class="modal-header">
+                Manage Club: {{ selectedClub?.name }}
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="modal-tabs">
+                <button [class.active]="activeTab === 'invites'" (click)="setActiveTab('invites')">Invitations</button>
+                <button [class.active]="activeTab === 'members'" (click)="setActiveTab('members')">Members List</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div *ngIf="activeTab === 'invites'">
+                <div class="modal-content-container">
+                    <div class="modal-column-header">Username</div>
+                    <div class="modal-column-header">Email</div>
+                    <div class="modal-column-header">Action</div>
+
+                    <div class="modal-row" *ngFor="let tourist of tourists">
+                        <span>{{ tourist.username }}</span>
+                        <span>{{ tourist.id }}</span>
+                        <button (click)="inviteTourist(tourist)">Invite</button>
+                    </div>
+                    <div *ngIf="tourists.length === 0">No tourists to invite.</div>
+                </div>
+            </div>
+
+            <div *ngIf="activeTab === 'members'">
+                <div class="modal-content-container">
+                    <div class="modal-column-header">Username</div>
+                    <div class="modal-column-header">Id</div>
+                    <div class="modal-column-header">Action</div>
+
+                    <div class="modal-row" *ngFor="let member of members">
+                        <span>{{ member.username }}</span>
+                        <span>{{ member.id }}</span>
+                        <button (click)="removeMember(member)">Remove</button>
+                    </div>
+                    <div *ngIf="members.length === 0">No members in the club.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invitations Modal -->
+    <div class="modal" *ngIf="isInvitationModalOpen">
+        <div class="modal-content">
+            <div class="close-modal" (click)="closeInvitationModal()">×</div>
+            <div class="modal-header">Invitations</div>
+            <div *ngIf="invitedClubs.length > 0; else noInvitations">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Club Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let club of invitedClubs">
+                            <td>{{ club.name }}</td>
+                            <td>{{ club.description }}</td>
+                            <td>
+                                <button color="primary" (click)="acceptInvitation(club.id!)">Accept</button>
+                                <button color="warn" (click)="rejectInvitation(club.id!)">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ng-template #noInvitations>
+                <p>No invitations available.</p>
+            </ng-template>
+        </div>
     </div>
 </div>
+
