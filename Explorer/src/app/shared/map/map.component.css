@@ -9,47 +9,31 @@
   margin-top: 10px;
 }
 
+h2 {
+  text-align: center; 
+  color: #333; 
+}
+
 .search-bar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+  flex-direction: column; /* Stavlja sadržaj u vertikalnu liniju */
+  gap: 5px; /* Manji razmak između elemenata */
+  margin-bottom: 15px; /* Razmak ispod cele trake za pretragu */
 }
 
-.search-bar input {
-  padding: 10px;
-  width: 70%;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  outline: none;
+.input-button {
+  display: flex; /* Elementi unutar ovog div-a su u istom redu */
+  align-items: center; /* Poravnava input polje i dugme vertikalno */
+  gap: 10px; /* Razmak između inputa i dugmeta */
 }
 
-.search-bar input:focus {
-  border-color: #007bff;
+.search-bar mat-form-field {
+  flex: 1; /* Polje zauzima sav dostupni prostor */
+  margin: 0; /* Uklanja margine */
 }
 
-.search-bar button {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+.search-bar mat-form-field input {
+  line-height: 1.25; /* Poravnavanje teksta unutar input polja */
 }
 
-.search-bar button:hover {
-  background-color: #0056b3;
-}
 
-button {
-  font-size: 1.2em; /* Veći font za dugme */
-  padding: 12px 24px; /* Veći prostor unutar dugmeta */
-  min-width: 200px; /* Postavi minimalnu širinu */
-  color: white; /* Boja teksta */
-  border: none; /* Bez ivica */
-  border-radius: 5px; /* Zaobljeni uglovi */
-  cursor: pointer; /* Pokazivač miša se menja u rukicu kada se pređe preko dugmeta */
-  transition: background-color 0.3s ease; /* Animacija za promenu boje pozadine */
-}

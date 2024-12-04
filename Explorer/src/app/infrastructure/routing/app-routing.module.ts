@@ -40,8 +40,13 @@ import { PublishRequestComponent } from 'src/app/feature-modules/tour-execution/
 import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
 import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
 import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
+import { AddEncounterComponent } from 'src/app/feature-modules/encounters/add-encounter/add-encounter.component';
 import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
 import { KeyPointUpdateFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-update-form/key-point-update-form.component';
+import { BundleComponent } from 'src/app/feature-modules/tour-shopping/bundles/bundle.component';
+import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bundle-create/bundle-create.component';
+import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
+
 
 const routes: Routes = [
   {
@@ -80,7 +85,7 @@ const routes: Routes = [
     component: TourPreferencesComponent,
     canActivate: [AuthGuard],
   },
- // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
+  // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
   {
     path: 'problem',
     component: TourProblemComponent,
@@ -91,7 +96,11 @@ const routes: Routes = [
     component: ProblemsListComponent,
     canActivate: [AuthGuard],
   }, //
-  { path: 'report/:tourId', component: ProblemFormComponent, canActivate: [AuthGuard] },
+  {
+    path: 'report/:tourId',
+    component: ProblemFormComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'tourReviews',
     component: TourReviewComponent,
@@ -120,6 +129,13 @@ const routes: Routes = [
     component: TouristLocationComponent,
     canActivate: [AuthGuard],
   },
+
+  {
+    path: 'add-encounter/:id',
+    component: AddEncounterComponent,
+    canActivate: [AuthGuard],
+  },
+
   {
     path: 'tour-search',
     component: TourSearchComponent,
@@ -154,8 +170,31 @@ const routes: Routes = [
     component: WalletComponent,
     canActivate: [AuthGuard],
   },
+
   { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] },
-  { path: 'key-points/edit/:id', component: KeyPointUpdateFormComponent }
+  { path: 'key-points/edit/:id', component: KeyPointUpdateFormComponent },
+
+  {
+    path: 'bundles',
+    component: BundleComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bundle-create',
+    component: BundleCreateComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'publishRequestList',
+    component: PublishRequestComponent,
+    canActivate: [AuthGuard],
+  },
+  { 
+    path: 'sales', 
+    component: SalesComponent, 
+    canActivate: [AuthGuard] 
+  },
+
 ];
 
 @NgModule({

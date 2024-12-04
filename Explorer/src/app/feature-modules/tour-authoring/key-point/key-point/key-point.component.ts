@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KeyPointService } from '../../key-point.service'; 
 import { KeyPoint } from '../../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,7 +18,9 @@ export class KeyPointComponent implements OnInit {
   isUpdate: boolean = false;  
   selectedKeyPoint: KeyPoint | null = null;
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar, private router: Router) { }
+
+  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar,private router:Router) { }
+
 
   ngOnInit(): void {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId')); // Uzimanje tourId iz URL-a
@@ -94,6 +96,7 @@ export class KeyPointComponent implements OnInit {
       }
     });
   }
+
   onDelete(keyPointId: number) {
     console.log('Deleting key point with ID:', keyPointId);
     this.keyPointService.deleteKeyPoint(keyPointId).subscribe(response => {
@@ -135,5 +138,13 @@ export class KeyPointComponent implements OnInit {
     }
   }
   
+
+
+
+
+  addEncounter(id:number|undefined){
+    this.router.navigate(['/add-encounter',id]);
+  }
+
   
 }

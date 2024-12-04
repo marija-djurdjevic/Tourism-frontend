@@ -1,41 +1,45 @@
 <div *ngIf="user && user.username !== '' && user.role == 'tourist'">  
-    <form [formGroup]="tourPreferencesForm" (ngSubmit)="onSubmit()">
-        <h2>Your Preferences</h2>
-        <div class="form-group">
-          <label for="difficulty">Difficulty</label>
-          <select id="difficulty" formControlName="difficulty">
-            <option value=null>None</option>
-            <option value=0>Easy</option>
-            <option value=1>Medium</option>
-            <option value=2>Hard</option>
-          </select>
+  <img id="imgb" src="../../../../assets/screenshot4.png">
+  <form [formGroup]="tourPreferencesForm" (ngSubmit)="onSubmit()" 
+      class="preference-form">
+    <h2>Your Preferences</h2>
+    <div class="form-container">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Difficulty</mat-label>
+          <mat-select formControlName="difficulty">
+            <mat-option [value]="null">None</mat-option>
+            <mat-option [value]="0">Easy</mat-option>
+            <mat-option [value]="1">Medium</mat-option>
+            <mat-option [value]="2">Hard</mat-option>
+          </mat-select>
+        </mat-form-field>      
+
+        <mat-form-field appearance="outline">
+          <mat-label>Walking rating</mat-label>
+          <input matInput formControlName="walkingRating" type="number" placeholder="Enter walking rate (0-3)" min="0" max="3"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cycling rating</mat-label>
+          <input matInput formControlName="cyclingRating" type="number" placeholder="Enter cycling rate (0-3)" min="0" max="3"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Driving rating</mat-label>
+          <input matInput formControlName="drivingRating" type="number" placeholder="Enter driving rate (0-3)" min="0" max="3"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Sailing rating</mat-label>
+          <input matInput formControlName="sailingRating" type="number" placeholder="Enter sailing rate (0-3)" min="0" max="3"/>
+        </mat-form-field>
+
+        <div class="button-container">
+            <button mat-raised-button color="button" type="submit">
+                Save Changes
+            </button>
         </div>
-    
-        <div class="form-group">
-          <label for="walkingRating">Walking Rating</label>
-          <input id="walkingRating" type="number" formControlName="walkingRating" placeholder="Rate walking" min="0" max="3"/>
-        </div>
-    
-        <div class="form-group">
-          <label for="cyclingRating">Cycling Rating</label>
-          <input id="cyclingRating" type="number" formControlName="cyclingRating" placeholder="Rate cycling" min="0" max="3"/>
-        </div>
-    
-        <div class="form-group">
-          <label for="drivingRating">Driving Rating</label>
-          <input id="drivingRating" type="number" formControlName="drivingRating" placeholder="Rate driving" min="0" max="3"/>
-        </div>
-    
-        <div class="form-group">
-          <label for="sailingRating">Sailing Rating</label>
-          <input id="sailingRating" type="number" formControlName="sailingRating" placeholder="Rate sailing" min="0" max="3"/>
-        </div>
-    
-        <div class="form-group">
-          <label for="tags">Tags</label>
-          <input id="tags" type="text" formControlName="tags" placeholder="Add tags (comma-separated)" />
-        </div>
-    
-        <button type="submit" class="submit-btn">Save Changes</button>
-      </form>
+    </div>
+  </form>
 </div>

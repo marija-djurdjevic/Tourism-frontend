@@ -13,9 +13,25 @@
     max-width: 100%;
     max-height: 100%;
 }
-input[type="file"] {
-    display: block;
-    margin-top: 10px;
+
+.choose-file-button {
+  background-color: #34AB45; /* Zelena pozadina */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  display: inline-block;
+}
+
+.choose-file-button:hover {
+  background-color: #2ecc71; /* Svetlija nijansa zelene */
+}
+
+.choose-file-button:active {
+  background-color: #34AB45; /* Originalna boja pri aktivaciji */
 }
 
 .container {
@@ -24,36 +40,10 @@ input[type="file"] {
   align-items: center;
 }
 
-input[type="file"] {
-    display: block;
-    margin-top: 10px;
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
-    background-color: #3f51b5;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  input[type="file"]:hover {
-    background-color: #303f9f;
-  }
-  
-  input[type="file"]:active {
-    background-color: #1a237e;
-  }
-
 .image-preview {
   margin-bottom: 16px;
 }
 
 button[mat-raised-button] {
   margin: 8px;
-}
-
-input[type="file"][mat-raised-button] {
-  margin-top: 16px;
 }

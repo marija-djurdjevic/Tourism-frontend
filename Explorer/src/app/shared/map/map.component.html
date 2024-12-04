@@ -1,8 +1,16 @@
 <div class="search-bar">
-  <input *ngIf="onlyOneMarker" type="text" [(ngModel)]="searchQuery"
-    placeholder="Enter address in the format: street, city" />
-  <button type="button"  class="primary-button" *ngIf="onlyOneMarker" (click)="search()">Search location</button>
+  <div *ngIf="onlyOneMarker" class="input-button">
+    <mat-form-field appearance="outline">
+      <mat-label>Address (Optional)</mat-label>
+      <input matInput [(ngModel)]="searchQuery" placeholder="Enter in format Street, City" />
+    </mat-form-field>
+    <button color="primary" (click)="search()" mat-icon-button matTooltip="Search address">
+      <img src="assets/icons/search.png" alt="Search Icon"/>
+    </button>
+  </div>
 </div>
+
+
 <select name="" [(ngModel)]="Option" *ngIf="tourView" style="font-size: xx-large;" id="">
   <option value="walking">walking</option>
   <option value="driving" selected>driving</option>

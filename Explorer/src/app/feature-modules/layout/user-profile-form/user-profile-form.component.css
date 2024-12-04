@@ -1,9 +1,52 @@
+.object-image-container {
+    display: flex; /* Aktivira Flexbox */
+    justify-content: center; /* Horizontalno centriranje */
+    align-items: center; /* Vertikalno centriranje (opciono, ako je potrebno) */
+}
+
 .object-image {
     width: 100px; 
     height: auto;
 }
 
-.user-profile-form-container{
+.user-profile-form-container {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Horizontalno centriranje */
+    align-items: center; /* Vertikalno centriranje (opciono) */
+    margin: 30px;
 }
+
+div {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.profile-form div {
+    width: 400px; /* Osiguraj da unutar forme elementi koriste punu širinu */
+}
+
+h2 {
+    text-align: center; 
+    color: #333; 
+}
+
+.profile-form {
+    max-width: 500px;
+    margin: 5px auto; 
+    padding: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    background-color: #f9f9f9; 
+}
+
+button {
+    background-color: #34AB45 !important; /* Zelena boja */
+    color: white !important; /* Bela boja za tekst */
+}
+
+button:hover {
+    background-color: #2ecc71 !important; /* Svetlija nijansa zelene pri hover-u */
+}
+

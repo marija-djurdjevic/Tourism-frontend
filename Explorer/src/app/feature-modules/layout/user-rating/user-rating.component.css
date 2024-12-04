@@ -1,46 +1,60 @@
-.rating-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center everything */
-    width: 100%;
-    max-width: 450px; /* Adjust the max width to your preference */
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 70px;
-  }
-  
-  .mat-form-field {
-    min-width: 300px;
-    width: 100%; /* Ensure the form field takes full width */
-    margin-bottom: 20px;
-    
-  }
-  
-  .mat-mdc-form-field {
-    min-width: 300px;
-    
-  }
-
-  .mat-mdc-form-field-focus-overlay {
-    background-color: rgba(255, 255, 255, 0.87);
+#imgb {
+  position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+  top: 0;
+  left: 0;
+  height: 100%;  /* Pokriva celu visinu ekrana */
+  width: 100%;   /* Pokriva celu širinu ekrana */
+  object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+  z-index: -1;  /* Da bude ispod sadržaja */
+  opacity: 0.5;  /* Bleda slika */
 }
-  
-  .stars {
-    font-size: 1.5rem;
-    color: gold;
-  }
-  
-  textarea {
-    min-height: 100px;
-    width: 100%; /* Ensure the textarea takes full width */
-  }
-  
-  button {
-    margin-top: 20px;
-    width: 100%; /* Ensure the button takes full width */
-    max-width: 200px; /* Optional: Adjust button width */
-  }
-  
+
+.rating-form {
+  max-width: 500px;
+  margin: 20px auto; /* Centriraj formu i dodaće se razmak od vrha i dna ekrana */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  background-color: #f9f9f9;
+}
+
+
+h2 {
+  text-align: center; 
+  color: #333; 
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.stars {
+  font-size: 1.5rem;
+  color: gold;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; /* Dodaj širinu na roditeljsku div kako bi zauzela celu širinu */
+}
+
+button {
+  width: 100%; /* Dugme zauzima celu širinu roditeljskog kontejnera */
+  background-color: #d3d3d3; /* Siva boja za onemogućeno dugme */
+  color: white !important; /* Bela boja za tekst */
+  cursor: not-allowed; /* Menja kursor na "ne može" kad je dugme onemogućeno */
+  padding: 12px; /* Malo paddinga kako bi dugme bilo udobnije */
+}
+
+button:enabled {
+  background-color: #34AB45 !important; /* Zelena boja kad je dugme omogućeno */
+  cursor: pointer; /* Kursor se menja u normalan kad je dugme omogućeno */
+}
+
+button:hover:enabled {
+  background-color: #2ecc71 !important; /* Svetlija nijansa zelene pri hover-u kad je dugme omogućeno */
+}

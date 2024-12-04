@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { Encounter } from '../model/encounter.model';
+import { Encounter } from '../../encounters/model/encounter.model'
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { AdministrationService } from '../administration.service';
 import * as L from 'leaflet';
@@ -125,7 +125,7 @@ export class EncounterComponent implements OnInit, OnDestroy {
           xp: encounter.xp,
           status: encounter.status,
           coordinates: encounter.coordinates,
-          administratorId: encounter.administratorId
+          administratorId: encounter.userId
         }),
       },
     });
