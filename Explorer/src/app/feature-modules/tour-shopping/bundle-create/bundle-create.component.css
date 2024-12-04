@@ -1,0 +1,94 @@
+/* Styling for the main tour selection */
+#bundle-create {
+    margin: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+#bundle-create h2 {
+    font-size: 24px;
+    color: #3f51b5;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1em;
+    font-family: 'Arial', sans-serif;
+    min-width: 400px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead tr {
+    background-color: #3f51b5;
+    color: white;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 15px 20px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Floating price block styling */
+#floating-price-block {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
+}
+
+#floating-price-block p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#floating-price-block label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+#floating-price-block input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+#floating-price-block button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#floating-price-block button:hover {
+    background-color: #303f9f;
+}
+
+#floating-price-block button:focus {
+    outline: none;
+}

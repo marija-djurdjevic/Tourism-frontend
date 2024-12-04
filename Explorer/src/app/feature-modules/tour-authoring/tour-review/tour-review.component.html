@@ -4,38 +4,38 @@
 </div>
 
 <div *ngIf="!isLoading">
-    <p>TOUR REVIEWS</p>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Grade</th>
-                <th>Comment</th>
-                <th>ReviewDate</th>
-                <th>VisitDate</th>
-                <th>TourId</th>
-                <th>UserId</th>
-                <th>Username</th>
-                <th>Images</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of tourReview">
-                <td>{{ item.id }}</td>
-                <td>{{ item.grade }}</td>
-                <td>{{ item.comment }}</td>
-                <td>{{ item.tourVisitDate }}</td>
-                <td>{{ item.tourReviewDate }}</td>
-                <td>{{ item.tourId }}</td>
-                <td>{{ item.userId }}</td>
-                <td>{{ item.username }}</td>
-                <td>
-                    <div *ngFor="let image of item.reviewImages" style="display: inline-block; margin-right: 5px;">
-                        <img [src]="image" alt="Review Image" width="50" height="50" style="border-radius: 4px;">
-                    </div>
-                </td>
-
-            </tr>
-        </tbody>
-    </table>
+    <div id="review">
+        <img id="imgb" src="../../../../assets/screenshot4.png">
+            <p class="review-title">Reviews</p>
+            <hr>
+            <div id="review-details">
+                <div class="card-container">
+                    <div class="card" *ngFor="let item of tourReview">
+                      <div class="card-content">
+                        <img *ngFor="let image of item.reviewImages" [src]="image" alt="Review Image" class="card-image" />
+                        <h3>{{ item.comment }}</h3>
+                        <p>{{ item.grade }}</p>
+                        <p><strong>Review ID:</strong> 
+                            {{ item.id }}
+                        </p>
+                        <p><strong>Tour visit date:</strong> 
+                            {{ item.tourVisitDate }}
+                        </p>
+                        <p><strong>Tour review date:</strong> 
+                            {{ item.tourReviewDate }}
+                        </p>
+                        <p><strong>Tour ID:</strong> 
+                            {{ item.tourId }}
+                        </p>
+                        <p><strong>User ID:</strong> 
+                            {{ item.userId }}
+                        </p>
+                        <p><strong>Username:</strong> 
+                            {{ item.username }}
+                        </p>
+                      </div>
+                    </div>               
+                </div>
+            </div>
+    </div>
 </div>

@@ -1,41 +1,53 @@
 <div *ngIf="!isLoading">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="tour">
-        <p>Tours</p>
+        <p class="tour-title">Tours</p>
         <div class="add-new-tour">
             <button class="primary-button" (click)="onAddClicked()">Add New Tour</button>
             <button class="primary-button" (click)="onCouponsClicked()">My coupons</button>
         </div>  
         <hr>
-        <div id="tour-details" class="card-container">
-            <div class="tour-card" *ngFor="let t of tours">
-                <!-- Naslov ture -->
-                <h3 class="tour-name">{{t.name}}</h3>
-
-                <!-- Opis ture -->
-                <p class="tour-description">{{t.description}}</p>
-
-                <!-- Ostali detalji -->
-                <p><strong>Difficulty:</strong> {{getDifficultyLabel(t.difficulty)}}</p>
-                <p><strong>Status:</strong> {{getStatusLabel(t.status)}}</p>
-                <p><strong>Price:</strong> {{t.price | currency}}</p>
-                <p><strong>Tags:</strong> {{t.tags}}</p>
-
-                <!-- Tabelica za opremu -->
-                <div *ngIf="t.id" class="equipment">
+        <div id="tour-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let t of tours">
+                  <div class="card-content">
+                    <h3>{{t.name}}</h3>
+                    <p>{{t.description}}</p>
+                    <p><strong>Difficulty:</strong> {{getDifficultyLabel(t.difficulty)}}</p>
+                    <p><strong>Status:</strong> {{getStatusLabel(t.status)}}</p>
+                    <p><strong>Price:</strong> {{t.price | currency}}</p>
+                    <p><strong>Tags:</strong> {{t.tags}}</p>
+                  </div>
+                  <div class="card-actions">
+                      <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button matTooltip="Add new keypoint">
+                        <img src="assets/icons/add-keypoint.png" alt="Add Keypoint Icon"/>
+                      </button>
+                      <!-- <button color="primary" mat-icon-button>
+                          <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
+                        </button> -->
+                      <button color="primary" (click)="onShowKeyPoints(t.id!)" mat-icon-button matTooltip="Show keypoints">
+                          <img src="assets/icons/keypoints.png" alt="Keypoints Icon"/>
+                        </button>
+                      <button color="primary" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)" mat-icon-button matTooltip="Publish tour">
+                          <img src="assets/icons/publish.png" alt="Publish Icon"/>
+                        </button>
+                      <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button matTooltip="Archive tour">
+                          <img src="assets/icons/archive.png" alt="Archive Icon"/>
+                      </button>
+                      <button color="primary" *ngIf="t.status === 0" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
+                        <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                      </button>
+                  </div>
+                  <div *ngIf="t.id">
                     <xp-tour-equipment [tourId]="t.id"></xp-tour-equipment>
+                  </div>
                 </div>
-
-                <!-- Dugmad -->
-                <div class="card-buttons">
-                    <button class="primary-button" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
-                    <button class="primary-button" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
-                    <button class="primary-button" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)">
-                        Publish
-                    </button>
-                    <button class="primary-button" *ngIf="t.status === 1" (click)="onArchive(t)">Archive</button>
-                    <button class="primary-button" *ngIf="t.status === 0" (click)="onEdit(t)">Edit</button>
+                <div class="card add-card">
+                  <button color="primary" (click)="onAddClicked()" mat-icon-button matTooltip="Add new tour">
+                    <img src="assets/icons/add.png" alt="Add Icon"/>
+                </button>                
                 </div>
-            </div>
+              </div>
         </div>
     </div>
 

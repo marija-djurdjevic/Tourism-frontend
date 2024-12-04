@@ -43,6 +43,7 @@ export class TourShoppingService {
     return this.http.get<Wallet>(environment.apiHost + "tourist/wallet/balance")
   }
 
+
   updateWallet(wallet: Wallet): Observable<Wallet> {
     return this.http.put<Wallet>(`${environment.apiHost}tourist/wallet/update`, wallet);
   }
@@ -65,6 +66,14 @@ export class TourShoppingService {
 
   getCouponByCode(code: string): Observable<Coupon>{
     return this.http.get<Coupon>(environment.apiHost + "tourist/coupon/" + code)
+  }
+
+  refundTour(tourId: number): Observable<Tour> {
+    return this.http.post<Tour>(`${environment.apiHost}tourist/shopping/refund`,tourId)
+  }
+
+  getRefundedTour(referenceId: number): Observable<number> {
+    return this.http.get<number>(`${environment.apiHost}tourist/shopping/refund/${referenceId}`);
   }
 
   

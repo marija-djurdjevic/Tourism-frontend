@@ -8,10 +8,12 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { TourReview } from '../../tour-authoring/model/tour-review.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SaleService } from '../sales.service';
+import { Sale } from '../model/sale.model';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -21,14 +23,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
+  sales: Sale[] = [];
+
+  showDiscountedOnly: boolean = false;
   isReviewsModalOpen = false;
   user: User;
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
   isLoading=false;
+  refundId: number | null = null;
+  refundedTourId: number;
 
-
-  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router) {
+  constructor(private service: TourShoppingService, private saleService: SaleService, private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -36,11 +42,73 @@ export class ExploreToursComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+
     this.getTours();
+    this.loadSalesData();
     this.loadPurchasedTours();
+    this.route.queryParams.subscribe(params => {
+      this.refundId = params['refundId'] ? Number(params['refundId']) : null;
+      console.log('Captured refundId:', this.refundId);
+
+      if (this.refundId) {
+        this.fetchRefundedTour(this.refundId); // Fetch the refunded tour
+      }
+    });
   }
+
+  loadSalesData(): void {
+    // Fetch sales data
+    this.saleService.getSales().subscribe({
+      next: ( results: PagedResults<Sale> ) => {
+          this.sales =results.results
+          console.log("Sales:", this.sales); 
+      },
+      error: () => {
+          console.log("ERROR LOADING SALES");
+      }
+  });
+  }
+
+  getDiscountedPrice(tour: Tour): number {
+    const sale = this.sales.find(s => s.tourIds.includes(tour.id as number));
+    if (sale) {
+      // Apply discount (percentage discount)
+      const discountAmount = (tour.price * sale.discount) / 100;
+      return tour.price - discountAmount;
+    }
+    return tour.price; // Return original price if no sale
+  }
+
   searchTours():void{
     this.router.navigate(['/tour-search']);
+  }
+
+  fetchRefundedTour(refundId: number): void {
+    this.service.getRefundedTour(refundId).subscribe({
+      next: (refundedTourId: number) => {
+        this.refundedTourId = refundedTourId; // Assign the value from the observable
+        console.log('Refunded Tour ID:', this.refundedTourId);
+      },
+      error: (err) => {
+        console.error('Error fetching refunded tour ID:', err);
+        this.snackBar.open('Failed to fetch refunded tour ID.', 'Close', {
+          duration: 3000,
+          panelClass: 'error'
+        });
+      }
+    });
+  }
+  
+  getFilteredTours() {
+    if (this.showDiscountedOnly) {
+      return this.tours.filter(tour => this.getDiscountedPrice(tour) !== tour.price);
+    }
+    return this.tours;
+  }
+
+  // This method toggles the filter
+  toggleDiscountFilter() {
+    this.showDiscountedOnly = !this.showDiscountedOnly;
   }
 
   getTours(): void {
