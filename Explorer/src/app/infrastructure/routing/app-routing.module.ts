@@ -47,6 +47,8 @@ import { BundleComponent } from 'src/app/feature-modules/tour-shopping/bundles/b
 import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bundle-create/bundle-create.component';
 import { ExploreBundlesComponent } from 'src/app/feature-modules/tour-shopping/explore-bundles/explore-bundles.component';
 import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
+import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
+
 
 const routes: Routes = [
   {
@@ -163,6 +165,7 @@ const routes: Routes = [
   },
   { path: 'tourSession/:tourId', component: TourSessionComponent },
   { path: 'tourList', component: TourListComponent },
+
   { path: 'explore', component: ExploreToursComponent },
   { path: 'encountersMap', component: EncountersComponent },
   {
@@ -199,10 +202,13 @@ const routes: Routes = [
     component: ExploreBundlesComponent,
     canActivate: [AuthGuard],
   },
+
+  //{ path: 'explore', component: AllTours },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
