@@ -1,46 +1,74 @@
 <mat-toolbar color="primary">
     <div>
-        <p>Explorer</p>
+        <img class="loogo" src="../../../../assets/icons/download.png">
+        <p>PSW</p>
+        <p class="nameT">Travel</p>
         <div id="buttons">
-            <button *ngIf="user && user.username === ''" class="secondary-button" mat-stroked-button [routerLink]="['register']">Join Us</button>
-            <button *ngIf="user && user.username === ''" class="primary-button" mat-raised-button [routerLink]="['login']">Login</button>
-            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['explore-tours']">Explore Tours</button>
-            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>
-            <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['equipment']">Manage equipment</button>
-            <button *ngIf="user && user.username !== ''" class="primary-button" mat-raised-button [routerLink]="['clubs']">Clubs</button>
-            <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['tours']">View My Tours</button>
-            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['purchasedTours']">Purchased Tours</button>
+            <button *ngIf="user && user.username === ''" class="secondary-button" mat-stroked-button
+                [routerLink]="['register']">Join Us</button>
+            <button *ngIf="user && user.username === ''" class="primary-button" mat-raised-button
+                [routerLink]="['login']">Login</button>
+            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button"
+                mat-raised-button [routerLink]="['explore-tours']">Explore Tours</button>
+            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button"
+                mat-raised-button [routerLink]="['explore-bundles']">Explore Bundles</button>
+            <!--  <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>-->
+            <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button
+                [routerLink]="['equipment']">Manage equipment</button>
+            <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button
+                [routerLink]="['encounters']">Encounters</button>
+            <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button
+                [routerLink]="['tours']">My Tours</button>
+            <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button
+                [routerLink]="['purchasedTours']">Purchased Tours</button>
+            <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button
+                [routerLink]="['clubs']">Clubs</button>
+            <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button
+                [routerLink]="['encountersMap']">Encounters</button>
+
+            <button *ngIf="user && (user.role === 'administrator' || user.role==='author' )"class="primary-button" mat-raised-button [routerLink]="['problems']">Tour problems</button>
             <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button [routerLink]="['blogs']">Blogs</button>
-            <button *ngIf="user && (user.role === 'administrator' || user.role==='author' || user.role === 'tourist')"class="primary-button" mat-raised-button [routerLink]="['problems']">See tour problems</button>
-            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourReviews']">See tour reviews</button>
-            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['report']">Report a problem</button>
-            <button *ngIf="user && user.username !== ''" class="primary-button" mat-raised-button [routerLink]="['profile']">Profile</button>
-            <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['object']">Show objects</button>
-            <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['ratings-list']">View Ratings</button>
-            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['cart']"><img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20" style="vertical-align: middle; margin-right: 8px;">Cart</button>
+          <!-- <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourReviews']">See tour reviews</button>--> 
+            <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['object']">Facilities</button>
+            <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['sales']">Sales</button>
+            <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['ratings-list']">Ratings</button>
             <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" class="primary-button" mat-raised-button [routerLink]="['user-rating']">Rate us!</button>
-            <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>
-            <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button [routerLink]="['tour-search']">Tour search</button>
-            <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourList']">Tours</button>
+            <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>          
+            <button *ngIf="user && user.role === 'tourist'"class="cartbutton" [routerLink]="['cart']"><img src="assets/icons/cart.png" alt="Shopping Cart" width="30" height="30" style="vertical-align: middle; margin-right: 8px;" matTooltip="See shopping cart"></button>
+            <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['publishRequestList']">Requests</button>
+            <button *ngIf="user && user.username !== ''" class="profileButton"  (click)="toggleProfileMenu()" ><img [src]="userProfile.imageURL" ></button>
+           <!-- <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourList']">Tours</button>-->
+
 
             <!-- Notification Button -->
-            <button *ngIf="notifications.length !== 0" class="transparent-button" (click)="toggleNotifications()">
-                <img src="assets/icons/notification_green.png" alt="Notification" width="50" height="50">
+            <button *ngIf="notifications.length !== 0" class="transparent-button" (click)="toggleNotifications()" matTooltip="See notifications">
+                <img src="assets/icons/notification.png" alt="Notification" width="50" height="50">
             </button>
-            
+
             <!-- Notification Dropdown -->
             <div *ngIf="showNotifications" class="notification-dropdown">
                 <ul>
                     <li *ngFor="let notification of notifications">
-                        <button class="notification-button" (click)="goToProblem(notification, notification.referenceId)">{{ notification.content }}</button>
+                        <button class="notification-button"
+                            (click)="goToProblem(notification, notification.referenceId)">{{ notification.content
+                            }}</button>
                     </li>
                 </ul>
             </div>
 
-            <button *ngIf="user && user.username !== ''" class="secondary-button" mat-raised-button (click)="onLogout()">Logout</button>
+
+            <div *ngIf="showProfileMenu" class="profile-dropdown">
+                <button class="menu-item" mat-button (click)="myProfile()">My Profile</button>
+                <button class="menu-item" mat-button (click)="onLogout()">Logout <img class="log"
+                        src='../../../../assets/icons/logout.png'></button>
+            </div>
+
+
+            <!--<button *ngIf="user && user.username !== ''" class="secondary-button" mat-raised-button (click)="onLogout()">Logout</button>-->
         </div>
     </div>
 </mat-toolbar>
-<button *ngIf="user && user.role === 'tourist'" class="location-button" mat-icon-button [routerLink]="['/location']" matTooltip="Set your location">
+<button *ngIf="showLocationButton && user && user.role === 'tourist'" class="location-button" mat-icon-button
+    [routerLink]="['/location']" matTooltip="Set your location">
     <img src="assets/location.png" alt="Set your location" width="30" height="30">
 </button>

@@ -1,36 +1,126 @@
-.ratings-list-container {
-    max-width: 800px;
-    margin: 20px auto;
+#imgb {
+    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    top: 0;
+    left: 0;
+    height: 100%;  /* Pokriva celu visinu ekrana */
+    width: 100%;   /* Pokriva celu širinu ekrana */
+    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+    z-index: -1;  /* Da bude ispod sadržaja */
+    opacity: 0.5;  /* Bleda slika */
 }
 
-table {
+#rating {
+    display: flex;
+    justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+    align-items: center; /* Horizontalno centrirano */
+    flex-direction: column; /* Elementi idu vertikalno */
+    min-height: 100vh; /* Da pokrije visinu ekrana */
+    margin-top: 20px; /* Dodatni razmak od vrha */
+}
+
+#rating-details {
+    display: flex;
+    flex-direction: column; /* Ili row ako kartice treba horizontalno */
+    justify-content: center; /* Centriranje horizontalno */
+    align-items: center; /* Centriranje vertikalno */
+    gap: 50px; /* Razmak između elemenata */
+    width: 100%; /* Koristi celu širinu roditelja */
+}
+
+.rating-title {
+    font-size: 2em; /* Povećava veličinu fonta */
+    font-weight: bold; /* Čini tekst debljim */
+    text-align: center; /* Centriranje naslova */
+    margin-bottom: 10px; /* Razmak između naslova i linije */
+    color: black; /* Boja naslova (možeš prilagoditi) */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center; /* Centriranje kartica */
+    align-items: center; /* Vertikalno centriranje */
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    padding: 0;
+    margin: 0 auto;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+  
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 15px;
+    background-color: #ffffff;
+    border: 3px solid #34AB45;
+    transition: transform 0.3s ease-in-out;
+    height: auto;
+}
+  
+.card-content {
+    display: flex; /* Aktivira Flexbox */
+    flex-direction: column; /* Elementi idu jedan ispod drugog */
+    align-items: center; /* Horizontalno centriranje */
+    justify-content: center; /* Vertikalno centriranje */
+    margin: 10px auto; /* Centriranje sadržaja */
+    width: 100%; /* Puni širinu kartice */
 }
 
-th {
-    background-color: #f2f2f2;
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border: 3px solid #2ecc71;
 }
 
-tr:hover {
-    background-color: #f1f1f1;
+.rating-stars {
+    text-align: center;
+    margin-bottom: 20px; /* Razmak ispod zvezdica */
 }
 
 .filled-star {
-    color: gold; /* Change color to your preference */
-    font-size: 1.5rem; /* Adjust size if needed */
+    color: gold;
+    font-size: 3rem; /* Veće zvezdice */
 }
 
 .empty-star {
-    color: lightgray; /* Color for empty stars */
-    font-size: 1.5rem; /* Adjust size if needed */
+    color: lightgray;
+    font-size: 3rem; /* Veće zvezdice */
+}
+
+.comment {
+    position: relative; /* Omogućava pseudo-elementima pozicioniranje */
+    font-size: 1.2rem; /* Veličina teksta */
+    font-style: italic; /* Kursiv za elegantan izgled */
+    color: #444; /* Tamno siva boja za tekst */
+    text-align: center; /* Centriran tekst */
+    margin: 20px 0; /* Razmak oko komentara */
+    line-height: 1.5; /* Razmak između redova */
+    padding: 20px; /* Unutrašnji razmak za prostor od navodnika */
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.username {
+    text-align: left;
+    font-weight: bold;
+}
+
+.created-at {
+    text-align: right;
+    font-style: italic;
 }
 
 

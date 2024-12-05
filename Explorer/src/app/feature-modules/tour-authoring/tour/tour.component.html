@@ -1,48 +1,148 @@
-<div id="tour">
-    <p>Tours</p>
-    <hr>
-    <div id="tour-details">
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Difficulty</th>
-                        <th>Status</th>
-                        <th>Price</th>
-                        <th>Tags</th>
-                        <th>Equipment</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of tours">
-                        <td>{{t.name}}</td>
-                        <td>{{t.description}}</td>
-                        <td>{{getDifficultyLabel(t.difficulty)}}</td> 
-                        <td>{{getStatusLabel(t.status)}}</td> 
-                        <td>{{t.price}}</td>
-                        <td>{{t.tags}}</td>
-                        <td *ngIf="t.id"><xp-tour-equipment [tourId]=t.id></xp-tour-equipment></td>
-                        <td>
-                            <!-- Dugmad za ključne tačke -->
-
-
-                            <button class="primary-button" (click)="onAddKeyPoint(t.id!)">Add Key Point</button>
-                            <button class="primary-button" (click)="onShowKeyPoints(t.id!)">Show Key Points</button>
-                            <button class="primary-button" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)">Publish</button>
-                            <button class="primary-button" *ngIf="t.status === 1" (click)="onArchive(t)">Archive</button>
-
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="7" style="text-align: right;">
-                            <button class="primary-button" (click)="onAddClicked()">Add New Tour</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+<div *ngIf="!isLoading">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+    <div id="tour">
+        <p class="tour-title">Tours</p>
+        <div class="add-new-tour">
+            <button class="primary-button" (click)="onAddClicked()">Add New Tour</button>
+            <button class="primary-button" (click)="onCouponsClicked()">My coupons</button>
+        </div>  
+        <hr>
+        <div id="tour-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let t of tours">
+                  <div class="card-content">
+                    <h3>{{t.name}}</h3>
+                    <p>{{t.description}}</p>
+                    <p><strong>Difficulty:</strong> {{getDifficultyLabel(t.difficulty)}}</p>
+                    <p><strong>Status:</strong> {{getStatusLabel(t.status)}}</p>
+                    <p><strong>Price:</strong> {{t.price | currency}}</p>
+                    <p><strong>Tags:</strong> {{t.tags}}</p>
+                  </div>
+                  <div class="card-actions">
+                      <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button matTooltip="Add new keypoint">
+                        <img src="assets/icons/add-keypoint.png" alt="Add Keypoint Icon"/>
+                      </button>
+                      <!-- <button color="primary" mat-icon-button>
+                          <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
+                        </button> -->
+                      <button color="primary" (click)="onShowKeyPoints(t.id!)" mat-icon-button matTooltip="Show keypoints">
+                          <img src="assets/icons/keypoints.png" alt="Keypoints Icon"/>
+                        </button>
+                      <button color="primary" *ngIf="t.status === 2 || t.status == 0" (click)="onPublish(t)" mat-icon-button matTooltip="Publish tour">
+                          <img src="assets/icons/publish.png" alt="Publish Icon"/>
+                        </button>
+                      <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button matTooltip="Archive tour">
+                          <img src="assets/icons/archive.png" alt="Archive Icon"/>
+                      </button>
+                      <button color="primary" *ngIf="t.status === 0" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
+                        <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                      </button>
+                  </div>
+                  <div *ngIf="t.id">
+                    <xp-tour-equipment [tourId]="t.id"></xp-tour-equipment>
+                  </div>
+                </div>
+                <div class="card add-card">
+                  <button color="primary" (click)="onAddClicked()" mat-icon-button matTooltip="Add new tour">
+                    <img src="assets/icons/add.png" alt="Add Icon"/>
+                </button>                
+                </div>
+              </div>
         </div>
     </div>
+
+    <div class="modal" *ngIf="isCouponModalOpen">
+        <div class="modal-content">
+          <div class="close-modal" (click)="closeCouponModal()">×</div>
+          <div class="modal-header">Coupons</div>
+          <button color="primary" (click)="toggleCouponForm()">
+            {{ isCouponFormVisible ? (editMode ? 'Close Edit Form' : 'Close Form') : 'Add New Coupon' }}
+          </button>
+      
+          <div *ngIf="isCouponFormVisible" class="coupon-form">
+            <form (ngSubmit)="editMode ? updateCoupon() : createCoupon()" class="form-inline">
+              <div class="form-group">
+                <label for="discount">Discount</label>
+                <input
+                  type="number"
+                  id="discount"
+                  [(ngModel)]="newCoupon.discount"
+                  name="discount"
+                  placeholder="Discount"
+                  required
+                />
+              </div>
+      
+              <div class="form-group">
+                <label for="tourName">Tour</label>
+                <select
+                  id="tourName"
+                  [(ngModel)]="newCoupon.discountedTourId"
+                  name="tourName"
+                  required
+                >
+                  <option *ngFor="let tour of tours" [value]="tour.id">
+                    {{ tour.name }}
+                  </option>
+                </select>
+              </div>
+      
+              <div class="form-group">
+                <label for="expiryDate">Expiry</label>
+                <input
+                  type="date"
+                  id="expiryDate"
+                  [(ngModel)]="newCoupon.expiryDate"
+                  name="expiryDate"
+                />
+              </div>
+      
+              <div class="form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="newCoupon.allDiscounted"
+                    name="allDiscounted"
+                  />
+                  All Tours
+                </label>
+              </div>
+      
+              <button type="submit" color="primary">{{ editMode ? 'Update' : 'Create' }}</button>
+            </form>
+          </div>
+      
+          <div *ngIf="coupons.length > 0; else noCoupons">
+            <table>
+              <thead>
+                <tr>
+                  <th>Coupon Code</th>
+                  <th>Discount</th>
+                  <th>Expiry Date</th>
+                  <th>Tour Name</th>
+                  <th>All discounted</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let coupon of coupons">
+                  <td>{{ coupon.code }}</td>
+                  <td>{{ coupon.discount }}</td>
+                  <td>{{ coupon.expiryDate }}</td>
+                  <td>{{ coupon.tourName }}</td>
+                  <td>{{ coupon.allDiscounted }}</td>
+                  <td>
+                    <button color="primary" (click)="onEditClicked(coupon)">Edit</button>
+                    <button color="warn" (click)="deleteCoupon(coupon.id!)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template #noCoupons>
+            <p>No coupons available.</p>
+          </ng-template>
+        </div>
+      </div>
+    
 </div>

@@ -20,11 +20,14 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
+import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
+import { SharedModule } from "./shared/shared.module";
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    EncountersComponent,
   ],
   imports: [
     FormsModule,
@@ -46,7 +49,8 @@ import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shoppin
     MatSelectModule,
     MatOptionModule,
     MatInputModule,
-  ],
+    SharedModule
+],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

@@ -1,0 +1,42 @@
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading bundles...</p>
+</div>
+
+<div *ngIf="!isLoading">
+    <div id="bundle">
+        <p>Bundles</p>
+        <hr>
+        <br>
+        <div id="bundle-details">
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tours</th>
+                            <th>Price</th>
+                            <th>Status/Action</th> <!-- Combined Status/Action column -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let b of bundles">
+                            <td>{{ b.id }}</td>
+                            <td>
+                                <a>{{ b.tourIds.length }} tours</a>
+                            </td>
+                            <td>{{ b.price | currency }}</td>
+                            <td>
+                                <!-- If bundle is purchased, show "Purchased", otherwise show Buy button -->
+                                <span *ngIf="isPurchased(b.id!)">Purchased</span>
+                                <button *ngIf="!isPurchased(b.id!)" (click)="purchaseBundle(b)">
+                                    Purchase
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

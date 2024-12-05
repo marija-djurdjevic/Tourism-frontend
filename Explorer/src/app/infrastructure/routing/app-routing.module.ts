@@ -35,7 +35,20 @@ import { TourProblemComponent } from 'src/app/feature-modules/tour-execution/tou
 import { PurchasedToursComponent } from 'src/app/feature-modules/tour-shopping/purchased-tours/purchased-tours.component';
 import { TourSessionComponent } from 'src/app/feature-modules/tour-execution/tour-session/tour-session.component';
 import { TourListComponent } from 'src/app/feature-modules/tour-execution/tour-list/tour-list.component';
+import { PublishRequest } from 'src/app/feature-modules/tour-execution/model/publish-request.model';
+import { PublishRequestComponent } from 'src/app/feature-modules/tour-execution/publish-request-list/publish-request-list.component';
+import { EncounterComponent } from 'src/app/feature-modules/administration/encounter/encounter.component';
+import { EncounterFormComponent } from 'src/app/feature-modules/administration/encounter-form/encounter-form.component';
+import { EncountersComponent } from 'src/app/feature-modules/encounters/encounters/encounters.component';
+import { AddEncounterComponent } from 'src/app/feature-modules/encounters/add-encounter/add-encounter.component';
+import { WalletComponent } from 'src/app/feature-modules/tour-shopping/wallet/wallet.component';
+import { KeyPointUpdateFormComponent } from 'src/app/feature-modules/tour-authoring/key-point-update-form/key-point-update-form.component';
+import { BundleComponent } from 'src/app/feature-modules/tour-shopping/bundles/bundle.component';
+import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bundle-create/bundle-create.component';
+import { ExploreBundlesComponent } from 'src/app/feature-modules/tour-shopping/explore-bundles/explore-bundles.component';
+import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
 import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
+
 
 const routes: Routes = [
   {
@@ -74,7 +87,7 @@ const routes: Routes = [
     component: TourPreferencesComponent,
     canActivate: [AuthGuard],
   },
-  //{path: 'problems', component: ProblemReportComponent, canActivate: [AuthGuard]},
+  // {path: 'problemRep', component: ProblemReportComponent, canActivate: [AuthGuard]},
   {
     path: 'problem',
     component: TourProblemComponent,
@@ -85,7 +98,11 @@ const routes: Routes = [
     component: ProblemsListComponent,
     canActivate: [AuthGuard],
   }, //
-  { path: 'report', component: ProblemFormComponent, canActivate: [AuthGuard] },
+  {
+    path: 'report/:tourId',
+    component: ProblemFormComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'tourReviews',
     component: TourReviewComponent,
@@ -114,6 +131,13 @@ const routes: Routes = [
     component: TouristLocationComponent,
     canActivate: [AuthGuard],
   },
+
+  {
+    path: 'add-encounter/:id',
+    component: AddEncounterComponent,
+    canActivate: [AuthGuard],
+  },
+
   {
     path: 'tour-search',
     component: TourSearchComponent,
@@ -129,9 +153,58 @@ const routes: Routes = [
     component: TourReviewFormComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'encounters',
+    component: EncounterComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'encounter-form',
+    component: EncounterFormComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'tourSession/:tourId', component: TourSessionComponent },
   { path: 'tourList', component: TourListComponent },
-  { path: 'explore', component: AllTours },
+
+  { path: 'explore', component: ExploreToursComponent },
+  { path: 'encountersMap', component: EncountersComponent },
+  {
+    path: 'wallet',
+    component: WalletComponent,
+    canActivate: [AuthGuard],
+  },
+
+  { path: 'publishRequestList', component: PublishRequestComponent, canActivate: [AuthGuard] },
+  { path: 'key-points/edit/:id', component: KeyPointUpdateFormComponent },
+
+  {
+    path: 'bundles',
+    component: BundleComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bundle-create',
+    component: BundleCreateComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'publishRequestList',
+    component: PublishRequestComponent,
+    canActivate: [AuthGuard],
+  },
+  { 
+    path: 'sales', 
+    component: SalesComponent, 
+    canActivate: [AuthGuard] 
+  },
+  {
+    path: 'explore-bundles',
+    component: ExploreBundlesComponent,
+    canActivate: [AuthGuard],
+  },
+
+  //{ path: 'explore', component: AllTours },
+
 ];
 
 @NgModule({

@@ -1,51 +1,54 @@
-<div class="container-wrapper">
-    <div class="container">
-      <div class="left-section">
-        <form #searchForm="ngForm">
-          <div>
-            <mat-form-field>
-              <mat-label>Distance</mat-label>
-              <input matInput type="number" id="distance" name="distance" [(ngModel)]="searchCriteria.distance" required #distanceInput="ngModel"/>
-            </mat-form-field>
-  
-            <div *ngIf="distanceInput.invalid && distanceInput.touched">
-              <p style="color: red;">Please provide a valid distance.</p>
-            </div>
-  
-            <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
-  
-            <button class="primary-button" type="submit" (click)="searchTours()" [disabled]="searchForm.invalid">Search tours</button>
-          </div>
-        </form>
-      </div>
-  
-      <div class="right-section">
-        <div *ngIf="searchedTours.length > 0">
-          <p>Tours in desired area:</p>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Difficulty</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let ts of searchedTours">
-                <td>{{ ts.name }}</td>
-                <td>{{ ts.description }}</td>
-                <td>{{ ts.difficulty }}</td>
-                <td>{{ ts.price }}</td>
-              </tr>
-            </tbody>
-          </table>
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form #searchForm="ngForm" 
+      class="search-form">
+    <h2>Please select the desired location on the map</h2>
+    <div class="form-container">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Distance (km)</mat-label>
+          <input matInput type="number" id="distance" min="1" name="distance" placeholder="Enter distance" [(ngModel)]="searchCriteria.distance" required #distanceInput="ngModel"/>
+        </mat-form-field>
+
+        <div *ngIf="distanceInput.invalid && distanceInput.touched">
+          <p style="color: red;">Please provide a valid distance.</p>
         </div>
-  
-        <div *ngIf="noToursFound">
-          <p>There are no tours with keypoints in desired area.</p>
+
+        <app-map
+        [onlyOneMarker]="true"
+        (keyPointSelected)="onKeyPointSelected($event)">
+        </app-map>
+
+        <div class="button-container">
+            <button mat-raised-button color="button" type="submit" (click)="searchTours()" [disabled]="searchForm.invalid">
+                Search Tours
+            </button>
         </div>
-      </div>
     </div>
-  </div>
+</form>
+
+<div id="search" *ngIf="searchedTours.length > 0">
+      <p class="search-title">Tours with keypoints in desired area</p>
+      <hr>
+      <div id="search-details">
+          <div class="card-container">
+              <div class="card" *ngFor="let ts of searchedTours" (click)="onTourClick(ts.id!)">
+                <div class="card-content">
+                  <h3>{{ ts.name }}</h3>
+                  <p>{{ ts.description }}</p>
+                  <p><strong>Difficulty:</strong> 
+                    {{ getDifficultyLabel(ts.difficulty) }}
+                  </p>
+                  <p><strong>Price:</strong> 
+                    {{ ts.price }} USD
+                  </p>
+                </div>
+             </div>
+          </div>
+       </div>
+</div>
+
+<div *ngIf="noToursFound">
+  <p class="search-title">There are no tours with keypoints in desired area.</p>
+</div>
+
   

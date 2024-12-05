@@ -1,54 +1,193 @@
-.profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd; 
-    border-radius: 10px; 
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  }
-  
-  .profile-container img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%; 
-    margin-bottom: 20px; 
-    border: 2px solid #3f51b5; 
-  }
-  
-  
-  .profile-info {
-    text-align: center; 
-  }
-  
-  
-  .profile-info strong {
-    color: #3f51b5; 
-  }
-  
+#imgb {
+  position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+  top: 0;
+  left: 0;
+  height: 100%;  /* Pokriva celu visinu ekrana */
+  width: 100%;   /* Pokriva celu širinu ekrana */
+  object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+  z-index: -1;  /* Da bude ispod sadržaja */
+  opacity: 0.5;  /* Bleda slika */
+}
 
-  .profile-container button {
-    margin-top: 20px; 
-    padding: 10px 20px; 
-    font-size: 16px; 
-    color: #fff; 
-    background-color: #3f51b5; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    transition: background-color 0.3s; 
-  }
-  
-  .profile-container button:hover {
-    background-color: #2c387e; 
-  }
-  
-  .loading-message {
-    text-align: center; 
-    font-size: 18px; 
-    color: #888; 
-  }
-  
-  
+#profile {
+  display: flex;
+  justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+  align-items: center; /* Horizontalno centrirano */
+  flex-direction: column; /* Elementi idu vertikalno */
+  margin-top: 20px; /* Dodatni razmak od vrha */
+}
+
+#profile-details {
+  display: flex;
+  flex-direction: column; /* Ili row ako kartice treba horizontalno */
+  justify-content: center; /* Centriranje horizontalno */
+  align-items: center; /* Centriranje vertikalno */
+  gap: 50px; /* Razmak između elemenata */
+  width: 100%; /* Koristi celu širinu roditelja */
+}
+
+.profile-title {
+  font-size: 2em; /* Povećava veličinu fonta */
+  font-weight: bold; /* Čini tekst debljim */
+  text-align: center; /* Centriranje naslova */
+  margin-bottom: 10px; /* Razmak između naslova i linije */
+  color: black; /* Boja naslova (možeš prilagoditi) */
+}
+
+.profile-image {
+  width: 200px; /* Velicina slike profila */
+  height: 200px; /* Visina slike profila */
+  border-radius: 50%; /* Kružni oblik */
+  border: 3px solid #34AB45; /* Okvir oko slike */
+  object-fit: cover; /* Skaliranje slike unutar kružnog oblika */
+  margin-bottom: 20px; /* Razmak ispod slike */
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column; /* Vertikalni raspored elemenata */
+  align-items: center; /* Centriranje kartice i dugmadi */
+  gap: 20px; /* Razmak između kartice i dugmadi */
+  width: 100%; /* Osigurava punu širinu */
+}
+
+.card {
+  border-radius: 8px; /* Zaobljeni uglovi */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
+  width: 400px; /* Povećana širina kartice */
+  padding: 16px; /* Unutrašnji razmak */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+  background-color: #ffffff;
+  border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+  transition: transform 0.3s ease-in-out;
+  height: auto; /* Visina kartice se prilagođava sadržaju */
+}
+
+.card-content {
+  margin: 10px;
+  text-align: left; /* Tekst poravnat na levo */
+  width: 100%; /* Puni širinu kartice */
+  display: flex; /* Aktivira fleksibilnost */
+  flex-direction: column; /* Sadržaj se slaže vertikalno */
+  gap: 10px; /* Razmak između elemenata unutar sadržaja */
+}
+
+.card-content h3 {
+  text-align: center;
+  margin: 0;
+  font-size: 24px; /* Povećaj veličinu naslova */
+  font-weight: bold; /* Debeli tekst */
+}
+
+.card-content p {
+  margin: 8px 0;
+  color: #666;
+  font-size: 16px; /* Povećana veličina teksta */
+  line-height: 1.5; /* Bolje čitljiv razmak između redova */
+}
+
+.card-actions {
+  display: flex;
+  justify-content: center; /* Ikonice centrirane */
+  gap: 12px; /* Razmak između ikonica */
+  margin-top: 16px; /* Razmak između teksta i dugmadi */
+  width: 100%; /* Dugmad popunjavaju širinu kartice */
+}
+
+.profile-buttons {
+  display: flex; /* Aktivira Flexbox za dugmad */
+  flex-direction: row; /* Dugmad idu u jednom redu */
+  justify-content: center; /* Centriraj dugmad ispod kartice */
+  gap: 15px; /* Razmak između dugmadi */
+}
+
+.profile-buttons button {
+  background-color: #34AB45; /* Zelena pozadina */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profile-buttons button:hover {
+  background-color: #2ecc71; /* Svetlija zelena na hover */
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+.encounters-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 20px; /* Space between cards */
+}
+
+.encounter-card {
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 255, 0, 0.5);
+  display: flex;
+  flex-direction: row;
+}
+
+.encounter-card:hover {
+  transform: translateY(-5px);
+  background-color: rgba(0, 128, 0, 0.5) !important;
+}
+
+.required-encounter {
+  background-color: rgba(255, 0, 0, 0.5);
+  color: white;
+}
+
+.completed-encounter {
+  background-color: rgba(0, 128, 0, 0.5);
+  color: white;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.loading-message {
+  text-align: center; 
+  font-size: 18px; 
+  color: #888; 
+}
+

@@ -7,7 +7,7 @@ import { TokenStorage } from '../../../infrastructure/auth/jwt/token.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { BlogForm } from '../blog-form/blog-form.component';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'xp-blog-overview',
   templateUrl: './blog-overview-component.html',
@@ -18,12 +18,14 @@ export class BlogOverview implements OnInit {
   filteredBlogs: Blog[];
   id: 0;
   selectedFilter: string = 'all';
+  isLoading = false;
 
   constructor(
     private blogService: BlogService,
     private tokenStorage: TokenStorage,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar:MatSnackBar
   ) {}
 
   openNewBlogForm() {
@@ -43,9 +45,17 @@ export class BlogOverview implements OnInit {
       next: () => {
         console.log('Blog saved successfully');
         this.getBlogs();
+        this.snackBar.open('Blog saved successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
       error: (error) => {
         console.error('Error saving blog', error);
+        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
     });
   }
@@ -58,13 +68,24 @@ export class BlogOverview implements OnInit {
   }
 
   getBlogs(): void {
+    this.isLoading = true;
     this.blogService.getBlogs().subscribe({
       next: (result: PagedResults<Blog>) => {
         this.blogs = result.results;
         this.applyFilter(this.selectedFilter);
+        this.isLoading = false;
+        // this.snackBar.open('Data loaded successfully!', 'Close', {
+        //   duration: 3000,
+        //   panelClass:"succesful"
+        // });
       },
       error: () => {
-        alert('Error fetching blogs!');
+        console.log('Error fetching blogs!');
+        this.isLoading = false;
+        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       },
     });
   }

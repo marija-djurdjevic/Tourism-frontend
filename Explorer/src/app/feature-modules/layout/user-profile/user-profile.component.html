@@ -1,21 +1,86 @@
-<div class="profile-container" *ngIf="userProfile">
-  <img [src]="userProfile.imageURL" 
-  alt="Profile Image" 
-  class="profile-image">
-  <div class="profile-info">
-    <p><strong>First Name:</strong> {{ userProfile.firstName }}</p>
-    <p><strong>Last Name:</strong> {{ userProfile.lastName }}</p>
-    <p><strong>Bio:</strong> {{ userProfile.biography }}</p>
-    <p><strong>Motto:</strong> {{ userProfile.motto }}</p>
+<div *ngIf="isLoading" class="loading-spinner">
+  <div class="custom-spinner"></div>
+  <p class="loading-text">Loading profile...</p>
+</div>
+
+<div *ngIf="!isLoading">
+  <img id="imgb" src="../../../../assets/screenshot4.png">
+  <div id="profile">
+    <p class="profile-title">My Profile</p>
+    <hr>
+    <div id="profile-details">
+      <div class="card-container">
+        <div class="card" *ngIf="userProfile">
+          <img [src]="userProfile.imageURL" alt="Profile Image" class="profile-image">
+          <div class="card-content">
+            <h3>{{ userProfile.firstName }} {{ userProfile.lastName }}</h3>
+            <p>{{ userProfile.biography }}</p>
+            <p><strong>Motto:</strong> 
+              {{ userProfile.motto }}
+            </p>
+          </div>
+          <div class="card-actions">
+            <button color="primary" *ngIf="user.role === 'tourist'" (click)="seeWallet()" mat-icon-button matTooltip="Show wallet">
+              <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
+            </button>
+            <button color="primary" (click)="toggleEdit()" mat-icon-button matTooltip="Edit profile">
+              <img src="assets/icons/edit.png" alt="Edit Icon"/>
+            </button>
+          </div>
+        </div>    
+        <div class="profile-buttons">
+          <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="setPreferences()">Set preferences</button>
+          <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="myReviews()">My reviews</button>
+          <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="seeProblems()">My problems</button>
+          <button *ngIf="user.role === 'author'" mat-raised-button (click)="myBundles()">My bundles</button>
+          <button *ngIf="isAdmin" mat-raised-button (click)="showEncounters()">Show encounters</button>
+        </div>
+      </div>      
+     </div>
   </div>
 
-  <button mat-raised-button color="primary" (click)="toggleEdit()">Edit</button>
-</div>
+  <div *ngIf="isEditing">
+    <xp-user-profile-form [profile]="userProfile" (profileUpdated)="onProfileUpdated()"></xp-user-profile-form>
+  </div>
+  
+  <div *ngIf="!userProfile" class="loading-message">
+    <p>Loading user profile...</p>
+  </div>
 
-<div *ngIf="isEditing">
-  <xp-user-profile-form [profile]="userProfile" (profileUpdated)="onProfileUpdated()"></xp-user-profile-form>
-</div>
-
-<div *ngIf="!userProfile" class="loading-message">
-  <p>Loading user profile...</p>
+  <!-- Encounters Modal -->
+  <div *ngIf="showEncountersModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="showEncountersModal = false">&times;</span>
+      <h2>Encounters</h2>
+      <mat-form-field>
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [(value)]="selectedStatus" (selectionChange)="filterEncounters()">
+          <mat-option value="all">All</mat-option>
+          <mat-option value="draft">Draft</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="encounters-list encounter-wrapper">
+        <ng-container *ngFor="let encounter of filteredEncounters">
+          <div class="encounter-card" [ngClass]="{ 'required-encounter': encounter.status==0, 'completed-encounter': encounter.isCompletedByMe }">
+            <div style="min-width: 40%;">
+              <p><strong>Name:</strong> {{ encounter.name }}</p>
+              <p><strong>Description:</strong> {{ encounter.description }}</p>
+              <p><strong>Category:</strong>
+                <strong style="color: green;" *ngIf="encounter.type==0"> Social</strong>
+                <strong style="color: green;" *ngIf="encounter.type==1"> Location</strong>
+                <strong style="color: green;" *ngIf="encounter.type==3"> Misc</strong>
+              </p>
+              <p><strong>XP:</strong> {{ encounter.xp }} XP</p>
+              <p><strong>Status:</strong> 
+                {{ encounter.status === 0 ? 'Draft' : encounter.status === 1 ? 'Active' : 'Archived' }}
+              </p>
+              <p *ngIf="encounter.type === 0"><strong>Range:</strong> {{ encounter.range }}m</p>
+              <p *ngIf="encounter.type === 0"><strong>Tourists Required:</strong> {{ encounter.touristNumber }}</p>
+              <button *ngIf="encounter.status == '0'" mat-button style="background-color: #ff7b00;color: white;" (click)="activateEncounter(encounter)">Activate</button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
 </div>

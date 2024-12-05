@@ -1,18 +1,16 @@
-<!-- <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location> -->
-<h2>Tour Session of Tour Id {{ tourId }}</h2>
-
-<hr /> 
-<!-- Horizontalna linija za odvajanje naslova -->
-
-<div id="tour">
-    <button (click)="abandonTour()">Napusti turu</button>
-    <h3>Existing Key Points</h3>
-    <div style="display: flex;flex-direction: row;">
-        <div class="card-container">
-            <div class="card" *ngFor="let keyPoint of keyPoints"
-            [ngClass]="{'completed-card': keyPoint.id && isKeyPointCompleted(keyPoint.id)}"
-            >
-                <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
+<div id="tour" class="tour-container" style="height: max-content;padding-bottom: 20px;">
+    <!-- Leva kolona: Ključne tačke -->
+    <div class="card-container">
+        <div class="buttons">
+            <button class="abandon-tour-button" (click)="abandonTour()">Leave the tour</button>
+            <button class="report-tour-button" (click)="reportProblem()">Report Problem</button>
+        </div>
+        <h3>Existing Key Points</h3>
+        <div class="card-wrapper">
+            <div class="card" *ngFor="let keyPoint of sortedPoints" (click)="onKeyPointSelected(keyPoint)"
+                [ngClass]="{ 'completed-card': keyPoint.id && isKeyPointCompleted(keyPoint.id) }">
+                <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}"
+                    class="card-image" />
                 <div class="card-content">
                     <h4>{{ keyPoint.name }}</h4>
                     <p *ngIf="keyPoint.id && isKeyPointCompleted(keyPoint.id)">
@@ -21,21 +19,158 @@
                     <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
                     <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
                 </div>
-            </div>
-        </div>
-        <!--<div style="width:850px ;">
-            <app-map [tourView]="true" [keyPoints]="keyPoints"></app-map>
-        </div> -->
-    </div>
-    
-    <div *ngIf="showLocationPopup" class="popup-overlay">
-        <div class="popup-content">
-            <button class="close-btn" (click)="closePopup()">✖</button>
-            <div class="component-wrapper">
-                <xp-tourist-location (locationSelected)="onLocationReceived($event)"></xp-tourist-location>
+                <button *ngIf="userLevel > 9" mat-button (click)="showAddEncounterForm = true; keyPointForEncounter = keyPoint" style="background-color: #ff7b00; color: white; margin-right: 50px;">
+                    Add Encounter
+                </button>
+                
             </div>
         </div>
     </div>
-    
-</div> 
 
+    <!-- Add Encounter Form Modal -->
+    <div *ngIf="showAddEncounterForm" class="modal">
+        <div class="modal-content">
+            <span class="close" (click)="showAddEncounterForm = false">&times;</span>
+            <xp-add-encounter [createdByTourist]="true" [inputKeyPoint]="keyPointForEncounter?.id || -110"></xp-add-encounter>
+        </div>
+    </div>
+
+    <!-- Desna kolona: Mapa -->
+    <div style="margin-top: 10px; max-width: 50%;">
+        <div class="map-container">
+            <xp-tourist-location [keyPoints]="keyPoints" [showEncounters]="true"
+                (locationSelected)="onLocationReceived($event)">
+            </xp-tourist-location>
+        </div>
+
+        <div class="encounters-container">
+            <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                Encounters for current key point
+            </h3>
+            <div class="tabs">
+                <button class="primary-button" (click)="selectedTab = 'all'"
+                    [ngClass]="{ 'active-tab': selectedTab === 'all' }">All</button>
+                <button class="primary-button" (click)="selectedTab = 'required'"
+                    [ngClass]="{ 'active-tab': selectedTab === 'required' }">Required</button>
+                <button class="primary-button" (click)="selectedTab = 'completed'"
+                    [ngClass]="{ 'active-tab': selectedTab === 'completed' }">Completed</button>
+                <button class="primary-button" (click)="selectedTab = 'active'"
+                    [ngClass]="{ 'active-tab': selectedTab === 'active' }">Active</button>
+            </div>
+            <div class="encounters-list encounter-wrapper" *ngIf="selectedTab=='all'">
+                <ng-container>
+                    <div class="encounter-card" *ngFor="let encounter of encounters"
+                        [ngClass]="{ 'required-encounter': encounter.creator==0, 'completed-encounter': encounter.isCompletedByMe }">
+                        <div style="min-width: 40%;">
+                            <p><strong>Name:</strong> {{ encounter.name }}</p>
+                            <p><strong>Description:</strong> {{ encounter.description }}</p>
+                            <p><strong>Category:</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==0"> Social</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==1"> Location</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==3"> Misc</strong>
+                            </p>
+                            <p><strong>XP:</strong> {{ encounter.xp }} XP</p>
+                            <p *ngIf="encounter.type === 0"><strong>Range:</strong> {{
+                                encounter.range }}m</p>
+                            <p *ngIf="encounter.type === 0"><strong>Tourists Required:</strong> {{
+                                encounter.touristNumber }}</p>
+                            <button *ngIf="encounter.type === 1 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="activateEncounter(encounter)">Activate
+                                Encounter</button>
+                            <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="markAsCompleated(encounter)">Mark as Completed</button>
+                        </div>
+                        <td *ngIf="encounter.type === 1">
+                            <img *ngIf="encounter.image" [src]="encounter.image" alt="{{ encounter.image }}"
+                                class="object-image" />
+                            <img *ngIf="!encounter.image" [src]="encounter.image" alt="The image does not exist."
+                                class="object-image" />
+                        </td>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="encounters-list encounter-wrapper" *ngIf="selectedTab=='required'">
+                <ng-container>
+                    <div class="encounter-card" *ngFor="let encounter of required"
+                        [ngClass]="{ 'required-encounter': encounter.creator==0, 'completed-encounter': encounter.isCompletedByMe }">
+                        <div style="min-width: 40%;">
+                            <p><strong>Name:</strong> {{ encounter.name }}</p>
+                            <p><strong>Description:</strong> {{ encounter.description }}</p>
+                            <p><strong>Category:</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==0"> Social</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==1"> Location</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==3"> Misc</strong>
+                            </p>
+                            <p><strong>XP:</strong> {{ encounter.xp }} XP</p>
+                            <p *ngIf="encounter.type === 0"><strong>Range:</strong> {{
+                                encounter.range }}m</p>
+                            <p *ngIf="encounter.type === 0"><strong>Tourists Required:</strong> {{
+                                encounter.touristNumber }}</p>
+                            <button *ngIf="encounter.type === 1 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="activateEncounter(encounter)">Activate
+                                Encounter</button>
+                            <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="markAsCompleated(encounter)">Mark as Completed</button>
+                        </div>
+                        <td *ngIf="encounter.type === 1">
+                            <img *ngIf="encounter.image" [src]="encounter.image" alt="{{ encounter.image }}"
+                                class="object-image" />
+                            <img *ngIf="!encounter.image" [src]="encounter.image" alt="The image does not exist."
+                                class="object-image" />
+                        </td>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="encounters-list encounter-wrapper" *ngIf="selectedTab=='completed'">
+                <ng-container>
+                    <div class="encounter-card" *ngFor="let encounter of completed"
+                        [ngClass]="{ 'required-encounter': encounter.creator==0, 'completed-encounter': encounter.isCompletedByMe }">
+                        <div style="min-width: 40%;">
+                            <p><strong>Name:</strong> {{ encounter.name }}</p>
+                            <p><strong>Description:</strong> {{ encounter.description }}</p>
+                            <p><strong>Category:</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==0"> Social</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==1"> Location</strong>
+                                <strong style="color: green;" *ngIf="encounter.type==3"> Misc</strong>
+                            </p>
+                            <p><strong>XP:</strong> {{ encounter.xp }} XP</p>
+                            <p *ngIf="encounter.type === 0"><strong>Range:</strong> {{
+                                encounter.range }}m</p>
+                            <p *ngIf="encounter.type === 0"><strong>Tourists Required:</strong> {{
+                                encounter.touristNumber }}</p>
+                            <button *ngIf="encounter.type === 1 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="activateEncounter(encounter)">Activate
+                                Encounter</button>
+                            <button *ngIf="encounter.type === 3 && encounter.isCompletedByMe==false" mat-button
+                                style="background-color: #ff7b00;color: white;"
+                                (click)="markAsCompleated(encounter)">Mark as Completed</button>
+                        </div>
+                        <td *ngIf="encounter.type === 1">
+                            <img *ngIf="encounter.image" [src]="encounter.image" alt="{{ encounter.image }}"
+                                class="object-image" />
+                            <img *ngIf="!encounter.image" [src]="encounter.image" alt="The image does not exist."
+                                class="object-image" />
+                        </td>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="encounters-list encounter-wrapper"
+                style="width: 90%;display: flex;flex-direction: column; justify-content: center;margin-top: 30px;"
+                *ngIf="selectedTab=='active'">
+                <h2 style="background-color: rgba(0, 128, 0, 0.297);border-radius: 3px;padding: 5px;">Hidden Location
+                    Encounter activated. Find the location from the image.</h2>
+                <p style="background-color: rgba(255, 0, 0, 0.297);border-radius: 3px;padding: 5px;">You need to get
+                    within 5 meters of the location and stay there for 30 seconds.</p>
+                <div *ngIf="isWithinRange">
+                    <p class="timer" [ngClass]="{ 'animate-timer': timer > 0 }">Time remaining: {{ timer }} seconds</p>
+                </div>
+                <div id="image-container" #imageContainer class="image-container"></div>
+            </div>
+        </div>
+    </div>
+</div>

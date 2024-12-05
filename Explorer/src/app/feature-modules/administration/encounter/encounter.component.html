@@ -1,0 +1,36 @@
+<div id="encounter">
+  <img id="imgb" src="../../../../assets/screenshot4.png">
+      <p class="encounter-title">Encounters</p>
+      <hr>
+      <div id="encounter-details">
+          <div class="card-container">
+              <div class="card" *ngFor="let encounter of encounters">
+                <div class="map-container" *ngIf="encounter.coordinates" id="map{{ encounter.id }}"></div>
+                <div class="card-content">
+                  <h3>{{ encounter.name }}</h3>
+                  <p>{{ encounter.description }}</p>
+                  <p><strong>Type:</strong> 
+                    {{ encounter.type === 0 ? 'Social' : encounter.type === 1 ? 'Location' : 'Misc' }}
+                  </p>
+                  <p><strong>Status:</strong> 
+                    {{ encounter.status === 0 ? 'Draft' : encounter.status === 1 ? 'Active' : 'Archived' }}
+                  </p>
+                  <p><strong>XP:</strong> {{ encounter.xp }}</p>
+                </div>
+                <div class="card-actions" *ngIf="isAdmin(encounter.userId)">
+                  <button color="accent" (click)="deleteEncounter(encounter)" mat-icon-button matTooltip="Delete encounter">
+                    <img src="assets/icons/delete.png" alt="Delete Icon"/>
+                  </button>
+                  <button color="primary" (click)="editEncounter(encounter)" mat-icon-button matTooltip="Edit encounter">
+                    <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                  </button>
+                </div>
+              </div>
+              <div class="card add-card">
+                <button color="primary" (click)="navigateToAddEncounter()" mat-icon-button matTooltip="Add new encounter">
+                  <img src="assets/icons/add.png" alt="Add Icon"/>
+              </button>                
+              </div>
+            </div>
+      </div>
+  </div>

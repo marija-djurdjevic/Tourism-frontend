@@ -1,0 +1,99 @@
+/* Card container */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    margin-top: 10px;
+    background-color: #fff;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Card body */
+.card-body {
+    padding: 20px;
+}
+
+/* Card title */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Card text */
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Input field styling for editing */
+input[type="number"],
+input[type="datetime-local"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Styling for the Update and Edit buttons */
+button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Edit button */
+button.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+button.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Update button */
+button.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+button.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Delete button */
+button.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+}
+
+button.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Card footer with buttons */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+/* Disable input fields when not editing */
+input[readonly] {
+    background-color: #e9ecef;
+}
+
+/* Margins for the buttons in card-footer */
+button + button {
+    margin-left: 10px;
+}

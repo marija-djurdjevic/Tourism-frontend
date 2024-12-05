@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Clubs } from '../model/clubs.model';
 import { ImageService } from 'src/app/shared/image.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'xp-clubs-form',
@@ -17,7 +18,7 @@ export class ClubsFormComponent implements OnChanges {
   previewImage: string | null = null
   imageId: number;
 
-  constructor(private service: TourAuthoringService, private imageService: ImageService) {
+  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private imageService: ImageService) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -58,7 +59,9 @@ export class ClubsFormComponent implements OnChanges {
       name: this.clubForm.value.name || "",
       description: this.clubForm.value.description || "",
       imageId: -1,
-      image: ""
+      image: "",
+      memberIds: [],
+      invitationIds: []
     };
 
     this.imageService.uploadImage(this.selectedFile).subscribe((imageId: number) => {
@@ -70,9 +73,17 @@ export class ClubsFormComponent implements OnChanges {
           this.clubForm.reset();
           this.previewImage = null;
           this.clubsUpdated.emit();
+          this.snackBar.open('Club added successfully!', 'Close', {
+            duration: 3000,
+            panelClass:"succesful"
+          });
         },
         error: (err) => {
           console.error("Error adding club", err);
+          this.snackBar.open('Failed to add club. Please try again.', 'Close', {
+            duration: 3000,
+            panelClass:"succesful"
+          });
         }
       });
     });
@@ -84,7 +95,9 @@ export class ClubsFormComponent implements OnChanges {
       name: this.clubForm.value.name || "",
       description: this.clubForm.value.description || "",
       imageId: this.club.imageId, // Default to existing imageId
-      image: this.club.image
+      image: this.club.image,
+      memberIds: this.club.memberIds,
+      invitationIds: this.club.invitationIds
     };
 
     club.id = this.club.id;
@@ -106,10 +119,18 @@ export class ClubsFormComponent implements OnChanges {
         console.log("Club updated successfully");
         this.clubForm.reset();
         //this.selectedFile = null;
+        this.snackBar.open('Club updated successfully!', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
         this.clubsUpdated.emit();
       },
       error: (err) => {
         console.error("Error updating club", err);
+        this.snackBar.open('Failed to update club. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

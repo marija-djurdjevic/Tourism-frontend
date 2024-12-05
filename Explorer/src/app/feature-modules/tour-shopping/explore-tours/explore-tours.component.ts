@@ -8,9 +8,12 @@ import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { TourReview } from '../../tour-authoring/model/tour-review.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SaleService } from '../sales.service';
+import { Sale } from '../model/sale.model';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -20,13 +23,18 @@ import { Observable } from 'rxjs';
 export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
+  sales: Sale[] = [];
+
+  showDiscountedOnly: boolean = false;
   isReviewsModalOpen = false;
   user: User;
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
+  isLoading=false;
+  refundId: number | null = null;
+  refundedTourId: number;
 
-
-  constructor(private service: TourShoppingService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router) {
+  constructor(private service: TourShoppingService, private saleService: SaleService, private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -34,15 +42,82 @@ export class ExploreToursComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
+
     this.getTours();
+    this.loadSalesData();
     this.loadPurchasedTours();
+    this.route.queryParams.subscribe(params => {
+      this.refundId = params['refundId'] ? Number(params['refundId']) : null;
+      console.log('Captured refundId:', this.refundId);
+
+      if (this.refundId) {
+        this.fetchRefundedTour(this.refundId); // Fetch the refunded tour
+      }
+    });
+  }
+
+  loadSalesData(): void {
+    // Fetch sales data
+    this.saleService.getSales().subscribe({
+      next: ( results: PagedResults<Sale> ) => {
+          this.sales =results.results
+          console.log("Sales:", this.sales); 
+      },
+      error: () => {
+          console.log("ERROR LOADING SALES");
+      }
+  });
+  }
+
+  getDiscountedPrice(tour: Tour): number {
+    const sale = this.sales.find(s => s.tourIds.includes(tour.id as number));
+    if (sale) {
+      // Apply discount (percentage discount)
+      const discountAmount = (tour.price * sale.discount) / 100;
+      return tour.price - discountAmount;
+    }
+    return tour.price; // Return original price if no sale
+  }
+
+  searchTours():void{
+    this.router.navigate(['/tour-search']);
+  }
+
+  fetchRefundedTour(refundId: number): void {
+    this.service.getRefundedTour(refundId).subscribe({
+      next: (refundedTourId: number) => {
+        this.refundedTourId = refundedTourId; // Assign the value from the observable
+        console.log('Refunded Tour ID:', this.refundedTourId);
+      },
+      error: (err) => {
+        console.error('Error fetching refunded tour ID:', err);
+        this.snackBar.open('Failed to fetch refunded tour ID.', 'Close', {
+          duration: 3000,
+          panelClass: 'error'
+        });
+      }
+    });
+  }
+  
+  getFilteredTours() {
+    if (this.showDiscountedOnly) {
+      return this.tours.filter(tour => this.getDiscountedPrice(tour) !== tour.price);
+    }
+    return this.tours;
+  }
+
+  // This method toggles the filter
+  toggleDiscountFilter() {
+    this.showDiscountedOnly = !this.showDiscountedOnly;
   }
 
   getTours(): void {
+    this.isLoading=true
     this.service.getTours().subscribe({
       next: (result: Array<Tour>) => {
         this.tours = result;
         console.log(this.tours)
+        this.isLoading=false;
         // Assign a single key point to each tour
         this.tours.forEach(tour => {
           this.assignSingleKeyPoint(tour);
@@ -51,28 +126,47 @@ export class ExploreToursComponent implements OnInit {
       },
       error: (err: any) => {
         console.log(err);
+        this.isLoading=false
+        this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }
 
   private loadPurchasedTours(): void {
+    this.isLoading=true;
     this.service.getPurchasedTours().subscribe({
       next: (tours: Tour[]) => {
         this.purchasedTours = tours;
+        this.isLoading=false
       },
       error: (err) => {
         console.error('Failed to load purchased tours:', err);
+        this.isLoading=false;
+        this.snackBar.open('Failed to load purchased tours. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }
 
   assignSingleKeyPoint(tour: Tour): void {
-    this.service.getKeyPoints().subscribe(keyPoints => {
-      const keyPoint = keyPoints.find(kp => kp.tourId === tour.id);
-      if (keyPoint) {
-        tour.keyPoints[0] = keyPoint; // Assign the first matching key point
-      }
-    });
+    if (tour.id !== undefined) { // Ensure tour.id is defined
+      this.service.getKeyPoints().subscribe(keyPoints => {
+        const keyPoint = keyPoints.find(kp => kp.tourIds.includes(tour.id!)); // Use `!` after `tour.id`
+        if (keyPoint) {
+          if (!tour.keyPoints) {
+            tour.keyPoints = []; // Initialize `keyPoints` if it is undefined
+          }
+          tour.keyPoints[0] = keyPoint; // Assign the first matching key point
+        }
+      });
+    } else {
+      console.error('Tour ID is undefined');
+    }
   }
 
   addToCart(tourId: number, tourName: string, price: number): void {
@@ -88,12 +182,20 @@ export class ExploreToursComponent implements OnInit {
 
     if (existingItem) {
       console.log('Item already in cart');
+      this.snackBar.open('Tour is already in cart.', 'Close', {
+        duration: 3000,
+        panelClass:"succesful"
+      });
     } else {
       // If item does not exist, add it with quantity 1
       const newItem: OrderItem = { tourId, tourName, price };
       cart.push(newItem);
-      alert("Added to cart");
+      console.log("Added to cart");
       console.log(`Tour with ID ${tourId} added to cart for user ${this.user.username}`);
+      this.snackBar.open('Tour added to cart successfully!', 'Close', {
+        duration: 3000,
+        panelClass:"succesful"
+      });
     }
 
     // Update the cart in localStorage
@@ -128,6 +230,10 @@ export class ExploreToursComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching reviews:', error);
+        this.snackBar.open('Failed to load reviews. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass:"succesful"
+        });
       }
     });
   }

@@ -7,13 +7,88 @@ div {
 }
 
 .location-button {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     left: 20px;
     width: 50px;
     height: 50px;
 }
 
+.profile-dropdown {
+    position: absolute;
+    top: 60px;
+    margin-right:15px;
+    right: 0;
+    border: 1px solid  #333;
+    border-radius: 4px;
+    width: 150px;
+    box-shadow: 0 4px 12px rgba(51, 51, 51, 0.65);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-dropdown .menu-item {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.profile-dropdown .menu-item:hover {
+    background-color: rgba(51, 51, 51, 0.25);
+}
+
+
+.cartbutton{
+    background-color: rgba(3, 26, 16, 0.05);
+    border-radius: 20%;
+    border:0px;
+}
+
+.log{
+    width:20px;
+    height:20px;
+    filter:invert(1);
+    margin-left:35%;
+}
+.cartbutton:active{
+    background-color:  rgba(61, 66, 64, 0.8);;
+}
+
+.profileButton {
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid green;
+    padding: 0; 
+    width: 50px;
+    height: 50px;
+    background-color: transparent; 
+}
+.nameT{
+    font-family: 'Lucida Handwriting', cursive;
+    margin-left: -0.5%;
+    font-size: medium;
+}
+.loogo{
+    width:60px;
+    height:100%;
+    background-color: rgba(0, 0, 0, 0.0);
+}
+.profileButton img {
+    width: 100%;
+    height: 100%; 
+    border-radius: 50%; 
+}
+.profileButton:active img {
+    filter:opacity(80%);
+}
 .location-button img {
     width: 30px;
     height: 30px;

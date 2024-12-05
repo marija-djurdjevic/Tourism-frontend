@@ -1,79 +1,129 @@
-/* Kontejner koji centrira ceo sadržaj na ekranu */
-.container-wrapper {
-    display: flex;
-    justify-content: center;  /* Centriranje u horizontalnom smeru */
-    align-items: flex-start;  /* Poravnanje sa početkom vertikalno */
-    height: 100vh;  /* Postavljanje visine ekrana */
-  }
-  
-  /* Glavni kontejner koji sadrži leve i desne sekcije */
-  .container {
-    display: flex;
-    justify-content: space-between;  /* Razdvaja leve i desne sekcije */
-    width: 70%;  /* Oko 70% širine ekrana */
-    max-width: 1200px; /* Maksimalna širina da se ne rastegne previše */
-  }
-  
-  /* Leva sekcija */
-  .left-section {
-    width: 45%;  /* Leva sekcija zauzima 45% širine */
-  }
-  
-  /* Desna sekcija */
-  .right-section {
-    width: 45%;  /* Desna sekcija zauzima 45% širine */
-    margin-left: 20px;  /* Razmak između leve i desne sekcije */
-  }
-  
-  /* Stil za formu da bude odgovarajuće veličine */
-  form {
-    max-width: 500px;
-  }
-  
-  /* Stil za tabelu */
-  table {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 300px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
-  }
-  
-  th, td {
-    padding: 12px 15px;
-  }
-  
-  tbody tr {
-    border-bottom: 1px solid #dddddd;
-  }
-  
-  tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-  }
-  
-  tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
-  }
-  
-  tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
-  }
+#imgb {
+  position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+  top: 0;
+  left: 0;
+  height: 100%;  /* Pokriva celu visinu ekrana */
+  width: 100%;   /* Pokriva celu širinu ekrana */
+  object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+  z-index: -1;  /* Da bude ispod sadržaja */
+  opacity: 0.5;  /* Bleda slika */
+}
 
-  button {
-    font-size: 1.2em; /* Veći font za dugme */
-    padding: 12px 24px; /* Veći prostor unutar dugmeta */
-    min-width: 200px; /* Postavi minimalnu širinu */
-    color: white; /* Boja teksta */
-    border: none; /* Bez ivica */
-    border-radius: 5px; /* Zaobljeni uglovi */
-    cursor: pointer; /* Pokazivač miša se menja u rukicu kada se pređe preko dugmeta */
-    transition: background-color 0.3s ease; /* Animacija za promenu boje pozadine */
+.search-form {
+  max-width: 500px;
+  margin: 20px auto; /* Centriraj formu i dodaće se razmak od vrha i dna ekrana */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  background-color: #f9f9f9;
+}
+
+
+h2 {
+  text-align: center; 
+  color: #333; 
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; /* Dodaj širinu na roditeljsku div kako bi zauzela celu širinu */
+}
+
+button {
+  width: 100%; /* Dugme zauzima celu širinu roditeljskog kontejnera */
+  background-color: #d3d3d3; /* Siva boja za onemogućeno dugme */
+  color: white !important; /* Bela boja za tekst */
+  cursor: not-allowed; /* Menja kursor na "ne može" kad je dugme onemogućeno */
+  padding: 12px; /* Malo paddinga kako bi dugme bilo udobnije */
+}
+
+button:enabled {
+  background-color: #34AB45 !important; /* Zelena boja kad je dugme omogućeno */
+  cursor: pointer; /* Kursor se menja u normalan kad je dugme omogućeno */
+}
+
+button:hover:enabled {
+  background-color: #2ecc71 !important; /* Svetlija nijansa zelene pri hover-u kad je dugme omogućeno */
+}
+
+#search {
+    display: flex;
+    justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+    align-items: center; /* Horizontalno centrirano */
+    flex-direction: column; /* Elementi idu vertikalno */
+    margin-top: 40px; /* Dodatni razmak od vrha */
+}
+
+#search-details {
+    display: flex;
+    flex-direction: column; /* Ili row ako kartice treba horizontalno */
+    justify-content: center; /* Centriranje horizontalno */
+    align-items: center; /* Centriranje vertikalno */
+    gap: 50px; /* Razmak između elemenata */
+    width: 100%; /* Koristi celu širinu roditelja */
+}
+
+.search-title {
+    font-size: 2em; /* Povećava veličinu fonta */
+    font-weight: bold; /* Čini tekst debljim */
+    text-align: center; /* Centriranje naslova */
+    margin-bottom: 10px; /* Razmak između naslova i linije */
+    color: black; /* Boja naslova (možeš prilagoditi) */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Razmak između kartica */
+    justify-content: center; /* Centriranje kartica */
+    width: 100%; /* Osiguraj da zauzima punu širinu */
+    padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
+    margin: 0 auto; /* Centriranje na sredinu */
 }
   
+.card {
+    border-radius: 8px; /* Zaobljeni uglovi */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
+    width: 300px; /* Širina kartice */
+    padding: 16px; /* Unutrašnji razmak */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px;
+    background-color: #ffffff;
+    border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+    transition: transform 0.3s ease-in-out;
+    height: auto; /* Visina kartice se automatski prilagođava sadržaju */
+    cursor: pointer;
+  }
+  
+  .card-content {
+    margin: 10px;
+    text-align: left; /* Tekst poravnat na levo */
+    width: 100%; /* Puni širinu kartice */
+  }
+  
+  .card-content h3 {
+    margin: 0;
+    font-size: 20px;  /* Povećaj veličinu naslova po potrebi */
+    font-weight: bold;  /* Debeli tekst */
+  }
+  
+  .card-content p {
+    margin: 8px 0;
+    color: #666;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+  }
