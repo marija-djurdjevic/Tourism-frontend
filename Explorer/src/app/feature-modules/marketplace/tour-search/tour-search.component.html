@@ -26,29 +26,28 @@
     </div>
 </form>
 
-<div id="search" *ngIf="searchedTours.length > 0">
-      <p class="search-title">Tours with keypoints in desired area</p>
-      <hr>
-      <div id="search-details">
-          <div class="card-container">
-              <div class="card" *ngFor="let ts of searchedTours" (click)="onTourClick(ts.id!)">
-                <div class="card-content">
-                  <h3>{{ ts.name }}</h3>
-                  <p>{{ ts.description }}</p>
-                  <p><strong>Difficulty:</strong> 
-                    {{ getDifficultyLabel(ts.difficulty) }}
-                  </p>
-                  <p><strong>Price:</strong> 
-                    {{ ts.price }} USD
-                  </p>
-                </div>
-             </div>
-          </div>
-       </div>
-</div>
+<div class="modal-overlay" *ngIf="isSearchModalOpen">
+  <div class="modal-content">
+    <h2>Searched tours</h2>
 
-<div *ngIf="noToursFound">
-  <p class="search-title">There are no tours with keypoints in desired area.</p>
+    <p *ngIf="noToursFound">There are no tours with keypoints in desired area</p>
+    <div class="card-list" *ngIf="searchedTours.length > 0">
+        <div *ngFor="let ts of searchedTours" (click)="onTourClick(ts.id!)" class="search-card">
+            <div class="card-header">
+                <h3>{{ ts.name }}</h3>
+            </div>
+            <div class="card-content">
+                <p>{{ ts.description }}</p>
+                <p><strong>Difficulty:</strong> 
+                  {{ getDifficultyLabel(ts.difficulty) }}
+                </p>
+                <p><strong>Price:</strong> 
+                  {{ ts.price }} USD
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 
   

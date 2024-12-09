@@ -14,6 +14,7 @@ export class TourSearchComponent {
 
   searchedTours: Tour[] = [];
   noToursFound: boolean = false;
+  isSearchModalOpen = false;
   searchCriteria: SearchByDistance = {
     distance: 0,
     latitude: 0, 
@@ -23,6 +24,7 @@ export class TourSearchComponent {
   constructor(private service: MarketplaceService, private router: Router) { }
 
   searchTours(): void {
+    this.isSearchModalOpen = true;
     // Resetuj `noToursFound` pre svake pretrage
     this.noToursFound = false;
 
@@ -61,5 +63,5 @@ export class TourSearchComponent {
             return 'Unknown';
     }
 }
-  
+
 }
