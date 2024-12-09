@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output, OnInit } from '@angu
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
-import { Encounter } from '../model/encounter.model';
+import { Encounter } from '../../encounters/model/encounter.model'; 
 import { AdministrationService } from '../administration.service';
-import { Coordinates } from '../model/coordinates.model';
+import { Coordinates } from '../../encounters/model/coordinates.model';
 
 @Component({
   selector: 'xp-encounter-form',
@@ -94,7 +94,7 @@ export class EncounterFormComponent implements OnInit, OnChanges {
       type: Number(this.encounterForm.value.type) || 0,
       xp: Number(this.encounterForm.value.xp) || 0,
       status: this.encounter.status || 0,
-      administratorId: loggedInUser.id || 0,
+      userId: loggedInUser.id || 0,
       coordinates: {
         longitude: this.newCoordinates.longitude,
         latitude: this.newCoordinates.latitude
@@ -116,12 +116,15 @@ export class EncounterFormComponent implements OnInit, OnChanges {
   addEncounter(): void {
     const loggedInUser = this.authService.user$.value; 
     const encounter: Encounter = {
+    id: 0,
+    keyPointId: 0,
+    creator: 0,
     name: this.encounterForm.value.name || "",
     description: this.encounterForm.value.description || "",
     type: Number(this.encounterForm.value.type) || 0,
     xp: Number(this.encounterForm.value.xp) || 0,
     status: 0,
-    administratorId: loggedInUser.id || 0,
+    userId: loggedInUser.id || 0,
     coordinates: {
     longitude: this.newCoordinates.longitude,
     latitude: this.newCoordinates.latitude

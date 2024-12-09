@@ -1,58 +1,55 @@
-<form [formGroup]="objectForm">
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form [formGroup]="objectForm" class="object-form">
+  <h2>Add Facility</h2>
+  <div class="form-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" placeholder="Enter facility name" required>
+      </mat-form-field>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="1"
+                  formControlName="description"
+                  placeholder="Enter facility description"
+                  cdkAutosizeMaxRows="5" required></textarea>
+      </mat-form-field>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" required>
+          <mat-option value=0>WC</mat-option>
+          <mat-option value=1>Restaurant</mat-option>
+          <mat-option value=2>Parking</mat-option>
+          <mat-option value=3>Other</mat-option>
+        </mat-select>
+      </mat-form-field>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Longitude</mat-label>
+        <input matInput type="text" formControlName="longitude" [(ngModel)]="longitude" required>
+      </mat-form-field>
 
-  <div>
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput type="text" formControlName="name" required>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Latitude</mat-label>
+        <input matInput type="text" formControlName="latitude" [(ngModel)]="latitude" required>
+      </mat-form-field>
+
+      <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
+
+      <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
+
+      <div>
+        <input type="checkbox" formControlName = "isPublic">
+        <label>Mark As Public</label>
+      </div>
+
+      <div class="button-container">
+        <button mat-raised-button color="button" type="submit" (click)="addObject()">
+            Add Facility
+        </button>
+    </div>
   </div>
-
-  <div>
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" required></textarea>
-    </mat-form-field>
-  </div>
-
-
-
-
-
-  <div>
-    <mat-form-field>
-      <mat-label>Category</mat-label>
-      <mat-select formControlName="category" required>
-        <mat-option value=0>WC</mat-option>
-        <mat-option value=1>Restaurant</mat-option>
-        <mat-option value=2>Parking</mat-option>
-        <mat-option value=3>Other</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-form-field>
-      <mat-label>Longitude</mat-label>
-      <input matInput type="text" formControlName="longitude" [(ngModel)]="longitude" required>
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-form-field>
-      <mat-label>Latitude</mat-label>
-      <input matInput type="text" formControlName="latitude" [(ngModel)]="latitude" required>
-    </mat-form-field>
-  </div>
-
-  <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)"></app-map>
-
-  <div style="margin-bottom: 16px;">
-    <!-- kod za upload slike -->
-    <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
-  </div>
-
-  <button mat-raised-button color="primary" type="submit" (click)="addObject()">Submit</button>
 </form>
