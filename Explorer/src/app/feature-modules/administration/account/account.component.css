@@ -79,11 +79,22 @@
   
   .card-actions {
     display: flex;
-    justify-content: center; /* Ikonice centrirane */
-    gap: 4px; /* Smanjenje razmaka između ikonica */
-    margin-top: 8px; /* Smanjenje razmaka između teksta i dugmadi */
-    width: 100%; /* Osigurava da dugmadi popunjavaju širinu kartice */
-    justify-content: center; /* Centriranje dugmadi */
+    justify-content: center; /* Centriranje ikonica horizontalno */
+    align-items: flex-start; /* Poravnanje ikonica prema vrhu */
+    gap: 12px; /* Razmak između ikonica */
+  }
+
+.icon-item {
+  display: flex;
+  flex-direction: column; /* Vertikalno poravnanje unutar jednog elementa */
+  align-items: center; /* Centriranje ikonice i teksta unutar jednog kontejnera */
+}
+
+.status-text {
+  margin-top: 4px; /* Razmak između ikonice i teksta */
+  font-size: 0.85rem; /* Veličina fonta za tekst */
+  font-weight: bold;
+  text-align: center;
 }
 
   .card:hover {

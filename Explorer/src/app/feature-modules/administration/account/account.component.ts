@@ -72,6 +72,10 @@ export class AccountComponent implements OnInit {
     })
   }
 
+  isBlocked(account: Account): boolean {
+    return account.isActive === false;
+  }
+
   loadWallets(): void {
     this.service.getAllWallets().subscribe({
       next: (result: PagedResults<Wallet>) => {
