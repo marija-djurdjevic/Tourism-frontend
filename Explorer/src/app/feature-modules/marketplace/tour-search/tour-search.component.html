@@ -9,10 +9,6 @@
           <input matInput type="number" id="distance" min="1" name="distance" placeholder="Enter distance" [(ngModel)]="searchCriteria.distance" required #distanceInput="ngModel"/>
         </mat-form-field>
 
-        <div *ngIf="distanceInput.invalid && distanceInput.touched">
-          <p style="color: red;">Please provide a valid distance.</p>
-        </div>
-
         <app-map
         [onlyOneMarker]="true"
         (keyPointSelected)="onKeyPointSelected($event)">
