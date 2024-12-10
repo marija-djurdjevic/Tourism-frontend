@@ -15,7 +15,7 @@
         </app-map>
 
         <div class="button-container">
-            <button mat-raised-button color="button" type="submit" (click)="searchTours()" [disabled]="searchForm.invalid">
+            <button mat-raised-button class="search-button" type="submit" (click)="searchTours()" [disabled]="searchForm.invalid">
                 Search Tours
             </button>
         </div>
@@ -42,6 +42,10 @@
                 </p>
             </div>
         </div>
+    </div>
+
+    <div class="popup-actions">
+      <button mat-button id="iks" (click)="closeSearchModal()">X</button>
     </div>
   </div>
 </div>

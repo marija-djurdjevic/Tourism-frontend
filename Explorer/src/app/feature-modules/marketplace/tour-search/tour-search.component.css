@@ -37,7 +37,7 @@ h2 {
   width: 100%; /* Dodaj širinu na roditeljsku div kako bi zauzela celu širinu */
 }
 
-button {
+.search-button {
   width: 100%; /* Dugme zauzima celu širinu roditeljskog kontejnera */
   background-color: #d3d3d3; /* Siva boja za onemogućeno dugme */
   color: white !important; /* Bela boja za tekst */
@@ -45,12 +45,12 @@ button {
   padding: 12px; /* Malo paddinga kako bi dugme bilo udobnije */
 }
 
-button:enabled {
+.search-button:enabled {
   background-color: #34AB45 !important; /* Zelena boja kad je dugme omogućeno */
   cursor: pointer; /* Kursor se menja u normalan kad je dugme omogućeno */
 }
 
-button:hover:enabled {
+.search-button:hover:enabled {
   background-color: #2ecc71 !important; /* Svetlija nijansa zelene pri hover-u kad je dugme omogućeno */
 }
 
@@ -155,6 +155,18 @@ button:hover:enabled {
 
 .modal-content h2 {
     color: black;
+}
+
+#iks{
+  position: absolute;
+  top: 10px; 
+  right: 10px;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Centriraj dugme horizontalno */
 }
 
 .card-list {

@@ -64,4 +64,8 @@ export class TourSearchComponent {
     }
 }
 
+  closeSearchModal(): void {
+    this.isSearchModalOpen = false;
+}
+
 }
