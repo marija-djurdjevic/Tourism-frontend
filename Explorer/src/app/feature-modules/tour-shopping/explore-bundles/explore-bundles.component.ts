@@ -22,7 +22,7 @@ export class ExploreBundlesComponent implements OnInit {
     purchasedBundles: Bundle[] = [];
     paymentRecord: PaymentRecord;
     constructor(
-        private bundleService: BundleService,  // Assuming you have a bundleService for bundles
+        private bundleService: BundleService,
         private snackBar: MatSnackBar,
         private authService: AuthService,
         private router: Router,
@@ -38,12 +38,11 @@ export class ExploreBundlesComponent implements OnInit {
         console.log(this.user)
     }
 
-    // Fetch bundles for the author
     getBundles(): void {
         this.isLoading = true;
         this.bundleService.getAllBundles().subscribe({
             next: (result: PagedResults<Bundle>) => {
-                this.bundles = result.results;
+                this.bundles = result.results.filter(bundle => bundle.status === 1);
                 this.isLoading = false;
             },
             error: (err: any) => {
@@ -60,9 +59,9 @@ export class ExploreBundlesComponent implements OnInit {
     getPurchasedBundles(): void {
         this.isLoading = true;
         this.shoppingService.getPurchasedBundles(this.user.id).subscribe({
-            next: (result: any) => {
+            next: (result: any) => { // from any you can get .values
                 if (result && result.value) {
-                    this.purchasedBundles = result.value as Bundle[];  // Extract the 'value' array and cast it
+                    this.purchasedBundles = result.value as Bundle[];  // extract the 'value' array and cast it
                 } else {
                 }
                 console.log("Purchased bundles not loaded properly: ", this.purchaseBundle);
@@ -106,7 +105,8 @@ export class ExploreBundlesComponent implements OnInit {
         });
     }
 
-    viewTours(tourIds: number[]): void {
+    viewTours(bundle: Bundle): void {
+        this.router.navigate(['/bundle/' + bundle.id + '/author/' + bundle.authorId]);
     }
 
 }

@@ -30,7 +30,6 @@ export class BundleComponent implements OnInit {
             this.user = user;
             this.getBundles();
         });
-        console.log(this.user)
     }
 
     // Fetch bundles for the author
@@ -128,6 +127,8 @@ export class BundleComponent implements OnInit {
         }
     }
 
-    viewTours(tourIds: number[]): void {
+    viewTours(bundle: Bundle): void {
+
+        this.router.navigate(['/bundle/' + bundle.id + '/author/' + bundle.authorId]);
     }
 }
