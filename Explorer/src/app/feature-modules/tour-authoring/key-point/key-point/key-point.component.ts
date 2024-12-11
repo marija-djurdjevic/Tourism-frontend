@@ -4,6 +4,7 @@ import { KeyPointService } from '../../key-point.service';
 import { KeyPoint } from '../../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'xp-key-point',
   templateUrl: './key-point.component.html',

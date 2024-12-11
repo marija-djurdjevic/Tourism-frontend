@@ -49,6 +49,10 @@ newCoupon: {
     this.getTours();
   }
 
+  onAddGroupTour(): void {
+    this.router.navigate(['/add-group-tour']);
+  }
+
   getTours(): void {
     this.isLoading=true;
     this.authService.user$.subscribe((loggedInUser) => {
