@@ -18,6 +18,7 @@ export class BundleCreateComponent implements OnInit {
     selectedTours: Tour[] = [];
     totalPrice: number = 0;
     newPrice: number;
+    newTitle: string;
     isLoading = false;
     user: User;
     tokenStorage: any;
@@ -76,6 +77,10 @@ export class BundleCreateComponent implements OnInit {
             this.snackBar.open('Please enter a valid new price.', 'Close', { duration: 3000 });
             return;
         }
+        if (!this.newTitle) {
+            this.snackBar.open('Please enter a title.', 'Close', { duration: 3000 });
+            return;
+        }
 
         const tourIds = this.selectedTours.map(tour => tour.id!);
 
@@ -83,7 +88,8 @@ export class BundleCreateComponent implements OnInit {
             authorId: this.user.id,
             tourIds: tourIds,
             price: this.newPrice,
-            status: 0
+            status: 0,
+            title: this.newTitle,
         };
         this.service.createBundle(newBundle).subscribe({
             next: () => {

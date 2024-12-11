@@ -129,17 +129,5 @@ export class BundleComponent implements OnInit {
     }
 
     viewTours(tourIds: number[]): void {
-        //     // Option 1: Open a modal with tour details
-        //     const dialogRef = this.dialog.open(TourListDialogComponent, {
-        //       data: { tourIds: tourIds }
-        //     });
-
-        //     dialogRef.afterClosed().subscribe(result => {
-        //       console.log('The dialog was closed');
-        //     });
-
-        //     // Option 2: Navigate to a tour details page
-        //     // this.router.navigate(['/tour-details'], { queryParams: { tourIds: tourIds } });
-        //   }
     }
 }

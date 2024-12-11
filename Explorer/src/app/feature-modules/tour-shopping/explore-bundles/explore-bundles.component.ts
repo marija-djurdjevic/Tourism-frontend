@@ -5,7 +5,6 @@ import { BundleService } from "../bundle.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "src/app/infrastructure/auth/auth.service";
 import { Router } from "@angular/router";
-import { Tour } from "../../tour-authoring/model/tour.model";
 import { TourShoppingService } from "../tour-shopping.service";
 import { PaymentRecord } from "../model/payment-record.model";
 import { PagedResults } from "src/app/shared/model/paged-results.model";
@@ -22,13 +21,12 @@ export class ExploreBundlesComponent implements OnInit {
     user: User;
     purchasedBundles: Bundle[] = [];
     paymentRecord: PaymentRecord;
-
     constructor(
         private bundleService: BundleService,  // Assuming you have a bundleService for bundles
         private snackBar: MatSnackBar,
         private authService: AuthService,
         private router: Router,
-        private shoppingService: TourShoppingService
+        private shoppingService: TourShoppingService,
     ) { }
 
     ngOnInit(): void {
@@ -106,6 +104,9 @@ export class ExploreBundlesComponent implements OnInit {
                 });
             }
         });
+    }
+
+    viewTours(tourIds: number[]): void {
     }
 
 }

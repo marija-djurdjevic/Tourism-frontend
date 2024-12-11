@@ -1,47 +1,39 @@
-<div *ngIf="isLoading" class="loading-spinner">
-    <div class="custom-spinner"></div>
-    <p class="loading-text">Loading bundles...</p>
-</div>
-
 <div *ngIf="!isLoading">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="bundle">
-        <p>Bundles</p>
-        <hr>
-        <div id="buttonPlace">
-            <button (click)="createNewBundle()">Create New Bundle</button> <!-- New Create button -->
+        <p class="bundle-title">Bundles</p>
+        <div class="add-new-bundle">
+            <button class="primary-button" (click)="createNewBundle()">Create New Bundle</button>
         </div>
-        <br>
+        <hr>
         <div id="bundle-details">
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tours</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let b of bundles">
-                            <td>{{ b.id }}</td>
-                            <td>
-                                <!-- <a href="javascript:void(0)" (click)="viewTours(b.tourIds)"> -->
-                                <a>
-                                    {{ b.tourIds.length }} tours
-                                </a>
-                            </td>
-                            <td>{{ b.price | currency }}</td>
-                            <td>{{ getStatusText(b.status) }}</td>
-                            <td>
-                                <button (click)="updateBundleStatus(b)">
-                                    {{ getButtonLabel(b.status) }}
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card-container">
+                <div class="card" *ngFor="let b of bundles">
+                    <div class="card-content">
+                        <h3>{{b.title}}</h3>
+                        <p><strong>Tours:</strong> {{b.tourIds.length}} tours</p>
+                        <p><strong>Price:</strong> {{b.price | currency}}</p>
+                        <p><strong>Status:</strong> {{getStatusText(b.status)}}</p>
+                    </div>
+                    <div class="card-actions">
+                        <button color="primary" *ngIf="b.status == 0" (click)="updateBundleStatus(b)" mat-icon-button
+                            matTooltip="Publish bundle">
+                            <img src="assets/icons/publish.png" alt="Publish Icon" />
+                        </button>
+                        <button color="primary" *ngIf="b.status === 1" (click)="updateBundleStatus(b)" mat-icon-button
+                            matTooltip="Archive bundle">
+                            <img src="assets/icons/archive.png" alt="Archive Icon" />
+                        </button>
+                        <button color="primary" (click)="viewTours(b.tourIds)" mat-icon-button matTooltip="View Tours">
+                            <img src="assets/icons/keypoints.png" alt="Tours Icon" />
+                        </button>
+                    </div>
+                </div>
+                <div class="card add-card">
+                    <button color="primary" (click)="createNewBundle()" mat-icon-button matTooltip="Create new bundle">
+                        <img src="assets/icons/add.png" alt="Add Icon" />
+                    </button>
+                </div>
             </div>
         </div>
     </div>
