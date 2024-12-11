@@ -37,7 +37,7 @@ h2 {
   width: 100%; /* Dodaj širinu na roditeljsku div kako bi zauzela celu širinu */
 }
 
-button {
+.search-button {
   width: 100%; /* Dugme zauzima celu širinu roditeljskog kontejnera */
   background-color: #d3d3d3; /* Siva boja za onemogućeno dugme */
   color: white !important; /* Bela boja za tekst */
@@ -45,12 +45,12 @@ button {
   padding: 12px; /* Malo paddinga kako bi dugme bilo udobnije */
 }
 
-button:enabled {
+.search-button:enabled {
   background-color: #34AB45 !important; /* Zelena boja kad je dugme omogućeno */
   cursor: pointer; /* Kursor se menja u normalan kad je dugme omogućeno */
 }
 
-button:hover:enabled {
+.search-button:hover:enabled {
   background-color: #2ecc71 !important; /* Svetlija nijansa zelene pri hover-u kad je dugme omogućeno */
 }
 
@@ -127,3 +127,80 @@ button:hover:enabled {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
   }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #666;
+    width: 80%;
+    max-width: 600px;
+}
+
+.modal-content h2 {
+    color: black;
+}
+
+#iks{
+  position: absolute;
+  top: 10px; 
+  right: 10px;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Centriraj dugme horizontalno */
+}
+
+.card-list {
+    overflow: auto;
+}
+
+.search-card {
+    background-color: #fdfdfd;
+    border: 3px solid #34AB45; 
+    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.search-card:hover {
+    border: 3px solid #2ecc71; 
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.card-content p {
+    margin: 8px 0;
+    color: #666;
+}

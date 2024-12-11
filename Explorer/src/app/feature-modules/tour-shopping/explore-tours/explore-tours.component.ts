@@ -47,6 +47,13 @@ export class ExploreToursComponent implements OnInit {
     this.loadSalesData();
     this.loadPurchasedTours();
     this.route.queryParams.subscribe(params => {
+      const selectedTourId = params['selectedTourId'] ? Number(params['selectedTourId']) : null;
+      if (selectedTourId) {
+        this.refundedTourId = selectedTourId; // Koristi refundedTourId da iskoristiš isti hajlajt mehanizam
+        console.log('Selected Tour ID:', this.refundedTourId);
+      }
+    });    
+    this.route.queryParams.subscribe(params => {
       this.refundId = params['refundId'] ? Number(params['refundId']) : null;
       console.log('Captured refundId:', this.refundId);
 

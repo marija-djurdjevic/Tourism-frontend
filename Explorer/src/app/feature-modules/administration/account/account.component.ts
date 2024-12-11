@@ -53,23 +53,28 @@ export class AccountComponent implements OnInit {
   }
 
   blockAccount(account: Account): void {
-    const accounts: Account = {}
-    this.service.blockAccount(account).subscribe({
-      next: (_) => {
-        this.getAccount();
-        this.snackBar.open('Account blocked successfully!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
-      },
-      error: (err: any) => {
-        console.log(err);
-        this.snackBar.open('Failed to block account. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
-      }
-    })
+    if (confirm('Are you sure you want to block this account?')) {
+      this.service.blockAccount(account).subscribe({
+        next: (_) => {
+          this.getAccount();
+          this.snackBar.open('Account blocked successfully!', 'Close', {
+            duration: 3000,
+            panelClass: "succesful"
+          });
+        },
+        error: (err: any) => {
+          console.log(err);
+          this.snackBar.open('Failed to block account. Please try again.', 'Close', {
+            duration: 3000,
+            panelClass: "succesful"
+          });
+        }
+      })
+    }
+  }
+
+  isBlocked(account: Account): boolean {
+    return account.isActive === false;
   }
 
   loadWallets(): void {
