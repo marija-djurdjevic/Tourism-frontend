@@ -54,14 +54,6 @@ export class AccountComponent implements OnInit {
 
   blockAccount(account: Account): void {
 
-    if (account.role === 'Administrator') {
-      this.snackBar.open('You cannot block an admin account.', 'Close', {
-        duration: 3000,
-        panelClass: 'error' // Promena u odgovarajuću klasu za greške
-      });
-      return; // Prekini izvršavanje ako je admin
-    }
-
     this.service.blockAccount(account).subscribe({
       next: (_) => {
         this.getAccount();
