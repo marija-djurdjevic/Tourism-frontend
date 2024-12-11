@@ -64,6 +64,370 @@
       width: 100%; /* Puni širinu kartice */
     }
 
+
+p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+hr {
+    margin-bottom: 20px;
+}
+
+/* Flexbox for side-by-side layout */
+#club-details {
+    display: flex;
+    justify-content: space-between; /* Ensure table and form are on the left and right */
+    align-items: flex-start;
+}
+
+/* Table Container */
+#club-table {
+    width: 50%;               /* Take up 50% of the screen */
+    padding-right: 20px;      /* Add space between table and form */
+    box-sizing: border-box;   /* Ensure padding doesn't push it out of the container */
+}
+
+table {
+    width: 100%;              /* Table takes full width of the container */
+    border-collapse: collapse;
+    font-size: 1em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+thead tr {
+    background-color: #3f51b5;
+    color: #ffffff;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 15px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+tbody tr:last-of-type {
+    border-bottom: 2px solid #3f51b5;
+}
+
+tbody tr.active-row {
+    font-weight: bold;
+    color: #3f51b5;
+}
+
+.club-image {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Form Container */
+#club-form {
+    width: 50%;              /* Take up the other 50% of the screen */
+    padding-left: 20px;      /* Add space between table and form */
+    box-sizing: border-box;  /* Ensure padding doesn't push it out */
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Modal - Light themed with centered positioning */
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(173, 216, 230, 0.8); /* Soft light blue transparent background */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Modal content - centered, clean, and modern */
+  .modal-content {
+    background-color: #f0f8ff; /* AliceBlue for a fresh appearance */
+    color: #2c3e50; /* Darker text color for contrast */
+    border-radius: 12px;
+    width: 60%;
+    max-width: 900px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    overflow-y: auto;
+    border: 2px solid #add8e6; /* Light blue border to match theme */
+    max-height: 80%; /* Prevents overflow on smaller screens */
+  }
+  
+  /* Close button (X) for modal */
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.6rem;
+    color: #00796b; /* Mild green */
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+  }
+  
+  .close-modal:hover {
+    color: #004d40; /* Darker green for hover */
+    transform: scale(1.2); /* Slight zoom effect */
+  }
+  
+  /* Header for the modal content */
+  .modal-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #00796b;
+  }
+  
+  /* Content container with a clean column layout */
+  .modal-content-container {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr; /* Three columns: username, email, and action */
+    gap: 15px; /* Space between rows */
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  /* Styling for column headers */
+  .modal-column-header {
+    font-weight: bold;
+    color: #4682b4; /* Steel blue for headers */
+    text-align: left;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #add8e6; /* Light blue underline for clarity */
+  }
+  
+  /* Styling for individual rows */
+  .modal-row {
+    display: contents; /* Keeps alignment consistent without visible borders */
+  }
+  
+  /* Username and email text */
+  .modal-row span {
+    color: #2c3e50; /* Darker text for readability */
+    font-size: 1rem;
+  }
+  
+  /* Invite button */
+  .modal-row button {
+    background-color: #add8e6; /* Light blue */
+    color: #2c3e50; /* Darker text for contrast */
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .modal-row button:hover {
+    background-color: #87ceeb; /* SkyBlue on hover */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
+  }
+  
+  .modal-row button:active {
+    background-color: #4682b4; /* SteelBlue on click */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed effect */
+  }
+  
+  
+  /* Buttons inside the modal */
+  .modal-content button {
+    background-color: #add8e6; /* Light blue */
+    color: #2c3e50; /* Darker text for contrast */
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 10px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .modal-content button:hover {
+    background-color: #87ceeb; /* SkyBlue on hover */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
+  }
+  
+  .modal-content button:active {
+    background-color: #4682b4; /* SteelBlue on click */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed effect */
+  }
+  
+  /* Input fields inside the modal */
+  .modal-content input,
+  .modal-content textarea {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #add8e6; /* Matching blue border */
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .modal-content input:focus,
+  .modal-content textarea:focus {
+    border-color: #4682b4; /* Highlighted border on focus */
+    box-shadow: 0 0 5px #4682b4; /* Subtle glow effect */
+  }
+
+  .modal-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.modal-tabs button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #add8e6;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.modal-tabs button.active {
+    background-color: #4682b4;
+    color: white;
+}
+
+/* Container for the modal */
+.invitation-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content */
+.invitation-modal-content {
+    background-color: #f8f9fa; /* Light background for contrast */
+    color: #2c3e50; /* Dark text color for readability */
+    border-radius: 12px;
+    width: 50%;
+    max-width: 800px;
+    padding: 20px 30px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    max-height: 80%;
+}
+
+/* Close button */
+.invitation-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #3f51b5; /* Same as header background color */
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.invitation-modal-close:hover {
+    color: #283593; /* Slightly darker on hover */
+    transform: scale(1.2); /* Slight zoom */
+}
+
+/* Modal header */
+.invitation-modal-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #3f51b5;
+    border-bottom: 2px solid #3f51b5;
+    padding-bottom: 10px;
+}
+
+/* Modal body */
+.invitation-modal-body {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #2c3e50;
+    line-height: 1.5;
+}
+
+/* Form within the modal */
+.invitation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.invitation-form input,
+.invitation-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.invitation-form input:focus,
+.invitation-form textarea:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 5px #3f51b5;
+    outline: none;
+}
+
+/* Buttons */
+.invitation-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.invitation-modal-button {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.invitation-modal-button:hover {
+    background-color: #283593;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.invitation-modal-button:active {
+    background-color: #1a237e;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+}
     .card-image {
         width: 100%;
         height: 200px;
