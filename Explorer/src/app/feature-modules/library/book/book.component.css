@@ -1,0 +1,50 @@
+
+#imgb {
+    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    top: 0;
+    left: 0;
+    height: 100%;  /* Pokriva celu visinu ekrana */
+    width: 100%;   /* Pokriva celu širinu ekrana */
+    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+    z-index: -1;  /* Da bude ispod sadržaja */
+    opacity: 0.5;  /* Bleda slika */
+}
+
+.okvir {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap:5%; 
+    padding: 2%; 
+}
+
+.jedan {
+    background-color: rgb(88, 181, 86);
+    border-radius: 8px;
+    text-align: center;
+    box-sizing: border-box; 
+    height: 430px; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between; 
+}
+
+.jedan img {
+    width: 100%; 
+    height: 45%;
+}
+
+.jedan h2 {
+    margin: 0.5%;
+}
+
+
+
+button{
+    background-color: var(--primary-color) ;
+    color: var(--light-text-color);
+    border-radius: 30px 15px 30px 15px;
+}
+button:active{
+    background-color: green;
+}

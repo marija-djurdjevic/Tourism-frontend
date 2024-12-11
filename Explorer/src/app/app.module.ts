@@ -22,12 +22,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
 import { SharedModule } from "./shared/shared.module";
+import { StoryFormComponent } from './feature-modules/library/story-form/story-form.component';
+import { LibraryListComponent } from './feature-modules/library/library-list/library-list.component';
+import { BookComponent } from './feature-modules/library/book/book.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     EncountersComponent,
+    StoryFormComponent,
+    LibraryListComponent,
+    BookComponent
   ],
   imports: [
     FormsModule,

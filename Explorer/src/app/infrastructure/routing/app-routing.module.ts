@@ -48,6 +48,9 @@ import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bun
 import { ExploreBundlesComponent } from 'src/app/feature-modules/tour-shopping/explore-bundles/explore-bundles.component';
 import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
 import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
+import { StoryFormComponent } from 'src/app/feature-modules/library/story-form/story-form.component';
+import { LibraryListComponent } from 'src/app/feature-modules/library/library-list/library-list.component';
+import { BookComponent } from 'src/app/feature-modules/library/book/book.component';
 
 
 const routes: Routes = [
@@ -202,6 +205,21 @@ const routes: Routes = [
     component: ExploreBundlesComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path:'story-form/:id',
+    component:StoryFormComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'library',
+    component:LibraryListComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'book',
+    component:BookComponent,
+    canActivate:[AuthGuard]
+  }
 
   //{ path: 'explore', component: AllTours },
 

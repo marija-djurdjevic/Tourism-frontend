@@ -73,7 +73,10 @@ export class NavbarComponent implements OnInit {
 
     
   }
-
+  myLibrary(){
+    this.showProfileMenu = !this.showProfileMenu;
+    this.router.navigate(['/library']);
+  }
    
   myProfile(){
     this.showProfileMenu = !this.showProfileMenu;

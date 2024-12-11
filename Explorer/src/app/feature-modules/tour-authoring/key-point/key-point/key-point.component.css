@@ -213,3 +213,7 @@ h2 {
     transform: scale(0.98); /* Blago smanjenje pri kliku */
 }
 
+.buttonss{
+    display: flex;
+    flex-direction: column;
+}

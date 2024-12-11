@@ -144,6 +144,8 @@ export class KeyPointComponent implements OnInit {
   addEncounter(id:number|undefined){
     this.router.navigate(['/add-encounter',id]);
   }
-
+  addStory(id:number|undefined){
+    this.router.navigate(['/story-form',id]);
+  }
   
 }

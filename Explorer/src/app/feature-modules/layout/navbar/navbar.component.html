@@ -59,6 +59,7 @@
 
             <div *ngIf="showProfileMenu" class="profile-dropdown">
                 <button class="menu-item" mat-button (click)="myProfile()">My Profile</button>
+                <button *ngIf="user && user.role === 'tourist'" class="menu-item" mat-button (click)="myLibrary()">Library</button>
                 <button class="menu-item" mat-button (click)="onLogout()">Logout <img class="log"
                         src='../../../../assets/icons/logout.png'></button>
             </div>
