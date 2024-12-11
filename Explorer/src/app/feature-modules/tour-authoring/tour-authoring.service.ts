@@ -11,6 +11,7 @@ import { environment } from 'src/env/environment';
 import { TransportInfo, TransportType } from './model/transportInfo.model';
 import { Tourist } from './model/tourist.model';
 import { KeyPoint } from './model/key-point.model';
+import { GroupTour } from './model/group-tour.model';
 
 @Injectable({
   providedIn: 'root'
@@ -216,5 +217,10 @@ getInvitations(): Observable<PagedResults<Clubs>> {
 
   getObjectById(id:number):Observable<Object>{
     return this.http.get<Object>('https://localhost:44333/by?id=' + id);
+  }
+
+  addGroupTour(groupTour: GroupTour): Observable<GroupTour> {
+    const url = `${environment.apiHost}group-tour`; 
+    return this.http.post<GroupTour>(environment.apiHost + 'administration/tour/group-tour', groupTour);
   }
 }

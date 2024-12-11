@@ -27,6 +27,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { GroupTourFormComponent } from './group-tour-form/group-tour-form.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 
 @NgModule({
@@ -41,7 +44,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     KeyPointComponent,
     KeyPointFormComponent,
     ExploreToursComponent,
-    KeyPointUpdateFormComponent
+    KeyPointUpdateFormComponent,
+    GroupTourFormComponent
   ],
   imports: [
     RouterModule,
@@ -54,7 +58,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule
   ],
   exports: [
     ClubsComponent,

@@ -1,0 +1,90 @@
+<form [formGroup]="groupTourForm"
+      (ngSubmit)="addGroupTour()"
+      class="tour-form">
+  <h2>{{ 'Add Group Tour' }}</h2>
+
+  <div class="form-container">
+    <!-- Postojeća polja -->
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" placeholder="Enter tour name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" formControlName="description"
+                placeholder="Enter tour description" cdkAutosizeMaxRows="5" required></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Difficulty</mat-label>
+      <mat-select formControlName="difficulty" required>
+        <mat-option value="0">Easy</mat-option>
+        <mat-option value="1">Medium</mat-option>
+        <mat-option value="2">Hard</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <!-- Nova polja specifična za Group Tour -->
+    <mat-form-field appearance="outline">
+      <mat-label>Tourist Number</mat-label>
+      <input matInput formControlName="touristNumber" type="number" placeholder="Enter tourist number" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Start Time</mat-label>
+        <input matInput type="datetime-local" formControlName="startTime" placeholder="Choose a start time" required />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    
+      
+
+    <mat-form-field appearance="outline">
+      <mat-label>Duration (hours)</mat-label>
+      <input matInput formControlName="duration" type="number" placeholder="Enter duration in hours" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Transport Type</mat-label>
+        <mat-select formControlName="transportType" required>
+            <mat-option [value]="TransportType.Car">Car</mat-option>
+            <mat-option [value]="TransportType.Bicycle">Bicycle</mat-option>
+            <mat-option [value]="TransportType.Walk">Walk</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="add-tag">
+        <mat-form-field appearance="outline">
+            <mat-label>Tags</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="newTag" 
+              [ngModelOptions]="{standalone: true}" 
+              placeholder="Enter a tag" 
+              (keyup.enter)="addTag()">
+        </mat-form-field>
+        <button mat-raised-button class="add-tag-button" type="button" (click)="addTag()">
+            Add Tag
+        </button>
+    </div>
+    
+    <div>
+        <mat-chip-list>
+            <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+                {{ tag }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <!-- Dugmad za potvrdu -->
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="groupTourForm.invalid">
+        {{ 'Add Group Tour' }}
+      </button>
+    </div>
+  </div>
+</form>
