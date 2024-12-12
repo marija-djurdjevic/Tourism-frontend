@@ -92,3 +92,27 @@ tbody tr:hover {
 #floating-price-block button:focus {
     outline: none;
 }
+
+.tour-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.tour-card {
+    width: 250px;
+    cursor: pointer;
+}
+
+.tour-card.selected {
+    border: 2px solid #3f51b5;
+}
+
+#bundle-price {
+    margin-top: 20px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+}

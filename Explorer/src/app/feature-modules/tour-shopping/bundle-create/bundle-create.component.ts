@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'bundle-create',
@@ -18,15 +19,16 @@ export class BundleCreateComponent implements OnInit {
     selectedTours: Tour[] = [];
     totalPrice: number = 0;
     newPrice: number;
-    isLoading = false;
+    newTitle: string;
+    isLoading = true;
     user: User;
-    tokenStorage: any;
 
     constructor(
         private tourService: TourAuthoringService,
         private snackBar: MatSnackBar,
         private service: BundleService,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -36,11 +38,9 @@ export class BundleCreateComponent implements OnInit {
         });
     }
 
-    // Load tours from the tourService
     loadTours(): void {
         this.tourService.getToursByAuthorId(this.user.id).subscribe({
             next: (result: PagedResults<Tour>) => {
-                console.log(result);
                 this.tours = result.results;
                 this.isLoading = false;
             },
@@ -48,57 +48,67 @@ export class BundleCreateComponent implements OnInit {
                 this.isLoading = false;
                 this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
                     duration: 3000,
-                    panelClass: "succesful"
+                    panelClass: "error"
                 });
             }
         });
     }
 
-    // Toggle tour selection when checkbox is clicked
     toggleTourSelection(tour: Tour): void {
         const index = this.selectedTours.indexOf(tour);
         if (index === -1) {
-            this.selectedTours.push(tour); // Add tour
+            this.selectedTours.push(tour);
         } else {
-            this.selectedTours.splice(index, 1); // Remove tour
+            this.selectedTours.splice(index, 1);
         }
-        this.calculateTotalPrice(); // Update total price
+        this.calculateTotalPrice();
     }
 
-    // Calculate the total price of selected tours
     calculateTotalPrice(): void {
         this.totalPrice = this.selectedTours.reduce((sum, tour) => sum + tour.price, 0);
     }
 
-    // Create the bundle with the selected tours and new price
     createBundle(): void {
-        if (!this.newPrice) {
-            this.snackBar.open('Please enter a valid new price.', 'Close', { duration: 3000 });
+        if (!this.newPrice || this.newPrice >= this.totalPrice) {
+            this.snackBar.open('The new price must be lower than the total price.', 'Close', {
+                duration: 3000,
+                panelClass: "error"
+            });
+            return;
+        }
+
+        if (!this.newTitle) {
+            this.snackBar.open('Please enter a title.', 'Close', { duration: 3000 });
+            return;
+        }
+
+        if (this.selectedTours.length < 2) {
+            this.snackBar.open('Please select at least two tours.', 'Close', { duration: 3000 });
             return;
         }
 
         const tourIds = this.selectedTours.map(tour => tour.id!);
-
         const newBundle: Bundle = {
             authorId: this.user.id,
             tourIds: tourIds,
             price: this.newPrice,
-            status: 0
+            status: 0,
+            title: this.newTitle,
         };
+
         this.service.createBundle(newBundle).subscribe({
             next: () => {
                 this.snackBar.open('Bundle created successfully!', 'Close', { duration: 3000 });
+                this.router.navigate(['/bundles']);
             },
             error: () => {
                 this.snackBar.open('Failed to add bundle. Please try again.', 'Close', {
                     duration: 3000,
-                    panelClass: "succesful"
+                    panelClass: "error"
                 });
             }
         });
 
-
-        // Reset state
         this.selectedTours = [];
         this.newPrice = 0;
         this.calculateTotalPrice();

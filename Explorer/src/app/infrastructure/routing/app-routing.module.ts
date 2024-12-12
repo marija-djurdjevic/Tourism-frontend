@@ -48,6 +48,7 @@ import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bun
 import { ExploreBundlesComponent } from 'src/app/feature-modules/tour-shopping/explore-bundles/explore-bundles.component';
 import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
 import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
+import { BundleToursComponent } from 'src/app/feature-modules/tour-shopping/bundle-tours/bundle-tours.component';
 
 
 const routes: Routes = [
@@ -192,14 +193,20 @@ const routes: Routes = [
     component: PublishRequestComponent,
     canActivate: [AuthGuard],
   },
-  { 
-    path: 'sales', 
-    component: SalesComponent, 
-    canActivate: [AuthGuard] 
+  {
+    path: 'sales',
+    component: SalesComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'explore-bundles',
     component: ExploreBundlesComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'bundle/:bundleId/author/:authorId',
+    component: BundleToursComponent,
     canActivate: [AuthGuard],
   },
 

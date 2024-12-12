@@ -4,38 +4,29 @@
 </div>
 
 <div *ngIf="!isLoading">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="bundle">
-        <p>Bundles</p>
+        <p class="bundle-title">Bundles</p>
         <hr>
-        <br>
         <div id="bundle-details">
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tours</th>
-                            <th>Price</th>
-                            <th>Status/Action</th> <!-- Combined Status/Action column -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let b of bundles">
-                            <td>{{ b.id }}</td>
-                            <td>
-                                <a>{{ b.tourIds.length }} tours</a>
-                            </td>
-                            <td>{{ b.price | currency }}</td>
-                            <td>
-                                <!-- If bundle is purchased, show "Purchased", otherwise show Buy button -->
-                                <span *ngIf="isPurchased(b.id!)">Purchased</span>
-                                <button *ngIf="!isPurchased(b.id!)" (click)="purchaseBundle(b)">
-                                    Purchase
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card-container">
+                <div class="card" *ngFor="let b of bundles">
+                    <div class="card-content">
+                        <h3>{{ b.title }}</h3>
+                        <p><strong>Tours:</strong> {{ b.tourIds.length }} tours</p>
+                        <p><strong>Price:</strong> {{ b.price | currency }}</p>
+                    </div>
+                    <div class="card-actions">
+                        <span *ngIf="isPurchased(b.id!)">Purchased</span>
+                        <button *ngIf="!isPurchased(b.id!)" (click)="purchaseBundle(b)" mat-icon-button>
+                            <img src="assets/icons/shopping-cart.png" alt="Purchase Icon" />
+                        </button>
+
+                        <button color="primary" (click)="viewTours(b)" mat-icon-button matTooltip="View Tours">
+                            <img src="assets/icons/keypoints.png" alt="Tours Icon" />
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
