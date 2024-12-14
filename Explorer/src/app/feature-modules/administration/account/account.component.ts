@@ -145,4 +145,11 @@ export class AccountComponent implements OnInit {
       });
     }
   }
+
+  ensureNonEmptyBalance(): void {
+    if (this.selectedWallet && (this.selectedWallet.balance === null || this.selectedWallet.balance === undefined)) {
+      this.selectedWallet.balance = 0; // Reset to 0 if empty
+    }
+  }
+  
 }
