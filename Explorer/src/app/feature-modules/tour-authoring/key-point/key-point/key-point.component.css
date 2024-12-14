@@ -1,215 +1,280 @@
-/* Glavni kontejner za tur */
-.tour-container {
-    margin-top: 20px;
-    margin-left: 20px;
-    font-family: "Helvetica Neue", sans-serif;
-    
+/* General Layout */
+body {
+  font-family: "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Stilovi za podnaslov */
+.tour-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Key Points Section */
+.key-points-section {
+  text-align: center;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #2c3e50;
+  padding-bottom: 10px;
+}
+
 h3 {
-    font-size: 20px;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-    text-align: center;
-}
-.status-label {
-    font-weight: bold;
-    color: var(--secondary-color);
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
 }
 
-/* Horizontalna linija */
-hr {
-    border: none;
-    height: 2px;
-    background-color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-/* Kontejner za kartice */
 .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
-/* Stil za svaku karticu */
 .card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 300px;
-    transition: transform 0.3s ease;
-    position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  position: relative;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
-/* Stilovi za slike unutar kartica */
 .card-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
-/* Unutrašnji sadržaj kartice */
 .card-content {
-    padding: 15px;
-    color: var(--text-color);
+  padding: 15px;
 }
 
 .card-content h4 {
-    margin: 0 0 10px 0;
-    color: var(--text-color);
+  margin: 0 0 10px 0;
+  color: #2c3e50;
 }
 
 .card-content p {
-    margin: 5px 0;
-    color: var(--text-color);
+  margin: 5px 0;
+  color: #555;
 }
 
-/* Header za karticu sa dugmadi */
-.card-header {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-/* Standardne dugmadi - Edit i Delete */
-.btn {
-    font-size: 14px;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-/* Stil za Edit dugme */
-.edit-btn {
-    background-color: #f39c12;
-    color: white;
-}
-
-.edit-btn:hover {
-    background-color: #e67e22;
-    transform: scale(1.05); /* Slight scale effect on hover */
-}
-
-/* Stil za Delete dugme */
-.delete-btn {
-    background-color: #e74c3c;
-    color: white;
-}
-
-.delete-btn:hover {
-    background-color: #c0392b;
-    transform: scale(1.05); /* Slight scale effect on hover */
-}
-
-/* Kontejner za mapu */
-.map-container {
-    width: 850px;
-    
-}
-
-/* Responsive stilovi */
-@media screen and (max-width: 768px) {
-    .card {
-        width: 100%;
-    }
-}
-
-/* Stil za naslov tura */
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 20px;
-}
-
-.card-footer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 12px;
-    border-top: 1px solid #eee;
-    background-color: #f9f9f9;
-}
-
-.btn.secondary-btn {
-    background-color: var(--secondary-color); 
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    margin-left: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn.secondary-btn:hover {
-    background-color: #4caf50;
-}
-.success-snackbar {
-    background-color: #4caf50; /* Green */
-    color: white;
-  }
-  
-  .error-snackbar {
-    background-color: #f44336; /* Red */
-    color: white;
-  }
-  
-  .confirmation-snackbar {
-    background-color: #ff9800; /* Orange */
-    color: white;
-  }
-
-  .author-message {
-    font-size: 1.1rem;
-    color: black;
-    margin-bottom: 20px;
-    line-height: 1.5;
-    text-align: center;
-}
-
-
-
-
-
-
-
-.add-encounter-button {  
-    background-color: #2ecc71; /* Svetlija zelena boja */
-    color: white; /* Bela boja teksta */
-    border: none; /* Bez okvira */
-    padding: 10px 20px; /* Unutrašnje margine */
-    border-radius: 5px; /* Zaobljeni uglovi */
-    font-size: 16px; /* Veličina fonta */
-    font-weight: bold; /* Podebljan tekst */
-    cursor: pointer; /* Kursor kao na linkovima */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Animacija pri hover-u */
-    margin-bottom: 20px; /* Razmak ispod dugmeta */
+.add-encounter-button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
 }
 
 .add-encounter-button:hover {
-    background-color: #27ae60; /* Tamnija zelena boja na hover */
-    transform: scale(1.05); /* Blago povećanje */
+  background-color: #27ae60;
+  transform: scale(1.05);
 }
 
 .add-encounter-button:active {
-    background-color: #1e8449; /* Još tamnija zelena pri kliku */
-    transform: scale(0.98); /* Blago smanjenje pri kliku */
+  background-color: #1e8449;
+  transform: scale(0.98);
 }
 
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+}
+
+.status-label {
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.btn.secondary-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.btn.secondary-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.btn.secondary-btn:active {
+  background-color: #003f88;
+  transform: scale(0.98);
+}
+
+/* Bottom Section with Map and Weather */
+/* Bottom Section with Map and Weather */
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr; /* Map takes 3 parts, Weather takes 1 part */
+    gap: 20px;
+    align-items: start;
+  }
+  
+  .map-container {
+    width: 100%;
+    height: 700px; /* Increase height for a larger map */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+
+/* Weather Section */
+.tour-weather {
+  text-align: center;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tour-weather h2 {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.weather-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.weather-icon img {
+  width: 80px;
+  height: 80px;
+}
+
+.weather-info {
+  font-size: 16px;
+  color: #555;
+}
+
+.weather-info h3 {
+  font-size: 28px;
+  color: #2ecc71;
+  margin-bottom: 10px;
+}
+
+.forecast-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forecast-link:hover {
+  color: #1e5d8c;
+  text-decoration: underline;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.custom-spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .bottom-grid {
+    grid-template-columns: 1fr; /* Stack Map and Weather vertically */
+  }
+
+  .map-container,
+  .tour-weather {
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .card-container {
+    flex-direction: column;
+  }
+
+  .add-encounter-button {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}

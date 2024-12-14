@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { KeyPointService } from '../../key-point.service'; 
 import { KeyPoint } from '../../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { WeatherService } from '../../weather-service';
 
 @Component({
   selector: 'xp-key-point',
@@ -16,15 +17,24 @@ export class KeyPointComponent implements OnInit {
   isLoading=false;
   isUpdate: boolean = false;  
   selectedKeyPoint: KeyPoint | null = null;
+  currentWeather: any = null;
+  cityName = ''
+
+  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar,private router:Router,private weatherService: WeatherService) { }
 
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar,private router:Router) { }
-
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId')); // Uzimanje tourId iz URL-a
     this.newKeyPoint = { tourIds: [this.tourId], name: '', description: '', imagePath: '', longitude:0, latitude:0, status: 1 }; // Inicijalizacija newKeyPoint
-    this.loadKeyPoints(); // Poziv funkcije za učitavanje ključnih tačaka
+    await this.loadKeyPoints(); // Poziv funkcije za učitavanje ključnih tačaka
+    console.log('Final Key Points:', this.keyPoints); // This will log properly now
+
+    if (this.keyPoints.length > 0) {
+      this.getCityByCoords(this.keyPoints[0].latitude,this.keyPoints[0].longitude); // Fetch weather only if there are key points
+    } else {
+      console.warn('No key points found for this tour.');
+    }
+
   }
 
   onEdit(keyPoint: KeyPoint) {
@@ -32,6 +42,49 @@ export class KeyPointComponent implements OnInit {
     this.router.navigate(['/key-points/edit', keyPoint.id]);
   }
 
+  getCityByCoords(latitude:number,longitude:number) : void {
+    this.weatherService.getCityByCoords(latitude, longitude).subscribe({
+      next: (response) => {
+        if (response && response[0]) {
+          this.cityName = response[0].name || 'Unknown';
+          console.log('City Name:', this.cityName);
+          this.getWeatherForCity(this.keyPoints[0])
+        }
+
+      },
+      error: (err) => {
+        console.error('Error fetching city:', err);
+      },
+    });
+  }
+
+  getWeatherForCity(keyPoint: KeyPoint): void {
+    this.weatherService
+          .getWeatherByCoords(keyPoint.latitude, keyPoint.longitude) // Use latitude and longitude
+          .subscribe({
+            next: (weather) => {
+              this.currentWeather = weather
+              this.currentWeather.sunset = this.convertUnixToGMT1(this.currentWeather.sunset)
+              this.currentWeather.sunrise = this.convertUnixToGMT1(this.currentWeather.sunrise)
+            },
+            error: (err) => console.error('Error fetching weather:', err),
+          });
+      };
+  
+
+  getWeatherIcon(temp: number): string {
+    if (temp < 0) return 'snow'; // Snow icon for temperatures below 0°C
+    if (temp >= 0 && temp <= 15) return 'cloudy'; // Cloudy for cooler weather
+    if (temp > 15) return 'sun'; // Sun for warmer weather
+    return 'default'; // Default icon
+  }
+  
+  
+  convertUnixToGMT1(unixTimestamp: number): string {
+    const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
+    const gmt1Date = new Date(date.getTime() + 1 * 60 * 60 * 1000); // Add 1 hour for GMT+1
+    return gmt1Date.toTimeString().slice(0, 5);
+  }
   /*loadKeyPoints() {
     this.isLoading=true;
     this.keyPointService.getKeyPoints().subscribe({
@@ -51,25 +104,36 @@ export class KeyPointComponent implements OnInit {
       }
     });
   }*/
-    loadKeyPoints() {
-      this.isLoading = true;
-      this.keyPointService.getKeyPoints().subscribe({
-        next: (keyPoints) => {
-          console.log('Vraćeni keyPoints:', keyPoints);
-          this.keyPoints = keyPoints.filter(kp => Array.isArray(kp.tourIds) && kp.tourIds.includes(this.tourId) && (kp.status == 1 || kp.status ==2)); // Ensure tourIds is an array
-          console.log('Filtrirane ključne tačke: ', this.keyPoints);
-          this.isLoading = false;
-        },
-        error: (err: any) => {
-          console.log(err);
-          this.isLoading = false;
-          this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass: "succesful"
-          });
-        }
+    loadKeyPoints(): Promise<void> {
+      return new Promise((resolve, reject) => {
+        this.isLoading = true;
+    
+        this.keyPointService.getKeyPoints().subscribe({
+          next: (keyPoints) => {
+            this.keyPoints = keyPoints.filter(
+              (kp) =>
+                Array.isArray(kp.tourIds) &&
+                kp.tourIds.includes(this.tourId) &&
+                (kp.status === 1 || kp.status === 2)
+            );
+    
+            console.log('Loaded Key Points:', this.keyPoints);
+            this.isLoading = false;
+            resolve(); // Resolve the promise when key points are loaded
+          },
+          error: (err: any) => {
+            console.error('Error loading key points:', err);
+            this.isLoading = false;
+            this.snackBar.open('Failed to load key points. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: 'error',
+            });
+            reject(err); // Reject the promise in case of error
+          },
+        });
       });
     }
+    
     
 
   onAddKeyPoint() {
