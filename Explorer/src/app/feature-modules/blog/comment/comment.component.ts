@@ -9,9 +9,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ActivatedRoute } from '@angular/router';
 import { Blog } from '../model/blog.model';
 import { BlogService } from '../blog.service';
-import { Vote } from '../model/Vote';
+import { Vote } from '../model/vote';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageService } from 'src/app/shared/image.service';
 
 @Component({
   selector: 'xp-comment',
@@ -39,7 +40,8 @@ export class CommentComponent {
     private blogService: BlogService,
     private tokenStorage: TokenStorage,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private imageService: ImageService
   ) { }
 
   ngOnInit(): void {
@@ -58,22 +60,52 @@ export class CommentComponent {
   }
 
   getBlogById() {
-    this.isLoading=true;
+    this.isLoading = true;
+  
     this.blogService.getBlogById(this.blogId).subscribe({
       next: (blog: Blog) => {
         this.blog = blog;
         this.checkHasUserRated();
         this.votes = this.blog.votes;
-        this.isLoading=false;
+  
+        // Fetch image separately
+        if (blog.imageId) {
+          this.fetchImage(blog.imageId).then((imageUrl) => {
+            blog.image = imageUrl;
+          }).catch((err) => {
+            console.error('Error fetching image:', err);
+          }).finally(() => {
+            this.isLoading = false; // Always stop loading regardless of image fetch result
+          });
+        } else {
+          this.isLoading = false; // No image to fetch
+        }
       },
       error: (error) => {
-        this.isLoading=false;
+        this.isLoading = false;
         console.error('Error fetching blog:', error);
         this.snackBar.open('Failed to load data. Please try again.');
-      },
-      complete: () => { },
+      }
     });
   }
+  
+  fetchImage(imageId: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.imageService.getImage(imageId).subscribe({
+        next: (blob: Blob) => {
+          if (blob.type.startsWith('image')) {
+            resolve(URL.createObjectURL(blob)); // Resolve with image URL
+          } else {
+            reject(new Error('Blob is not an image'));
+          }
+        },
+        error: (err) => {
+          reject(err); // Reject on error
+        }
+      });
+    });
+  }
+  
 
   getUserById(userId: number) {
     this.isLoading=true;

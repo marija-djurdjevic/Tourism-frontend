@@ -7,10 +7,13 @@
             <input matInput formControlName="title" type="text" placeholder="Enter blog title"/>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Image</mat-label>
-          <input matInput formControlName="image" type="text" placeholder="Enter blog title"/>
-        </mat-form-field>
+        <div style="margin-bottom: 16px;">
+          <app-image-upload 
+            (fileSelected)="onFileSelected($event)" 
+            required>
+          </app-image-upload>
+        </div>
+        
 
         <mat-form-field appearance="outline">
           <mat-label>Status</mat-label>
@@ -34,7 +37,7 @@
         </mat-form-field>
 
         <div class="button-container">
-            <button mat-raised-button color="button" type="submit" (click)="addBlog()" [disabled]="!blogForm.valid">
+            <button mat-raised-button color="button" type="submit" (click)="addBlog()" [disabled]="!blogForm.valid || !isImageSelected">
                 Add Blog
             </button>
         </div>

@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { PagedResults } from "src/app/shared/model/paged-results.model";
 import { Blog } from "./model/blog.model";
 import { environment } from "src/env/environment";
-import { Vote } from "./model/Vote";
+import { Vote } from "./model/vote";
 import { User } from "src/app/infrastructure/auth/model/user.model";
 
 @Injectable({
