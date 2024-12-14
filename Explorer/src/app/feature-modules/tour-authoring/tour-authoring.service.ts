@@ -223,4 +223,8 @@ getInvitations(): Observable<PagedResults<Clubs>> {
     const url = `${environment.apiHost}group-tour`; 
     return this.http.post<GroupTour>(environment.apiHost + 'administration/tour/group-tour', groupTour);
   }
+
+  getAllGroupTours(): Observable<PagedResults<GroupTour>> {
+    return this.http.get<PagedResults<GroupTour>>(environment.apiHost + 'administration/tour/group-tours')
+  }
 }
