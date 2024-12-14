@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -27,8 +28,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCardModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
-  ],
+    MatTooltipModule,
+    SharedModule
+],
   exports: [CommentComponent, BlogOverview],
 })
 export class BlogModule {}

@@ -1,4 +1,4 @@
-import { Vote } from "./Vote";
+import { Vote } from "./vote";
 
 export interface Blog {
     id?: number; 
@@ -7,6 +7,7 @@ export interface Blog {
     title: string;
     description: string;
     creationDate: Date;
-    image: string;
+    imageId?: number;
+    image?: string;
     status: number; 
 }
