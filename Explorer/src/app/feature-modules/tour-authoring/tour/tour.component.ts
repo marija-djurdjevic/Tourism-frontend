@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Coupon } from '../../tour-shopping/model/coupon.model';
 import { TourShoppingService } from '../../tour-shopping/tour-shopping.service';
+import { GroupTour } from '../model/group-tour.model';
 
 @Component({
   selector: 'xp-tour',
@@ -16,6 +17,7 @@ import { TourShoppingService } from '../../tour-shopping/tour-shopping.service';
 export class TourComponent implements OnInit {
 
   tours: Tour[] = [];
+  groupTours: GroupTour[] = [];
   selectedTour: Tour;
   shouldRenderTourForm: boolean = false;
   shouldEdit: boolean = false;
@@ -47,6 +49,7 @@ newCoupon: {
 
   ngOnInit(): void {
     this.getTours();
+    this.getGroupTours();
   }
 
   onAddGroupTour(): void {
@@ -88,6 +91,44 @@ newCoupon: {
       }
     });
   }
+
+  getGroupTours(): void {
+    this.isLoading = true;
+    this.authService.user$.subscribe((loggedInUser) => {
+      if (loggedInUser && loggedInUser.role === 'author') {
+        this.service.getAllGroupTours().subscribe({
+          next: (result: PagedResults<GroupTour>) => {
+            // Filtriramo ture na osnovu authorId
+            this.groupTours = result.results.filter(tour => tour.authorId === loggedInUser.id);
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: 'succesful'
+            });
+          }
+        });
+      } else {
+        // Ako nije 'author', učitavamo sve ture bez filtriranja
+        this.service.getAllGroupTours().subscribe({
+          next: (result: PagedResults<GroupTour>) => {
+            this.groupTours = result.results;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: 'succesful'
+            });
+          }
+        });
+      }
+    });
+  }
+  
 
   getDifficultyLabel(difficulty: number): string {
     switch (difficulty) {

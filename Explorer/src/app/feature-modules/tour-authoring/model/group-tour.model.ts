@@ -1,20 +1,21 @@
-import { TransportType } from './transportInfo.model'; // Pretpostavka da već imaš model za TransportInfo
+import { TransportType } from './transportInfo.model'; 
 
 export interface GroupTour {
-  id?: number; // Opcioni ID (može ga generisati baza podataka)
+  id?: number; 
+  authorId?: number;
   name: string;
   description: string;
-  difficulty: number; // 0 = Easy, 1 = Medium, 2 = Hard
+  difficulty: number; 
   tags: string[];
   price: number;
-  touristNumber: number; // Broj turista
-  startTime: Date; // Datum i vreme početka ture
-  duration: number; // Trajanje u minutima
+  touristNumber: number; 
+  startTime: Date; 
+  duration: number; 
   transportInfo: {
-    time: number; // Vreme putovanja u minutima
-    distance: number; // Udaljenost u km ili metri (po potrebi)
-    transport: TransportType; // Tip transporta
+    time: number; 
+    distance: number; 
+    transport: TransportType; 
   };
-  keyPoints: string[]; // Lista ključnih tačaka ture
-  reviews: any[]; // Ostavljaš prostor za dodatak sistema ocenjivanja
+  keyPoints: string[]; 
+  reviews: any[]; 
 }

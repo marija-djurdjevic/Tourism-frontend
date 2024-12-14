@@ -95,6 +95,7 @@ export class GroupTourFormComponent implements OnChanges {
     const loggedInUser = this.authService.user$.value;
     const groupTour: GroupTour = {
       name: this.groupTourForm.value.name || '',
+      
       description: this.groupTourForm.value.description || '',
       difficulty: Number(this.groupTourForm.value.difficulty) || 0,
       tags: this.tags,
@@ -109,6 +110,7 @@ export class GroupTourFormComponent implements OnChanges {
       },
       keyPoints: [],
       reviews: [],
+      authorId: loggedInUser.id,
     };
 
     console.log('Group Tour to be added:', groupTour);
