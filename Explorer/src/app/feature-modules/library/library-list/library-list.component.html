@@ -1,8 +1,30 @@
-<img id="imgb" src="../../../../assets/screenshot4.png">
+<!-- <img id="imgb" src="../../../../assets/screenshot4.png">
 <div class="okvir">
     <div  *ngFor="let item of displayedEntities" >
         <div class="jedan" (click)="openStories()"> 
             <h1>{{item.title}}</h1>
         </div>
     </div>
+</div> -->
+<div class="wardrobe">
+  <div class="door left-door" (click)="openWardrobe()"></div>
+  <div class="door right-door" (click)="openWardrobe()"></div>
+</div>
+
+<div class="content">
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<div class="okvir">
+  <div class="row" *ngFor="let chunk of chunkedEntities">
+    <!-- Prikaz knjiga u redu -->
+    <div class="books-row">
+      <div class="jedan" *ngFor="let item of chunk" (click)="openStories()"> 
+        <h1>{{item.title}}</h1>
+      </div>
+    </div>
+    <!-- Polica ispod reda knjiga -->
+    <div class="row shelf-row">
+      <div class="shelf"></div>
+    </div>
+  </div>
+</div>
 </div>

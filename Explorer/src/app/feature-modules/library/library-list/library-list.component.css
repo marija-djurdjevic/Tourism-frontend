@@ -1,4 +1,4 @@
-
+/* Stil za pozadinsku sliku */
 #imgb {
     position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
     top: 0;
@@ -10,48 +10,112 @@
     opacity: 0.5;  /* Bleda slika */
 }
 
+/* Stil za okvir */
 .okvir {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    gap:5%; 
-    padding: 2%; 
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Razmak između redova knjiga i polica */
+    padding: 1%;
+    width: 100%; /* Širina okvira preko celog ekrana */
 }
 
+/* Stil za red knjiga */
+.books-row {
+    display: flex;
+    justify-content: space-evenly; /* Ravnomerno raspoređene knjige u redu */
+    align-items: center;
+    width: 100%; /* Red zauzima celu širinu ekrana */
+    margin-bottom: 10px; /* Razmak ispod knjiga */
+}
+
+/* Stil za knjige */
 .jedan {
     background-color: rgb(88, 181, 86);
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
-    box-sizing: border-box; 
-    height: 430px; 
+    box-sizing: border-box;
+    width: 200px; /* Fiksna širina knjige */
+    height: 300px; /* Fiksna visina knjige */
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: space-between; 
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centriran sadržaj */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 10px; /* Razmak između knjiga */
 }
 
 .jedan:hover {
-    transform: scale(1.05) translateY(-5px); /* Slightly bigger and moves up */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Adds shadow to lift effect */
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.jedan img {
-    width: 100%; 
-    height: 45%;
-}
-
+/* Stil za tekst naslova knjige */
 .jedan h1 {
-    margin: 50% 50%;
+    margin: 0;
+    font-size: 16px; /* Prilagodite veličinu fonta za kvadratni prostor */
+    text-align: center; /* Centriran tekst */
 }
 
-
-
-button{
-    background-color: var(--primary-color) ;
-    color: var(--light-text-color);
-    border-radius: 30px 15px 30px 15px;
+/* Stil za red police */
+.shelf-row {
+    display: flex;
+    justify-content: center; /* Centrirana polica */
+    width: 98%; /* Polica zauzima celu širinu ekrana */
+    margin-bottom: 20px; /* Razmak ispod police */
 }
-button:active{
-    background-color: green;
+
+/* Stil za police */
+.shelf {
+    width: 100%; /* Polica zauzima celu širinu ekrana */
+    height: 25px; /* Visina police */
+    background-color: black;
+    border-radius: 5px;
 }
+/* Osnovni stil za vrata ormara */
+.wardrobe {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Preko svega ostalog */
+    display: flex;
+  }
+  
+  .door {
+    flex: 1;
+    height: 100%;
+    background-color: black; /* Boja drveta za vrata */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Efekat dubine */
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+  }
+  
+  .left-door {
+    border-right: 2px solid #43413f; /* Linija između vrata */
+  }
+  
+  .right-door {
+    border-left: 2px solid #43413f; /* Linija između vrata */
+  }
+  
+  .content {
+    display: none; /* Sadržaj sakriven dok su vrata zatvorena */
+    z-index: 1; /* Ispod vrata */
+  }
+  
+  /* Otvaranje vrata */
+  .wardrobe.open .left-door {
+    transform: translateX(-100%); /* Pomeri levo */
+    opacity: 0;
+  }
+  
+  .wardrobe.open .right-door {
+    transform: translateX(100%); /* Pomeri desno */
+    opacity: 0;
+  }
+  
+  .wardrobe.open ~ .content {
+    display: block; /* Prikaži sadržaj nakon otvaranja vrata */
+  }
+  

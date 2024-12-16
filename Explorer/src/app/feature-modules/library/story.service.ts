@@ -4,6 +4,7 @@ import { environment } from 'src/env/environment';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Story } from './model/story.model';
+import { Book } from './model/book.model';
 
 
 
@@ -17,6 +18,10 @@ export class StoryService {
  
   addStory(story : Story): Observable<Story>{
     return this.http.post<Story>(environment.apiHost +'author/story', story)
+  }
+
+  getBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(environment.apiHost + 'tourist/storiesUnlocked/all')
   }
 
 }
