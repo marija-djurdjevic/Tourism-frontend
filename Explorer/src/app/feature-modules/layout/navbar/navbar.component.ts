@@ -74,6 +74,17 @@ export class NavbarComponent implements OnInit {
     
   }
 
+  goToHome(): void {
+    console.log("Metoda goToHome pozvana!");
+    console.log("Navigacija ka: ", this.user?.role);
+    if (this.user?.role === 'Administrator') {
+      this.router.navigate(['/account']);
+    } else if (this.user?.role === 'Author') {
+      this.router.navigate(['/tours']);
+    } else if (this.user?.role === 'Tourist') {
+      this.router.navigate(['/explore-tours']);
+    }
+  }
    
   myProfile(){
     this.showProfileMenu = !this.showProfileMenu;
