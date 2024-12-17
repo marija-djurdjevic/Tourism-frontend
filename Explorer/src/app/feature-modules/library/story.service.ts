@@ -24,4 +24,11 @@ export class StoryService {
     return this.http.get<Book[]>(environment.apiHost + 'tourist/storiesUnlocked/all')
   }
 
+  getUser(userId: number): Observable<string> {
+    const params = { userId: userId.toString() };
+  
+    return this.http.get<string>(`${environment.apiHost}user/tourist/getUsername`, { params, responseType: 'text' as 'json' });
+  }
+  
+  
 }

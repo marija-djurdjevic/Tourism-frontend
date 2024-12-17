@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image.service';
 import { StoryService } from '../story.service';
+import { Book } from '../model/book.model';
 
 @Component({
   selector: 'xp-library-list',
@@ -10,20 +11,11 @@ import { StoryService } from '../story.service';
   styleUrls: ['./library-list.component.css']
 })
 export class LibraryListComponent {
-  chunkedEntities: any[] = []; // Declare chunkedEntities
+ 
   wardrobeOpen = false;
-  displayedEntities = [
-    { title: 'Sunset over the Mountains' },
-    { title: 'City Lights at Night' },
-    { title: 'Exploring Ancient Ruins' },
-    { title: 'A Walk in the Park' },
-    { title: 'Beachfront Paradise' },
-    { title: 'Autumn Leaves in the Forest' },
-    { title: 'Skydiving Adventure' },
-    { title: 'Cultural Heritage Tour' },
-    { title: 'Vibrant Street Art' },
-    { title: 'Wildlife Safari' }
-  ];
+  adminUsernamesMap: Map<number, string> = new Map();
+  displayedEntities: Book[] = []; // Lista knjiga sa ispravnim tipom
+  chunkedEntities: Book[][] = []; // Grupisane knjige
 
   constructor(private router: Router, private authService: AuthService, private imageService: ImageService, private storyService: StoryService) {
     imageService.setControllerPath("administrator/image");
@@ -35,6 +27,7 @@ export class LibraryListComponent {
       next: (books) => {
         this.displayedEntities = books; // Ažurirajte sa dobijenim knjigama
         this.chunkBooks(); // Grupisanje knjiga za prikaz
+        this.populateAdminUsernames();
       },
       error: (err) => console.error('Error fetching books:', err)
     });
@@ -49,8 +42,30 @@ export class LibraryListComponent {
     }
   }
 
-
-
+  private populateAdminUsernames(): void {
+    this.displayedEntities.forEach((book) => {
+      const adminId = book.adminId; // Pretpostavljamo da svaka knjiga ima adminId
+      const bookId = book.id; // ID knjige za mapu
+  
+      if (adminId !== undefined && bookId !== undefined) { // Provera da adminId i bookId nisu undefined
+        this.storyService.getUser(adminId).subscribe({
+          next: (username) => {
+            this.adminUsernamesMap.set(bookId, username); // Popunjavanje mape
+          },
+          error: (err) => console.error(`Error fetching username for adminId ${adminId}:`, err)
+        });
+      }
+    });
+  }
+  
+  getUsernameByBookId(bookId: number): string | undefined {
+    
+    if (this.adminUsernamesMap.has(bookId)) {
+      return this.adminUsernamesMap.get(bookId)!; 
+    }
+    return undefined; 
+  }
+  
   openWardrobe() {
     this.wardrobeOpen = true;
 
