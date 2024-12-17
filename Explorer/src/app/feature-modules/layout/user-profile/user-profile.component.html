@@ -32,6 +32,7 @@
           <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="setPreferences()">Set preferences</button>
           <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="myReviews()">My reviews</button>
           <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="seeProblems()">My problems</button>
+          <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="ShowAchievements()">Achievements</button>
           <button *ngIf="user.role === 'author'" mat-raised-button (click)="myBundles()">My bundles</button>
           <button *ngIf="isAdmin" mat-raised-button (click)="showEncounters()">Show encounters</button>
         </div>
@@ -83,4 +84,9 @@
       </div>
     </div>
   </div>
+</div>
+
+<div #achievementsSection *ngIf="showAchievements">
+  <xp-achievements></xp-achievements>
+
 </div>

@@ -1,0 +1,119 @@
+.achievements-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  padding: 50px;
+}
+
+img {
+  width: auto;
+  height: 95%;
+  margin-top: 4%;
+  border-radius: 4px;
+}
+
+.card {
+  position: relative;
+  width: 210px;
+  height: 284px;
+  background-color: transparent;
+  border-radius: 20px;
+  box-shadow: 0px 5px 5px transparent;
+  overflow: hidden;
+  border: solid 2px transparent;
+}
+
+.top-card {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  height: 77%;
+  transition: height 0.3s ease-in-out;
+  background-color: transparent;
+}
+
+.bottom-card {
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 30%;
+  transition: height 0.3s ease-in-out;
+  background-color: var(--secondary-color);
+}
+
+.bottom-card::before {
+  content: "";
+  z-index: 0;
+  position: absolute;
+  background-color: transparent;
+  bottom: 23%;
+  height: 50px;
+  width: 50px;
+  transition: bottom 0.3s ease-in-out;
+  border-bottom-left-radius: 20px;
+  box-shadow: 0 30px 0 0 var(--secondary-color);
+}
+
+.card-content {
+  padding-top: 7%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.card-title {
+  z-index: 200;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
+.card-content span{
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.card-txt {
+  margin-top: 5px;
+  z-index: 200;
+  font-size: 14px;
+}
+
+.card-btn {
+  font-size: 13px;
+  margin-top: 15%;
+  text-decoration: none;
+  color: white;
+  background-color: transparent;
+  border: solid 2px #fff;
+  border-radius: 15px;
+  padding: 5%;
+}
+
+.card:hover {
+  box-shadow: 0px 5px 5px var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.card:hover .top-card {
+  height: 55%;
+  transition: height 0.3s ease-in-out;
+}
+
+.card:hover .bottom-card {
+  height: 45%;
+  transition: height 0.3s ease-in-out;
+}
+
+.card:hover .bottom-card::before {
+  bottom: 45%;
+  transition: bottom 0.3s ease-in-out;
+}
+
+.card-btn:hover {
+  color: black;
+  background-color: #fff;
+  transition: background-color 0.3s ease-in-out;
+}

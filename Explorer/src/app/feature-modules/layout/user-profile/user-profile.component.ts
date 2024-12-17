@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserProfile } from '../model/user-profile.model';
 import { LayoutService } from '../layout.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -27,6 +27,8 @@ export class UserProfileComponent implements OnInit {
   selectedStatus: string = 'all';
   encounters: any[] = [];
   filteredEncounters: any[] = [];
+  showAchievements: boolean = false;
+  @ViewChild('achievementsSection') achievementsSection!: ElementRef;
 
   constructor(private layoutService: LayoutService,
     private router: Router,
@@ -144,6 +146,18 @@ export class UserProfileComponent implements OnInit {
 
   seeWallet(): void {
     this.router.navigate(['/wallet']);
+  }
+
+  ShowAchievements(): void {
+    this.showAchievements=!this.showAchievements;
+    if (this.showAchievements) {
+      setTimeout(() => {
+        this.achievementsSection.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start' // Poravnanje sa vrhom stranice
+        });
+      }, 100); // Dodaj delay da se element prikaže pre skrolovanja
+    }
   }
 }
 

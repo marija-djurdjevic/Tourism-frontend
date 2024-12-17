@@ -7,6 +7,7 @@ import { UserRating } from './model/user-rating.model';
 import { Person } from 'src/app/infrastructure/auth/model/person.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Notification } from 'src/app/feature-modules/layout/model/notification.model';
+import { Achievement } from '../administration/model/achievement.model';
 
 @Injectable({
   providedIn: 'root'
