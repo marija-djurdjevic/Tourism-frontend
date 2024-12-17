@@ -98,14 +98,20 @@ export class UserProfileComponent implements OnInit {
         // kod za ucitavanje slike po id
         this.isLoading = false;
         this.imageService.setControllerPath(this.role + "/image");
-        this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe((blob: Blob) => {
-          console.log(blob);  // Proveri sadržaj Blob-a
-          if (blob.type.startsWith('image')) {
-            this.userProfile.imageURL = URL.createObjectURL(blob);
-            this.cd.detectChanges();
-          } else {
-            console.error("Blob nije slika:", blob);
+        this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe({
+          next: (blob: Blob) => {
+            console.log(blob);  // Proveri sadržaj Blob-a
+            if (blob.type.startsWith('image')) {
+              this.userProfile.imageURL = URL.createObjectURL(blob);
+              this.cd.detectChanges();
+            } else {
+              console.error("Blob nije slika:", blob);
+            }
+          },
+          error: () => {
+            this.userProfile.imageURL = 'assets/user.png';
           }
+
         });
 
         //kraj
@@ -149,7 +155,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ShowAchievements(): void {
-    this.showAchievements=!this.showAchievements;
+    this.showAchievements = !this.showAchievements;
     if (this.showAchievements) {
       setTimeout(() => {
         this.achievementsSection.nativeElement.scrollIntoView({

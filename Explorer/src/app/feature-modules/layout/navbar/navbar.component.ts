@@ -55,7 +55,8 @@ export class NavbarComponent implements OnInit {
           this.userProfile = result;
           console.log(result)
           this.imageService.setControllerPath(user.role+"/image");
-            this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe((blob: Blob) => {
+            this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe({
+              next:(blob: Blob) => {
               console.log(blob);  
               if (blob.type.startsWith('image')) {
                 this.userProfile.imageURL = URL.createObjectURL(blob);
@@ -63,7 +64,11 @@ export class NavbarComponent implements OnInit {
               } else {
                 console.error("Blob nije slika:", blob);
               }
-            });
+            },
+            error: () => {
+              this.userProfile.imageURL = 'assets/user.png';
+            }
+        });
         },
         error:(err:any) => {
           console.log(err)
