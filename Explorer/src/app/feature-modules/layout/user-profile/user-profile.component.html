@@ -51,7 +51,50 @@
     <p>Loading user profile...</p>
   </div>
 
-  <!-- Encounters Modal -->
+  <div class="modal-overlay" *ngIf="showEncountersModal">
+    <div class="modal-content">
+        <h2>Encounters</h2>
+        <div class="popup-actions">
+          <button mat-button (click)="showEncountersModal = false">X</button>
+        </div>
+        <!-- <p *ngIf="!selectedTourReviews || selectedTourReviews.length === 0">
+          No reviews for this tour</p> -->
+
+          <!-- <mat-label>Filter by Status</mat-label>
+          <mat-select [(value)]="selectedStatus" (selectionChange)="filterEncounters()">
+            <mat-option value="all">All</mat-option>
+            <mat-option value="draft">Draft</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <div class="card-list">
+          <ng-container *ngFor="let encounter of filteredEncounters">
+            <div class="encounter-card" [ngClass]="{ 'required-encounter': encounter.status==0, 'completed-encounter': encounter.isCompletedByMe }">
+              <div class="encounter-card-content">
+                <h3>{{ encounter.name }}</h3>
+                  <p>{{ encounter.description }}</p>
+                  <p><strong>Type:</strong> 
+                    {{ encounter.type === 0 ? 'Social' : encounter.type === 1 ? 'Location' : 'Misc' }}
+                  </p>
+                  <p><strong>Status:</strong> 
+                    {{ encounter.status === 0 ? 'Draft' : encounter.status === 1 ? 'Active' : 'Archived' }}
+                  </p>
+                  <p><strong>XP:</strong> {{ encounter.xp }}</p>
+                  <p *ngIf="encounter.type === 0"><strong>Range:</strong> {{ encounter.range }}m</p>
+                  <p *ngIf="encounter.type === 0"><strong>Tourists Required:</strong> {{ encounter.touristNumber }}</p>
+              </div>
+              <div class="card-actions">
+                  <button *ngIf="encounter.status == '0'" color="accent" (click)="activateEncounter(encounter)" mat-icon-button matTooltip="Activate encounter">
+                    <img src="assets/icons/publish.png" alt="Publish Icon"/>
+                  </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+    </div>
+  </div>
+
+
+  <!-- Encounters Modal
   <div *ngIf="showEncountersModal" class="modal">
     <div class="modal-content">
       <span class="close" (click)="showEncountersModal = false">&times;</span>
@@ -86,7 +129,7 @@
         </ng-container>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <div #achievementsSection *ngIf="showAchievements">

@@ -243,14 +243,14 @@ hasDeadLinePassed(input: Date): string {
         next: () => {
           console.log('Tour problem closed');
           this.router.navigate(['/problems']);
-          this.snackBar.open('Problem closed successfully!', 'Close', {
+          this.snackBar.open('Problem marked as solved successfully!', 'Close', {
             duration: 3000,
             panelClass:"succesful"
           });
         },
         error: (err) => {
           console.error('Tour problem not closed:', err);
-          this.snackBar.open('Failed to close problem. Please try again.', 'Close', {
+          this.snackBar.open('Failed to mark as solved problem. Please try again.', 'Close', {
             duration: 3000,
             panelClass:"succesful"
           });

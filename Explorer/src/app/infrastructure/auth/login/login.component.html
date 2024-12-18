@@ -3,19 +3,23 @@
     <p class="loading-text">Logging in...</p>
 </div>
 
-<div *ngIf="!isLoading" style="width: 100%;display: flex;flex-direction: column;justify-content: center;">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Username</mat-label>
-                <input matInput formControlName="username" type="text" />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input matInput formControlName="password" type="password" />
-            </mat-form-field>
-            <button class="primary-button" type="submit" mat-raised-button>Login</button>
-            <p>Don't have an account yet?<a href="/register">Sign Up</a></p>
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form [formGroup]="loginForm" (ngSubmit)="login()" 
+      class="login-form">
+    <h2>Login</h2>
+    <div class="form-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" type="text" placeholder="Enter username" required/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" placeholder="Enter password" required/>
+        </mat-form-field>
+
+        <div class="button-container">
+            <button mat-raised-button color="button" type="submit">Login</button>
         </div>
-    </form>
-</div>
+        <p>Don't have an account yet?<a href="/register">Sign Up</a></p>
+    </div>
+</form>
