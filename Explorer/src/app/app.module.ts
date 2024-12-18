@@ -25,6 +25,7 @@ import { SharedModule } from "./shared/shared.module";
 import { StoryFormComponent } from './feature-modules/library/story-form/story-form.component';
 import { LibraryListComponent } from './feature-modules/library/library-list/library-list.component';
 import { BookComponent } from './feature-modules/library/book/book.component';
+import { BookFormComponent } from './feature-modules/library/book-form/book-form.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { BookComponent } from './feature-modules/library/book/book.component';
     EncountersComponent,
     StoryFormComponent,
     LibraryListComponent,
-    BookComponent
+    BookComponent,
+    BookFormComponent
   ],
   imports: [
     FormsModule,

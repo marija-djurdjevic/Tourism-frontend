@@ -20,6 +20,10 @@ export class StoryService {
     return this.http.post<Story>(environment.apiHost +'author/story', story)
   }
 
+  addBook(book : Book): Observable<Book>{
+    return this.http.post<Book>(environment.apiHost +'admin/books/createBook', book)
+  }
+
   getBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(environment.apiHost + 'tourist/storiesUnlocked/all')
   }

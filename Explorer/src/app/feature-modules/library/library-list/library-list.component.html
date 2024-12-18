@@ -14,7 +14,7 @@
       <div class="books-row">
         <div class="book-container" *ngFor="let item of chunk">
           <div class="background-square"></div>
-          <div class="jedan" (click)="openStories(item.id)">
+          <div class="jedan" [style.background-color]="item.bookColour" (click)="openStories(item.id)">
             <div class="inner-frame">
               <h1 style="color: rgb(7, 88, 26); font-weight: 500;">{{item.title}}</h1>
               <p>By: &#64;{{ getUsernameByBookId(item.id!) || 'Unknown' }}</p>
