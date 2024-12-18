@@ -1,10 +1,10 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
 <form [formGroup]="groupTourForm"
-      (ngSubmit)="addGroupTour()"
+(ngSubmit)="shouldEdit ? updateGroupTour() : addGroupTour()"
       class="tour-form">
-  <h2>{{ 'Add Group Tour' }}</h2>
+      <h2>{{ shouldEdit ? 'Update group tour' : 'Add group tour' }}</h2>
 
   <div class="form-container">
-    <!-- Postojeća polja -->
     <mat-form-field appearance="outline">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" type="text" placeholder="Enter tour name" required />
@@ -25,22 +25,17 @@
       </mat-select>
     </mat-form-field>
 
-
-    <!-- Nova polja specifična za Group Tour -->
     <mat-form-field appearance="outline">
       <mat-label>Tourist Number</mat-label>
       <input matInput formControlName="touristNumber" type="number" placeholder="Enter tourist number" required />
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-        <mat-label>Start Time</mat-label>
+        <mat-label>Start date and time</mat-label>
         <input matInput type="datetime-local" formControlName="startTime" placeholder="Choose a start time" required />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    
-    
-      
 
     <mat-form-field appearance="outline">
       <mat-label>Duration (hours)</mat-label>
@@ -80,10 +75,9 @@
         </mat-chip-list>
     </div>
 
-    <!-- Dugmad za potvrdu -->
     <div class="button-container">
       <button mat-raised-button color="primary" type="submit" [disabled]="groupTourForm.invalid">
-        {{ 'Add Group Tour' }}
+        {{ shouldEdit ? 'Update group tour' : 'Add group tour' }}
       </button>
     </div>
   </div>

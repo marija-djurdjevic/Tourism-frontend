@@ -127,6 +127,10 @@ export class TourAuthoringService {
     return this.http.put<Tour>(`${environment.apiHost}administration/tour/${tour.id}`, tour);
   }
 
+  updateGroupTour(tour: GroupTour): Observable<GroupTour> {
+    return this.http.put<GroupTour>(`${environment.apiHost}administration/tour/group/${tour.id}`, tour);
+  }
+  
   calculateDistance(latlngs: [number, number][]): number {
     let totalDistance = 0;
     for (let i = 0; i < latlngs.length - 1; i++) {
@@ -226,5 +230,9 @@ getInvitations(): Observable<PagedResults<Clubs>> {
 
   getAllGroupTours(): Observable<PagedResults<GroupTour>> {
     return this.http.get<PagedResults<GroupTour>>(environment.apiHost + 'administration/tour/group-tours')
+  }
+
+  getRegularTours(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiHost}/regular`);
   }
 }

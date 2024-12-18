@@ -99,6 +99,7 @@ export class TourFormComponent implements OnChanges {
       publishedAt: new Date(Date.now()),
       archivedAt: new Date(Date.now()),
       averageScore: 0,
+      isGroupTour: false
     };
 
     console.log('Tour to be added:', tour);
