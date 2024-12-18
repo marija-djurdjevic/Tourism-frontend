@@ -14,6 +14,7 @@
     justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
     align-items: center; /* Horizontalno centrirano */
     flex-direction: column; /* Elementi idu vertikalno */
+    min-height: 100vh; /* Da pokrije visinu ekrana */
     margin-top: 20px; /* Dodatni razmak od vrha */
 }
 
@@ -77,7 +78,11 @@
   
   .card-actions {
     display: flex;
-    gap: 8px;
+    justify-content: center; /* Ikonice centrirane */
+    gap: 15px; /* Smanjenje razmaka između ikonica */
+    margin-top: 8px; /* Smanjenje razmaka između teksta i dugmadi */
+    width: 100%; /* Osigurava da dugmadi popunjavaju širinu kartice */
+    justify-content: center; /* Centriranje dugmadi */
 }
 
   .card:hover {

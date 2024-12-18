@@ -11,19 +11,18 @@
         <div id="rating-details">
             <div class="card-container">
                 <div class="card" *ngFor="let rating of ratings">
-                    <div class="card-header">
-                        <h3>{{ rating.username }}</h3>
-                        <span>
-                            <ng-container *ngFor="let star of [].constructor(5); let idx = index">
-                                <span [style.color]="(rating.rating || 0) > idx ? 'gold' : 'lightgray'">
-                                    {{ (rating.rating || 0) > idx ? '★' : '☆' }}
-                                </span>
-                            </ng-container>
-                        </span>
-                    </div>
                     <div class="card-content">
-                        <p>{{ rating.comment }}</p>
-                        <span>{{ rating.createdAt | date:'short' }}</span>
+                        <div class="rating-stars">
+                            <span *ngFor="let star of [].constructor(5); let idx = index">
+                                <span *ngIf="idx < rating.rating" class="filled-star">★</span>
+                                <span *ngIf="idx >= rating.rating" class="empty-star">☆</span>
+                            </span>
+                        </div>
+                        <p class="comment">{{ rating.comment }}</p>
+                        <div class="card-footer">
+                            <span class="username">{{ rating.username }}</span>
+                            <span class="created-at">{{ rating.createdAt | date:'short' }}</span>
+                        </div>
                     </div>
                 </div>
             </div>

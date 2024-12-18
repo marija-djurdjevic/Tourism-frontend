@@ -28,12 +28,8 @@
                             </div>
                         </div>
                         <div class="card-actions">
-                            <button *ngIf="user?.role === 'administrator'" color="accent" [disabled]="closeTourFlag == 'disabled'" (click)="closeTour()" mat-icon-button matTooltip="Close tour due to unresolved problem">
-                                <img src="assets/icons/block.png" alt="Block Icon"/>
-                            </button>
-                            <button *ngIf="user?.role === 'administrator'" color="accent" [disabled]="closeProblemFlag == 'disabled'" (click)="closeTourProblem()" mat-icon-button matTooltip="Mark problem as solved">
-                                <img src="assets/icons/accept.png" alt="Accept Icon"/>
-                            </button>
+                            <button *ngIf="user?.role === 'administrator'" color="button" (click)="closeTour()" [disabled]="closeTourFlag == 'disabled'" mat-raised-button>Close tour</button>
+                            <button *ngIf="user?.role === 'administrator'" color="button"  (click)="closeTourProblem()" [disabled]="closeProblemFlag == 'disabled'" mat-raised-button>Close problem</button>
                         </div>
                     </div>
                     <div class="card">

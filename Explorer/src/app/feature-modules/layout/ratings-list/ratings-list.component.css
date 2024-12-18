@@ -14,6 +14,7 @@
     justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
     align-items: center; /* Horizontalno centrirano */
     flex-direction: column; /* Elementi idu vertikalno */
+    min-height: 100vh; /* Da pokrije visinu ekrana */
     margin-top: 20px; /* Dodatni razmak od vrha */
 }
 
@@ -36,34 +37,37 @@
 
 .card-container {
     display: flex;
-    flex-direction: column; /* Kartice idu jedna ispod druge */
-    justify-content: center; /* Centriranje kartica vertikalno */
-    align-items: center; /* Centriranje horizontalno */
-    gap: 20px; /* Razmak između kartica */
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center; /* Centriranje kartica */
+    align-items: center; /* Vertikalno centriranje */
     width: 100%;
     padding: 0;
-    margin: 15px auto 0;
+    margin: 0 auto;
 }
 
+  
 .card {
-    width: 80%; /* Širina kartice, možeš prilagoditi po potrebi */
-    max-width: 650px; /* Maksimalna širina */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
     padding: 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 15px;
     background-color: #ffffff;
     border: 3px solid #34AB45;
     transition: transform 0.3s ease-in-out;
-    margin: 0; /* Nema dodatnih margina, koristi gap iz parenta */
+    height: auto;
 }
-
   
 .card-content {
-    margin: 10px;
-    text-align: left; /* Tekst poravnat na levo */
+    display: flex; /* Aktivira Flexbox */
+    flex-direction: column; /* Elementi idu jedan ispod drugog */
+    align-items: center; /* Horizontalno centriranje */
+    justify-content: center; /* Vertikalno centriranje */
+    margin: 10px auto; /* Centriranje sadržaja */
     width: 100%; /* Puni širinu kartice */
 }
 
@@ -74,24 +78,49 @@
     border: 3px solid #2ecc71;
 }
 
-.card-header {
+.rating-stars {
+    text-align: center;
+    margin-bottom: 20px; /* Razmak ispod zvezdica */
+}
+
+.filled-star {
+    color: gold;
+    font-size: 3rem; /* Veće zvezdice */
+}
+
+.empty-star {
+    color: lightgray;
+    font-size: 3rem; /* Veće zvezdice */
+}
+
+.comment {
+    position: relative; /* Omogućava pseudo-elementima pozicioniranje */
+    font-size: 1.2rem; /* Veličina teksta */
+    font-style: italic; /* Kursiv za elegantan izgled */
+    color: #444; /* Tamno siva boja za tekst */
+    text-align: center; /* Centriran tekst */
+    margin: 20px 0; /* Razmak oko komentara */
+    line-height: 1.5; /* Razmak između redova */
+    padding: 20px; /* Unutrašnji razmak za prostor od navodnika */
+}
+
+.card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #333;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
 }
 
-.card-header h3 {
-    margin: 0;
-    font-size: 20px;
+.username {
+    text-align: left;
     font-weight: bold;
 }
 
-.card-content p {
-    margin: 8px;
-    color: #666;
+.created-at {
+    text-align: right;
+    font-style: italic;
 }
 
-.card-content span {
-    color: #666;
-}
+

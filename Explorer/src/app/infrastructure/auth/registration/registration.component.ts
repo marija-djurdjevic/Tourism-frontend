@@ -38,7 +38,7 @@ export class RegistrationComponent {
     if (this.registrationForm.valid) {
       this.authService.register(registration).subscribe({
         next: () => {
-          this.router.navigate(['/explore-tours']);
+          this.router.navigate(['home']);
           this.snackBar.open('Registration successful', 'Close', {
             duration: 3000,
           });

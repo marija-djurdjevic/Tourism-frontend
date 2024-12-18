@@ -1,36 +1,4 @@
-<img id="imgb" src="../../../../assets/screenshot4.png">
-<form [formGroup]="registrationForm" (ngSubmit)="register()" 
-      class="registration-form">
-    <h2>Register</h2>
-    <div class="form-container">
-        <mat-form-field appearance="outline">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text" placeholder="Enter name" required/>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Surname</mat-label>
-            <input matInput formControlName="surname" type="text" placeholder="Enter surname" required/>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Username</mat-label>
-            <input matInput formControlName="username" type="text" placeholder="Enter username" required/>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" type="text" placeholder="Enter email" required/>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Password</mat-label>
-            <input matInput formControlName="password" type="password" placeholder="Enter password" required/>
-        </mat-form-field>
-
-        <div class="button-container">
-            <button mat-raised-button color="button" type="submit">Register</button>
-        </div>
-    </div>
-</form>
-
-<!-- <form [formGroup]="registrationForm" (ngSubmit)="register()">
+<form [formGroup]="registrationForm" (ngSubmit)="register()">
     <div>
         <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
@@ -54,6 +22,6 @@
         </mat-form-field>
     <button class="primary-button" type="submit" mat-raised-button>Register</button>
     </div>
-</form> -->
+</form>
 
 
