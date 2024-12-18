@@ -1,5 +1,10 @@
 <img id="imgb" src="../../../../assets/screenshot4.png">
-<div class="background-square" *ngIf="!endPage"></div>
+<div class="desc">Welcome to the library.<br>
+  You have chosen a magnificent book prepared by our administrators.<br>
+  Have a cup of cofee and enjoy beautiful stories.<br>
+  Click on the book to start reading.
+</div>
+<div class="background-square" *ngIf="!endPage && displayBlankPage"></div>
 <div class="book" *ngIf="!isLoading">
 
   <div *ngIf="leftPageVisible  " class="leftPage" (click)="flipBack()"></div>
@@ -29,7 +34,8 @@
 
      
       <ng-container *ngIf="i > 0 && i < pages.length - 1 && !endPage">
-        <img [src]="page.image" alt="Page Image" />
+        <h2 class="hh">{{ page.title }}</h2>
+        <img [src]="page.image" alt="Page Image" class="im" />
         <p>{{ page.content }}</p>
       </ng-container>
 

@@ -7,6 +7,12 @@ body {
     margin: 0;
     perspective: 1500px; 
   }
+  .desc{
+    margin-top:10%;
+    max-width:200px;
+    margin-left:15%;
+    color: var(--text-color);
+  }
   #imgb {
     position: fixed;  
     top: 0;
@@ -20,9 +26,9 @@ body {
   .book {
     position: relative;
     width: 40%;
-    height: 80%;
-    margin-left:1%;
-    margin-top: 3%;
+    height: 90%;
+    margin-left:6%;
+    margin-top: -18.9%;
     transform-style: preserve-3d;
     display: flex;
     flex-direction: row;
@@ -30,7 +36,7 @@ body {
   
   .leftPage {
     width: 40vw;
-    height: 80vh;
+    height: 86vh;
     z-index: 10; 
     cursor: pointer;
     margin-left: 10%;
@@ -41,7 +47,7 @@ body {
   
   .leftPageEnd {
     width: 40vw;
-    height: 80vh;
+    height: 86vh;
     z-index: 13;
     cursor: pointer;
     margin-left: 10%;
@@ -54,7 +60,7 @@ body {
     margin-left: 100%;
     position: absolute;
     width: 40vw;
-    height: 80vh;
+    height: 86vh;
     transform-origin: left;
     transform-style: preserve-3d;
     transition: transform 1s cubic-bezier(0.65, 0.05, 0.36, 1), 
@@ -88,10 +94,15 @@ body {
     box-sizing: border-box;
   }
   
-  .page-content img {
-    max-width: 80%;
-    max-height: 50%;
+  .im {
+    max-width: 50%;
+    max-height: 30%;
     margin-bottom: 20px;
+    border-radius: 8px; /* Rounded corners */
+    border: 5px solid #ddd; /* Add a frame with a light gray color */
+    padding: 10px; /* Create spacing between the image and the border */
+    background-color: #fff; /* Add a white background to enhance the frame effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
   }
   
   .page-content h2 {
@@ -100,8 +111,11 @@ body {
   }
   
   .page-content p {
-    font-size: 14px;
-    text-align: center;
+    font-size: 13px;
+  line-height: 1.6; 
+  text-align: justify; 
+  color: #555; 
+  margin: 10px 0;
   }
   
   .page-wrapper:nth-child(1) .page-content {
@@ -129,16 +143,20 @@ body {
     background: none; 
     background-color: #2ecc71; 
   }
-
+  .hh{
+    margin-top:-30% !important;
+    margin-bottom:5% !important;
+  }
   
   .background-square {
     background-color: white;
-    border-radius: 8px;
+    opacity: 0.7;
+    border-radius: 1px;
     width: 41vw; 
-    height: 76vh; 
+    height: 84vh; 
     position: absolute;
-    margin-top:2.4%;
-    margin-left: 41%;
+    margin-top:-18.5%;
+    margin-left: 46.5%;
     z-index: -1; 
   }
   
