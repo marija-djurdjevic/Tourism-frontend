@@ -60,6 +60,11 @@ export class UserProfileComponent implements OnInit {
     this.showEncountersModal = true;
   }
 
+  selectStatus(status: string) {
+    this.selectedStatus = status;
+    this.filterEncounters();
+  }
+
   filterEncounters(): void {
     if (this.selectedStatus === 'draft') {
       this.filteredEncounters = this.encounters.filter(encounter => encounter.status == 0);

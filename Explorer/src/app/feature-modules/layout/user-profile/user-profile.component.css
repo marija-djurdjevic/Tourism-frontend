@@ -150,6 +150,11 @@
   color: black;
 }
 
+.modal-content p {
+  margin: 8px 0;
+  color: #666;
+}
+
 .popup-actions {
   position: absolute;
   top: 10px;
@@ -202,86 +207,3 @@
 .encounter-card:hover {
   border: 3px solid #2ecc71;
 }
-
-/* .encounter-card-actions {
-  display: flex;
-  justify-content: center; 
-  gap: 4px; 
-  margin-top: 8px; 
-  width: 100%;
-  justify-content: center;
-} */
-
-/* .modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 600px;
-  border-radius: 10px;
-}
-
-.encounters-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.encounter-card {
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 255, 0, 0.5);
-  display: flex;
-  flex-direction: row;
-}
-
-.encounter-card:hover {
-  transform: translateY(-5px);
-  background-color: rgba(0, 128, 0, 0.5) !important;
-}
-
-.required-encounter {
-  background-color: rgba(255, 0, 0, 0.5);
-  color: white;
-}
-
-.completed-encounter {
-  background-color: rgba(0, 128, 0, 0.5);
-  color: white;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.loading-message {
-  text-align: center; 
-  font-size: 18px; 
-  color: #888; 
-} */
-
