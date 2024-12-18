@@ -39,4 +39,11 @@ export class StoryService {
       }
     });
   }
+  getUser(userId: number): Observable<string> {
+    const params = { userId: userId.toString() };
+  
+    return this.http.get<string>(`${environment.apiHost}user/tourist/getUsername`, { params, responseType: 'text' as 'json' });
+  }
+  
+  
 }

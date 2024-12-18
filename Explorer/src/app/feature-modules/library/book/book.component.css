@@ -60,8 +60,6 @@ body {
     transition: transform 1s cubic-bezier(0.65, 0.05, 0.36, 1), 
                 box-shadow 0.5s ease-in-out; 
     cursor: pointer;
-  
-    
     z-index: var(--page-index, 0);
   }
   
@@ -107,15 +105,109 @@ body {
   }
   
   .page-wrapper:nth-child(1) .page-content {
-   
-   
+    
     background: none; 
-    background-color: #2ecc71; 
+    background-color: rgb(88, 181, 86);
+    border-radius: 8px;
+    position: relative;
+    z-index: 2; /* Pozicioniranje iznad bele pozadine */
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centriran sadržaj */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+   
+ 
   }
   
   .page-wrapper:nth-last-child(1) .page-content {
    
     background: none; 
     background-color: #2ecc71; 
+  }
+
+  
+  .background-square {
+    background-color: white;
+    border-radius: 8px;
+    width: 41vw; 
+    height: 76vh; 
+    position: absolute;
+    margin-top:2.4%;
+    margin-left: 41%;
+    z-index: -1; 
+  }
+  
+  
+  /* Stil za tekst naslova knjige */
+  .book h1 {
+      margin: 0;
+      font-size: 25px; /* Prilagodite veličinu fonta za kvadratni prostor */
+      text-align: center; /* Centriran tekst */
+  }
+  /* Stil za unutrašnji okvir */
+  .inner-frame {
+    border: 2px solid rgba(8, 236, 8, 0.911); /* Crni okvir */
+    width:35vw;
+    height: 70vh;
+    border-radius: 6px; /* Zaobljeni uglovi */
+    padding: 10px; /* Razmak između sadržaja i ivice okvira */
+    background-color: rgba(255, 255, 255, 0.2); /* Svetla pozadina za kontrast */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Ravnomerno raspoređen sadržaj */
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  /* Stil za naslov */
+  .inner-frame h1 {
+    margin: 0;
+    font-size: 30px; /* Prilagodite veličinu fonta */
+    text-align: center; /* Centriran tekst horizontalno */
+    margin-bottom: 10px; /* Razmak ispod naslova */
+  }
+  
+  /* Stil za autora */
+  .inner-frame p {
+    margin: 0;
+    font-size: 14px; /* Prilagodite veličinu fonta */
+    text-align: center; /* Centriran tekst horizontalno */
+    color: #555; /* Blago tamnija nijansa za tekst */
+  }
+  
+  /* Stil za footer knjige (logo i tekst) */
+  .book-footer {
+    display: flex;
+    align-items: center; /* Centriranje vertikalno */
+    justify-content: center; /* Centriranje horizontalno */
+    gap: 5px; /* Razmak između elemenata */
+    position: absolute; /* Apsolutno pozicioniranje */
+    bottom: 10px; /* Pozicija na dnu knjige sa malim razmakom */
+    width: 100%; /* Širina footer-a da pokrije celu širinu knjige */
+    text-align: center; /* Tekst centriran unutar footer-a */
+  }
+  
+  /* Stil za logo */
+  .logo {
+    width: 30px; /* Smanji logo */
+    height: 30px; /* Smanji logo */
+  }
+  
+  /* Stil za tekst */
+  .psw{
+    margin: 0; /* Ukloni default margine */
+    font-size: 10px; /* Prilagodite veličinu fonta */
+  
+  }
+  .travel{
+    margin: 0; /* Ukloni default margine */
+    font-size: 10px; /* Prilagodite veličinu fonta */
+    font-family: 'Lucida Handwriting', cursive; /* Bold za isticanje */
   }
   

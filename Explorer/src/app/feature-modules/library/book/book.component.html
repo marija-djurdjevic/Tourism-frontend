@@ -1,4 +1,5 @@
 <img id="imgb" src="../../../../assets/screenshot4.png">
+<div class="background-square" *ngIf="!endPage"></div>
 <div class="book" *ngIf="!isLoading">
 
   <div *ngIf="leftPageVisible  " class="leftPage" (click)="flipBack()"></div>
@@ -12,18 +13,28 @@
  
     <div class="page-content">
   
-      <ng-container *ngIf="i === 0  and !endPage">
-        <h2>{{ page.title }}</h2>
+      <ng-container *ngIf="i === 0  && !endPage">
+    
+          <div class="inner-frame">
+            <h1 style="color: rgb(7, 88, 26); font-weight: 500;">{{page.title}}</h1>
+            <p>By: &#64;{{ getUsernameByBookId(page.bookId) || 'Unknown' }}</p>
+            <div class="book-footer">
+              <img class="logo" src="../../../../assets/icons/download.png" alt="Logo">
+              <p class="psw">PSW</p>
+              <p class="travel">Travel</p>
+            </div>
+          </div>
+        
       </ng-container>
 
      
-      <ng-container *ngIf="i > 0 && i < pages.length - 1 and !endPage">
+      <ng-container *ngIf="i > 0 && i < pages.length - 1 && !endPage">
         <img [src]="page.image" alt="Page Image" />
         <p>{{ page.content }}</p>
       </ng-container>
 
 
-      <ng-container *ngIf="i === pages.length - 1  and !endPage">
+      <ng-container *ngIf="i === pages.length - 1  && !endPage">
 
       </ng-container>
     </div>

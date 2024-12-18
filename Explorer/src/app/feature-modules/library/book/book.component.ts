@@ -21,6 +21,7 @@ export class BookComponent {
   cond:boolean=false;
   flippedPages: number[] = [];
   isLoading=false;
+  adminUsernamesMap: Map<number, string> = new Map();
   displayedEntities : Story[] = [];
   constructor(private router: Router,private route: ActivatedRoute, private authService: AuthService,private cd: ChangeDetectorRef, private imageService: ImageService, private service: StoryService) { imageService.setControllerPath("tourist/image");} 
   flipBack(): void {
@@ -59,7 +60,13 @@ export class BookComponent {
     }
   }
   
-  
+  getUsernameByBookId(bookId: number): string | undefined {
+    
+    if (this.adminUsernamesMap.has(bookId)) {
+      return this.adminUsernamesMap.get(bookId)!; 
+    }
+    return undefined; 
+  }
   
   flipPage(index: number): void {
     if (!this.flippedPages.includes(index)) {
@@ -80,9 +87,17 @@ export class BookComponent {
     this.bookId = +this.route.snapshot.paramMap.get('id')!;
     this.service.getBookById(this.bookId).subscribe({
       next: (result: any) => {
-        this.book = result;      
+        this.book = result;   
+        this.service.getUser(result.adminId).subscribe({
+          next: (username) => {
+            this.adminUsernamesMap.set(result.id, username); // Popunjavanje mape
+          },
+          error: (err) => console.error(`Error fetching username for adminId ${result.adminId}:`, err)
+        });   
       },
     });
+
+    
     this.service.getStoriesInBook(this.bookId).subscribe({
       next: (result: any) => {
         this.displayedEntities = result;      
@@ -103,9 +118,9 @@ export class BookComponent {
 
         });
         this.pages = [
-          { title: this.book.title, content: '', image: '' }, // Front cover
-          ...this.displayedEntities, // Pages from backend
-          { title: '', content: '', image: '' } // Back cover (empty)
+          { title: this.book.title, content: '', image: '' }, 
+          ...this.displayedEntities, 
+          { title: '', content: '', image: '' }
         ];
         console.log('Pages array:', this.pages);
 
