@@ -4,5 +4,6 @@ export interface Achievement {
     imagePath?: string,
     description?: string,
     xpReward?: number,
-    type?: number
+    type?: number,
+    criteria: number,
 }

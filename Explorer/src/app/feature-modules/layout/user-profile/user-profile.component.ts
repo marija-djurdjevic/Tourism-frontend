@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { EncounterService } from '../../encounters/encounter.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Encounter } from '../../encounters/model/encounter.model';
+import { AdministrationService } from '../../administration/administration.service';
+import { Achievement } from '../../administration/model/achievement.model';
 
 @Component({
   selector: 'xp-user-profile',
@@ -28,6 +30,7 @@ export class UserProfileComponent implements OnInit {
   encounters: any[] = [];
   filteredEncounters: any[] = [];
   showAchievements: boolean = false;
+  badge: string = '';
   @ViewChild('achievementsSection') achievementsSection!: ElementRef;
 
   constructor(private layoutService: LayoutService,
@@ -36,6 +39,7 @@ export class UserProfileComponent implements OnInit {
     private imageService: ImageService,
     private cd: ChangeDetectorRef,
     private encounterService: EncounterService,
+    private administrationService: AdministrationService,
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -46,6 +50,12 @@ export class UserProfileComponent implements OnInit {
       if (this.role == 'administrator') {
         this.isAdmin = true;
       }
+    });
+    this.administrationService.getAchievements().subscribe({
+      next: (result: Achievement[]) => {
+        var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
+        this.badge = achievements[0].imagePath || '';
+      },
     });
     this.getProfile()
     this.loadEncounters();
