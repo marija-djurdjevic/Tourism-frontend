@@ -32,6 +32,8 @@
 .jedan {
     background-color: rgb(88, 181, 86);
     border-radius: 8px;
+    position: relative; 
+    z-index: 3; 
     cursor: pointer;
     text-align: center;
     box-sizing: border-box;

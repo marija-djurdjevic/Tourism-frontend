@@ -17,8 +17,10 @@
   <div class="row" *ngFor="let chunk of chunkedEntities">
     <!-- Prikaz knjiga u redu -->
     <div class="books-row">
-      <div class="jedan" *ngFor="let item of chunk" (click)="openStories()"> 
-        <h1>{{item.title}}</h1>
+      <div  *ngFor="let item of chunk" > 
+        <div class="jedan" (click)="openStories(item.id)"> 
+          <h1>{{item.title}}</h1>
+        </div>
       </div>
     </div>
     <!-- Polica ispod reda knjiga -->

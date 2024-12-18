@@ -1,50 +1,121 @@
-
-#imgb {
-    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    perspective: 1500px; 
+  }
+  #imgb {
+    position: fixed;  
     top: 0;
     left: 0;
-    height: 100%;  /* Pokriva celu visinu ekrana */
-    width: 100%;   /* Pokriva celu širinu ekrana */
-    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
-    z-index: -1;  /* Da bude ispod sadržaja */
-    opacity: 0.5;  /* Bleda slika */
+    height: 100%;  
+    width: 100%;   
+    object-fit: cover;  
+    z-index: -1; 
+    opacity: 0.5;  
 }
-
-.okvir {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    gap:5%; 
-    padding: 2%; 
-}
-
-.jedan {
-    background-color: rgb(88, 181, 86);
-    border-radius: 8px;
-    text-align: center;
-    box-sizing: border-box; 
-    height: 430px; 
+  .book {
+    position: relative;
+    width: 40%;
+    height: 80%;
+    margin-left:1%;
+    margin-top: 3%;
+    transform-style: preserve-3d;
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: space-between; 
-}
-
-.jedan img {
-    width: 100%; 
-    height: 45%;
-}
-
-.jedan h2 {
-    margin: 0.5%;
-}
-
-
-
-button{
-    background-color: var(--primary-color) ;
-    color: var(--light-text-color);
-    border-radius: 30px 15px 30px 15px;
-}
-button:active{
-    background-color: green;
-}
+    flex-direction: row;
+  }
+  
+  .leftPage {
+    width: 40vw;
+    height: 80vh;
+    z-index: 10; 
+    cursor: pointer;
+    margin-left: 10%;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); 
+  }
+  
+  .leftPageEnd {
+    width: 40vw;
+    height: 80vh;
+    z-index: 13;
+    cursor: pointer;
+    margin-left: 10%;
+    background-color: #2ecc71;
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+  }
+  
+  .page-wrapper {
+    margin-left: 100%;
+    position: absolute;
+    width: 40vw;
+    height: 80vh;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.65, 0.05, 0.36, 1), 
+                box-shadow 0.5s ease-in-out; 
+    cursor: pointer;
+  
+    
+    z-index: var(--page-index, 0);
+  }
+  
+  
+  .page-wrapper:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .page-wrapper.flipped {
+    transform: rotateY(-180deg) scale(0.98); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.89); 
+  }
+  
+  .page-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:linear-gradient(to left, #fff, #f0f0f0); 
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+  }
+  
+  .page-content img {
+    max-width: 80%;
+    max-height: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .page-content h2 {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  .page-content p {
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .page-wrapper:nth-child(1) .page-content {
+   
+   
+    background: none; 
+    background-color: #2ecc71; 
+  }
+  
+  .page-wrapper:nth-last-child(1) .page-content {
+   
+    background: none; 
+    background-color: #2ecc71; 
+  }
+  

@@ -24,4 +24,19 @@ export class StoryService {
     return this.http.get<Book[]>(environment.apiHost + 'tourist/storiesUnlocked/all')
   }
 
+  getStoriesInBook(id:number): Observable<PagedResults<Story>> {
+    return this.http.get<PagedResults<Story>>(environment.apiHost + 'tourist/storiesUnlocked/allInBook', {
+      params: {
+        bookId: id.toString()
+      }
+    });
+  }
+
+  getBookById(id:number):Observable<Book>{
+    return this.http.get<Book>(environment.apiHost + 'tourist/books/byId', {
+      params: {
+        bookId: id.toString()
+      }
+    });
+  }
 }

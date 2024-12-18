@@ -37,6 +37,8 @@ export class StoryFormComponent {
       title:'',
       bookId: -500,
       status: 'draft',
+      imageId:-10,
+      image:''
     };
   }
   onFileSelected(file: File): void {

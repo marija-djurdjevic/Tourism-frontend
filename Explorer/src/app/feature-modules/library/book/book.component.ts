@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image.service';
+import { StoryService } from '../story.service';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Story } from '../model/story.model';
+import { Book } from '../model/book.model';
 
 @Component({
   selector: 'xp-book',
@@ -9,19 +13,109 @@ import { ImageService } from 'src/app/shared/image.service';
   styleUrls: ['./book.component.css']
 })
 export class BookComponent {
-  displayedEntities = [
-    { title: 'Sunset over the Mountains', content: 'A breathtaking view of the sun setting over the peaks.' },
-    { title: 'City Lights at Night', content: 'The vibrant glow of the city as it comes alive at night.' },
-    { title: 'Exploring Ancient Ruins', content: 'Discover the mysteries of ancient civilizations through their ruins.' },
-    { title: 'A Walk in the Park', content: 'A peaceful stroll through the lush greenery of the park.' },
-    { title: 'Beachfront Paradise', content: 'Relax by the ocean, with soft sand and warm sunsets.' },
-    { title: 'Autumn Leaves in the Forest', content: 'The vibrant colors of fall foliage create a stunning landscape.' },
-    { title: 'Skydiving Adventure', content: 'Feel the thrill of free-falling through the sky.' },
-    { title: 'Cultural Heritage Tour', content: 'Explore the rich history and culture of ancient cities.' },
-    { title: 'Vibrant Street Art', content: 'Street art that brings life and creativity to the urban landscape.' },
-    { title: 'Wildlife Safari', content: 'Get up close to nature and witness wildlife in its natural habitat.' }
-  ];
-  constructor(private router: Router, private authService: AuthService, private imageService: ImageService) { imageService.setControllerPath("administrator/image");} 
+  bookId:number;
+  book:Book;
+  leftPageVisible:boolean=false;
+  endPage:boolean=false;
+  pages: any[] = [];
+  cond:boolean=false;
+  flippedPages: number[] = [];
+  isLoading=false;
+  displayedEntities : Story[] = [];
+  constructor(private router: Router,private route: ActivatedRoute, private authService: AuthService,private cd: ChangeDetectorRef, private imageService: ImageService, private service: StoryService) { imageService.setControllerPath("tourist/image");} 
+  flipBack(): void {
+    if (this.flippedPages.length > 0) {
+      // Remove the last flipped page
+      const lastFlippedIndex = this.flippedPages.pop()!;
+      
+      // Update `leftPageVisible`
+      this.leftPageVisible = this.flippedPages.length > 0;
+  
+      // Update `endPage`
+      this.endPage = false;
+      
+      // Debugging state
+      console.log('Flipped Pages:', this.flippedPages);
+      console.log('Left Page Visible:', this.leftPageVisible);
+      console.log('End Page:', this.endPage);
+    }
+  }
+
+  flipBackEnd(): void {
+    if (this.flippedPages.length > 1) {
+      // Temporarily hide the back page to ensure smooth transition
+      console.log('Endddddddddddddd');
+      this.endPage = false;
+      // Remove the last two flipped pages
+      this.flippedPages.pop(); // Remove last page
+    // Remove second-to-last page
+      this.leftPageVisible = this.flippedPages.length > 0;
+     
+      // Force Angular to update the DOM
+      this.cd.detectChanges();
+  
+      // Update `leftPageVisible` after ensuring the DOM reflects the changes
+     
+    }
+  }
+  
+  
+  
+  flipPage(index: number): void {
+    if (!this.flippedPages.includes(index)) {
+      this.flippedPages.push(index);
+    }
+    if(index + 1>0 && index<=this.displayedEntities.length ){
+      this.leftPageVisible = true;
+    }else{
+      this.leftPageVisible = false;
+    }
+    if(index== this.displayedEntities.length+1){
+      this.endPage = true;
+    }else{
+      this.endPage= false;
+    }
+  }
   ngOnInit(): void {
+    this.bookId = +this.route.snapshot.paramMap.get('id')!;
+    this.service.getBookById(this.bookId).subscribe({
+      next: (result: any) => {
+        this.book = result;      
+      },
+    });
+    this.service.getStoriesInBook(this.bookId).subscribe({
+      next: (result: any) => {
+        this.displayedEntities = result;      
+        this.isLoading=false;
+       
+
+        this.imageService.setControllerPath("tourist/image");
+        this.displayedEntities.forEach(element => {
+          this.imageService.getImage(element.imageId.valueOf()).subscribe((blob: Blob) => {
+            console.log(blob);  // Proveri sadržaj Blob-a
+            if (blob.type.startsWith('image')) {
+              element.image = URL.createObjectURL(blob);
+              this.cd.detectChanges();
+            } else {
+              console.error("Blob nije slika:", blob);
+            }
+          });
+
+        });
+        this.pages = [
+          { title: this.book.title, content: '', image: '' }, // Front cover
+          ...this.displayedEntities, // Pages from backend
+          { title: '', content: '', image: '' } // Back cover (empty)
+        ];
+        console.log('Pages array:', this.pages);
+
+      },
+      error: (err: any) => {
+        console.error('Error:', err);
+      },
+    });
+  
+  // Flip a page
+  
 }
 }

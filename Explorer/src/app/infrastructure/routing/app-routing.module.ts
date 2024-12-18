@@ -216,7 +216,7 @@ const routes: Routes = [
     canActivate:[AuthGuard]
   },
   {
-    path:'book',
+    path:'book/:id',
     component:BookComponent,
     canActivate:[AuthGuard]
   }

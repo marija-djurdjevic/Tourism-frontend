@@ -1,12 +1,33 @@
 <img id="imgb" src="../../../../assets/screenshot4.png">
-<div class="okvir">
-    <div  *ngFor="let item of displayedEntities" >
-        <div class="jedan"> 
-            <h1 >{{item.title}}</h1>
-            <!--<img  src={{item.imagePath}}>-->
-            <p><b>Content:</b>  {{item.content}}</p>
-            <div>
-        </div>
-        </div>
+<div class="book" *ngIf="!isLoading">
+
+  <div *ngIf="leftPageVisible  " class="leftPage" (click)="flipBack()"></div>
+  <div
+    class="page-wrapper"
+    *ngFor="let page of pages; let i = index"
+    [style.--page-index]="pages.length - i" 
+    [class.flipped]="flippedPages.includes(i)"
+    (click)="flipPage(i)"
+  >
+ 
+    <div class="page-content">
+  
+      <ng-container *ngIf="i === 0  and !endPage">
+        <h2>{{ page.title }}</h2>
+      </ng-container>
+
+     
+      <ng-container *ngIf="i > 0 && i < pages.length - 1 and !endPage">
+        <img [src]="page.image" alt="Page Image" />
+        <p>{{ page.content }}</p>
+      </ng-container>
+
+
+      <ng-container *ngIf="i === pages.length - 1  and !endPage">
+
+      </ng-container>
     </div>
+  </div>
+  <div *ngIf="endPage" class="leftPageEnd" (click)="flipBackEnd()"></div>
 </div>
+<div *ngIf="isLoading">Loading...</div>

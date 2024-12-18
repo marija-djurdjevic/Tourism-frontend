@@ -60,8 +60,8 @@ export class LibraryListComponent {
       wardrobeElement.classList.add('open');
     }
   }
-  openStories() {
+  openStories(id:number) {
     console.log("Card clicked!");
-    this.router.navigate(['/book']);
+    this.router.navigate(['/book',id]);
   }
 }
