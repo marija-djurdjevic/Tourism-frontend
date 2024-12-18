@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { GroupTour } from '../model/group-tour.model'; 
+import { GroupTour, ProgressStatus } from '../model/group-tour.model'; 
 import { TransportType } from '../model/transportInfo.model';
 import { TourAuthoringService } from '../tour-authoring.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -31,8 +31,8 @@ export class GroupTourFormComponent implements OnChanges {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      if (params['groupTour']) {
-        const groupTour = JSON.parse(params['groupTour']);
+      if (params['tour']) {
+        const groupTour = JSON.parse(params['tour']);
         
         
         const patchedGroupTour = {
@@ -71,10 +71,12 @@ export class GroupTourFormComponent implements OnChanges {
     description: new FormControl('', [Validators.required]),
     difficulty: new FormControl(0, [Validators.required]),
     tags: new FormControl<string[]>([], []),
+    price: new FormControl(0, [Validators.required]),
     transportType: new FormControl(TransportType.Car, [Validators.required]),
     touristNumber: new FormControl(0, [Validators.required, Validators.min(1)]),
     startTime: new FormControl('', [Validators.required]),
     duration: new FormControl(0, [Validators.required, Validators.min(1)]),
+    progress: new FormControl(ProgressStatus.Scheduled, [Validators.required])
   });
 
   addTag(): void {
@@ -103,6 +105,9 @@ export class GroupTourFormComponent implements OnChanges {
       touristNumber: this.groupTourForm.value.touristNumber || 0,
       startTime: new Date(this.groupTourForm.value.startTime || Date.now()),
       duration: this.groupTourForm.value.duration || 0,
+      progress: 0,
+      status: 0,
+      averageScore: 0,
       transportInfo: {
         time: 0,
         distance: 0,
@@ -111,6 +116,7 @@ export class GroupTourFormComponent implements OnChanges {
       keyPoints: [],
       reviews: [],
       authorId: loggedInUser.id,
+      isGroupTour: true
     };
 
     console.log('Group Tour to be added:', groupTour);
@@ -134,17 +140,19 @@ export class GroupTourFormComponent implements OnChanges {
     });
   }
 
-  /*updateGroupTour(): void {
+  updateGroupTour(): void {
     const updatedGroupTour: GroupTour = {
       ...this.groupTour,
       name: this.groupTourForm.value.name || this.groupTour.name,
       description: this.groupTourForm.value.description || this.groupTour.description,
       difficulty: Number(this.groupTourForm.value.difficulty) || this.groupTour.difficulty,
       tags: this.tags,
+      isGroupTour: true,
       price: this.groupTourForm.value.price || this.groupTour.price,
       touristNumber: this.groupTourForm.value.touristNumber || this.groupTour.touristNumber,
       startTime: new Date(this.groupTourForm.value.startTime || this.groupTour.startTime),
       duration: this.groupTourForm.value.duration || this.groupTour.duration,
+      progress: this.groupTourForm.value.progress || this.groupTour.progress,
       transportInfo: {
         ...this.groupTour.transportInfo,
         transport: this.groupTourForm.value.transportType as TransportType,
@@ -156,7 +164,7 @@ export class GroupTourFormComponent implements OnChanges {
     this.service.updateGroupTour(updatedGroupTour).subscribe({
       next: () => {
         this.groupTourUpdated.emit();
-        this.router.navigate(['/group-tours']);
+        this.router.navigate(['/tours']);
         this.snackBar.open('Group Tour updated successfully!', 'Close', {
           duration: 3000,
           panelClass: 'succesful',
@@ -170,5 +178,5 @@ export class GroupTourFormComponent implements OnChanges {
         });
       },
     });
-  }*/
+  } 
 }

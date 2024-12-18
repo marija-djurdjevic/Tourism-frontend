@@ -1,75 +1,85 @@
 #imgb {
-    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    position: fixed;  
     top: 0;
     left: 0;
-    height: 100%;  /* Pokriva celu visinu ekrana */
-    width: 100%;   /* Pokriva celu širinu ekrana */
-    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
-    z-index: -1;  /* Da bude ispod sadržaja */
-    opacity: 0.5;  /* Bleda slika */
+    height: 100%; 
+    width: 100%;   
+    object-fit: cover;  
+    z-index: -1; 
+    opacity: 0.5; 
   }
   
   #tour {
       display: flex;
-      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
-      align-items: center; /* Horizontalno centrirano */
-      flex-direction: column; /* Elementi idu vertikalno */
-      min-height: 100vh; /* Da pokrije visinu ekrana */
-      margin-top: 20px; /* Dodatni razmak od vrha */
+      justify-content: flex-start;
+      align-items: center; 
+      flex-direction: column; 
+      min-height: 100vh; 
+      margin-top: 20px; 
   }
   
   #tour-details {
       display: flex;
-      flex-direction: column; /* Ili row ako kartice treba horizontalno */
-      justify-content: center; /* Centriranje horizontalno */
-      align-items: center; /* Centriranje vertikalno */
-      gap: 50px; /* Razmak između elemenata */
-      width: 100%; /* Koristi celu širinu roditelja */
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 50px; 
+      width: 100%;
   }
   
   .tour-title {
-      font-size: 2em; /* Povećava veličinu fonta */
-      font-weight: bold; /* Čini tekst debljim */
-      text-align: center; /* Centriranje naslova */
-      margin-bottom: 10px; /* Razmak između naslova i linije */
-      color: black; /* Boja naslova (možeš prilagoditi) */
+      font-size: 2em; 
+      font-weight: bold; 
+      text-align: center; 
+      margin-bottom: 10px; 
+      color: black;
   }
   
   .card-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px; /* Razmak između kartica */
-      justify-content: center; /* Centriranje kartica */
-      width: 100%; /* Osiguraj da zauzima punu širinu */
-      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
-      margin: 0 auto; /* Centriranje na sredinu */
+      gap: 10px; 
+      justify-content: center; 
+      width: 100%; 
+      padding: 0; 
+      margin: 0 auto; 
   }
     
     .card {
-      border-radius: 8px; /* Zaobljeni uglovi */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
-      width: 350px; /* vratiti na 300 kad se ukloni tabela */
+      border-radius: 8px; 
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+      width: 350px; 
       height: auto;
-      padding: 16px; /* Unutrašnji razmak */
+      padding: 16px; 
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 15px;
       background-color: #ffffff;
-      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      border: 3px solid #34AB45; 
       transition: transform 0.3s ease-in-out;
     }
+
+    .grouptourslabel {
+      font-size: 1.5rem; 
+      font-weight: bold; 
+      color: #2c3e50; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+      margin-bottom: 10px; 
+      display: block; 
+  }
   
     .card-content {
       margin: 10px;
-      text-align: left; /* Tekst poravnat na levo */
-      width: 100%; /* Puni širinu kartice */
+      text-align: left;
+      width: 100%; 
     }
     
     .card-content h3 {
       margin: 0;
-      font-size: 20px;  /* Adjust this value to make it larger or smaller */
-      font-weight: bold;  /* Make the text bold */
+      font-size: 20px; 
+      font-weight: bold;  
   }
     
     .card-content p {
@@ -86,7 +96,7 @@
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+      border: 3px solid #2ecc71; 
     }
     
     .add-card {
@@ -94,8 +104,8 @@
       justify-content: center;
       align-items: center;
       width: 300px;
-      height: auto; /* Visina dodaj kartice */
-      border: 2px dashed #ddd; /* Stilska granica za dodavanje */
+      height: auto; 
+      border: 2px dashed #ddd;
       color: #aaa;
       text-align: center;
     }

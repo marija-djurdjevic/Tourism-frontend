@@ -24,6 +24,8 @@ export class TourComponent implements OnInit {
   isLoading=false;
   coupons: Coupon[] = [];
   isCouponModalOpen = false;
+  isToursClicked = true;
+  isGroupToursClicked = false;
 
   // Controls visibility of the coupon form
 isCouponFormVisible: boolean = false;
@@ -64,6 +66,8 @@ newCoupon: {
           next: (result: PagedResults<Tour>) => {
             console.log(result);
             this.tours = result.results;
+            console.log('toursssss');
+            console.log(this.tours);
             this.isLoading=false;
           },
           error: () => {
@@ -94,12 +98,16 @@ newCoupon: {
 
   getGroupTours(): void {
     this.isLoading = true;
+    console.log("grupneee");
     this.authService.user$.subscribe((loggedInUser) => {
       if (loggedInUser && loggedInUser.role === 'author') {
+        console.log("usaosoaoaoaooaa");
         this.service.getAllGroupTours().subscribe({
           next: (result: PagedResults<GroupTour>) => {
             // Filtriramo ture na osnovu authorId
             this.groupTours = result.results.filter(tour => tour.authorId === loggedInUser.id);
+            console.log("usao ovdje glupan glupi");
+            console.log(this.groupTours);
             this.isLoading = false;
           },
           error: () => {
@@ -175,6 +183,7 @@ newCoupon: {
       next: (result: Tour) => {
         console.log('Tour published successfully:', result);
         this.getTours(); 
+        this.getGroupTours();
         this.snackBar.open('Tour published successfully!', 'Close', {
           duration: 3000,
           panelClass:"succesful"
@@ -195,6 +204,7 @@ newCoupon: {
       next: (result: Tour) => {
         console.log('Tour published successfully:', result);
         this.getTours(); 
+        this.getGroupTours();
         this.snackBar.open('Tour archived successfully!', 'Close', {
           duration: 3000,
           panelClass:"succesful"
@@ -231,6 +241,36 @@ newCoupon: {
           keyPoints: tour.keyPoints,
           reviews: tour.reviews,
           reviewStatus: tour.reviewStatus
+        })
+      }
+    })
+  }
+
+  onEditGroup(tour: GroupTour) {
+    this.shouldEdit = true;
+    this.selectedTour = tour;
+    this.router.navigate(['/add-group-tour'], {
+      queryParams: {
+        tour: JSON.stringify({
+          id: tour.id,
+          name: tour.name,
+          description: tour.description, 
+          difficulty: tour.difficulty,
+          tags: tour.tags,
+          status: tour.status,
+          price: tour.price,
+          publishedAt: tour.publishedAt,
+          archivedAt: tour.archivedAt,
+          avarageScore: tour.averageScore,
+          authorId: tour.authorId,
+          transportInfo: tour.transportInfo,
+          keyPoints: tour.keyPoints,
+          reviews: tour.reviews,
+          reviewStatus: tour.reviewStatus,
+          progress: tour.progress,
+          startTime: tour.startTime,
+          duration: tour.duration,
+          touristNumber: tour.touristNumber
         })
       }
     })
@@ -403,4 +443,14 @@ newCoupon: {
     this.isCouponFormVisible = false;
   }
   
+  onGroupTours() {
+    this.isGroupToursClicked = true;
+    this.isToursClicked = false;
+  }
+
+  onTours() {
+    this.isGroupToursClicked = false;
+    this.isToursClicked = true;
+  }
+
 }

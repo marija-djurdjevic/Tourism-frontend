@@ -7,7 +7,7 @@ export interface Tour {
     authorId?: number; 
     name: string;
     description: string;
-    difficulty: number; 
+    difficulty: DifficultyStatus; 
     tags: string[];
     status: number; 
     price: number;
@@ -17,5 +17,12 @@ export interface Tour {
     keyPoints: KeyPoint[];  
     reviews:TourReview[];
     averageScore: number;
-    reviewStatus?:number;    
+    reviewStatus?:number;
+    isGroupTour:boolean; 
+  }
+
+  export enum DifficultyStatus {
+    Easy = 0,
+    Medium = 1,
+    Hard = 2
   }
