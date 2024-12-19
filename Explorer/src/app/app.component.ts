@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './infrastructure/auth/auth.service';
 import 'leaflet-routing-machine';
+import { WebSocketService } from './shared/WebSocket.service';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +10,18 @@ import 'leaflet-routing-machine';
 })
 export class AppComponent implements OnInit {
   title = 'Explorer';
+  notifications: any[] = [];
+  showNotification=false;
 
   constructor(
     private authService: AuthService,
+    private webSocketService: WebSocketService
   ) {}
 
 
   ngOnInit(): void {
     this.checkIfUserExists();
+    this.webSocketService.connect();
   }
   
   private checkIfUserExists(): void {

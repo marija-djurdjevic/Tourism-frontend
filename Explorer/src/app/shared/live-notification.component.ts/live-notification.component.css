@@ -1,0 +1,87 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+  z-index: 1000;
+}
+
+.modal h2 {
+  font-size: 2em;
+  color: #ff6f61;
+  margin-bottom: 10px;
+}
+
+.modal p {
+  font-size: 1.2em;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.modal img {
+  display: block;
+  margin: 0 auto 20px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #ff6f61;
+}
+
+.modal button {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background: #ff6f61;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal button:hover {
+  background: #ff856d;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(255, 111, 97, 0.8), 0 0 30px rgba(255, 111, 97, 0.6);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(255, 111, 97, 1), 0 0 40px rgba(255, 111, 97, 0.8);
+  }
+}
+
+/* Vatromet oko slike */
+@keyframes fireworks {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
