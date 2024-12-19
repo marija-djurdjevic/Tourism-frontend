@@ -8,8 +8,8 @@
                 [routerLink]="['register']">Join Us</button>
             <button *ngIf="user && user.username === ''" class="primary-button" mat-raised-button
                 [routerLink]="['login']">Login</button>
-            <!-- <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button"
-                mat-raised-button [routerLink]="['explore-tours']">Explore Tours</button> -->
+            <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button"
+                mat-raised-button [routerLink]="['explore-tours']">Explore Tours</button>
             <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button"
                 mat-raised-button [routerLink]="['explore-bundles']">Explore Bundles</button>
             <!--  <button *ngIf="user && user.username !== '' && user.role == 'tourist'" color="accent" class="primary-button" mat-raised-button [routerLink]="['tour-preferences']">Preferences</button>-->
@@ -17,8 +17,8 @@
                 [routerLink]="['equipment']">Manage equipment</button>
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button
                 [routerLink]="['encounters']">Encounters</button>
-            <!-- <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button
-                [routerLink]="['tours']">My Tours</button> -->
+            <button *ngIf="user && user.role === 'author'" class="primary-button" mat-raised-button
+                [routerLink]="['tours']">My Tours</button>
             <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button
                 [routerLink]="['purchasedTours']">Purchased Tours</button>
             <button *ngIf="user && user.role === 'tourist'" class="primary-button" mat-raised-button
@@ -33,7 +33,7 @@
             <button *ngIf="user && user.role === 'author'"class="primary-button" mat-raised-button [routerLink]="['sales']">Sales</button>
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['ratings-list']">Ratings</button>
             <button *ngIf="user && (user.role === 'author' || user.role === 'tourist')" class="primary-button" mat-raised-button [routerLink]="['user-rating']">Rate us!</button>
-            <!-- <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>           -->
+            <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>          
             <button *ngIf="user && user.role === 'tourist'"class="cartbutton" [routerLink]="['cart']"><img src="assets/icons/cart.png" alt="Shopping Cart" width="30" height="30" style="vertical-align: middle; margin-right: 8px;" matTooltip="See shopping cart"></button>
             <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['publishRequestList']">Requests</button>
             <button *ngIf="user && user.username !== ''" class="profileButton"  (click)="toggleProfileMenu()" ><img [src]="userProfile.imageURL" ></button>
