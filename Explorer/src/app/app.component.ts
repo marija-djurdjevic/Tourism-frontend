@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkIfUserExists();
+    // this.notifications.push({ Content: 'Welcome to Explorer!',ImagePath: 'assets/Points-Collector.png' });
+    // this.showNotification = true;
 
     this.webSocketService.messageSubject.subscribe((notification) => {
       console.log('Message received in AppComponent:', notification);
