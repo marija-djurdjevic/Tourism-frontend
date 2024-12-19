@@ -224,7 +224,7 @@ export class TourSessionComponent implements OnInit {
             duration: 3000,
             panelClass: "succesful"
           });
-          window.location.href = 'http://localhost:4200/purchasedTours';
+         // window.location.href = 'http://localhost:4200/purchasedTours';
         } else {
           this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
             duration: 3000,
@@ -249,14 +249,23 @@ export class TourSessionComponent implements OnInit {
     this.tourExecutionService.updateLocation(this.tourId, this.location.latitude, this.location.longitude).subscribe({
       next: (isNear) => {
         if (isNear) {
-          window.location.href = 'http://localhost:4200/purchasedTours';
+          this.snackBar.open('Tour session has ended. Thank you for participating!', 'Close', {
+            duration: 3000,
+            panelClass: "succesful"
+          });
+         
         }
       },
       error: () => {
         console.warn('Error updating location.');
+        this.snackBar.open('Error updating location. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: "error"
+        });
       }
     });
   }
+  
 
   loadCompletedKeyPoints(): void {
     this.tourExecutionService.getCompletedKeyPoints(this.tourId).subscribe({
