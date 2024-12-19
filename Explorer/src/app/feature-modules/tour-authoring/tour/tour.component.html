@@ -58,7 +58,7 @@
           <div class="popup-actions">
             <button mat-button (click)="closeCouponModal()" *ngIf="!editMode">X</button>
           </div>
-          <h2>{{ isCouponFormVisible ? (editMode ? 'Update Coupon' : 'Create Coupon') : 'Coupons' }}</h2>
+          <h2>{{ isCouponFormVisible ? (editMode ? 'Update Coupon' : 'Add Coupon') : 'Coupons' }}</h2>
           <p *ngIf="(!coupons || coupons.length === 0) && !isCouponFormVisible">
             There are no coupons</p>
           <div class="coupon-card-actions">
@@ -96,7 +96,7 @@
               </label>
               
               <button mat-raised-button type="submit" class="pop-button"(click)="editMode ? updateCoupon() : createCoupon()">
-                {{ editMode ? 'Update coupon' : 'Create coupon' }}
+                {{ editMode ? 'Update coupon' : 'Add coupon' }}
               </button>
             </div>
           </div>
