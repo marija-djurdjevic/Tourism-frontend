@@ -221,6 +221,7 @@ newCoupon: {
 
   closeCouponModal(): void {
     this.isCouponModalOpen = false;
+    this.isCouponFormVisible = false;
   }
 
   updateCoupon(): void {
