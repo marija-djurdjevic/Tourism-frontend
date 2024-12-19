@@ -1,0 +1,15 @@
+<div class="achievements-container">
+    <div class="card" *ngFor="let achievement of achievements">
+        <div class="top-card">
+            <img [src]="achievement.imagePath" [alt]="achievement.name" />
+        </div>
+        <div class="bottom-card">
+            <div class="card-content">
+                <span class="card-title">{{ achievement.name }}</span>
+                <p class="card-txt">{{ achievement.description }}</p>
+                <div><strong>XP Reward: </strong> <span>{{ achievement.xpReward }}</span></div>
+                <div><strong>Type: </strong> <span>{{ getAchievementType(achievement.type||0) }}</span></div>
+            </div>
+        </div>
+    </div>
+</div>

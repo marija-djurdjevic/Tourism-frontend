@@ -11,6 +11,7 @@ import { UserRatingComponent } from './user-rating/user-rating.component';
 import { RatingsListComponent } from './ratings-list/ratings-list.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from "../../shared/shared.module";
+import { AdministrationModule } from "../administration/administration.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SharedModule } from "../../shared/shared.module";
     RouterModule,
     ReactiveFormsModule,
     MatTooltipModule,
-    SharedModule
+    SharedModule,
+    AdministrationModule
 ],
   exports: [
     NavbarComponent,

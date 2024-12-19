@@ -8,6 +8,7 @@ import { Account } from './model/account.model';
 import { Encounter } from '../encounters/model/encounter.model';
 // import { Encounter } from './model/encounter.model';
 import { Wallet } from '../tour-shopping/model/wallet.model';
+import { Achievement } from './model/achievement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,4 +66,7 @@ export class AdministrationService {
     return this.http.put<Wallet>(environment.apiHost + 'administrator/wallet', updatedWallet)
   }
 
+  getAchievements() : Observable<Achievement[]>{
+    return this.http.get<Achievement[]>(environment.apiHost + `tourist/achievement`)
+  }
 }
