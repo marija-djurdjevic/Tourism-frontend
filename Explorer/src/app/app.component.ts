@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './infrastructure/auth/auth.service';
 import 'leaflet-routing-machine';
-import { WebSocketService } from './shared/WebSocket.service';
+import { WebSocketService } from './shared/web-socket.service';
 
 @Component({
   selector: 'app-root',
@@ -11,20 +11,31 @@ import { WebSocketService } from './shared/WebSocket.service';
 export class AppComponent implements OnInit {
   title = 'Explorer';
   notifications: any[] = [];
-  showNotification=false;
+  showNotification = false;
 
   constructor(
     private authService: AuthService,
     private webSocketService: WebSocketService
-  ) {}
+  ) { }
 
 
   ngOnInit(): void {
     this.checkIfUserExists();
+
+    this.webSocketService.messageSubject.subscribe((notification) => {
+      console.log('Message received in AppComponent:', notification);
+      this.onMessageReceived(notification);
+    });
+
     this.webSocketService.connect();
   }
-  
+
   private checkIfUserExists(): void {
     this.authService.checkIfUserExists();
+  }
+
+  onMessageReceived(notification: any) {
+    this.notifications.push(notification);
+    this.showNotification = true;
   }
 }

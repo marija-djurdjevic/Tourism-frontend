@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Login } from '../model/login.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { WebSocketService } from 'src/app/shared/web-socket.service';
 
 @Component({
   selector: 'xp-login',
@@ -16,7 +17,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private webSocketService: WebSocketService
   ) {}
 
   loginForm = new FormGroup({
@@ -36,6 +38,7 @@ export class LoginComponent {
         next: () => {
           this.router.navigate(['/']);
           this.isLoading = false;
+          this.webSocketService.connect();
         },error: (error) => {
           this.isLoading = false;
           this.snackBar.open('Invalid username or password', 'Close', {

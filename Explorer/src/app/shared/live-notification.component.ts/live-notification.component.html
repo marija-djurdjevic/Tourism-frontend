@@ -1,7 +1,7 @@
 <div *ngIf="currentNotification" class="modal">
     <div class="fireworks"></div>
     <h2>Čestitamo!</h2>
-    <p>Dobili ste achievement: {{ currentNotification.content }}</p>
-    <img [src]="currentNotification.imagePath" alt="Achievement">
+    <p>Dobili ste achievement: {{ currentNotification.Content }}</p>
+    <img [src]="currentNotification.ImagePath" alt="Achievement">
     <button (click)="closeNotification()">Zatvori</button>
   </div>

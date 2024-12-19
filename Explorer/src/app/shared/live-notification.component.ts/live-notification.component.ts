@@ -20,6 +20,7 @@ export class LiveNotificationComponent implements OnInit {
     if (this.notifications.length > 0) {
       this.currentNotification = this.notifications.pop();
       // alert(this.currentNotification.content);
+      console.log('Showing notification:', this.currentNotification.imagePath);
       this.cdr.detectChanges(); // Obavestite Angular o promeni
     }
   }
