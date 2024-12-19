@@ -56,7 +56,7 @@
     <div class="modal-overlay" *ngIf="isCouponModalOpen">
       <div class="modal-content">
           <div class="popup-actions">
-            <button mat-button (click)="closeCouponModal()">X</button>
+            <button mat-button (click)="closeCouponModal()" *ngIf="!editMode">X</button>
           </div>
           <h2>{{ isCouponFormVisible ? (editMode ? 'Update Coupon' : 'Create Coupon') : 'Coupons' }}</h2>
           <p *ngIf="(!coupons || coupons.length === 0) && !isCouponFormVisible">
