@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from './infrastructure/auth/auth.service';
 import 'leaflet-routing-machine';
 import { WebSocketService } from './shared/web-socket.service';
+import { NotificationComponent } from './shared/notification/notification.component';
+import { NotificationService } from './shared/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +11,20 @@ import { WebSocketService } from './shared/web-socket.service';
   styleUrls: ['./app.component.css', '../styles.css']
 })
 export class AppComponent implements OnInit {
+  @ViewChild(NotificationComponent) notificationComponent!: NotificationComponent;
   title = 'Explorer';
   notifications: any[] = [];
   showNotification = false;
 
   constructor(
     private authService: AuthService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private notificationService: NotificationService
   ) { }
 
+  ngAfterViewInit() {
+    this.notificationService.register(this.notificationComponent);
+  }
 
   ngOnInit(): void {
     this.checkIfUserExists();

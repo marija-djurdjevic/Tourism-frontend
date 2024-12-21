@@ -1,21 +1,23 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { Equipment } from './model/equipment.model';
 import { environment } from 'src/env/environment';
-import { Observable } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Account } from './model/account.model';
 import { Encounter } from '../encounters/model/encounter.model';
 // import { Encounter } from './model/encounter.model';
 import { Wallet } from '../tour-shopping/model/wallet.model';
 import { Achievement } from './model/achievement.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { ErrorHandlerService } from 'src/app/shared/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdministrationService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private errorHandler: ErrorHandlerService) { }
 
   getEquipment(): Observable<PagedResults<Equipment>> {
     return this.http.get<PagedResults<Equipment>>(environment.apiHost + 'administration/equipment')
@@ -38,7 +40,15 @@ export class AdministrationService {
   }
 
   blockAccount(account: Account): Observable<Account> {
-    return this.http.put<Account>(environment.apiHost + 'administration/account/block-account', account);
+    return this.http.put<Account>(environment.apiHost + 'administration/account/block-account', account).pipe(
+      tap((response) => {
+        console.log('Account successfully blocked:', response);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        this.errorHandler.handleHttpError(error); // Delegiranje grešaka ErrorHandlerService-u
+        return throwError(() => error);
+      })
+    );
   }
 
   addEncounter(encounter: Encounter) : Observable<Encounter> {

@@ -22,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
 import { SharedModule } from "./shared/shared.module";
+import { NotificationComponent } from './shared/notification/notification.component';
 
 
 @NgModule({
@@ -49,7 +50,7 @@ import { SharedModule } from "./shared/shared.module";
     MatSelectModule,
     MatOptionModule,
     MatInputModule,
-    SharedModule
+    SharedModule,
 ],
   providers: [
     {
