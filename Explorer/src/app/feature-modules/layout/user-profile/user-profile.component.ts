@@ -51,21 +51,25 @@ export class UserProfileComponent implements OnInit {
         this.isAdmin = true;
       }
     });
-    this.administrationService.getAchievements().subscribe({
-      next: (result: Achievement[]) => {
-        var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
-        this.badge = achievements[0].imagePath || '';
-      },
-    });
+    if (this.role === 'tourist') {
+      this.administrationService.getAchievements().subscribe({
+        next: (result: Achievement[]) => {
+          var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
+          this.badge = achievements[0].imagePath || '';
+        },
+      });
+    }
     this.getProfile()
     this.loadEncounters();
   }
 
   loadEncounters(): void {
-    this.encounterService.getAllEncountersForAdmin().subscribe((result: PagedResults<Encounter>) => {
-      this.encounters = result.results;
-      this.filterEncounters();
-    });
+    if (this.isAdmin) {
+      this.encounterService.getAllEncountersForAdmin().subscribe((result: PagedResults<Encounter>) => {
+        this.encounters = result.results;
+        this.filterEncounters();
+      });
+    }
   }
 
   showEncounters(): void {

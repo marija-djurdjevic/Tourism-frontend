@@ -42,13 +42,15 @@ export class NavbarComponent implements OnInit {
 
     this.authService.user$.subscribe(user => {
       this.user = user;
+      if (user.role === 'tourist') {
+        this.administrationService.getAchievements().subscribe({
+          next: (result: Achievement[]) => {
+            var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
+            this.badge = achievements[0].imagePath || '';
+          },
 
-      this.administrationService.getAchievements().subscribe({
-        next: (result: Achievement[]) => {
-          var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
-          this.badge = achievements[0].imagePath || '';
-        },
-      });
+        });
+      }
 
       if (user.role === 'author') {
         this.layoutService.getAuthorNotifications(user.id).subscribe(notificationsData => {
@@ -63,30 +65,32 @@ export class NavbarComponent implements OnInit {
           console.log("NOTIFICATIONS : ", this.notifications)
         });
       }
-      this.layoutService.getProfile(user.role).subscribe({
-        next: (result: UserProfile) => {
-          this.userProfile = result;
-          console.log(result)
-          this.imageService.setControllerPath(user.role + "/image");
-          this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe({
-            next: (blob: Blob) => {
-              console.log(blob);
-              if (blob.type.startsWith('image')) {
-                this.userProfile.imageURL = URL.createObjectURL(blob);
-                this.cd.detectChanges();
-              } else {
-                console.error("Blob nije slika:", blob);
+      if (this.user.username !== '') {
+        this.layoutService.getProfile(user.role).subscribe({
+          next: (result: UserProfile) => {
+            this.userProfile = result;
+            console.log(result)
+            this.imageService.setControllerPath(user.role + "/image");
+            this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe({
+              next: (blob: Blob) => {
+                console.log(blob);
+                if (blob.type.startsWith('image')) {
+                  this.userProfile.imageURL = URL.createObjectURL(blob);
+                  this.cd.detectChanges();
+                } else {
+                  console.error("Blob nije slika:", blob);
+                }
+              },
+              error: () => {
+                this.userProfile.imageURL = 'assets/user.png';
               }
-            },
-            error: () => {
-              this.userProfile.imageURL = 'assets/user.png';
-            }
-          });
-        },
-        error: (err: any) => {
-          console.log(err)
-        }
-      })
+            });
+          },
+          error: (err: any) => {
+            console.log(err)
+          }
+        })
+      }
     });
 
 
