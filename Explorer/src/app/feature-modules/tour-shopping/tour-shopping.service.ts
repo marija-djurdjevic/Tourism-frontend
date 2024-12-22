@@ -13,6 +13,8 @@ import { Wallet } from './model/wallet.model';
 import { PaymentRecord } from './model/payment-record.model';
 import { Bundle } from './model/bundle.model';
 import { Coupon } from './model/coupon.model';
+import { GroupTourExecution } from './model/group-tour-exectuion.model';
+import { GroupTour } from '../tour-authoring/model/group-tour.model';
 
 
 @Injectable({
@@ -91,4 +93,17 @@ export class TourShoppingService {
     const params = new HttpParams().set('touristId', touristId.toString()); // Set the query param
     return this.http.post<PaymentRecord>(environment.apiHost + 'tourist/shopping/bundle/purchase', bundle, { params });
   }
+
+  groupTourParticipate(tourExecution: GroupTourExecution): Observable<GroupTourExecution> {
+    return this.http.post<GroupTourExecution>(environment.apiHost + 'tourist/groupTourExecution', tourExecution);
+  }
+
+  getAllParticipations(): Observable<PagedResults<GroupTourExecution>> {
+    return this.http.get<PagedResults<GroupTourExecution>>(environment.apiHost + 'tourist/groupTourExecution'); 
+  }
+
+  getAllGroupTours(): Observable<PagedResults<GroupTour>> {
+    return this.http.get<PagedResults<GroupTour>>(environment.apiHost + 'administration/tour/group-tours')
+  }
+
 }
