@@ -44,7 +44,6 @@ h2 {
 
 .icon-button {
   cursor: pointer;
-  color: #333;
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
