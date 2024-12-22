@@ -36,4 +36,20 @@ h2 {
   line-height: 1.25; /* Poravnavanje teksta unutar input polja */
 }
 
+.icon-options {
+  display: flex;
+  justify-content: center;
+  gap: 8px; /* Razmak između opcija */
+}
+
+.icon-button {
+  cursor: pointer;
+  color: #333;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icon-button.selected {
+  transform: scale(1.5); /* Uvećanje na selekciji */
+}
+
 
