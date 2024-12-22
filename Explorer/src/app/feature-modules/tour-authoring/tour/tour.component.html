@@ -60,10 +60,9 @@
                   <p><strong>Status:</strong> {{getStatusLabel(t.status)}}</p>
                   <p><strong>Price:</strong> {{t.price | currency}}</p>
                   <p><strong>Tags:</strong> {{t.tags}}</p>
-                  <p><strong>Date and time:</strong> {{t.startTime}}</p>
-                  <p><strong>Duration:</strong> {{t.duration}}</p>
+                  <p><strong>Date and time:</strong> {{ t.startTime | date: 'dd.MM.yyyy, HH:mm' }}</p>
                   <p><strong>Minimal tourists:</strong> {{t.touristNumber}}</p>
-                  <p><strong>Progress:</strong> {{t.progress}}</p>
+                  <p><strong>Progress:</strong> {{getProgressLabel(t.progress)}}</p>
                 </div>
                 <div class="card-actions">
                     <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button matTooltip="Add new keypoint">

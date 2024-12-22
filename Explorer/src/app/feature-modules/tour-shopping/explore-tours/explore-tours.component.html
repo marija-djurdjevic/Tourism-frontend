@@ -18,9 +18,21 @@
             </div>
             <div id="tour-details">
                 <div class="card-container">
-                    <div class="card" *ngFor="let t of getFilteredTours()" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
+                    <div class="card" (mouseleave)="onMouseLeave()" *ngFor="let t of getFilteredTours()" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
                       <div class="card-content">
-                        <h3>{{ t.name }}</h3>
+                        <h3 style="display: flex; justify-content: space-between; align-items: center; position: relative;">
+                            {{ t.name }}
+                            <label *ngIf="t.isGroupTour" (mouseenter)="onMouseEnter(t.id)" (mouseleave)="onMouseLeave()" class="grouptour-popup" (click)="togglePopup(t.id)">
+                              Live group tour
+                            </label>
+                          </h3>
+                          <div
+                            class="popup"
+                            *ngIf="visiblePopupId === t.id && visiblePopupId !== null"
+                            #popup
+                          >
+                          Live group tour is a unique opportunity to join a FREE, guided demonstration tour led by the tour's author. This tour is available only once and offers an unforgettable experience with an expert guide who will walk you through every detail. Sign up now by clicking the button below and secure your spot on this special tour!
+                          </div>                          
                         <p>{{ t.description }}</p>
                         <p>
                             <strong>Price:</strong>
@@ -43,7 +55,7 @@
                         <p><strong>Tags:</strong> 
                             {{ t.tags }}
                         </p>
-                        <p><strong>Tags:</strong> 
+                        <p><strong>Duration:</strong> 
                             <ng-container *ngIf="t.transportInfo; else noTransportInfo">
                                 {{ t.transportInfo.time }} minutes
                             </ng-container>
@@ -59,7 +71,18 @@
                                 <div>N/A</div>
                             </ng-template>
                         </p>
-                        <div *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
+                        <div *ngIf="t.isGroupTour">
+                          <p><strong>Date and time:</strong> 
+                            <ng-container *ngIf="getDateAndTime(t) as dateAndTime; else noDate">
+                              {{ dateAndTime | date: 'dd.MM.yyyy, HH:mm' }}
+                            </ng-container>
+                            <ng-template #noDate>No date available</ng-template>
+                        </p>
+                        <p><strong>Place: first keypoint</strong> 
+                      </p>
+                        </div>
+                        
+                        <div class="keypoint" *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
                             <img [src]="t.keyPoints[0].imagePath" alt="{{ t.keyPoints[0].name }}" class="card-image" />
                             <p><strong>First keypoint's name: </strong> 
                                 {{ t.keyPoints[0].name }}
@@ -85,8 +108,24 @@
                           <span class="status-text" style="color: black;" *ngIf="!isPurchased(t.id ?? 0) && isTourInCart(t.id ?? 0)">In Cart</span>
                         </div>
                       
+                        <div *ngIf="t.isGroupTour && !disabledGroupTourParticipation" class="icon-item">
+                            <ng-container>
+                              <button [disabled]="disabledGroupTourParticipation" color="primary" (click)="participateInGroupTour(t.id ?? 0)" mat-icon-button [matTooltip]="disabledGroupTourParticipation ? 'You already participated in a group tour!' : 'Participate'">
+                                <img src="assets/icons/accountable.png" alt="Shopping Cart" />
+                              </button>
+                            </ng-container>
+                          </div>
+
+                          <div *ngIf="t.isGroupTour &&  TourParticipation(t.id)" class="icon-item">
+                            <ng-container>
+                              <button color="primary" (click)="participateInGroupTour(t.id ?? 0)" mat-icon-button matTooltip="You are participating in this group tour!">
+                                <img src="assets/icons/checked.png" alt="Shopping Cart" />
+                              </button>
+                            </ng-container>
+                          </div>
+                          
                         <!-- Ikonica za shopping cart -->
-                        <div class="icon-item">
+                        <div *ngIf="!t.isGroupTour" class="icon-item">
                           <ng-container *ngIf="!isPurchased(t.id ?? 0) && !isTourInCart(t.id ?? 0)">
                             <button color="primary" (click)="addToCart(t.id ?? 0, t.name, t.price)" mat-icon-button matTooltip="Add to cart">
                               <img src="assets/icons/shopping-cart.png" alt="Shopping Cart" />
@@ -94,6 +133,9 @@
                           </ng-container>
                         </div>
                       </div>
+
+                     
+                    </div>
                       
                   </div>
             </div>

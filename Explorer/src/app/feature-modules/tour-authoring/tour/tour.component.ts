@@ -164,6 +164,19 @@ newCoupon: {
     }
   }
 
+  getProgressLabel(progress: number): string {
+    switch (progress) {
+      case 0:
+        return 'Scheduled';
+      case 1:
+        return 'In progress';
+      case 2:
+        return 'Finished';
+      default:
+        return 'Canceled';
+    }
+  }
+  
   onAddClicked(): void {
     this.router.navigate(['/add-tour']);
   }
@@ -452,5 +465,6 @@ newCoupon: {
     this.isGroupToursClicked = false;
     this.isToursClicked = true;
   }
+
 
 }
