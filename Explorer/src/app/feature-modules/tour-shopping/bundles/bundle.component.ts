@@ -6,6 +6,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "src/app/infrastructure/auth/auth.service";
 import { Router } from "@angular/router";
 import { Tour } from "../../tour-authoring/model/tour.model";
+import { NotificationService } from "src/app/shared/notification.service";
+import { NotificationType } from "src/app/shared/model/notificationType.enum";
 
 @Component({
     selector: 'xp-bundles',
@@ -20,7 +22,7 @@ export class BundleComponent implements OnInit {
 
     constructor(
         private service: BundleService,  // Assuming you have a service for bundles
-        private snackBar: MatSnackBar,
+        private notificationService: NotificationService,
         private authService: AuthService,
         private router: Router
     ) { }
@@ -43,10 +45,7 @@ export class BundleComponent implements OnInit {
             error: (err: any) => {
                 console.log(err);
                 this.isLoading = false;
-                this.snackBar.open('Failed to load bundles. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "succesful"
-                });
+                this.notificationService.notify({ message:'Failed to load bundles. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
     }
@@ -76,12 +75,12 @@ export class BundleComponent implements OnInit {
         // Send the updated bundle to the backend
         this.service.updateBundleStatus(updatedBundle).subscribe({
             next: () => {
-                this.snackBar.open('Bundle status updated successfully', 'Close', { duration: 3000 });
+                this.notificationService.notify({ message:'Bundle status updated successfully', duration: 3000, notificationType: NotificationType.SUCCESS });
                 bundle.status = newStatus; // Update the status locally
             },
             error: (err) => {
                 console.error(err);
-                this.snackBar.open('Failed to update bundle status', 'Close', { duration: 3000 });
+                this.notificationService.notify({ message:'Failed to update bundle status', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
     }
@@ -95,13 +94,13 @@ export class BundleComponent implements OnInit {
                     if (publishedTours.length >= 2) {
                         resolve(true); // Resolve the promise with true
                     } else {
-                        this.snackBar.open('You need at least 2 published tours to publish the bundle', 'Close', { duration: 3000 });
+                        this.notificationService.notify({ message:'You need at least 2 published tours to publish the bundle', duration: 3000, notificationType: NotificationType.WARNING });
                         resolve(false); // Resolve the promise with false
                     }
                 },
                 error: (err) => {
                     console.error(err); // Will now log errors properly
-                    this.snackBar.open('Failed to load tours', 'Close', { duration: 3000 });
+                    this.notificationService.notify({ message:'Failed to load tours', duration: 3000, notificationType: NotificationType.WARNING });
                     resolve(false); // Handle error case
                 }
             });

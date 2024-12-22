@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { NotificationService } from './notification.service';
+import { NotificationType } from './model/notificationType.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +13,7 @@ export class WebSocketService {
   // Subject za emitovanje primljenih poruka
   public messageSubject = new Subject<string>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private notificationService: NotificationService) { }
 
   async connect() {
     try {
@@ -40,6 +42,10 @@ export class WebSocketService {
       };
     } catch (error) {
       console.error('Failed to register WebSocket:', error);
+      /*this.notificationService.notify({
+        message: 'Failed to register WebSocket.',
+        notificationType: NotificationType.ERROR, duration: 5000
+      });*/
     }
   }
 
@@ -49,6 +55,10 @@ export class WebSocketService {
       console.log('Message sent:', message);
     } else {
       console.error('Cannot send message. WebSocket is not open.');
+      this.notificationService.notify({
+        message: 'Cannot send message. WebSocket is not open.',
+        notificationType: NotificationType.WARNING, duration: 5000
+      });
     }
   }
 }

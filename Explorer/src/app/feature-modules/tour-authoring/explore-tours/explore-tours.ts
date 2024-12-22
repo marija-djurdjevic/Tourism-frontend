@@ -4,6 +4,8 @@ import { Tour } from '../model/tour.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
     selector: 'xp-tour',
@@ -16,7 +18,7 @@ export class ExploreToursComponent implements OnInit {
     isLoading = false;
     selectedTourId: number | null = null;
 
-    constructor(private service: TourAuthoringService, private router: Router, private snackBar: MatSnackBar) { }
+    constructor(private service: TourAuthoringService, private router: Router, private notificationService: NotificationService) { }
 
     ngOnInit(): void { 
         this.getTours();
@@ -35,10 +37,7 @@ export class ExploreToursComponent implements OnInit {
                 this.isLoading = false;
             },
             error: () => { /* Handle error */
-                this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "succesful"
-                });
+                this.notificationService.notify({ message:'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
     }

@@ -4,6 +4,8 @@ import { SaleService } from '../sales.service';
 import { TourExecutionService } from '../../tour-execution/tour-execution.service';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-sales-creation',
@@ -13,7 +15,8 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 export class SaleCreationComponent {
     constructor(
         private salesService: SaleService,
-        private tourService: TourExecutionService
+        private tourService: TourExecutionService,
+        private notificationService: NotificationService
     ) {}
 
   // Sale data based on the Sale interface
@@ -44,6 +47,7 @@ export class SaleCreationComponent {
       },
       error: () => {
         console.log("ERROR LOADING tours");
+        this.notificationService.notify({message: 'Error loading tours', notificationType:NotificationType.WARNING,duration:3000});
       }
     });
   }
@@ -58,13 +62,16 @@ export class SaleCreationComponent {
       this.salesService.createSale(this.sale).subscribe({
         next: () => {
           console.log("Uspesno");
+          this.notificationService.notify({message: 'Sale created successfully', notificationType:NotificationType.SUCCESS,duration:3000});
         },
         error: () => {
           console.log("ERROR LOADING tours");
+          this.notificationService.notify({message: 'Error creating sale', notificationType:NotificationType.WARNING,duration:3000});
         }
       });
     } else {
       console.log('Invalid sale data.');
+      this.notificationService.notify({message: 'Invalid sale data', notificationType:NotificationType.WARNING,duration:3000});
     }
   }
 

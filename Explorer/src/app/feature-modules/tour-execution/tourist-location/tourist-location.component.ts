@@ -5,6 +5,8 @@ import { Location as routerLocation } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MapComponent } from 'src/app/shared/map/map.component';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-tourist-location',
@@ -23,7 +25,7 @@ export class TouristLocationComponent implements AfterViewInit {
   location: Location = { latitude: 0, longitude: 0 };
   hideFinishButton: boolean = false;
 
-  constructor(private service: TourExecutionService, private snackBar: MatSnackBar, private routerLocation: routerLocation, private router: Router) {
+  constructor(private service: TourExecutionService, private notificationService: NotificationService, private routerLocation: routerLocation, private router: Router) {
   }
 
   ngAfterViewInit(): void {
@@ -35,7 +37,8 @@ export class TouristLocationComponent implements AfterViewInit {
         this.locationSelected.emit({ latitude: this.location.latitude, longitude: this.location.longitude });
       },
       error: () => {
-        alert('Došlo je do greške prilikom ucitavanja lokacije.');
+        // alert('Došlo je do greške prilikom ucitavanja lokacije.');
+        this.notificationService.notify({ message:'Failed to load location. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -55,17 +58,11 @@ export class TouristLocationComponent implements AfterViewInit {
         this.location.latitude = data.latitude
         this.location.longitude = data.longitude
         console.log(this.location.longitude + " " + this.location.latitude)
-        this.snackBar.open('Location saved successfully!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Location saved successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: () => {
         console.log('Došlo je do greške prilikom dodavanja lokacije.');
-        this.snackBar.open('Failed to save location. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Failed to save location. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }

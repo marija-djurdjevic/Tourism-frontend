@@ -5,6 +5,8 @@ import { Object } from '../model/object.model'
 import { ImageService } from 'src/app/shared/image.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-object-form',
@@ -20,7 +22,7 @@ export class ObjectFormComponent {
   latitude:Number;
   isPublic: boolean = false;
 
-  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private imageService: ImageService,private router: Router) {
+  constructor(private service: TourAuthoringService,private notificationService: NotificationService, private imageService: ImageService,private router: Router) {
     /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
     ODREDJUJE SE NA OSNOVU ULOGE KOJA VRSI OPERACIJU ZBOG AUTORIZACIJE*/
     imageService.setControllerPath("author/image");
@@ -65,17 +67,11 @@ export class ObjectFormComponent {
             this.objectForm.reset();
             this.previewImage = null;
             this.router.navigate(['/object']);
-            this.snackBar.open('Object added successfully!', 'Close', {
-              duration: 3000,
-              panelClass:"succesful"
-            });
+            this.notificationService.notify({ message:'Object added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
           },
           error: () => {
             console.log('Došlo je do greške prilikom kreiranja objekta.');
-            this.snackBar.open('Failed to add object. Please try again.', 'Close', {
-              duration: 3000,
-              panelClass:"succesful"
-            });
+            this.notificationService.notify({ message:'Failed to add object. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
           }
         });
       });
@@ -87,7 +83,8 @@ export class ObjectFormComponent {
       
     } else {
 
-      alert('Molimo vas da popunite sva polja ispravno.');
+      // alert('Molimo vas da popunite sva polja ispravno.');
+      this.notificationService.notify({ message:'Please fill in all fields correctly.', duration: 3000, notificationType: NotificationType.INFO });
     }
   }
 

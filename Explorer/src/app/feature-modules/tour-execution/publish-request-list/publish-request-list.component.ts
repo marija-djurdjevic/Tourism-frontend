@@ -12,6 +12,8 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { Object } from '../../tour-authoring/model/object.model';
 import { ImageService } from 'src/app/shared/image.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 
 @Component({
@@ -31,7 +33,7 @@ import { ImageService } from 'src/app/shared/image.service';
 
     usernamesMap: Map<number, string> = new Map();
 
-    constructor(private service: TourExecutionService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService) { imageService.setControllerPath("administrator/image");} 
+    constructor(private service: TourExecutionService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService,private notificationService: NotificationService) { imageService.setControllerPath("administrator/image");} 
     ngOnInit(): void {
 
         this.authService.user$.subscribe((user: User | undefined) => {
@@ -55,6 +57,7 @@ import { ImageService } from 'src/app/shared/image.service';
             },
             error: (err: any) => {
               console.log(err);
+              this.notificationService.notify({message: 'Error loading requests.', duration: 3000,notificationType:NotificationType.WARNING});
             }
           });
         }
@@ -92,6 +95,7 @@ import { ImageService } from 'src/app/shared/image.service';
             },
             error: err => {
               console.error(`Error loading KeyPoint with ID ${request.entityId}:`, err);
+              this.notificationService.notify({message: 'Error loading KeyPoint.', duration: 3000,notificationType:NotificationType.WARNING});
             },
           });
         }
@@ -125,6 +129,7 @@ import { ImageService } from 'src/app/shared/image.service';
             },
             error: err => {
               console.error(`Error loading Object with ID ${request.entityId}:`, err);
+              this.notificationService.notify({message: 'Error loading Object.', duration: 3000,notificationType:NotificationType.WARNING});
             },
           });
         }
@@ -157,11 +162,13 @@ import { ImageService } from 'src/app/shared/image.service';
     acceptRequest(request: PublishRequest | undefined): void {
       if (!request) {
         console.error('Request is undefined.');
+        this.notificationService.notify({message: 'Request is undefined.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
       if (!this.user || !this.user.id) {
         console.error('User is undefined or does not have an ID.');
+        this.notificationService.notify({message: 'User is undefined or does not have an ID.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
@@ -177,9 +184,11 @@ import { ImageService } from 'src/app/shared/image.service';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Request accepted.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error accepting request.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }else{
@@ -191,9 +200,11 @@ import { ImageService } from 'src/app/shared/image.service';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Object accepted.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error accepting object.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }
@@ -201,11 +212,13 @@ import { ImageService } from 'src/app/shared/image.service';
     rejectRequest(request: PublishRequest | undefined): void {
       if (!request) {
         console.error('Request is undefined.');
+        this.notificationService.notify({message: 'Request is undefined.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
       if (!this.user || !this.user.id) {
         console.error('User is undefined or does not have an ID.');
+        this.notificationService.notify({message: 'User is undefined or does not have an ID.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
@@ -221,9 +234,11 @@ import { ImageService } from 'src/app/shared/image.service';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Request rejected.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error rejecting request.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }else{
@@ -235,9 +250,11 @@ import { ImageService } from 'src/app/shared/image.service';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Object rejected.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error rejecting object.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }

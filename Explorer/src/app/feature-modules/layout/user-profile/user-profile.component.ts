@@ -11,6 +11,8 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Encounter } from '../../encounters/model/encounter.model';
 import { AdministrationService } from '../../administration/administration.service';
 import { Achievement } from '../../administration/model/achievement.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-user-profile',
@@ -40,7 +42,7 @@ export class UserProfileComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private encounterService: EncounterService,
     private administrationService: AdministrationService,
-    private snackBar: MatSnackBar) { }
+    private notificationService:NotificationService) { }
 
   ngOnInit(): void {
 
@@ -51,21 +53,25 @@ export class UserProfileComponent implements OnInit {
         this.isAdmin = true;
       }
     });
-    this.administrationService.getAchievements().subscribe({
-      next: (result: Achievement[]) => {
-        var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
-        this.badge = achievements[0].imagePath || '';
-      },
-    });
+    if (this.role === 'tourist') {
+      this.administrationService.getAchievements().subscribe({
+        next: (result: Achievement[]) => {
+          var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
+          this.badge = achievements[0].imagePath || '';
+        },
+      });
+    }
     this.getProfile()
     this.loadEncounters();
   }
 
   loadEncounters(): void {
-    this.encounterService.getAllEncountersForAdmin().subscribe((result: PagedResults<Encounter>) => {
-      this.encounters = result.results;
-      this.filterEncounters();
-    });
+    if (this.isAdmin) {
+      this.encounterService.getAllEncountersForAdmin().subscribe((result: PagedResults<Encounter>) => {
+        this.encounters = result.results;
+        this.filterEncounters();
+      });
+    }
   }
 
   showEncounters(): void {
@@ -87,15 +93,15 @@ export class UserProfileComponent implements OnInit {
         next: (result: Encounter) => {
           encounter.status = 1;
           this.filterEncounters();
-          this.snackBar.open('Encounter activated', 'Close', { duration: 3000 });
+          this.notificationService.notify({ message:'Encounter activated', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: () => {
-          this.snackBar.open('Unable to activate encounter', 'Close', { duration: 3000 });
+          this.notificationService.notify({ message:'Unable to activate encounter', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
 
     } else {
-      this.snackBar.open('Unable to activate becouse status is not draft', 'Close', { duration: 3000 });
+      this.notificationService.notify({ message:'Unable to activate becouse status is not draft', duration: 3000, notificationType: NotificationType.WARNING });
     }
   }
 
@@ -129,10 +135,7 @@ export class UserProfileComponent implements OnInit {
       error: (err: any) => {
         console.log(err)
         this.isLoading = false;
-        this.snackBar.open('Failed to load profile. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load profile. Please try again.', duration: 3000, notificationType: NotificationType.ERROR });
       }
     })
   }

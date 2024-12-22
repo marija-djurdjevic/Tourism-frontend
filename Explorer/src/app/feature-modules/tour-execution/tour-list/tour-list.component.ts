@@ -6,6 +6,8 @@ import { Location } from 'src/app/feature-modules/tour-execution/model/location.
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-tour-list',
@@ -21,7 +23,7 @@ export class TourListComponent implements OnInit {
   user: User | undefined;
   isLoading=false;
 
-  constructor(private tourExecutionService: TourExecutionService,private snackBar:MatSnackBar, private router: Router, private authService: AuthService) { }
+  constructor(private tourExecutionService: TourExecutionService,private notificationService: NotificationService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getAllTours();
@@ -70,44 +72,29 @@ export class TourListComponent implements OnInit {
               if (result) {
                 this.tourStarted = true;
                 console.log('Tura je uspešno započeta!');
-                this.snackBar.open('Tour started successfully!', 'Close', {
-                  duration: 3000,
-                  panelClass:"succesful"
-                });
+                this.notificationService.notify({ message:'Tour started successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
                 this.router.navigate(['/tourSession', tourId]);
               } else {
                 console.log('Tura nije mogla biti započeta.');
-                this.snackBar.open('Failed to start tour. Please try again.', 'Close', {
-                  duration: 3000,
-                  panelClass:"succesful"
-                });
+                this.notificationService.notify({ message:'Failed to start tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
               }
             },
             error: () => {
               console.log('Došlo je do greške prilikom pokretanja ture.');
-              this.snackBar.open('Failed to start tour. Please try again.', 'Close', {
-                duration: 3000,
-                panelClass:"succesful"
-              });
+              this.notificationService.notify({ message:'Failed to start tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
               window.location.href = 'http://localhost:4200/tourList';
             }
           });
         },
         error: () => {
           console.log('Došlo je do greške prilikom ucitavanja lokacije.');
-          this.snackBar.open('Failed to load location. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to load location. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
 
     } else {
       console.warn('Lokacija ili tourId nisu dostupni za startovanje ture.');
-      this.snackBar.open('Tour unable to start. Please try again.', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
-      });
+      this.notificationService.notify({ message:'Tour unable to start. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
     }
   }
 
@@ -123,10 +110,7 @@ export class TourListComponent implements OnInit {
       },
       error: () => {
         console.error('Došlo je do greške prilikom preuzimanja tura.');
-        this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }

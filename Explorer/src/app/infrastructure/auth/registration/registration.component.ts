@@ -4,6 +4,8 @@ import { Registration } from '../model/registration.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-registration',
@@ -15,7 +17,7 @@ export class RegistrationComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService
   ) {}
 
   registrationForm = new FormGroup({
@@ -39,13 +41,9 @@ export class RegistrationComponent {
       this.authService.register(registration).subscribe({
         next: () => {
           this.router.navigate(['home']);
-          this.snackBar.open('Registration successful', 'Close', {
-            duration: 3000,
-          });
+          this.notificationService.notify({ message:'Registration successful', duration: 3000, notificationType: NotificationType.SUCCESS });
         },error: (error) => {
-          this.snackBar.open('Registration failed', 'Close', {
-            duration: 3000,
-          });
+          this.notificationService.notify({ message:'Registration failed', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
     }
