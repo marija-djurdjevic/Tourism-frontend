@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { AdministrationService } from '../administration.service';
 import * as L from 'leaflet';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-encounter',
@@ -23,7 +25,8 @@ export class EncounterComponent implements OnInit, OnDestroy {
     private service: AdministrationService,
     private authService: AuthService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -135,6 +138,7 @@ export class EncounterComponent implements OnInit, OnDestroy {
     if (confirm('Are you sure you want to delete this encounter?')) {
       this.service.deleteEncounter(encounter.id).subscribe(() => {
         this.loadEncounters(); 
+        this.notificationService.notify({ message: 'Encounter deleted successfully', duration: 3000, notificationType: NotificationType.SUCCESS });
       });
     }
   }

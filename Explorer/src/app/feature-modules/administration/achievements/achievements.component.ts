@@ -3,6 +3,8 @@ import { Achievement } from '../model/achievement.model';
 import { EncounterService } from '../../encounters/encounter.service';
 import { AdministrationService } from '../administration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-achievements',
@@ -14,7 +16,7 @@ export class AchievementsComponent {
   achievements: Achievement[];
 
 
-  constructor(private administrationService: AdministrationService, private snackBar: MatSnackBar) { }
+  constructor(private administrationService: AdministrationService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.administrationService.getAchievements().subscribe({
@@ -22,7 +24,7 @@ export class AchievementsComponent {
         this.achievements = result;
       },
       error: () => {
-        this.snackBar.open('Unable to load achievements', 'Close', { duration: 3000 });
+        this.notificationService.notify({ message:'Unable to load achievements', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }

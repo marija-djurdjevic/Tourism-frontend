@@ -106,14 +106,14 @@
 .button:before {
   top: -70%;
   background-image: radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, transparent 20%, var(--secondary-color) 20%, transparent 30%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, transparent 10%, var(--secondary-color) 15%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%);
+    radial-gradient(circle, transparent 20%, red 20%, transparent 30%),
+    radial-gradient(circle, blue 20%, transparent 20%),
+    radial-gradient(circle, rgb(255, 0, 153) 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, rgb(6, 207, 252) 15%, transparent 20%),
+    radial-gradient(circle, rgb(217, 255, 0) 20%, transparent 20%),
+    radial-gradient(circle, rgb(255, 162, 0) 20%, transparent 20%),
+    radial-gradient(circle, black 20%, transparent 20%),
+    radial-gradient(circle, rgb(85, 255, 0) 20%, transparent 20%);
   background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
     10% 10%, 18% 18%;
   background-position: 50% 120%;
@@ -123,12 +123,12 @@
 /* Prethodni stil za hover animacije na `:after` */
 .button:after {
   bottom: -90%;
-  background-image: radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, transparent 10%, var(--secondary-color) 15%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
-    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
+  background-image: radial-gradient(circle, rgb(0, 255, 187) 20%, transparent 20%),
+    radial-gradient(circle, rgb(136, 255, 0) 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, red 15%, transparent 20%),
+    radial-gradient(circle, rgb(255, 0, 195) 20%, transparent 20%),
+    radial-gradient(circle, rgb(255, 238, 0) 20%, transparent 20%),
+    radial-gradient(circle, rgb(0, 204, 255) 20%, transparent 20%),
     radial-gradient(circle, var(--secondary-color) 20%, transparent 20%);
   background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18%;
   background-position: 50% 0%;

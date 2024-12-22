@@ -4,6 +4,8 @@ import { KeyPointService } from '../../key-point.service';
 import { KeyPoint } from '../../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WeatherService } from '../../weather-service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-key-point',
@@ -20,7 +22,7 @@ export class KeyPointComponent implements OnInit {
   currentWeather: any = null;
   cityName = ''
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar,private router:Router,private weatherService: WeatherService) { }
+  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private notificationService:NotificationService,private router:Router,private weatherService: WeatherService) { }
 
 
   async ngOnInit(): Promise<void> {
@@ -97,7 +99,7 @@ export class KeyPointComponent implements OnInit {
       error:(err: any) => {
         console.log(err);
         this.isLoading=false;
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
+        this.notificationService.notify({ message:'Failed to load data. Please try again.', 'Close', {
           duration: 3000,
           panelClass:"succesful"
         });
@@ -124,10 +126,7 @@ export class KeyPointComponent implements OnInit {
           error: (err: any) => {
             console.error('Error loading key points:', err);
             this.isLoading = false;
-            this.snackBar.open('Failed to load key points. Please try again.', 'Close', {
-              duration: 3000,
-              panelClass: 'error',
-            });
+            this.notificationService.notify({ message:'Failed to load key points. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             reject(err); // Reject the promise in case of error
           },
         });
@@ -144,18 +143,12 @@ export class KeyPointComponent implements OnInit {
       next: (keyPoint) => {
         this.keyPoints.push(keyPoint);
         this.newKeyPoint = { tourIds: [this.tourId], name: '', description: '', imagePath: '', latitude: 0, longitude: 0, status: 1 }; // Reset forme
-        this.snackBar.open('Key point added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Key point added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (error) => {
         console.error("Greška prilikom dodavanja ključne tačke: ", error); 
         console.error("Detaljne greške: ", error.error.errors); 
-        this.snackBar.open('Failed to add key point. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add key point. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -180,24 +173,15 @@ export class KeyPointComponent implements OnInit {
           }
           this.isUpdate = false;  // Resetovanje stanja za ažuriranje
           this.selectedKeyPoint = null;  // Resetovanje selektovane tačke
-          this.snackBar.open('Key point updated successfully!', 'Close', {
-            duration: 3000,
-            panelClass: "succesful"
-          });
+          this.notificationService.notify({ message:'Key point updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: (error) => {
           console.error("Greška prilikom ažuriranja ključne tačke: ", error);
-          this.snackBar.open('Failed to update key point. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass: "succesful"
-          });
+          this.notificationService.notify({ message:'Failed to update key point. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
     } else {
-      this.snackBar.open('Key point ID is missing!', 'Close', {
-        duration: 3000,
-        panelClass: "error"
-      });
+      this.notificationService.notify({ message:'Key point ID is missing!', duration: 3000, notificationType: NotificationType.WARNING });
     }
   }
   

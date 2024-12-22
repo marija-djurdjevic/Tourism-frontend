@@ -8,6 +8,8 @@ import { Router } from "@angular/router";
 import { TourShoppingService } from "../tour-shopping.service";
 import { PaymentRecord } from "../model/payment-record.model";
 import { PagedResults } from "src/app/shared/model/paged-results.model";
+import { NotificationService } from "src/app/shared/notification.service";
+import { NotificationType } from "src/app/shared/model/notificationType.enum";
 
 @Component({
     selector: 'xp-bundles',
@@ -23,7 +25,7 @@ export class ExploreBundlesComponent implements OnInit {
     paymentRecord: PaymentRecord;
     constructor(
         private bundleService: BundleService,
-        private snackBar: MatSnackBar,
+        private notificationService: NotificationService,
         private authService: AuthService,
         private router: Router,
         private shoppingService: TourShoppingService,
@@ -48,34 +50,31 @@ export class ExploreBundlesComponent implements OnInit {
             error: (err: any) => {
                 console.log(err);
                 this.isLoading = false;
-                this.snackBar.open('Failed to load bundles. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "succesful"
-                });
+                this.notificationService.notify({ message: 'Failed to load bundles. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
     }
 
     getPurchasedBundles(): void {
         this.isLoading = true;
-        this.shoppingService.getPurchasedBundles(this.user.id).subscribe({
-            next: (result: any) => { // from any you can get .values
-                if (result && result.value) {
-                    this.purchasedBundles = result.value as Bundle[];  // extract the 'value' array and cast it
-                } else {
+        if (this.user.role == 'tourist') {
+            this.shoppingService.getPurchasedBundles(this.user.id).subscribe({
+                next: (result: any) => { // from any you can get .values
+                    if (result && result.value) {
+                        this.purchasedBundles = result.value as Bundle[];  // extract the 'value' array and cast it
+                    } else {
+                    }
+                    console.log("Purchased bundles not loaded properly: ", this.purchaseBundle);
+                    this.notificationService.notify({ message: 'Purchased bundles not loaded properly. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+                    this.isLoading = false;
+                },
+                error: (err: any) => {
+                    console.log(err);
+                    this.isLoading = false;
+                    this.notificationService.notify({ message: 'Failed to load purchased bundles. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
                 }
-                console.log("Purchased bundles not loaded properly: ", this.purchaseBundle);
-                this.isLoading = false;
-            },
-            error: (err: any) => {
-                console.log(err);
-                this.isLoading = false;
-                this.snackBar.open('Failed to load purchased bundles. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "succesful"
-                });
-            }
-        });
+            });
+        }
     }
 
     isPurchased(bundleId: number): boolean {
@@ -91,16 +90,13 @@ export class ExploreBundlesComponent implements OnInit {
                 this.paymentRecord = result.value;
                 this.isLoading = false;
                 alert("Payment recorded: \nbundle: " + this.paymentRecord.bundleId
-                    + "\nprice: " + this.paymentRecord.price
-                )
+                    + "\nprice: " + this.paymentRecord.price)
+                this.notificationService.notify({ message: "Payment recorded: \nbundle: " + this.paymentRecord.bundleId + "\nprice: " + this.paymentRecord.price, duration: 3000, notificationType: NotificationType.INFO });
             },
             error: (err: any) => {
                 console.log(err);
                 this.isLoading = false;
-                this.snackBar.open('Failed to buy a bundle. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "succesful"
-                });
+                this.notificationService.notify({ message: 'Failed to buy a bundle. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
     }

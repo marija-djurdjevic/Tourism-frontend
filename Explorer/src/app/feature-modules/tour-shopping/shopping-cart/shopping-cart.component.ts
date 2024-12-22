@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { Coupon } from '../model/coupon.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
+import { Route, Router } from '@angular/router';
 @Component({
   selector: 'xp-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -20,7 +23,7 @@ export class ShoppingCartComponent implements OnInit{
   isLoading = false;
   enteredCouponCode: string = '';
   appliedCoupons: Coupon[] | null = []
-  constructor(private service: TourShoppingService,private snackBar:MatSnackBar, private authService: AuthService, private tourService: TourAuthoringService) {}
+  constructor(private service: TourShoppingService,private notificationService: NotificationService, private authService: AuthService, private tourService: TourAuthoringService,private router:Router) {}
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -33,10 +36,7 @@ export class ShoppingCartComponent implements OnInit{
     this.isLoading = true;
     if (!this.user) {
       console.log("User not logged in");
-      this.snackBar.open('User not logged in . Login.', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
-      });
+      this.notificationService.notify({ message:'User not logged in . Login.', duration: 3000, notificationType: NotificationType.WARNING,action:'Login',actionCallback: () => this.router.navigate(['/login'])});
       this.isLoading = false;
       this.orderItems = [];
       return;
@@ -57,10 +57,7 @@ export class ShoppingCartComponent implements OnInit{
   removeFromCart(id: number): void {
     if (!this.user) {
       console.log("User not logged in");
-      this.snackBar.open('User not logged in. Login.', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
-      });
+      this.notificationService.notify({ message:'User not logged in. Login.',duration: 3000, notificationType: NotificationType.WARNING,action:'Login',actionCallback: () => this.router.navigate(['/login'])});
       return;
     }
   
@@ -73,20 +70,14 @@ export class ShoppingCartComponent implements OnInit{
     if (itemIndex !== -1) {
       cart.splice(itemIndex, 1);
       console.log(`Item with ID ${id} removed from cart.`);
-      this.snackBar.open('Item removed successfully!', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
-      });
+      this.notificationService.notify({ message:'Item removed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS});
 
       localStorage.setItem(cartKey, JSON.stringify(cart));
   
       this.orderItems = cart;
     } else {
       console.log(`Item with ID ${id} not found in cart.`);
-      this.snackBar.open('Item not found in cart.', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
-      });
+      this.notificationService.notify({ message:'Item not found in cart.', duration: 3000, notificationType: NotificationType.WARNING});
     }
   }
   
@@ -94,10 +85,7 @@ export class ShoppingCartComponent implements OnInit{
   resetCart(): void {
     if (!this.user) {
       console.log("User not logged in");
-      this.snackBar.open('User not logged in. Login.', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
-      });
+      this.notificationService.notify({ message:'User not logged in. Login.', duration: 3000, notificationType: NotificationType.WARNING,action:'Login',actionCallback: () => this.router.navigate(['/login'])});
       return;
     }
   
@@ -127,6 +115,7 @@ export class ShoppingCartComponent implements OnInit{
   
         if (totalPrice > wallet.balance) {
           alert(`Insufficient funds. Your wallet balance is ${wallet.balance}, but the total price is ${totalPrice}.`);
+          this.notificationService.notify({ message:'Insufficient funds. Please top up your wallet.', duration: 3000, notificationType: NotificationType.WARNING });
           return;
         }
   
@@ -144,37 +133,34 @@ export class ShoppingCartComponent implements OnInit{
             this.service.updateWallet(updatedWallet).subscribe({
               next: (updatedResponse) => {
                 console.log("Wallet updated successfully:", updatedResponse);
-                this.snackBar.open('Checkout successful and wallet updated!', 'Close', {
-                  duration: 3000,
-                  panelClass: "succesful"
-                });
+                this.notificationService.notify({ message:'Checkout successful and wallet updated!', duration: 3000, notificationType: NotificationType.SUCCESS});
                 this.resetCart(); // Clear the cart after successful checkout
               },
               error: (error) => {
                 console.error("Failed to update wallet:", error);
-                alert('Checkout was successful, but wallet update failed. Please contact support.');
+                // alert('Checkout was successful, but wallet update failed. Please contact support.');
+                this.notificationService.notify({ message:'Checkout successful, but wallet update failed. Please contact support.', duration: 3000, notificationType: NotificationType.ERROR });
               }
             });
           },
           error: (error) => {
             console.error("Checkout failed:", error);
-            this.snackBar.open('Checkout failed. Try again.', 'Close', {
-              duration: 3000,
-              panelClass: "succesful"
-            });
+            this.notificationService.notify({ message:'Checkout failed. Try again.', duration: 3000, notificationType: NotificationType.ERROR });
           }
         });
       },
       error: (err) => {
         console.error("Failed to fetch wallet balance:", err);
-        alert('Could not fetch wallet balance. Please try again later.');
+        // alert('Could not fetch wallet balance. Please try again later.');
+        this.notificationService.notify({ message:'Could not fetch wallet balance. Please try again later.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
 
   useCoupon(): void {
     if (!this.enteredCouponCode.trim()) {
-      alert('Please enter a coupon code.');
+      // alert('Please enter a coupon code.');
+      this.notificationService.notify({ message:'Please enter a coupon code.', duration: 3000, notificationType: NotificationType.WARNING });
       return;
     }
   
@@ -182,7 +168,8 @@ export class ShoppingCartComponent implements OnInit{
     if (this.appliedCoupons){
       const alreadyApplied = this.appliedCoupons.some(coupon => coupon.code === this.enteredCouponCode);
       if (alreadyApplied) {
-        alert('This coupon has already been applied.');
+        // alert('This coupon has already been applied.');
+        this.notificationService.notify({ message:'This coupon has already been applied.', duration: 3000, notificationType: NotificationType.WARNING });
         return;
       }
     }   
@@ -191,7 +178,8 @@ export class ShoppingCartComponent implements OnInit{
       next: (coupon) => {
         const alreadyApplied = this.appliedCoupons!.some(c => c.code === coupon.code);
         if (alreadyApplied) {
-          alert('This coupon has already been applied.');
+          // alert('This coupon has already been applied.');
+          this.notificationService.notify({ message:'This coupon has already been applied.', duration: 3000, notificationType: NotificationType.WARNING });
           return;
         }
   
@@ -220,14 +208,17 @@ export class ShoppingCartComponent implements OnInit{
                 const cartKey = `cart_${this.user.id}`;
                 localStorage.setItem(cartKey, JSON.stringify(this.orderItems));
   
-                alert(`Coupon applied! ${coupon.discount}% off on the most expensive tour of the author.`);
+                // alert(`Coupon applied! ${coupon.discount}% off on the most expensive tour of the author.`);
+                this.notificationService.notify({ message:`Coupon applied! ${coupon.discount}% off on the most expensive tour of the author.`, duration: 3000, notificationType: NotificationType.SUCCESS });
               } else {
-                alert('No tours from this author found in your cart.');
+                // alert('No tours from this author found in your cart.');
+                this.notificationService.notify({ message:'No tours from this author found in your cart.', duration: 3000, notificationType: NotificationType.WARNING });
               }
             },
             error: (err) => {
               console.error('Error fetching author tours:', err);
-              alert('Could not fetch tours for this coupon. Please try again.');
+              // alert('Could not fetch tours for this coupon. Please try again.');
+              this.notificationService.notify({ message:'Could not fetch tours for this coupon. Please try again.', duration: 3000, notificationType: NotificationType.ERROR });
             },
           });
         } else {
@@ -249,15 +240,18 @@ export class ShoppingCartComponent implements OnInit{
             const cartKey = `cart_${this.user.id}`;
             localStorage.setItem(cartKey, JSON.stringify(this.orderItems));
   
-            alert(`Coupon applied successfully! Discount: ${coupon.discount}%`);
+            // alert(`Coupon applied successfully! Discount: ${coupon.discount}%`);
+            this.notificationService.notify({ message:`Coupon applied successfully! Discount: ${coupon.discount}%`, duration: 3000, notificationType: NotificationType.SUCCESS });
           } else {
-            alert('Coupon does not apply to any items in your cart.');
+            // alert('Coupon does not apply to any items in your cart.');
+            this.notificationService.notify({ message:'Coupon does not apply to any items in your cart.', duration: 3000, notificationType: NotificationType.WARNING });
           }
         }
       },
       error: (err) => {
         console.error('Error fetching coupon:', err);
-        alert('Invalid coupon code or an error occurred.');
+        // alert('Invalid coupon code or an error occurred.');
+        this.notificationService.notify({ message:'Invalid coupon code or an error occurred.', duration: 3000, notificationType: NotificationType.WARNING });
       },
     });
   }

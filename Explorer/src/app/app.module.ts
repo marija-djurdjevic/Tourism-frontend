@@ -45,7 +45,10 @@ import { NotificationComponent } from './shared/notification/notification.compon
     TourShoppingModule,
     AuthModule,
     HttpClientModule,
+    /*
+      OVO JE ZAMJENJENO SA NOTIFICATION SERVICE, OD SADA NJEGA KORISTITI
     MatSnackBarModule,
+    */
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,

@@ -12,6 +12,8 @@ import { switchMap } from 'rxjs';
 import { EncounterExecution } from '../../encounters/model/encounter-execution.model';
 import { TouristLocationComponent } from '../tourist-location/tourist-location.component';
 import { ImageService } from 'src/app/shared/image.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 @Component({
   selector: 'xp-tour-session',
   templateUrl: './tour-session.component.html',
@@ -48,7 +50,7 @@ export class TourSessionComponent implements OnInit {
     private tourExecutionService: TourExecutionService,
     private keyPointService: KeyPointService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private imageService: ImageService,
     private cd: ChangeDetectorRef,
     private renderer: Renderer2,
@@ -81,6 +83,7 @@ export class TourSessionComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading user level:', error);
+        this.notificationService.notify({ message:'Error loading user level. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -92,11 +95,8 @@ export class TourSessionComponent implements OnInit {
         this.encounters = encounters.sort((a, b) => (a.creator != 0 ? 1 : 0) - (b.creator != 0 ? 1 : 0));
         this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
         this.completed = this.encounters.filter(e => e.isCompletedByMe == true);
-        if (this.encounters) {
-          this.snackBar.open('There are encounters for you, please check.', 'Close', {
-            duration: 3000,
-            panelClass: "error"
-          });
+        if (this.encounters.length > 0) {
+          this.notificationService.notify({ message:'There are encounters for you, please check.', duration: 3000, notificationType: NotificationType.INFO });
         }
         // kod za ucitavanje slike po id
         if (this.encounters) {
@@ -119,6 +119,7 @@ export class TourSessionComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading encounters:', error);
+        this.notificationService.notify({ message:'Error loading encounters. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -144,11 +145,8 @@ export class TourSessionComponent implements OnInit {
       if (distance <= proximityThreshold && this.required.length < 1) {
         this.addKeyPointToCompleted(nextKeyPoint);
       }
-      if(this.required.length == 0){
-        this.snackBar.open('You have required encounters to complete.', 'Close', {
-          duration: 3000,
-          panelClass: "error"
-        });
+      if(this.required.length > 0){
+        this.notificationService.notify({ message:'You have required encounters to complete.', duration: 3000, notificationType: NotificationType.INFO });
       }
     }
 
@@ -188,17 +186,11 @@ export class TourSessionComponent implements OnInit {
       next: (result) => {
         console.log(result);
         this.updateEncounterExecution(result);
-        this.snackBar.open('Encounter execution created!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        // this.notificationService.notify({ message:'Encounter execution created!', duration: 3000, notificationType: NotificationType.INFO });
       },
       error: (error) => {
         console.error('Error occurred:', error);
-        this.snackBar.open('Failed to create encounter execution. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "error"
-        });
+        this.notificationService.notify({ message:'Failed to create encounter execution. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -211,6 +203,7 @@ export class TourSessionComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error occurred:', error);
+        this.notificationService.notify({ message:'Failed to update encounter execution. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -220,23 +213,14 @@ export class TourSessionComponent implements OnInit {
       next: (result) => {
         if (result) {
           this.tourStarted = false;
-          this.snackBar.open('Tour abandoned successfully!', 'Close', {
-            duration: 3000,
-            panelClass: "succesful"
-          });
+          this.notificationService.notify({ message:'Tour abandoned successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
          // window.location.href = 'http://localhost:4200/purchasedTours';
         } else {
-          this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass: "succesful"
-          });
+          this.notificationService.notify({ message:'Failed to abandon tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       },
       error: () => {
-        this.snackBar.open('Failed to abandon tour. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Failed to abandon tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -249,19 +233,13 @@ export class TourSessionComponent implements OnInit {
     this.tourExecutionService.updateLocation(this.tourId, this.location.latitude, this.location.longitude).subscribe({
       next: (isNear) => {
         if (isNear) {
-          this.snackBar.open('Tour session has ended. Thank you for participating!', 'Close', {
-            duration: 3000,
-            panelClass: "succesful"
-          });
+          this.notificationService.notify({ message:'Tour session has ended. Thank you for participating!', duration: 3000, notificationType: NotificationType.INFO });
          
         }
       },
       error: () => {
         console.warn('Error updating location.');
-        this.snackBar.open('Error updating location. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "error"
-        });
+        this.notificationService.notify({ message:'Error updating location. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -274,6 +252,7 @@ export class TourSessionComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading completed key points:', error);
+        this.notificationService.notify({ message:'Error loading completed key points. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -338,17 +317,11 @@ export class TourSessionComponent implements OnInit {
         this.loadCompletedKeyPoints();
         this.loadEncounters();
         console.log('Successfully completed key point');
-        this.snackBar.open('Successfully completed key point', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Successfully completed key point', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (error) => {
         console.error('Error adding key point to completed:', error);
-        this.snackBar.open('Failed to complete key point. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "error"
-        });
+        this.notificationService.notify({ message:'Failed to complete key point. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -367,10 +340,7 @@ export class TourSessionComponent implements OnInit {
 
   activateEncounter(encounter: any) {
     if (encounter.type === 1) {
-      this.snackBar.open('This is a hidden location challenge. Please wait for the image to load.', 'Close', {
-        duration: 3000,
-        panelClass: "info"
-      });
+      this.notificationService.notify({ message:'This is a hidden location challenge. Please wait for the image to load.', duration: 3000, notificationType: NotificationType.INFO });
 
       // Postavite tab na 'active'
       this.currentActiveEncounter = encounter;
@@ -408,19 +378,13 @@ export class TourSessionComponent implements OnInit {
 
     const distance = this.calculateDistance(this.location.latitude, this.location.longitude, encounter.coordinates.latitude, encounter.coordinates.longitude);
     if (distance <= 5) {
-      this.snackBar.open('You are within 5 meters of the target location. Hold your position for 30 seconds.', 'Close', {
-        duration: 3000,
-        panelClass: "info"
-      });
+      this.notificationService.notify({ message:'You are within 5 meters of the target location. Hold your position for 30 seconds.', duration: 3000, notificationType: NotificationType.INFO });
       this.isWithinRange = true;
       this.startTimer();
     } else {
       this.isWithinRange = false;
       this.stopTimer();
-      this.snackBar.open('You are not within 5 meters of the target location. Try again.', 'Close', {
-        duration: 3000,
-        panelClass: "error"
-      });
+      this.notificationService.notify({ message:'You are not within 5 meters of the target location.', duration: 3000, notificationType: NotificationType.WARNING });
     }
   }
 
@@ -452,10 +416,7 @@ export class TourSessionComponent implements OnInit {
   completeHiddenLocationChallenge(encounter: Encounter): void {
     // Logic to mark the challenge as completed
     encounter.isCompletedByMe = true;
-    this.snackBar.open('Challenge completed successfully!', 'Close', {
-      duration: 3000,
-      panelClass: "success"
-    });
+    this.notificationService.notify({ message:'Challenge completed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
     const encounterExecution: EncounterExecution = {
       id: 0,
       encounterId: encounter.id,
@@ -479,10 +440,7 @@ export class TourSessionComponent implements OnInit {
       this.selectedTab = 'completed';
       this.loadUserLevel();
     } else {
-      this.snackBar.open('You can\'t mark as completed this encounter.', 'Close', {
-        duration: 3000,
-        panelClass: "error"
-      });
+      this.notificationService.notify({ message:'You can\'t mark as completed this encounter.', duration: 3000, notificationType: NotificationType.WARNING });
     }
   }
 

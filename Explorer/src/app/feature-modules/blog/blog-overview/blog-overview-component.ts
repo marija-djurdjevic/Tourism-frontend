@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BlogForm } from '../blog-form/blog-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImageService } from 'src/app/shared/image.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 @Component({
   selector: 'xp-blog-overview',
   templateUrl: './blog-overview-component.html',
@@ -26,7 +28,7 @@ export class BlogOverview implements OnInit {
     private tokenStorage: TokenStorage,
     private router: Router,
     private dialog: MatDialog,
-    private snackBar:MatSnackBar,
+    private notificationService: NotificationService,
     private imageService: ImageService
   ) {}
 
@@ -47,14 +49,14 @@ export class BlogOverview implements OnInit {
   //     next: () => {
   //       console.log('Blog saved successfully');
   //       this.getBlogs();
-  //       this.snackBar.open('Blog saved successfully!', 'Close', {
+  //       this.notificationService.notify({ message:'Blog saved successfully!', 'Close', {
   //         duration: 3000,
   //         panelClass:"succesful"
   //       });
   //     },
   //     error: (error) => {
   //       console.error('Error saving blog', error);
-  //       this.snackBar.open('Failed to load data. Please try again.', 'Close', {
+  //       this.notificationService.notify({ message:'Failed to load data. Please try again.', 'Close', {
   //         duration: 3000,
   //         panelClass:"succesful"
   //       });
@@ -90,7 +92,7 @@ export class BlogOverview implements OnInit {
           }
         });
         this.isLoading = false;
-        // this.snackBar.open('Data loaded successfully!', 'Close', {
+        // this.notificationService.notify({ message:'Data loaded successfully!', 'Close', {
         //   duration: 3000,
         //   panelClass:"succesful"
         // });
@@ -98,10 +100,7 @@ export class BlogOverview implements OnInit {
       error: () => {
         console.log('Error fetching blogs!');
         this.isLoading = false;
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load blogs. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       },
     });
   }

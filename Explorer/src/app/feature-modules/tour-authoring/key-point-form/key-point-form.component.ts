@@ -7,6 +7,8 @@ import { Tour } from '../model/tour.model';
 import { TransportInfo, TransportType } from '../model/transportInfo.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Input, Output, EventEmitter } from '@angular/core';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-key-point-form',
@@ -34,7 +36,7 @@ export class KeyPointFormComponent implements OnInit {
     }
   }
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar, private tourService: TourAuthoringService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private notificationService:NotificationService, private tourService: TourAuthoringService, private router: Router) { }
 
   ngOnInit(): void {
     this.tourId = Number(this.route.snapshot.paramMap.get('tourId')); 
@@ -51,10 +53,7 @@ export class KeyPointFormComponent implements OnInit {
       },
       error:(err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to load tour data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load tour data. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
     
@@ -109,44 +108,29 @@ export class KeyPointFormComponent implements OnInit {
           next: (keyPoint) => {
             console.log(`Uspješno dodata ključna tačka! Izračunata distanca: ${distance.toFixed(2)} km, Vreme: ${time.toFixed(0)} minuta.`);
             this.resetForm();
-            this.snackBar.open('Key point added successfully!', 'Close', {
-              duration: 3000,
-              panelClass: "succesful"
-            });
+            this.notificationService.notify({ message:'Key point added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
   
             // Update the transport info
             this.tourService.updateTransportInfo(this.tourId, transportInfo).subscribe({
               next: () => {
                 console.log('Transport info ažuriran uspešno.');
-                this.snackBar.open('Key point added successfully! and Transport info updated successfully!', 'Close', {
-                  duration: 3000,
-                  panelClass: "succesful"
-                });
+                this.notificationService.notify({ message:'Key point added successfully! and Transport info updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
               },
               error: (error) => {
                 console.error("Greška prilikom ažuriranja transport informacija: ", error);
-                this.snackBar.open('Failed to update transport info. Please try again.', 'Close', {
-                  duration: 3000,
-                  panelClass: "error"
-                });
+                this.notificationService.notify({ message:'Failed to update transport info. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
               }
             });
           },
           error: (error) => {
             console.error("Greška prilikom dodavanja ključne tačke: ", error);
-            this.snackBar.open('Failed to add key point. Please try again.', 'Close', {
-              duration: 3000,
-              panelClass: "error"
-            });
+            this.notificationService.notify({ message:'Failed to add key point. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
           }
         });
       },
       error: (error) => {
         console.error("Greška prilikom učitavanja ključnih tačaka: ", error);
-        this.snackBar.open('Failed to load key points. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "error"
-        });
+        this.notificationService.notify({ message:'Failed to load key points. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -197,44 +181,29 @@ export class KeyPointFormComponent implements OnInit {
           next: (keyPoint) => {
             console.log(`Uspješno dodata ključna tačka! Izračunata distanca: ${distance.toFixed(2)} km, Vreme: ${time.toFixed(0)} minuta.`);
             this.resetForm();
-            this.snackBar.open('Key point added successfully!', 'Close', {
-              duration: 3000,
-              panelClass: "succesful"
-            });
+            this.notificationService.notify({ message:'Key point added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
   
             // Update the transport info
             this.tourService.updateTransportInfo(this.tourId, transportInfo).subscribe({
               next: () => {
                 console.log('Transport info ažuriran uspešno.');
-                this.snackBar.open('Key point added successfully! and Transport info updated successfully!', 'Close', {
-                  duration: 3000,
-                  panelClass: "succesful"
-                });
+                this.notificationService.notify({ message:'Key point added successfully! and Transport info updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
               },
               error: (error) => {
                 console.error("Greška prilikom ažuriranja transport informacija: ", error);
-                this.snackBar.open('Failed to update transport info. Please try again.', 'Close', {
-                  duration: 3000,
-                  panelClass: "error"
-                });
+                this.notificationService.notify({ message:'Failed to update transport info. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
               }
             });
           },
           error: (error) => {
             console.error("Greška prilikom dodavanja ključne tačke: ", error);
-            this.snackBar.open('Failed to add key point. Please try again.', 'Close', {
-              duration: 3000,
-              panelClass: "error"
-            });
+            this.notificationService.notify({ message:'Failed to add key point. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
           }
         });
       },
       error: (error) => {
         console.error("Greška prilikom učitavanja ključnih tačaka: ", error);
-        this.snackBar.open('Failed to load key points. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "error"
-        });
+        this.notificationService.notify({ message:'Failed to load key points. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -283,7 +252,7 @@ export class KeyPointFormComponent implements OnInit {
             
             console.log(`Uspješno dodata ključna tačka! Izračunata distanca: ${distance.toFixed(2)} km, Vreme: ${time.toFixed(0)} minuta.`);
             this.resetForm();
-            this.snackBar.open('Key point added successfully!', 'Close', {
+            this.notificationService.notify({ message:'Key point added successfully!', 'Close', {
               duration: 3000,
               panelClass:"succesful"
             });
@@ -291,7 +260,7 @@ export class KeyPointFormComponent implements OnInit {
             this.tourService.updateTransportInfo(this.tourId, transportInfo).subscribe({
               next: () => {
                 console.log('Transport info ažuriran uspešno.');
-                this.snackBar.open('Key point added successfully! and Transport info updated successfully!', 'Close', {
+                this.notificationService.notify({ message:'Key point added successfully! and Transport info updated successfully!', 'Close', {
                   duration: 3000,
                   panelClass:"succesful"
                 });
@@ -299,7 +268,7 @@ export class KeyPointFormComponent implements OnInit {
               error: (error) => {
                 console.error("Greška prilikom ažuriranja transport informacija: ", error);
                 console.error('Došlo je do greške prilikom ažuriranja informacija o transportu.');
-                this.snackBar.open('Failed to load key point. Please try again.', 'Close', {
+                this.notificationService.notify({ message:'Failed to load key point. Please try again.', 'Close', {
                   duration: 3000,
                   panelClass:"succesful"
                 });
@@ -309,7 +278,7 @@ export class KeyPointFormComponent implements OnInit {
           error: (error) => {
             console.error("Greška prilikom dodavanja ključne tačke: ", error);
             console.error("Detaljne greške: ", error.error.errors);
-            this.snackBar.open('Failed to add key point. Please try again.', 'Close', {
+            this.notificationService.notify({ message:'Failed to add key point. Please try again.', 'Close', {
               duration: 3000,
               panelClass:"succesful"
             });
@@ -318,7 +287,7 @@ export class KeyPointFormComponent implements OnInit {
       },
       error: (error) => {
         console.error("Greška prilikom učitavanja ključnih tačaka: ", error);
-        this.snackBar.open('Failed to add key point. Please try again.', 'Close', {
+        this.notificationService.notify({ message:'Failed to add key point. Please try again.', 'Close', {
           duration: 3000,
           panelClass:"succesful"
         });
@@ -366,10 +335,12 @@ export class KeyPointFormComponent implements OnInit {
     this.tourService.updateTransportInfo(this.tourId, transportInfo).subscribe({
         next: () => {
             console.log('Transport info ažuriran uspešno.');
+            this.notificationService.notify({ message:'Transport info updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: (error) => {
             console.error("Greška prilikom ažuriranja transport informacija: ", error);
-            alert('Došlo je do greške prilikom ažuriranja informacija o transportu.');
+            // alert('Došlo je do greške prilikom ažuriranja informacija o transportu.');
+            this.notificationService.notify({ message:'Failed to update transport info. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
     });
   }

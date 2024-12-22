@@ -37,13 +37,13 @@ export class NotificationComponent {
     messageSender= 'Duško',
     notificationType = NotificationType.INFO}: NotifyOptions
   ) {
-    const notification: Notification = { message: message, timeout: duration + 5000, action: action, actionCallback: actionCallback, sender: messageSender, notificationType: notificationType };
+    const notification: Notification = { message: message, timeout: duration + 2000, action: action, actionCallback: actionCallback, sender: messageSender, notificationType: notificationType };
     this.notifications.push(notification);
 
     // Automatsko uklanjanje nakon trajanja
     setTimeout(() => {
       this.startRemovingNotification(notification);
-    }, duration);
+    }, notification.timeout);
   }
 
   startRemovingNotification(notification: Notification) {

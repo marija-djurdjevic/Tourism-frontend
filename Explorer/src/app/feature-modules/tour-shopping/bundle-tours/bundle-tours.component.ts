@@ -6,6 +6,8 @@ import { ImageService } from "src/app/shared/image.service";
 import { AuthService } from "src/app/infrastructure/auth/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BundleService } from "../bundle.service";
+import { NotificationService } from "src/app/shared/notification.service";
+import { NotificationType } from "src/app/shared/model/notificationType.enum";
 
 @Component({
     selector: 'xp-bundle-tours',
@@ -23,7 +25,7 @@ export class BundleToursComponent implements OnInit {
     authorId: number;
 
     constructor(
-        private snackBar: MatSnackBar,
+        private notificationService: NotificationService,
         private authService: AuthService,
         private service: BundleService,
         private router: Router,
@@ -53,10 +55,7 @@ export class BundleToursComponent implements OnInit {
             error: (err: any) => {
                 console.log(err);
                 this.isLoading = false;
-                this.snackBar.open('Failed to load bundle tours. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "succesful"
-                });
+                this.notificationService.notify({ message:'Failed to load bundle tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
     }
