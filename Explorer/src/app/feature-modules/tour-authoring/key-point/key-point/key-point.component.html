@@ -3,49 +3,39 @@
     <p class="loading-text">Loading key points...</p>
   </div>
   
-  <div *ngIf="!isLoading" class="tour-layout">
-    <!-- Key Points Section -->
-    <div class="key-points-section">
-      <h2>Key Points for Tour {{ tourId }}</h2>
-      <h3 class="intro-text">
-        View all the key points for this tour. Feel free to edit or delete any key point as needed to ensure the tour information is accurate and up-to-date.
-      </h3>
-      <div class="card-container">
-        <div class="card" *ngFor="let keyPoint of keyPoints">
-          <img
-            *ngIf="keyPoint.imagePath"
-            [src]="keyPoint.imagePath"
-            alt="{{ keyPoint.name }}"
-            class="card-image"
-          />
-          <div class="card-content">
-            <h4 class="keypoint-title">{{ keyPoint.name }}</h4>
-            <p><strong>Description:</strong> {{ keyPoint.description }}</p>
-            <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
-            <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
-            <button
-              class="add-encounter-button"
-              (click)="addEncounter(keyPoint.id)"
-            >
-              Add Encounter
-            </button>
-          </div>
-          <div class="card-footer">
-            <ng-container *ngIf="keyPoint.status === 2">
-              <span class="status-label">This key point is public!</span>
-            </ng-container>
-            <ng-container *ngIf="keyPoint.status !== 2">
-              <button class="btn secondary-btn" (click)="onEdit(keyPoint)">
-                Edit
-              </button>
-              <button
-                class="btn secondary-btn"
-                (click)="keyPoint.id !== undefined ? onDelete(keyPoint.id) : null"
-              >
-                Delete
-              </button>
-            </ng-container>
-          </div>
+  <div *ngIf="!isLoading">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+    <div id="keypoints">
+      <p class="keypoints-title">Key Points for Tour {{ tourId }}</p>
+      <hr>
+      <div id="keypoints-details">
+        <div class="card-container">
+            <div class="card" *ngFor="let keyPoint of keyPoints">
+              <div class="card-content">
+                <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}"/>
+                <h3>{{ keyPoint.name }}</h3>
+                <p>{{ keyPoint.description }}</p>
+              </div>
+              <div class="card-actions">
+                <div class="icon-item1">
+                    <button color="primary" (click)="addEncounter(keyPoint.id)" type="submit" mat-icon-button matTooltip="Add encounter">
+                        <img src="assets/icons/encounter.png" alt="Encounter Icon"/>
+                    </button>
+                    <span class="status-text" style="color: black;" *ngIf="keyPoint.status === 2">This Key Point is Public</span>
+                </div>
+
+                <div class="icon-item2">
+                    <ng-container *ngIf="keyPoint.status !== 2">
+                        <button color="accent" (click)="keyPoint.id !== undefined ? onDelete(keyPoint.id) : null" mat-icon-button matTooltip="Delete key point">
+                          <img src="assets/icons/delete.png" alt="Delete Icon"/>
+                        </button>
+                        <button color="accent" (click)="onEdit(keyPoint)" mat-icon-button matTooltip="Edit key point">
+                            <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                        </button>
+                    </ng-container>
+                </div>
+            </div>
+            </div>
         </div>
       </div>
     </div>
@@ -59,7 +49,7 @@
   
       <!-- Weather Section -->
       <div class="tour-weather">
-        <h2>Weather for This Tour</h2>
+        <h2>Weather for this Tour</h2>
         <div class="weather-card">
           <div class="weather-icon">
             <img
