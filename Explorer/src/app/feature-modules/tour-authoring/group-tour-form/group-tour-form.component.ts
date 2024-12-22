@@ -75,7 +75,7 @@ export class GroupTourFormComponent implements OnChanges {
     transportType: new FormControl(TransportType.Car, [Validators.required]),
     touristNumber: new FormControl(0, [Validators.required, Validators.min(1)]),
     startTime: new FormControl('', [Validators.required]),
-    duration: new FormControl(0, [Validators.required, Validators.min(1)]),
+    duration: new FormControl(0),
     progress: new FormControl(ProgressStatus.Scheduled, [Validators.required])
   });
 

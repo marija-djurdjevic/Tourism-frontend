@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { TourShoppingService } from '../tour-shopping.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SaleService } from '../sales.service';
 import { Sale } from '../model/sale.model';
+import { GroupTourExecution } from '../model/group-tour-exectuion.model';
+import { GroupTour } from '../../tour-authoring/model/group-tour.model';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -24,6 +26,8 @@ export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
   sales: Sale[] = [];
+  participations: GroupTourExecution[] = [];
+  groupTours: GroupTour[] = [];
 
   showDiscountedOnly: boolean = false;
   isReviewsModalOpen = false;
@@ -33,6 +37,11 @@ export class ExploreToursComponent implements OnInit {
   isLoading=false;
   refundId: number | null = null;
   refundedTourId: number;
+  visiblePopupId: number | null = null;
+  disabledGroupTourParticipation = false;
+
+  @ViewChild('popup') popup!: ElementRef;
+  @ViewChild('popupParent') popupParent!: ElementRef;
 
   constructor(private service: TourShoppingService, private saleService: SaleService, private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
@@ -46,6 +55,8 @@ export class ExploreToursComponent implements OnInit {
     this.getTours();
     this.loadSalesData();
     this.loadPurchasedTours();
+    this.loadParticipations();
+    this.loadGroupTours();
     this.route.queryParams.subscribe(params => {
       this.refundId = params['refundId'] ? Number(params['refundId']) : null;
       console.log('Captured refundId:', this.refundId);
@@ -54,6 +65,89 @@ export class ExploreToursComponent implements OnInit {
         this.fetchRefundedTour(this.refundId); // Fetch the refunded tour
       }
     });
+  }
+
+  togglePopup(tourId?: number): void {
+    console.log(tourId);
+    if (tourId !== undefined) {
+      this.visiblePopupId = this.visiblePopupId === tourId ? null : tourId;
+    }
+    else{
+      this.visiblePopupId = null;
+    }
+  }
+
+  onMouseEnter(tourId?: number): void {
+    if (tourId !== undefined) {
+    this.visiblePopupId = tourId;
+    }
+  }
+
+  onMouseLeave(): void {
+    this.visiblePopupId = null;
+  }
+
+  loadParticipations(): void {
+    this.service.getAllParticipations().subscribe({
+      next: (results: PagedResults<GroupTourExecution>) => {
+        this.participations = results.results; 
+        console.log(this.participations);
+        console.log("Participations:", this.participations); 
+        console.log(this.user.id);
+        this.disabledGroupTourParticipation = this.participations.some(participation => participation.touristId === this.user.id);
+        console.log('da li je ili nije', this.disabledGroupTourParticipation);
+      },
+      error: () => {
+        console.log("ERROR LOADING PARTICIPATIONS");
+      }
+    });
+  }
+
+  loadGroupTours(): void {
+    this.service.getAllGroupTours().subscribe({
+      next: (results: PagedResults<GroupTour>) => {
+        this.groupTours = results.results; 
+      },
+      error: () => {
+        console.log("ERROR LOADING PARTICIPATIONS");
+      }
+    });
+  }
+
+  getDateAndTime(t: any): Date | null {
+    const groupTour = this.groupTours.find(tour => tour.id === t.id);
+    if(groupTour !== undefined){
+      return groupTour.startTime;
+    }
+    return null;
+  }
+  
+  getDuration(t: any): number {
+    const groupTour = this.groupTours.find(tour => tour.id === t.id);
+    return groupTour ? groupTour.duration : 0; 
+  }
+
+  TourParticipation(tourId?: number): boolean {
+    if(tourId != undefined) {
+      return this.participations.some(participation => 
+        participation.touristId === this.user.id && participation.groupTourId === tourId
+    );
+    }
+   return false;
+}
+
+  checkPopupPosition() {
+    if (this.popup && this.popupParent) {
+      const popupElement = this.popup.nativeElement;
+      const parentElement = this.popupParent.nativeElement;
+      const parentRect = parentElement.getBoundingClientRect();
+      const popupRect = popupElement.getBoundingClientRect();
+
+      // Proveravamo da li popup izlazi izvan roditeljskog elementa
+      if (popupRect.bottom > parentRect.bottom || popupRect.top < parentRect.top) {
+        this.visiblePopupId = null; // Sakrij popup ako izlazi izvan okvira
+      }
+    }
   }
 
   loadSalesData(): void {
@@ -258,6 +352,26 @@ export class ExploreToursComponent implements OnInit {
     }
   }
   
+  participateInGroupTour(tourId: number) {
+    const groupTourExecution: GroupTourExecution = {
+      groupTourId: tourId,
+      touristId: this.user.id,  
+      isFinished: false
+    };
   
+    console.log(groupTourExecution);
+    this.service.groupTourParticipate(groupTourExecution)
+      .subscribe({
+        next: (response) => {
+          console.log('Successfully joined the group tour:', response);
+          this.loadParticipations();
+        },
+        error: (error) => {
+          console.error('Error joining the group tour:', error);
+        }
+      });
+  }
+  
+
 
 }
