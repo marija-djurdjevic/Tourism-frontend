@@ -67,7 +67,7 @@ export class TourComponent implements OnInit {
           }
         });
       } else {
-        if (loggedInUser && loggedInUser.role === 'tourist'){
+        if (loggedInUser && loggedInUser.role === 'tourist11'){
           this.service.getTours().subscribe({
             next: (result: PagedResults<Tour>) => {
               this.tours = result.results;
