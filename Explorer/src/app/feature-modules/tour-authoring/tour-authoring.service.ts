@@ -12,6 +12,7 @@ import { TransportInfo, TransportType } from './model/transportInfo.model';
 import { Tourist } from './model/tourist.model';
 import { KeyPoint } from './model/key-point.model';
 import { GroupTour } from './model/group-tour.model';
+import { GroupTourExecution } from '../tour-shopping/model/group-tour-exectuion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -235,4 +236,15 @@ getInvitations(): Observable<PagedResults<Clubs>> {
   getRegularTours(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiHost}/regular`);
   }
+
+  getAllGroupTourExecutions(): Observable<PagedResults<GroupTourExecution>> {
+    return this.http.get<PagedResults<GroupTourExecution>>(environment.apiHost + 'author/groupTourExecution')
+  }
+
+  getUserProfileById(userId: number): Observable<Tourist> {
+    console.log(`Poziva se API za userId: ${userId}`);
+    return this.http.get<Tourist>(`${environment.apiHost}author/profile/${userId}`);
+  }
+  
+ 
 }

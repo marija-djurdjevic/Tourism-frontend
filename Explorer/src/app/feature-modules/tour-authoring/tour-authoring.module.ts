@@ -29,6 +29,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { GroupTourFormComponent } from './group-tour-form/group-tour-form.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { GroupTourDetailsDialogComponent } from './group-tour-details-dialog/group-tour-details-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -45,7 +47,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     KeyPointFormComponent,
     ExploreToursComponent,
     KeyPointUpdateFormComponent,
-    GroupTourFormComponent
+    GroupTourFormComponent,
+    GroupTourDetailsDialogComponent
   ],
   imports: [
     RouterModule,
@@ -59,7 +62,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatInputModule,
     MatFormFieldModule,
     MatTooltipModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatDialogModule,
   ],
   exports: [
     ClubsComponent,
@@ -74,7 +78,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ReactiveFormsModule,
     TourComponent,
     TourFormComponent,
-    ExploreToursComponent
+    ExploreToursComponent,
+    GroupTourDetailsDialogComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

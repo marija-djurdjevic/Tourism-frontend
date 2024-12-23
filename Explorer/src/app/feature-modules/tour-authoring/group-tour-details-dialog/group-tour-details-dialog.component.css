@@ -1,0 +1,74 @@
+/* Loading spinner centering */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  /* Tour details section */
+  .tour-details {
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+  
+  .tour-details p {
+    margin: 5px 0;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  /* Table styling */
+  .styled-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  .mat-header-cell {
+    font-weight: bold;
+    text-align: left;
+    font-size: 1.1rem;
+    color: #3f51b5;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .mat-cell {
+    padding: 10px;
+    text-align: left;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .mat-row:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Empty data message */
+  .no-data {
+    text-align: center;
+    font-style: italic;
+    margin-top: 20px;
+    color: gray;
+  }
+  
+  /* Dialog actions */
+  .mat-dialog-actions {
+    justify-content: flex-end;
+    padding-top: 10px;
+  }
+
+  .warning-message {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #856404;
+    font-size: 1rem;
+  }
+  
+  

@@ -83,7 +83,7 @@
                      <button color="primary" *ngIf="t.status === 0" (click)="onEditGroup(t)" mat-icon-button matTooltip="Edit tour">
                       <img src="assets/icons/edit.png" alt="Edit Icon"/>
                     </button> 
-                    <button color="primary" mat-icon-button matTooltip="Show details">
+                    <button color="primary" (click)="openDialog(t.id!)" mat-icon-button matTooltip="Show details">
                       <img src="assets/icons/group.png" alt="Show details"/>
                     </button> 
                 </div>
