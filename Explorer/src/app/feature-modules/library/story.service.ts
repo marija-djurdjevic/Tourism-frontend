@@ -48,6 +48,12 @@ export class StoryService {
   
     return this.http.get<string>(`${environment.apiHost}user/tourist/getUsername`, { params, responseType: 'text' as 'json' });
   }
-  
+  getStoryById(id:number):Observable<Story>{
+    return this.http.get<Story>(environment.apiHost + 'administrator/stories/byId', {
+      params: {
+        id: id.toString()
+      }
+    });
+  }
   
 }

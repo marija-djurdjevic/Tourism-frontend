@@ -51,7 +51,7 @@ body {
     z-index: 13;
     cursor: pointer;
     margin-left: 10%;
-    background-color: #2ecc71;
+    background-color: inherit;
     border: 1px solid #ccc;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
   }
@@ -67,6 +67,7 @@ body {
                 box-shadow 0.5s ease-in-out; 
     cursor: pointer;
     z-index: var(--page-index, 0);
+    background-color: inherit; /* Use the dynamically applied color */
   }
   
   
@@ -83,7 +84,8 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background:linear-gradient(to left, #fff, #f0f0f0); 
+    background-color: inherit;
+    /*background:linear-gradient(to left, #fff, #f0f0f0); */
     border: 1px solid #ccc;
     display: flex;
     flex-direction: column;
@@ -120,8 +122,7 @@ body {
   
   .page-wrapper:nth-child(1) .page-content {
     
-    background: none; 
-    background-color: rgb(88, 181, 86);
+    
     border-radius: 8px;
     position: relative;
     z-index: 2; /* Pozicioniranje iznad bele pozadine */
@@ -141,7 +142,7 @@ body {
   .page-wrapper:nth-last-child(1) .page-content {
    
     background: none; 
-    background-color: #2ecc71; 
+    background-color: inherit;
   }
   .hh{
     margin-top:-30% !important;

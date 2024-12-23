@@ -1,47 +1,28 @@
-<!--<div>
-    <div id="titleCont">
-        <div id="title">Publish Requests</div>
-    </div>
-    <div id="prev">
-        <span>Page {{ currentPage + 1 }} / {{ totalPages }}</span>
-    </div>
-  
-    <table id="t">
-        <tr id="head"> 
-            <th>Author</th>
-            <th>Status</th>
-            <th>Type</th>
-            <th>Accept Request</th> 
-        </tr>
-        <tr 
-            tabindex="0" 
-            *ngFor="let req of entities" 
-            id="ag">
-            <td>{{ usernamesMap.get(req.authorId) }}</td>
-            <td>{{ getEnumForStatus(req.status) }}</td>
-            <td>{{ getEnumForType(req.type) }}</td>
-            <td>
-                <button (click)="acceptRequest(req)">Accept</button>
-            </td>
-        </tr> 
-    </table>
-  </div>
--->
-
 <img id="imgb" src="../../../../assets/screenshot4.png">
 <div class="okvir">
     <div  *ngFor="let item of displayedEntities" >
         <div class="jedan"> 
             <h1 *ngIf="item.type === 1">KeyPoint request</h1>
             <h1 *ngIf="item.type === 0">Object request</h1>
+            <h1 *ngIf="item.type === 2">Story request</h1>
             <img  src={{item.imagePath}}>
             <p><b>Name: </b> {{item.name}}</p>
-            <p><b>Latitude:</b>  {{item.latitude}}</p>
-            <p><b>Longitude: </b> {{item.longitude}}</p>
-            <p><b>Description:</b>  {{item.description}}</p>
+            <p *ngIf="item.type != 2"><b>Latitude:</b>  {{item.latitude}}</p>
+            <p *ngIf="item.type != 2"><b>Longitude: </b> {{item.longitude}}</p>
+            <p *ngIf="item.type != 2"><b>Description:</b>  {{item.description}}</p>
+            <button *ngIf="item.type === 2" (click)="seeContent(item)">See Content</button>
             <div>
             <button class="accept" (click)="acceptRequest(item)">accept</button><button  class="decline" (click)="rejectRequest(item)">decline</button>
         </div>
         </div>
     </div>
+
+    <div *ngIf="content" class="modal-overlay" >
+        <div class="modal-content">
+          <h2>{{ contentStory?.title }}</h2>
+          <p>{{ contentStory?.content }}</p>
+          <button class="close-button" (click)="close()">Close</button>
+        </div>
+      </div>
 </div>
+

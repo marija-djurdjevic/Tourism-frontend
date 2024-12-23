@@ -14,23 +14,28 @@
     [style.--page-index]="pages.length - i" 
     [class.flipped]="flippedPages.includes(i)"
     (click)="flipPage(i)"
+    [ngStyle]="i === 0 || i === pages.length - 1 ? { 'background-color': book?.bookColour } : { 'background-color':  '#ffffff' } "
   >
  
     <div class="page-content">
-  
-      <ng-container *ngIf="i === 0  && !endPage">
-    
+      <div *ngIf="book?.bookColour" [ngStyle]="{ 'background-color': book.bookColour }">
+      <ng-container *ngIf="i === 0  && !endPage"  >
+       
+        
           <div class="inner-frame">
+
             <h1 style="color: rgb(7, 88, 26); font-weight: 500;">{{page.title}}</h1>
-            <p>By: &#64;{{ getUsernameByBookId(page.bookId) || 'Unknown' }}</p>
+            <p>By: &#64;{{ username }}</p>
             <div class="book-footer">
               <img class="logo" src="../../../../assets/icons/download.png" alt="Logo">
               <p class="psw">PSW</p>
               <p class="travel">Travel</p>
             </div>
           </div>
+
         
       </ng-container>
+    </div>
 
      
       <ng-container *ngIf="i > 0 && i < pages.length - 1 && !endPage">

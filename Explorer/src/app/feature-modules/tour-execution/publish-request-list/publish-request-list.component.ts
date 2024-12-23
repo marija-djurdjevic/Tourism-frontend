@@ -12,6 +12,8 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { Object } from '../../tour-authoring/model/object.model';
 import { ImageService } from 'src/app/shared/image.service';
+import { StoryService } from '../../library/story.service';
+import { Story } from '../../library/model/story.model';
 
 
 @Component({
@@ -22,7 +24,8 @@ import { ImageService } from 'src/app/shared/image.service';
 })export class PublishRequestComponent {
     entities: PublishRequest[] = [];   
     displayedEntities: PublishRequest[] = [];
-  
+    content: boolean = false;
+    contentStory : Story;
     currentPage = 0;
     totalPages = 0;
     pageSize = 9;
@@ -31,7 +34,7 @@ import { ImageService } from 'src/app/shared/image.service';
 
     usernamesMap: Map<number, string> = new Map();
 
-    constructor(private service: TourExecutionService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService) { imageService.setControllerPath("administrator/image");} 
+    constructor(private service: TourExecutionService,private storyService: StoryService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService) { imageService.setControllerPath("administrator/image");} 
     ngOnInit(): void {
 
         this.authService.user$.subscribe((user: User | undefined) => {
@@ -51,6 +54,7 @@ import { ImageService } from 'src/app/shared/image.service';
               this.populateUsernamesAd(this.entities.map(e => e.authorId));
               this.fetchKeyPointDetails();
               this.fetchObjectDetails();
+              this.fetchStoryDetails();
               console.log("posle funkcije");
             },
             error: (err: any) => {
@@ -75,7 +79,32 @@ import { ImageService } from 'src/app/shared/image.service';
           return 'Unknown'; 
         }
     }
-    fetchKeyPointDetails(): void {
+    seeContent(request:PublishRequest){
+      console.log("OVde");
+      this.content = true;
+      this.storyService.getStoryById(request.entityId).subscribe({
+        next: (story: Story) => {
+          this.contentStory = story;
+          this.imageService.setControllerPath("administrator/image");
+          this.imageService.getImage(story.imageId.valueOf()).subscribe((blob: Blob) => {
+              console.log(blob);  
+              if (blob.type.startsWith('image')) {
+                story.image = URL.createObjectURL(blob);
+                this.contentStory.image = story.image; 
+                //this.cd.detectChanges();
+              } else {
+                console.error("Blob nije slika:", blob);
+              }
+            });
+          }
+        });
+      }
+
+
+      close(){
+        this.content=false;
+      }
+  fetchKeyPointDetails(): void {
      
       this.displayedEntities.forEach(request => {
       
@@ -132,7 +161,36 @@ import { ImageService } from 'src/app/shared/image.service';
     }
   
   
-    
+    fetchStoryDetails(): void {
+      this.displayedEntities.forEach(request => {
+        if (request.entityId && request.type==2) {
+          this.storyService.getStoryById(request.entityId).subscribe({
+            next: (story: Story) => {
+              request.name = story.title; 
+              this.imageService.setControllerPath("administrator/image");
+              this.imageService.getImage(story.imageId.valueOf()).subscribe((blob: Blob) => {
+                  console.log(blob);  
+                  if (blob.type.startsWith('image')) {
+                    story.image = URL.createObjectURL(blob);
+                    request.imagePath = story.image; 
+                    //this.cd.detectChanges();
+                  } else {
+                    console.error("Blob nije slika:", blob);
+                  }
+                });
+              
+                this.authService.getUsernameAd(request.authorId).subscribe(username => {
+                  request.authName = username;
+              });
+            },
+            error: err => {
+              console.error(`Error loading Object with ID ${request.entityId}:`, err);
+            },
+          });
+        }
+      });
+    }
+
     getEnumForType(id: number): string {
     
         let ret: string;
@@ -143,7 +201,7 @@ import { ImageService } from 'src/app/shared/image.service';
         case 1:
           return 'KeyPoint';
         default:
-          return 'Unknown'; 
+          return 'Story'; 
         }
     }
 

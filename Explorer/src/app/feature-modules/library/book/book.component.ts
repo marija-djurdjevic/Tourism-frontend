@@ -14,6 +14,7 @@ import { Book } from '../model/book.model';
 })
 export class BookComponent {
   bookId:number;
+  username:string;
   book:Book;
   displayBlankPage:boolean = true;
   leftPageVisible:boolean=false;
@@ -49,14 +50,7 @@ export class BookComponent {
      
     }
   }
-  
-  getUsernameByBookId(bookId: number): string | undefined {
-    
-    if (this.adminUsernamesMap.has(bookId)) {
-      return this.adminUsernamesMap.get(bookId)!; 
-    }
-    return undefined; 
-  }
+
   
   flipPage(index: number): void {
     if (!this.flippedPages.includes(index)) {
@@ -82,9 +76,10 @@ export class BookComponent {
     this.service.getBookById(this.bookId).subscribe({
       next: (result: any) => {
         this.book = result;   
+        console.log('Book:', this.book.bookColour);
         this.service.getUser(result.adminId).subscribe({
           next: (username) => {
-            this.adminUsernamesMap.set(result.id, username);
+            this.username= username;
           },
           error: (err) => console.error(`Error fetching username for adminId ${result.adminId}:`, err)
         });   
