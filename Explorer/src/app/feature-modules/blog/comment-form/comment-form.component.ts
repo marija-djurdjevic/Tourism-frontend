@@ -56,22 +56,24 @@ export class CommentFormComponent implements OnChanges {
       username: this.username,
     };
     this.service.addComment(this.blogId, newComment).subscribe({
-      next: () => { this.commentUpdated.emit(); 
+      next: () => {
+        this.commentUpdated.emit(); 
         this.snackBar.open('Comment added successfully!', 'Close', {
           duration: 3000,
-          panelClass:"succesful"
+          panelClass: "succesful"
         });
+        this.commentForm.reset(); // Resetovanje forme nakon dodavanja komentara
       },
       error: () => {
         alert("Blog is CLOSED!");
         this.snackBar.open('Failed to add comment. Please try again.', 'Close', {
           duration: 3000,
-          panelClass:"succesful"
+          panelClass: "succesful"
         });
       }
     });
   }
-
+  
   updateComment(): void {
     const updatedComment: Comment = {
       ...this.comment,
@@ -79,19 +81,22 @@ export class CommentFormComponent implements OnChanges {
       editDate: new Date(),
     };
     this.service.updateComment(this.blogId, updatedComment).subscribe({
-      next: () => { this.commentUpdated.emit(); 
+      next: () => {
+        this.commentUpdated.emit();
         this.snackBar.open('Comment updated successfully!', 'Close', {
           duration: 3000,
-          panelClass:"succesful"
+          panelClass: "succesful"
         });
+        this.commentForm.reset(); // Resetovanje forme nakon ažuriranja komentara
       },
       error: () => {
         alert("Blog is CLOSED!");
         this.snackBar.open('Failed to update comment. Please try again.', 'Close', {
           duration: 3000,
-          panelClass:"succesful"
+          panelClass: "succesful"
         });
       }
     });
   }
+  
 }
