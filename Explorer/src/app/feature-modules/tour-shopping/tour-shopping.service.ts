@@ -106,4 +106,7 @@ export class TourShoppingService {
     return this.http.get<PagedResults<GroupTour>>(environment.apiHost + 'administration/tour/group-tours')
   }
 
+  cancelParticipation(touristId: number, groupTourId: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiHost}tourist/groupTourExecution/${touristId}/${groupTourId}`);
+  }
 }

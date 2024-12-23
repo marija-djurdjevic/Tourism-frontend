@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GroupTour, ProgressStatus } from '../model/group-tour.model'; 
 import { TransportType } from '../model/transportInfo.model';
 import { TourAuthoringService } from '../tour-authoring.service';
@@ -20,6 +20,7 @@ export class GroupTourFormComponent implements OnChanges {
   public TransportType = TransportType;
   tags: string[] = [];
   newTag: string = '';
+  minDateTime: string;
 
   constructor(
     private service: TourAuthoringService,
@@ -30,6 +31,8 @@ export class GroupTourFormComponent implements OnChanges {
   ) {}
 
   ngOnInit(): void {
+    const now = new Date();
+    this.minDateTime = now.toISOString().slice(0, 16);
     this.route.queryParams.subscribe((params) => {
       if (params['tour']) {
         const groupTour = JSON.parse(params['tour']);
@@ -74,7 +77,10 @@ export class GroupTourFormComponent implements OnChanges {
     price: new FormControl(0, [Validators.required]),
     transportType: new FormControl(TransportType.Car, [Validators.required]),
     touristNumber: new FormControl(0, [Validators.required, Validators.min(1)]),
-    startTime: new FormControl('', [Validators.required]),
+    startTime: new FormControl('', [
+      Validators.required,
+      this.futureDateValidator.bind(this) // Dodajemo validator za buduće datume
+    ]),
     duration: new FormControl(0),
     progress: new FormControl(ProgressStatus.Scheduled, [Validators.required])
   });
@@ -93,6 +99,19 @@ export class GroupTourFormComponent implements OnChanges {
     }
   }
 
+  futureDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const inputDate = new Date(control.value);
+    const now = new Date();
+    if (inputDate < now) {
+      return { pastDate: true }; // Greška ako je datum u prošlosti
+    }
+    return null; // Validan unos
+  }
+  
+  get startTimeControl(): AbstractControl | null {
+    return this.groupTourForm.get('startTime');
+  }
+  
   addGroupTour(): void {
     const loggedInUser = this.authService.user$.value;
     const groupTour: GroupTour = {
