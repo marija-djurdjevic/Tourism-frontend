@@ -3,4 +3,6 @@ export interface Tourist {
     username?: string,
     //email?: string,
     //isActive?: boolean
+    firstName?: string; // Ime korisnika
+    lastName?: string; // Prezime korisnika
 }

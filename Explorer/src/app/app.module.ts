@@ -23,6 +23,8 @@ import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shoppin
 import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
 import { SharedModule } from "./shared/shared.module";
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatOptionModule,
     MatInputModule,
     SharedModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatDialogModule
 ],
   providers: [
     {

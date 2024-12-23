@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Group Tour Details</h2>
+<mat-dialog-content>
+  <!-- Loader while data is loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading data...</p>
+  </div>
+
+  <!-- Tour details -->
+  <div *ngIf="groupTour && !isLoading" class="tour-details">
+    <p><strong>Tour Name:</strong> {{ groupTour.name }}</p>
+    <p><strong>Progress:</strong> {{ getProgressText(groupTour.progress) }}</p>
+    <p><strong>Minimal Number of Tourists:</strong> {{ groupTour.touristNumber }}</p>
+    <p><strong>Start Time:</strong> {{ groupTour.startTime | date: 'medium' }}</p>
+  </div>
+
+  <div *ngIf="groupTour?.progress === 0 && !isTourStartable()" class="warning-message">
+    <p>
+      <strong>Warning:</strong> The tour does not have enough registered tourists to start. Minimum required: {{ groupTour?.touristNumber }}.
+    </p>
+    <p>You can cancel the tour or start it anyway.</p>
+  </div>
+
+  <!-- Table of registered tourists -->
+  <div *ngIf="!isLoading && filteredExecutions.length > 0">
+    <h3>Registered Tourists</h3>
+    <table mat-table [dataSource]="filteredExecutions" class="styled-table mat-elevation-z8">
+      <!-- Tourist Full Name -->
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef> Full Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.fullName }} </td>
+      </ng-container>
+
+      <!-- Table rows -->
+      <tr mat-header-row *matHeaderRowDef="['fullName']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['fullName']"></tr>
+    </table>
+  </div>
+
+  <!-- Message if no tourists are registered -->
+  <div *ngIf="!isLoading && !filteredExecutions.length" class="no-data">
+    <p>No tourists have registered for this tour yet.</p>
+  </div>
+</mat-dialog-content>
+
+<!-- Dialog actions -->
+<mat-dialog-actions align="end">
+    <div *ngIf="showCancelOrStart()">
+        <button mat-button (click)="cancelTour()" color="warn">Cancel</button>
+        
+      </div>
+  <button mat-button (click)="startTour()" *ngIf="groupTour?.progress === 0 && canStartTour() && filteredExecutions.length !== 0" color="accent">
+    Start
+  </button>
+  <button mat-button 
+  (click)="finishTour()" 
+  *ngIf="groupTour?.progress === 1" 
+  color="primary">
+        Finish
+    </button>
+  <button mat-button (click)="close()" color="primary">Close</button>
+</mat-dialog-actions>

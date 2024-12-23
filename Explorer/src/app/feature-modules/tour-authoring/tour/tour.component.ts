@@ -8,6 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Coupon } from '../../tour-shopping/model/coupon.model';
 import { TourShoppingService } from '../../tour-shopping/tour-shopping.service';
 import { GroupTour } from '../model/group-tour.model';
+import { MatDialog } from '@angular/material/dialog';
+import { GroupTourDetailsDialogComponent } from '../group-tour-details-dialog/group-tour-details-dialog.component';
+
 
 @Component({
   selector: 'xp-tour',
@@ -46,13 +49,27 @@ newCoupon: {
 };
 
   constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private router: Router, private authService: AuthService,
-    private shoppingService: TourShoppingService
+    private shoppingService: TourShoppingService, private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.getTours();
     this.getGroupTours();
   }
+
+  openDialog(groupTourId: number): void {
+    console.log('Otvaranje dijaloga za grupnu turu sa ID:', groupTourId);
+    const dialogRef = this.dialog.open(GroupTourDetailsDialogComponent, {
+      width: '800px',
+      height: '600px',
+      data: { groupTourId }, // Prosleđeni podaci
+    });
+  
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Dijalog zatvoren');
+    });
+  }
+  
 
   onAddGroupTour(): void {
     this.router.navigate(['/add-group-tour']);
