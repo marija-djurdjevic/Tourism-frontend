@@ -19,19 +19,7 @@
           </div>
         </div>
   
-        <!-- Polje za broj stranica -->
-        <div class="form-group">
-          <label for="pageNum">Page number</label>
-          <input 
-            id="pageNum" 
-            type="number" 
-            formControlName="pageNum" 
-            placeholder="Enter number of pages"
-            [class.error]="bookForm.get('pageNum')?.invalid && bookForm.get('pageNum')?.touched" />
-          <div *ngIf="bookForm.get('pageNum')?.invalid && bookForm.get('pageNum')?.touched" class="error-message">
-            Number of pages is required.
-          </div>
-        </div>
+      
   
         <!-- Polje za izbor boje -->
         <div class="form-group color-picker-container">

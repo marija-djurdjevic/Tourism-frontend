@@ -21,7 +21,7 @@ export class BookFormComponent {
     // Inicijalizacija forme sa kontrolama
     this.bookForm = this.fb.group({
       title: ['', Validators.required], 
-      pageNum: [null, [Validators.required, Validators.min(1)]], // Validacija broja stranica
+      
       bookColour: ['#FFFFFF', Validators.required] // Dodata boja sa podrazumevanom vrednošću
     });
 
@@ -47,7 +47,7 @@ export class BookFormComponent {
 
     // Postavljanje vrednosti iz forme
     this.book.title = this.bookForm.get('title')?.value || '';
-    this.book.pageNum = +this.bookForm.get('pageNum')?.value || 0;
+    this.book.pageNum =  0;
     this.book.bookColour = this.bookForm.get('bookColour')?.value || '#FFFFFF';
 
     this.addBook(this.book);
@@ -74,7 +74,7 @@ export class BookFormComponent {
 
   updateColorPreview(): void {
     const selectedColor = this.bookForm.get('bookColour')?.value;
-    console.log('Selected Color:', selectedColor); // Opciono logovanje
+    console.log('Selected Color:', selectedColor); 
   }
   
 }
