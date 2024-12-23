@@ -51,6 +51,7 @@ import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-
 import { StoryFormComponent } from 'src/app/feature-modules/library/story-form/story-form.component';
 import { LibraryListComponent } from 'src/app/feature-modules/library/library-list/library-list.component';
 import { BookComponent } from 'src/app/feature-modules/library/book/book.component';
+import { BookFormComponent } from 'src/app/feature-modules/library/book-form/book-form.component';
 
 
 const routes: Routes = [
@@ -208,6 +209,11 @@ const routes: Routes = [
   {
     path:'story-form/:id',
     component:StoryFormComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'book-form',
+    component:BookFormComponent,
     canActivate:[AuthGuard]
   },
   {

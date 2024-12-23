@@ -36,6 +36,7 @@
             <button *ngIf="user && user.role === 'administrator'" class="primary-button" mat-raised-button [routerLink]="['account']">Account review</button>          
             <button *ngIf="user && user.role === 'tourist'"class="cartbutton" [routerLink]="['cart']"><img src="assets/icons/cart.png" alt="Shopping Cart" width="30" height="30" style="vertical-align: middle; margin-right: 8px;" matTooltip="See shopping cart"></button>
             <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['publishRequestList']">Requests</button>
+            <button *ngIf="user && user.role === 'administrator'"class="primary-button" mat-raised-button [routerLink]="['book-form']">CreateBook</button>
             <button *ngIf="user && user.username !== ''" class="profileButton"  (click)="toggleProfileMenu()" ><img [src]="userProfile.imageURL" ></button>
            <!-- <button *ngIf="user && user.role === 'tourist'"class="primary-button" mat-raised-button [routerLink]="['tourList']">Tours</button>-->
 
