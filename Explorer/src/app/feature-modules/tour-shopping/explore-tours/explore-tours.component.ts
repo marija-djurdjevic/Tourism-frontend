@@ -121,11 +121,6 @@ export class ExploreToursComponent implements OnInit {
     }
     return null;
   }
-  
-  getDuration(t: any): number {
-    const groupTour = this.groupTours.find(tour => tour.id === t.id);
-    return groupTour ? groupTour.duration : 0; 
-  }
 
   TourParticipation(tourId?: number): boolean {
     if(tourId != undefined) {
@@ -134,6 +129,61 @@ export class ExploreToursComponent implements OnInit {
     );
     }
    return false;
+}
+
+  hasAlreadyParticipated(tourId?: number): boolean {
+    console.log(this.participations);
+    if(tourId != undefined) {
+      return this.participations.some(participation => 
+        participation.touristId === this.user.id && participation.groupTourId === tourId && participation.isFinished == true
+    );
+    }
+  return false;
+  }
+
+
+  groupTourStatus(tourId?: number): boolean {
+    const groupTour = this.groupTours.find(tour => tour.id === tourId);
+    if (groupTour !== undefined && groupTour.startTime) {
+      // Pretpostavljam da je groupTour.startTime u formatu datuma koji se može porediti sa trenutnim datumom.
+      const currentTime = new Date(); // Trenutno vreme
+      const tourStartTime = new Date(groupTour.startTime); // Pretvaranje startTime u Date
+      return tourStartTime > currentTime; // Vraća true ako je tura posle trenutnog vremena
+    }
+    return false; // Ako tura ne postoji ili nema startTime, vraća false
+  }
+
+cancelParticipation(tourId?: number): void {
+  const groupTour = this.groupTours.find(tour => tour.id === tourId);
+  if (groupTour) {
+    const currentTime = new Date();
+    const startTime = new Date(groupTour.startTime);
+    const timeDifference = startTime.getTime() - currentTime.getTime();
+  
+    console.log(startTime);
+    console.log(timeDifference);
+    if (timeDifference > 24 * 60 * 60 * 1000) {
+      console.log("Start time is more than 24 hours ago.");
+      if(tourId != undefined) {
+        this.service.cancelParticipation(this.user.id, tourId)
+          .subscribe({
+            next: (response: any) => {
+              console.log('Successfully canceled the group tour:', response);
+              this.loadParticipations();
+            },
+            error: (error: any) => {
+              console.error('Error canceling the group tour:', error);
+            }
+          });
+      }
+
+    } else {
+      alert("Start time of this tour is within 24 hours. Canceling is forbidden!");
+    }
+  } else {
+    console.log("Tour not found.");
+  }
+  
 }
 
   checkPopupPosition() {

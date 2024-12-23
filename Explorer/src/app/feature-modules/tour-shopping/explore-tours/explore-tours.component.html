@@ -25,6 +25,13 @@
                             <label *ngIf="t.isGroupTour" (mouseenter)="onMouseEnter(t.id)" (mouseleave)="onMouseLeave()" class="grouptour-popup" (click)="togglePopup(t.id)">
                               Live group tour
                             </label>
+                            <div *ngIf="t.isGroupTour &&  TourParticipation(t.id)" class="icon-item">
+                              <ng-container>
+                                <button color="primary" (click)="participateInGroupTour(t.id ?? 0)" mat-icon-button matTooltip="You are participating in this group tour!">
+                                  <img src="assets/icons/checked.png" alt="Shopping Cart" />
+                                </button>
+                              </ng-container>
+                            </div>
                           </h3>
                           <div
                             class="popup"
@@ -107,8 +114,17 @@
                           <span class="status-text" style="color: #34AB45;" *ngIf="isPurchased(t.id ?? 0)">Purchased</span>
                           <span class="status-text" style="color: black;" *ngIf="!isPurchased(t.id ?? 0) && isTourInCart(t.id ?? 0)">In Cart</span>
                         </div>
+
+                       
+                        <div *ngIf="t.isGroupTour && TourParticipation(t.id) && !hasAlreadyParticipated(t.id)" class="icon-item">
+                          <ng-container>
+                            <button *ngIf="!hasAlreadyParticipated(t.id)" color="primary" (click)="cancelParticipation(t.id ?? 0)" mat-icon-button matTooltip="Cancel tour (more than 24h before the tour starts)">
+                              <img src="assets/icons/cancel.png" alt="Shopping Cart" />
+                            </button>
+                          </ng-container>
+                        </div>
                       
-                        <div *ngIf="t.isGroupTour && !disabledGroupTourParticipation" class="icon-item">
+                        <div *ngIf="t.isGroupTour && !disabledGroupTourParticipation && !hasAlreadyParticipated(t.id) && groupTourStatus(t.id)" class="icon-item">
                             <ng-container>
                               <button [disabled]="disabledGroupTourParticipation" color="primary" (click)="participateInGroupTour(t.id ?? 0)" mat-icon-button [matTooltip]="disabledGroupTourParticipation ? 'You already participated in a group tour!' : 'Participate'">
                                 <img src="assets/icons/accountable.png" alt="Shopping Cart" />
@@ -116,13 +132,7 @@
                             </ng-container>
                           </div>
 
-                          <div *ngIf="t.isGroupTour &&  TourParticipation(t.id)" class="icon-item">
-                            <ng-container>
-                              <button color="primary" (click)="participateInGroupTour(t.id ?? 0)" mat-icon-button matTooltip="You are participating in this group tour!">
-                                <img src="assets/icons/checked.png" alt="Shopping Cart" />
-                              </button>
-                            </ng-container>
-                          </div>
+                          
                           
                         <!-- Ikonica za shopping cart -->
                         <div *ngIf="!t.isGroupTour" class="icon-item">
