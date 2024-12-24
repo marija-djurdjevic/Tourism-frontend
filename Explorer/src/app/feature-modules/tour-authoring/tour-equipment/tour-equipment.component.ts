@@ -4,6 +4,7 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { elementAt, Unsubscribable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'xp-tour-equipment',
@@ -15,12 +16,15 @@ export class TourEquipmentComponent {
   allTourEquipment: TourEquipment[] = [];
   selectedTourEquipment: TourEquipment;
   prikaz: boolean = true;
-  @Input() tourId: number;
+  tourId: number;
 
-  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar) { }
+  constructor(private route: ActivatedRoute, private service: TourAuthoringService,private snackBar:MatSnackBar) { }
 
   ngOnInit(): void {
-    this.getTourEquipment();
+    this.route.queryParams.subscribe(params => {
+      this.tourId = +params['tourId'];
+      this.getTourEquipment();
+    });
   }
 
   deleteTourEquipment(id: number): void {

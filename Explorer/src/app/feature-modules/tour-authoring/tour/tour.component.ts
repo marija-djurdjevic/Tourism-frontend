@@ -123,6 +123,9 @@ newCoupon: {
     this.router.navigate(['/key-points', tourId]); 
   }
 
+  showEquipment(tourId: number):void{
+    this.router.navigate(['/tour-equipment'], { queryParams: { tourId } });
+  }
 
   onPublish(tour: Tour): void {
     this.service.publishTour(tour).subscribe({

@@ -23,9 +23,9 @@
                       <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button matTooltip="Add new keypoint">
                         <img src="assets/icons/add-keypoint.png" alt="Add Keypoint Icon"/>
                       </button>
-                      <!-- <button color="primary" mat-icon-button>
-                          <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
-                        </button> -->
+                      <button color="primary" (click)="showEquipment(t.id!)" mat-icon-button matTooltip="Show equipment">
+                        <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
+                      </button>
                       <button color="primary" (click)="onShowKeyPoints(t.id!)" mat-icon-button matTooltip="Show keypoints">
                           <img src="assets/icons/keypoints.png" alt="Keypoints Icon"/>
                         </button>
@@ -38,9 +38,6 @@
                       <button color="primary" *ngIf="t.status === 0" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
                         <img src="assets/icons/edit.png" alt="Edit Icon"/>
                       </button>
-                  </div>
-                  <div *ngIf="t.id">
-                    <xp-tour-equipment [tourId]="t.id"></xp-tour-equipment>
                   </div>
                 </div>
                 <div class="card add-card">
