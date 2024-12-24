@@ -35,7 +35,7 @@
                       <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button matTooltip="Archive tour">
                           <img src="assets/icons/archive.png" alt="Archive Icon"/>
                       </button>
-                      <button color="primary" *ngIf="t.status === 0" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
+                      <button color="primary" *ngIf="t.status === 0 || t.status === 2" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
                         <img src="assets/icons/edit.png" alt="Edit Icon"/>
                       </button>
                   </div>
@@ -80,7 +80,7 @@
                     <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button matTooltip="Archive tour">
                         <img src="assets/icons/archive.png" alt="Archive Icon"/>
                     </button>
-                     <button color="primary" *ngIf="t.status === 0" (click)="onEditGroup(t)" mat-icon-button matTooltip="Edit tour">
+                     <button color="primary" *ngIf="t.status === 0 || t.status === 2" (click)="onEditGroup(t)" mat-icon-button matTooltip="Edit tour">
                       <img src="assets/icons/edit.png" alt="Edit Icon"/>
                     </button> 
                     <button color="primary" (click)="openDialog(t.id!)" mat-icon-button matTooltip="Show details">
