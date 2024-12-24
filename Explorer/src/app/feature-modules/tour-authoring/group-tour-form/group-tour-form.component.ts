@@ -171,7 +171,7 @@ export class GroupTourFormComponent implements OnChanges {
       touristNumber: this.groupTourForm.value.touristNumber || this.groupTour.touristNumber,
       startTime: new Date(this.groupTourForm.value.startTime || this.groupTour.startTime),
       duration: this.groupTourForm.value.duration || this.groupTour.duration,
-      progress: this.groupTourForm.value.progress || this.groupTour.progress,
+      progress: 0,
       transportInfo: {
         ...this.groupTour.transportInfo,
         transport: this.groupTourForm.value.transportType as TransportType,
