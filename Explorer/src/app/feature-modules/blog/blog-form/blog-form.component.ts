@@ -7,6 +7,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ImageService } from 'src/app/shared/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar'; 
 import { BlogService } from '../blog.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 
 @Component({
@@ -31,7 +33,7 @@ export class BlogForm implements OnInit {
     private tokenStorage: TokenStorage,
     private dialogRef: MatDialogRef<BlogForm>,
     private imageService: ImageService,
-    private snackBar: MatSnackBar, 
+    private notificationService: NotificationService, 
     private service: BlogService 
   ) {
     this.imageService.setControllerPath('author/image'); // Set API path for image upload
@@ -46,10 +48,7 @@ export class BlogForm implements OnInit {
       this.userId = decodedToken.id;
     } else {
       console.error('Invalid token: unable to retrieve user ID');
-      this.snackBar.open('Unable to retrieve user information. Please login again.', 'Close', {
-        duration: 3000,
-        panelClass: 'error',
-      });
+      this.notificationService.notify({ message:'Unable to retrieve user information. Please login again.', duration: 3000, notificationType: NotificationType.WARNING });
       this.dialogRef.close();
     }
   }
@@ -60,10 +59,7 @@ export class BlogForm implements OnInit {
 
   addBlog(): void {
     if (!this.blogForm.valid) {
-      this.snackBar.open('Please fill out all required fields.', 'Close', {
-        duration: 3000,
-        panelClass: 'error',
-      });
+      this.notificationService.notify({ message:'Please fill out all required fields.', duration: 3000, notificationType: NotificationType.WARNING });
       return;
     }
 
@@ -87,10 +83,7 @@ export class BlogForm implements OnInit {
         },
         error: (err) => {
           console.error('Error uploading image:', err);
-          this.snackBar.open('Image upload failed. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass: 'error',
-          });
+          this.notificationService.notify({ message:'Image upload failed. Please try again.', duration: 3000, notificationType: NotificationType.ERROR });
         },
       });
     } else {
@@ -108,17 +101,11 @@ export class BlogForm implements OnInit {
         this.blogForm.reset();
         this.selectedFile = null;
         this.dialogRef.close(blog);
-        this.snackBar.open('Blog added successfully!', 'Close', {
-          duration: 3000,
-          panelClass: 'success',
-        });
+        this.notificationService.notify({ message:'Blog added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err) => {
         console.error('Error adding blog:', err);
-        this.snackBar.open('Failed to add blog. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: 'error',
-        });
+        this.notificationService.notify({ message:'Failed to add blog. Please try again.', duration: 3000, notificationType: NotificationType.ERROR });
       },
     });
   }

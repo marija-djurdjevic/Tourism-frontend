@@ -6,6 +6,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-tour-review',
@@ -18,7 +20,7 @@ export class TourReviewComponent implements OnInit {
   tourReview: TourReview[] = [];
   isLoading=false;
 
-  constructor(private service: TourExecutionService,private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService) { 
+  constructor(private service: TourExecutionService,private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService) { 
     imageService.setControllerPath("tourist/image");
   }
 
@@ -34,10 +36,7 @@ export class TourReviewComponent implements OnInit {
       error: (err: any) => {
         console.log(err)
         this.isLoading=false;
-        this.snackBar.open('Failed to load reviews. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load reviews. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }
@@ -70,10 +69,7 @@ export class TourReviewComponent implements OnInit {
       },
       error: () => {
         this.isLoading=false;
-        this.snackBar.open('Failed to load reviews. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load reviews. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }

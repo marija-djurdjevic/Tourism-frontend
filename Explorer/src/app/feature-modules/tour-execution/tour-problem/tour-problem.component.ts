@@ -11,6 +11,8 @@ import { TourAuthoringService } from '../../tour-authoring/tour-authoring.servic
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-tour-problem',
@@ -38,7 +40,7 @@ export class TourProblemComponent {
   closeTourFlag: string;
   hadDeadlinePassed : string;
   username : string;
-  constructor(private route: ActivatedRoute,private snackBar:MatSnackBar, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe, private router : Router, private tourService : TourAuthoringService) {}
+  constructor(private route: ActivatedRoute,private notificationService: NotificationService, private service: TourExecutionService,private authService: AuthService, private datePipe: DatePipe, private router : Router, private tourService : TourAuthoringService) {}
   
   problem: Problem= {
     status: 0,
@@ -201,6 +203,7 @@ hasDeadLinePassed(input: Date): string {
         },
         error: (err: any) => {
           console.log(err);
+          this.notificationService.notify({ message:'Failed to retrieve tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     }
@@ -213,6 +216,7 @@ hasDeadLinePassed(input: Date): string {
         },
         error: (err: any) => {
           console.log(err);
+          this.notificationService.notify({ message:'Failed to retrieve tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     }
@@ -227,6 +231,7 @@ hasDeadLinePassed(input: Date): string {
         },
         error: (err: any) => {
           console.log(err);
+          this.notificationService.notify({ message:'Failed to retrieve tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     }
@@ -243,17 +248,11 @@ hasDeadLinePassed(input: Date): string {
         next: () => {
           console.log('Tour problem closed');
           this.router.navigate(['/problems']);
-          this.snackBar.open('Problem marked as solved successfully!', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Problem closed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: (err) => {
           console.error('Tour problem not closed:', err);
-          this.snackBar.open('Failed to mark as solved problem. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to close problem. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
     }
@@ -266,28 +265,19 @@ closeTour(): void {
         this.service.closeTour(tour).subscribe({
           next: () => {
             console.log('Tour closed successfully');
-            this.snackBar.open('Tour closed successfully!', 'Close', {
-              duration: 3000,
-              panelClass:"succesful"
-            });
+            this.notificationService.notify({ message:'Tour closed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
             // Call closeTourProblem after closeTour completes
             this.closeTourProblem();
           },
           error: (err) => {
             console.error('Failed to close the tour:', err);
-            this.snackBar.open('Failed to close tour. Please try again.', 'Close', {
-              duration: 3000,
-              panelClass:"succesful"
-            });
+            this.notificationService.notify({ message:'Failed to close tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
           }
         });
       },
       error: (err) => {
         console.error('Failed to retrieve tour:', err);
-        this.snackBar.open('Failed to retrieve tour. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to retrieve tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -304,17 +294,11 @@ closeTour(): void {
     this.service.addComment(this.problem.id as number, this.comm).subscribe({
       next: () => {
         console.log('Comment added successfully');
-        this.snackBar.open('Comment added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Comment added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err) => {
         console.error('Error adding comment:', err);
-        this.snackBar.open('Failed to add comment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add comment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
 
@@ -334,17 +318,11 @@ closeTour(): void {
     this.service.touristAddComment(this.problem.id as number, this.comm).subscribe({
       next: () => {
         console.log('Comment added successfully');
-        this.snackBar.open('Comment added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Comment added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err) => {
         console.error('Error adding comment:', err);
-        this.snackBar.open('Failed to add comment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add comment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
 
@@ -364,17 +342,11 @@ closeTour(): void {
     this.service.authorAddComment(this.problem.id as number, this.comm).subscribe({
       next: () => {
         console.log('Comment added successfully');
-        this.snackBar.open('Comment added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Comment added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err) => {
         console.error('Error adding comment:', err);
-        this.snackBar.open('Failed to add comment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add comment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
 

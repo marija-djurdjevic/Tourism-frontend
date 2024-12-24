@@ -5,6 +5,9 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { elementAt, Unsubscribable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
+
 
 @Component({
   selector: 'xp-tour-equipment',
@@ -17,7 +20,8 @@ export class TourEquipmentComponent {
   selectedTourEquipment: TourEquipment;
   tourId: number;
 
-  constructor(private route: ActivatedRoute, private service: TourAuthoringService,private snackBar:MatSnackBar) { }
+  constructor(private route: ActivatedRoute, private service: TourAuthoringService,private notificationService: NotificationService) { }
+
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -30,17 +34,11 @@ export class TourEquipmentComponent {
     this.service.deleteTourEquipment(id).subscribe({
       next: () => {
         this.getTourEquipment();
-        this.snackBar.open('Equipment deleted from tour successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Equipment deleted from tour successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error:(err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to delete equipment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to delete equipment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }
@@ -50,17 +48,11 @@ export class TourEquipmentComponent {
     this.service.addTourEquipment(tourEq).subscribe({
       next: () => {
         this.getTourEquipment()
-        this.snackBar.open('Equipment added to tour successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Equipment added to tour successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error:(err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to delete equipment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to delete equipment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }
@@ -72,10 +64,7 @@ export class TourEquipmentComponent {
         this.getAllTourEquipments();
       },
       error: () => {
-        this.snackBar.open('Failed to load equipments. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load equipments. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }
@@ -97,10 +86,7 @@ export class TourEquipmentComponent {
         this.popuniSve()
       },
       error: () => {
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load data. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }

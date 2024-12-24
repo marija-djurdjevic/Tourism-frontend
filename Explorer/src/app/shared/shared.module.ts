@@ -7,11 +7,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LiveNotificationComponent } from './live-notification.component.ts/live-notification.component';
+import { NotificationService } from './notification.service';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
     ImageComponent,
-    MapComponent
+    MapComponent,
+    LiveNotificationComponent,
+    NotificationComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule
   ],
   exports: [
-    ImageComponent, MapComponent
+    ImageComponent, MapComponent, LiveNotificationComponent, NotificationComponent
   ],
   
 })

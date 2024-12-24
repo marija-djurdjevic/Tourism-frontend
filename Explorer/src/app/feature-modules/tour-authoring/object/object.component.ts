@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-object',
@@ -18,7 +20,7 @@ export class ObjectComponent implements OnInit {
   image: File;
   isLoading=false;
 
-  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private imageService: ImageService, private cd: ChangeDetectorRef) {
+  constructor(private service: TourAuthoringService,private notificationService: NotificationService, private imageService: ImageService, private cd: ChangeDetectorRef) {
     /*Obavezan dio za podesavanje putanje za kontoler koji cuva slike
     ODREDJUJE SE NA OSNOVU ULOGE KOJA VRSI OPERACIJU ZBOG AUTORIZACIJE*/
     imageService.setControllerPath("author/image");
@@ -49,10 +51,7 @@ export class ObjectComponent implements OnInit {
       error:(err: any) => {
         console.log(err);
         this.isLoading=false;
-        this.snackBar.open('Failed to load objects. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load objects. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
 
     })

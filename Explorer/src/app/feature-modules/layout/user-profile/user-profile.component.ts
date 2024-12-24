@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserProfile } from '../model/user-profile.model';
 import { LayoutService } from '../layout.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -9,6 +9,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { EncounterService } from '../../encounters/encounter.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Encounter } from '../../encounters/model/encounter.model';
+import { AdministrationService } from '../../administration/administration.service';
+import { Achievement } from '../../administration/model/achievement.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-user-profile',
@@ -27,6 +31,9 @@ export class UserProfileComponent implements OnInit {
   selectedStatus: string = 'all';
   encounters: any[] = [];
   filteredEncounters: any[] = [];
+  showAchievements: boolean = false;
+  badge: string = '';
+  @ViewChild('achievementsSection') achievementsSection!: ElementRef;
 
   constructor(private layoutService: LayoutService,
     private router: Router,
@@ -34,7 +41,8 @@ export class UserProfileComponent implements OnInit {
     private imageService: ImageService,
     private cd: ChangeDetectorRef,
     private encounterService: EncounterService,
-    private snackBar: MatSnackBar) { }
+    private administrationService: AdministrationService,
+    private notificationService:NotificationService) { }
 
   ngOnInit(): void {
 
@@ -45,15 +53,25 @@ export class UserProfileComponent implements OnInit {
         this.isAdmin = true;
       }
     });
+    if (this.role === 'tourist') {
+      this.administrationService.getAchievements().subscribe({
+        next: (result: Achievement[]) => {
+          var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
+          this.badge = achievements[0].imagePath || '';
+        },
+      });
+    }
     this.getProfile()
     this.loadEncounters();
   }
 
   loadEncounters(): void {
-    this.encounterService.getAllEncountersForAdmin().subscribe((result: PagedResults<Encounter>) => {
-      this.encounters = result.results;
-      this.filterEncounters();
-    });
+    if (this.isAdmin) {
+      this.encounterService.getAllEncountersForAdmin().subscribe((result: PagedResults<Encounter>) => {
+        this.encounters = result.results;
+        this.filterEncounters();
+      });
+    }
   }
 
   showEncounters(): void {
@@ -80,15 +98,15 @@ export class UserProfileComponent implements OnInit {
         next: (result: Encounter) => {
           encounter.status = 1;
           this.filterEncounters();
-          this.snackBar.open('Encounter activated', 'Close', { duration: 3000 });
+          this.notificationService.notify({ message:'Encounter activated', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: () => {
-          this.snackBar.open('Unable to activate encounter', 'Close', { duration: 3000 });
+          this.notificationService.notify({ message:'Unable to activate encounter', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
 
     } else {
-      this.snackBar.open('Unable to activate becouse status is not draft', 'Close', { duration: 3000 });
+      this.notificationService.notify({ message:'Unable to activate becouse status is not draft', duration: 3000, notificationType: NotificationType.WARNING });
     }
   }
 
@@ -101,14 +119,20 @@ export class UserProfileComponent implements OnInit {
         // kod za ucitavanje slike po id
         this.isLoading = false;
         this.imageService.setControllerPath(this.role + "/image");
-        this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe((blob: Blob) => {
-          console.log(blob);  // Proveri sadržaj Blob-a
-          if (blob.type.startsWith('image')) {
-            this.userProfile.imageURL = URL.createObjectURL(blob);
-            this.cd.detectChanges();
-          } else {
-            console.error("Blob nije slika:", blob);
+        this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe({
+          next: (blob: Blob) => {
+            console.log(blob);  // Proveri sadržaj Blob-a
+            if (blob.type.startsWith('image')) {
+              this.userProfile.imageURL = URL.createObjectURL(blob);
+              this.cd.detectChanges();
+            } else {
+              console.error("Blob nije slika:", blob);
+            }
+          },
+          error: () => {
+            this.userProfile.imageURL = 'assets/user.png';
           }
+
         });
 
         //kraj
@@ -116,10 +140,7 @@ export class UserProfileComponent implements OnInit {
       error: (err: any) => {
         console.log(err)
         this.isLoading = false;
-        this.snackBar.open('Failed to load profile. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load profile. Please try again.', duration: 3000, notificationType: NotificationType.ERROR });
       }
     })
   }
@@ -149,6 +170,18 @@ export class UserProfileComponent implements OnInit {
 
   seeWallet(): void {
     this.router.navigate(['/wallet']);
+  }
+
+  ShowAchievements(): void {
+    this.showAchievements = !this.showAchievements;
+    if (this.showAchievements) {
+      setTimeout(() => {
+        this.achievementsSection.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start' // Poravnanje sa vrhom stranice
+        });
+      }, 100); // Dodaj delay da se element prikaže pre skrolovanja
+    }
   }
 }
 

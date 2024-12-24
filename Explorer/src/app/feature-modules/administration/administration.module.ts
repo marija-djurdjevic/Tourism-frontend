@@ -12,14 +12,15 @@ import { SharedModule } from "../../shared/shared.module";
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
-
+import { AchievementsComponent } from './achievements/achievements.component';
 @NgModule({
   declarations: [
     EquipmentFormComponent,
     EquipmentComponent,
     AccountComponent,
     EncounterComponent,
-    EncounterFormComponent
+    EncounterFormComponent,
+    AchievementsComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +37,8 @@ import { FormsModule } from '@angular/forms';
   exports: [
     EquipmentComponent,
     EquipmentFormComponent,
-    AccountComponent
+    AccountComponent,
+    AchievementsComponent
   ]
 })
 export class AdministrationModule { }

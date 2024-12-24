@@ -14,6 +14,10 @@ import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SaleService } from '../sales.service';
 import { Sale } from '../model/sale.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
+import { Blog } from '../../blog/model/blog.model';
+import { BlogService } from '../../blog/blog.service';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -24,17 +28,19 @@ export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
   sales: Sale[] = [];
+  topBlogs: Blog[] = [];
 
   showDiscountedOnly: boolean = false;
   isReviewsModalOpen = false;
   user: User;
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
-  isLoading=false;
+  isLoading = false;
   refundId: number | null = null;
   refundedTourId: number;
 
-  constructor(private service: TourShoppingService, private saleService: SaleService, private snackBar:MatSnackBar, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router,private route: ActivatedRoute) {
+  constructor(private service: TourShoppingService,
+    private blogService: BlogService, private saleService: SaleService, private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -46,13 +52,14 @@ export class ExploreToursComponent implements OnInit {
     this.getTours();
     this.loadSalesData();
     this.loadPurchasedTours();
+    this.getTopBlogs();
     this.route.queryParams.subscribe(params => {
       const selectedTourId = params['selectedTourId'] ? Number(params['selectedTourId']) : null;
       if (selectedTourId) {
         this.refundedTourId = selectedTourId; // Koristi refundedTourId da iskoristiš isti hajlajt mehanizam
         console.log('Selected Tour ID:', this.refundedTourId);
       }
-    });    
+    });
     this.route.queryParams.subscribe(params => {
       this.refundId = params['refundId'] ? Number(params['refundId']) : null;
       console.log('Captured refundId:', this.refundId);
@@ -66,14 +73,15 @@ export class ExploreToursComponent implements OnInit {
   loadSalesData(): void {
     // Fetch sales data
     this.saleService.getSales().subscribe({
-      next: ( results: PagedResults<Sale> ) => {
-          this.sales =results.results
-          console.log("Sales:", this.sales); 
+      next: (results: PagedResults<Sale>) => {
+        this.sales = results.results
+        console.log("Sales:", this.sales);
       },
       error: () => {
-          console.log("ERROR LOADING SALES");
+        console.log("ERROR LOADING SALES");
+        this.notificationService.notify({ message: 'Failed to load sales data. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
-  });
+    });
   }
 
   getDiscountedPrice(tour: Tour): number {
@@ -86,7 +94,7 @@ export class ExploreToursComponent implements OnInit {
     return tour.price; // Return original price if no sale
   }
 
-  searchTours():void{
+  searchTours(): void {
     this.router.navigate(['/tour-search']);
   }
 
@@ -98,14 +106,11 @@ export class ExploreToursComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching refunded tour ID:', err);
-        this.snackBar.open('Failed to fetch refunded tour ID.', 'Close', {
-          duration: 3000,
-          panelClass: 'error'
-        });
+        this.notificationService.notify({ message: 'Failed to fetch refunded tour ID.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
-  
+
   getFilteredTours() {
     if (this.showDiscountedOnly) {
       return this.tours.filter(tour => this.getDiscountedPrice(tour) !== tour.price);
@@ -119,45 +124,43 @@ export class ExploreToursComponent implements OnInit {
   }
 
   getTours(): void {
-    this.isLoading=true
-    this.service.getTours().subscribe({
-      next: (result: Array<Tour>) => {
-        this.tours = result;
-        console.log(this.tours)
-        this.isLoading=false;
-        // Assign a single key point to each tour
-        this.tours.forEach(tour => {
-          this.assignSingleKeyPoint(tour);
-        });
+    this.isLoading = true
+    if (this.user.role == "tourist") {
+      this.service.getTours().subscribe({
+        next: (result: Array<Tour>) => {
+          this.tours = result;
+          console.log(this.tours)
+          this.isLoading = false;
+          // Assign a single key point to each tour
+          this.tours.forEach(tour => {
+            this.assignSingleKeyPoint(tour);
+          });
 
-      },
-      error: (err: any) => {
-        console.log(err);
-        this.isLoading=false
-        this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
-      }
-    });
+        },
+        error: (err: any) => {
+          console.log(err);
+          this.isLoading = false
+          this.notificationService.notify({ message: 'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+        }
+      });
+    }
   }
 
   private loadPurchasedTours(): void {
-    this.isLoading=true;
-    this.service.getPurchasedTours().subscribe({
-      next: (tours: Tour[]) => {
-        this.purchasedTours = tours;
-        this.isLoading=false
-      },
-      error: (err) => {
-        console.error('Failed to load purchased tours:', err);
-        this.isLoading=false;
-        this.snackBar.open('Failed to load purchased tours. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
-      }
-    });
+    this.isLoading = true;
+    if (this.user.role == "tourist") {
+      this.service.getPurchasedTours().subscribe({
+        next: (tours: Tour[]) => {
+          this.purchasedTours = tours;
+          this.isLoading = false
+        },
+        error: (err) => {
+          console.error('Failed to load purchased tours:', err);
+          this.isLoading = false;
+          this.notificationService.notify({ message: 'Failed to load purchased tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+        }
+      });
+    }
   }
 
   assignSingleKeyPoint(tour: Tour): void {
@@ -189,19 +192,16 @@ export class ExploreToursComponent implements OnInit {
 
     if (existingItem) {
       console.log('Item already in cart');
-      this.snackBar.open('Tour is already in cart.', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
-      });
+      this.notificationService.notify({ message: 'Tour is already in cart.', duration: 3000, notificationType: NotificationType.INFO });
     } else {
       // If item does not exist, add it with quantity 1
       const newItem: OrderItem = { tourId, tourName, price };
       cart.push(newItem);
       console.log("Added to cart");
       console.log(`Tour with ID ${tourId} added to cart for user ${this.user.username}`);
-      this.snackBar.open('Tour added to cart successfully!', 'Close', {
-        duration: 3000,
-        panelClass:"succesful"
+      this.notificationService.notify({
+        message: 'Tour added to cart successfully!', duration: 3000, notificationType: NotificationType.SUCCESS, action: 'View Cart', actionCallback: () =>
+          this.router.navigate(['/cart'])
       });
     }
 
@@ -237,10 +237,7 @@ export class ExploreToursComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching reviews:', error);
-        this.snackBar.open('Failed to load reviews. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message: 'Failed to load reviews. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -264,7 +261,26 @@ export class ExploreToursComponent implements OnInit {
       //kraj
     }
   }
-  
-  
+
+
+
+  getTopBlogs(): void {
+    this.isLoading = true;
+    this.blogService.getTopBlogs().subscribe({
+      next: (result: Blog[]) => {
+        this.topBlogs = result;
+        console.log("blogoviiiiiiiiiii" + this.topBlogs);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.notificationService.notify({ message: 'Failed to load top blogs. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+      }
+    });
+  }
+
+  viewBlog(blogId: any) {
+    // Navigate to the blog's detail page or open the blog
+    this.router.navigate(['/comments/', blogId]); // Assuming you have routing set up
+  }
 
 }

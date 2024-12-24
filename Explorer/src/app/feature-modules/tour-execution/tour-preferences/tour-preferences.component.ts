@@ -5,6 +5,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourExecutionService } from '../tour-execution.service';
 import { TourPreferences } from 'src/app/shared/model/tour-preferences.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-tour-preferences',
@@ -18,7 +20,7 @@ export class TourPreferencesComponent implements OnInit {
   tourPreferencesForm: FormGroup;
   isLoading=false;
 
-  constructor(private authService: AuthService, private service: TourExecutionService, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private authService: AuthService, private service: TourExecutionService, private fb: FormBuilder, private notificationService: NotificationService) {
     this.tourPreferencesForm = this.fb.group({
       id: [null],
       touristId: [null],
@@ -64,10 +66,7 @@ export class TourPreferencesComponent implements OnInit {
       error => {
         console.log('Error fetching tour preferences:', error);
         this.isLoading=false;
-        this.snackBar.open('Failed to load preferences. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load preferences. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     );
   }
@@ -91,22 +90,14 @@ export class TourPreferencesComponent implements OnInit {
     if (this.tourPreferences.id !== 0) {
       this.service.updateTourPreferences(tourPreferences).subscribe({
         next: (response) => { console.log('Preferences updated:', response); 
-          this.snackBar.open('Preferences Updated', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-          });
+          this.notificationService.notify({ message:'Preferences Updated', duration: 3000, notificationType: NotificationType.SUCCESS });
          }
       });
     } else {
       this.service.addTourPreferences(tourPreferences).subscribe({
         next: (response) => { console.log('Added new preferences:', response); 
           this.tourPreferences.id = response.id;
-          this.snackBar.open('Preferences Added', 'Close', {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-          });
+          this.notificationService.notify({ message:'Preferences Added', duration: 3000, notificationType: NotificationType.SUCCESS });
         }
       });
     }

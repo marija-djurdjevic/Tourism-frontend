@@ -8,6 +8,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { TourAuthoringService } from '../../tour-authoring/tour-authoring.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
     selector: 'bundle-create',
@@ -25,7 +27,7 @@ export class BundleCreateComponent implements OnInit {
 
     constructor(
         private tourService: TourAuthoringService,
-        private snackBar: MatSnackBar,
+        private notificationService: NotificationService,
         private service: BundleService,
         private authService: AuthService,
         private router: Router
@@ -46,10 +48,7 @@ export class BundleCreateComponent implements OnInit {
             },
             error: () => {
                 this.isLoading = false;
-                this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "error"
-                });
+                this.notificationService.notify({ message:'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
     }
@@ -70,20 +69,17 @@ export class BundleCreateComponent implements OnInit {
 
     createBundle(): void {
         if (!this.newPrice || this.newPrice >= this.totalPrice) {
-            this.snackBar.open('The new price must be lower than the total price.', 'Close', {
-                duration: 3000,
-                panelClass: "error"
-            });
+            this.notificationService.notify({ message:'The new price must be lower than the total price.', duration: 3000, notificationType: NotificationType.WARNING });
             return;
         }
 
         if (!this.newTitle) {
-            this.snackBar.open('Please enter a title.', 'Close', { duration: 3000 });
+            this.notificationService.notify({ message:'Please enter a title.', duration: 3000, notificationType: NotificationType.WARNING });
             return;
         }
 
         if (this.selectedTours.length < 2) {
-            this.snackBar.open('Please select at least two tours.', 'Close', { duration: 3000 });
+            this.notificationService.notify({ message:'Please select at least two tours.', duration: 3000, notificationType: NotificationType.WARNING });
             return;
         }
 
@@ -98,14 +94,11 @@ export class BundleCreateComponent implements OnInit {
 
         this.service.createBundle(newBundle).subscribe({
             next: () => {
-                this.snackBar.open('Bundle created successfully!', 'Close', { duration: 3000 });
+                this.notificationService.notify({ message:'Bundle created successfully!',duration: 3000, notificationType: NotificationType.SUCCESS });
                 this.router.navigate(['/bundles']);
             },
             error: () => {
-                this.snackBar.open('Failed to add bundle. Please try again.', 'Close', {
-                    duration: 3000,
-                    panelClass: "error"
-                });
+                this.notificationService.notify({ message:'Failed to add bundle. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
             }
         });
 

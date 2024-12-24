@@ -11,7 +11,10 @@
     <div id="profile-details">
       <div class="card-container">
         <div class="card" *ngIf="userProfile">
-          <img [src]="userProfile.imageURL" alt="Profile Image" class="profile-image">
+          <div style="position: relative;">
+            <img [src]="userProfile.imageURL" alt="Profile Image" class="profile-image">
+            <img *ngIf="badge" style="width: 80px;height: 80px;z-index: 1000;position: absolute;bottom: 15px;right: 15px;" [src]="badge" >
+          </div>
           <div class="card-content">
             <h3>{{ userProfile.firstName }} {{ userProfile.lastName }}</h3>
             <p>{{ userProfile.biography }}</p>
@@ -32,6 +35,7 @@
           <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="setPreferences()">Set preferences</button>
           <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="myReviews()">My reviews</button>
           <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="seeProblems()">My problems</button>
+          <button *ngIf="user.role === 'tourist'" mat-raised-button (click)="ShowAchievements()">Achievements</button>
           <button *ngIf="user.role === 'author'" mat-raised-button (click)="myBundles()">My bundles</button>
           <button *ngIf="isAdmin" mat-raised-button (click)="showEncounters()">Show encounters</button>
         </div>
@@ -46,7 +50,7 @@
   <div *ngIf="!userProfile" class="loading-message">
     <p>Loading user profile...</p>
   </div>
-
+  
   <div class="modal-overlay" *ngIf="showEncountersModal">
     <div class="modal-content">
         <div class="popup-actions">
@@ -95,4 +99,7 @@
         </div>
     </div>
   </div>
+
+<div #achievementsSection *ngIf="showAchievements">
+  <xp-achievements></xp-achievements>
 </div>

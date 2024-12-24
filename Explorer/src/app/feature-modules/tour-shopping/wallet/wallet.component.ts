@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Wallet } from '../model/wallet.model';
 import { TourShoppingService } from '../tour-shopping.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-wallet',
@@ -12,7 +14,7 @@ export class WalletComponent implements OnInit {
   error: string | null = null;
   isLoading: boolean = true; // Add loading state
 
-  constructor(private service: TourShoppingService) {}
+  constructor(private service: TourShoppingService,private notificationService: NotificationService) {}
 
   ngOnInit(): void {
     this.loadWallet();
@@ -31,6 +33,7 @@ export class WalletComponent implements OnInit {
         this.error = 'Failed to load wallet data. Please try again later.';
         this.isLoading = false; // Stop loading
         console.error('Error fetching wallet:', err); // Log for debugging
+        this.notificationService.notify({message:'Error fetching wallet data', notificationType:NotificationType.WARNING,duration:3000}); // Notify user
       }
     });
   }
