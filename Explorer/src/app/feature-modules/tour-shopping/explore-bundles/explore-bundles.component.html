@@ -17,14 +17,20 @@
                         <p><strong>Price:</strong> {{ b.price | currency }}</p>
                     </div>
                     <div class="card-actions">
-                        <span *ngIf="isPurchased(b.id!)">Purchased</span>
-                        <button *ngIf="!isPurchased(b.id!)" (click)="purchaseBundle(b)" mat-icon-button>
-                            <img src="assets/icons/shopping-cart.png" alt="Purchase Icon" />
-                        </button>
+                        <div class="icon-item">
+                            <button color="primary" (click)="viewTours(b)" mat-icon-button matTooltip="Show tours">
+                                <img src="assets/icons/tour.png" alt="Tour Icon" />
+                            </button>
+                            <span class="status-text" style="color: #34AB45;" *ngIf="isPurchased(b.id!)">Purchased</span>
+                        </div>
 
-                        <button color="primary" (click)="viewTours(b)" mat-icon-button matTooltip="View Tours">
-                            <img src="assets/icons/keypoints.png" alt="Tours Icon" />
-                        </button>
+                        <div class="icon-item">
+                            <ng-container *ngIf="!isPurchased(b.id!)">
+                                <button color="primary" (click)="purchaseBundle(b)" mat-icon-button matTooltip="Purchase bundle">
+                                    <img src="assets/icons/shopping-cart.png" alt="Purchase Icon" />
+                                </button>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
             </div>
