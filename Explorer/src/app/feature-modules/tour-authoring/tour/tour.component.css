@@ -62,7 +62,7 @@
     .card {
       border-radius: 8px; /* Zaobljeni uglovi */
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
-      width: 350px; /* vratiti na 300 kad se ukloni tabela */
+      width: 300px;
       height: auto;
       padding: 16px; /* Unutrašnji razmak */
       display: flex;

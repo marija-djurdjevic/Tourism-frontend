@@ -15,7 +15,6 @@ export class TourEquipmentComponent {
   tourEquipment: TourEquipment[] = [];
   allTourEquipment: TourEquipment[] = [];
   selectedTourEquipment: TourEquipment;
-  prikaz: boolean = true;
   tourId: number;
 
   constructor(private route: ActivatedRoute, private service: TourAuthoringService,private snackBar:MatSnackBar) { }
@@ -89,15 +88,6 @@ export class TourEquipmentComponent {
         element.id=existingEquipment.id;
       }
     });
-  }
-
-  onAddEquipmentClicked(): void {
-    this.popuniSve();
-    this.prikaz = false;
-  }
-
-  onSaveEquipmentClicked(): void {
-    this.prikaz = true;
   }
 
   getAllTourEquipments(): void {

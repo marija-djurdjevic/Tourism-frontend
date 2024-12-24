@@ -1,64 +1,27 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
 <div id="equipment">
+    <p class="equipment-title">Equipment for Tour {{tourId}}</p>
     <hr>
     <div id="equipment-details">
-        <div>
-            <table *ngIf="prikaz">
-                <thead>
-                    <tr>
-                        <th>Naziv</th>
-                        <th>Opis</th>
-                        <th>Ukloni opremu</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let eq of tourEquipment">
-                        <td>{{eq.equipment.name}}</td>
-                        <td>{{eq.equipment.description}}</td>
-                        <td>
-                            <button title="remove" color="accent" (click)="deleteTourEquipment(eq.id || 0)" mat-icon-button>
-                                <mat-icon>remove</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <button title="add" style="display: flex;flex-direction: column;justify-content: center;" color="primary" (click)="onAddEquipmentClicked()" mat-icon-button>
-                            <mat-icon>add</mat-icon>
+        <div class="card-container">
+            <div class="card" *ngFor="let eq of allTourEquipment">
+                <div class="card-content">
+                    <h3>{{eq.equipment.name}}</h3>
+                    <p>{{eq.equipment.description}}</p>
+                </div>
+                <div class="card-actions">
+                    <ng-container *ngIf="eq.tourId != tourId">
+                        <button color="primary" (click)="addTourEquipment(eq)" mat-icon-button matTooltip="Add equipment">
+                            <img src="assets/icons/add.png" alt="Add Icon"/>
                         </button>
-                    </tr>
-                </tbody>
-            </table>
-            <table *ngIf="!prikaz">
-                <thead>
-                    <tr>
-                        <th>Naziv</th>
-                        <th>Opis</th>
-                        <th>Ukloni/Dodaj</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let eq of allTourEquipment">
-                        <td>{{eq.equipment.name}}</td>
-                        <td>{{eq.equipment.description}}</td>
-                        <td>
-                            <button title="add" *ngIf="eq.tourId!=tourId" color="accent" (click)="addTourEquipment(eq)" mat-icon-button>
-                                <mat-icon>add</mat-icon>
-                            </button>
-                            <button title="remove" *ngIf="eq.tourId==tourId" color="accent" (click)="deleteTourEquipment(eq.id || 0)" mat-icon-button>
-                                <mat-icon>remove</mat-icon>
-                            </button>
-                        </td>
-                        <td>
-                            {{eq.tourId!=tourId?"Removed":"Added"}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <button style="display: flex;flex-direction: column;justify-content: center;" color="primary" (click)="onSaveEquipmentClicked()" mat-icon-button>
-                            <mat-icon>save</mat-icon>
+                    </ng-container>
+                    <ng-container *ngIf="eq.tourId == tourId">
+                        <button color="accent" (click)="deleteTourEquipment(eq.id || 0)" mat-icon-button matTooltip="Remove equipment">
+                            <img src="assets/icons/block.png" alt="Block Icon"/>
                         </button>
-                    </tr>
-                </tbody>
-            </table>
+                    </ng-container>
+                </div>
+            </div>               
         </div>
     </div>
 </div>
