@@ -145,12 +145,40 @@ export class ExploreToursComponent implements OnInit {
   groupTourStatus(tourId?: number): boolean {
     const groupTour = this.groupTours.find(tour => tour.id === tourId);
     if (groupTour !== undefined && groupTour.startTime) {
-      // Pretpostavljam da je groupTour.startTime u formatu datuma koji se može porediti sa trenutnim datumom.
-      const currentTime = new Date(); // Trenutno vreme
-      const tourStartTime = new Date(groupTour.startTime); // Pretvaranje startTime u Date
-      return tourStartTime > currentTime; // Vraća true ako je tura posle trenutnog vremena
+      const currentTime = new Date(); 
+      const tourStartTime = new Date(groupTour.startTime); 
+      return tourStartTime > currentTime; 
     }
-    return false; // Ako tura ne postoji ili nema startTime, vraća false
+    return false; 
+  }
+
+  groupTourProgress(tourId?: number): boolean {
+    const groupTour = this.groupTours.find(tour => tour.id === tourId);
+    if (groupTour !== undefined) {
+      return groupTour.progress === 0; 
+    }
+    return false; 
+  }
+
+  getProgressStatus(tourId?: number): string {
+    const groupTour = this.groupTours.find(tour => tour.id === tourId);
+    if (groupTour !== undefined) {
+      return this.getProgressLabel(groupTour.progress); 
+    }
+    return '';
+  }
+
+  getProgressLabel(progress: number): string {
+    switch (progress) {
+      case 0:
+        return 'Scheduled';
+      case 1:
+        return 'In progress';
+      case 2:
+        return 'Finished';
+      default:
+        return 'Canceled';
+    }
   }
 
 cancelParticipation(tourId?: number): void {
