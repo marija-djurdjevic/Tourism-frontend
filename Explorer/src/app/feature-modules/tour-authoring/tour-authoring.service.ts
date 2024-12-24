@@ -124,12 +124,17 @@ export class TourAuthoringService {
   getKeyPointsByTourId(tourId: number): Observable<Tour> {
     return this.http.get<Tour>(`${environment.apiHost}administration/tour/${tourId}/key-points`);
   }
+  
   updateTour(tour: Tour): Observable<Tour> {
     return this.http.put<Tour>(`${environment.apiHost}administration/tour/${tour.id}`, tour);
   }
 
   updateGroupTour(tour: GroupTour): Observable<GroupTour> {
     return this.http.put<GroupTour>(`${environment.apiHost}administration/tour/group/${tour.id}`, tour);
+  }
+  
+  cancelGroupTour(tour: GroupTour): Observable<GroupTour> {
+    return this.http.put<GroupTour>(`${environment.apiHost}administration/tour/group/cancel/${tour.id}`, tour);
   }
   
   calculateDistance(latlngs: [number, number][]): number {
@@ -245,6 +250,4 @@ getInvitations(): Observable<PagedResults<Clubs>> {
     console.log(`Poziva se API za userId: ${userId}`);
     return this.http.get<Tourist>(`${environment.apiHost}author/profile/${userId}`);
   }
-  
- 
 }

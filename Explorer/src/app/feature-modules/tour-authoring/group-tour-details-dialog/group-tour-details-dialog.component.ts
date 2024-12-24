@@ -173,7 +173,7 @@ export class GroupTourDetailsDialogComponent {
   
     this.isLoading = true;
   
-    this.service.updateGroupTour(updatedTour).subscribe({
+    this.service.cancelGroupTour(updatedTour).subscribe({
       next: () => {
         console.log('Group tour successfully canceled.');
         this.groupTour!.progress = 3; 
