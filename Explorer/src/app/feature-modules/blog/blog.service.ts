@@ -91,4 +91,15 @@ export class BlogService {
             })
         );
     }
+
+    getTopBlogs(): Observable<Blog[]> {
+        return this.http.get<Blog[]>(environment.apiHost + 'author/blog/top3').pipe(
+            tap((response) => {
+            }),
+            catchError((error: HttpErrorResponse) => {
+                this.errorHandler.handleHttpError(error); // Delegiranje grešaka ErrorHandlerService-u
+                return throwError(() => error);
+            })
+        );
+    }
 }
