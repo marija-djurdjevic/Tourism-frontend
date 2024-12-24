@@ -16,6 +16,8 @@ import { SaleService } from '../sales.service';
 import { Sale } from '../model/sale.model';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { NotificationType } from 'src/app/shared/model/notificationType.enum';
+import { Blog } from '../../blog/model/blog.model';
+import { BlogService } from '../../blog/blog.service';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -26,6 +28,7 @@ export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
   sales: Sale[] = [];
+  topBlogs: Blog[] = [];
 
   showDiscountedOnly: boolean = false;
   isReviewsModalOpen = false;
@@ -36,7 +39,8 @@ export class ExploreToursComponent implements OnInit {
   refundId: number | null = null;
   refundedTourId: number;
 
-  constructor(private service: TourShoppingService, private saleService: SaleService, private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
+  constructor(private service: TourShoppingService,
+    private blogService: BlogService, private saleService: SaleService, private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -48,6 +52,7 @@ export class ExploreToursComponent implements OnInit {
     this.getTours();
     this.loadSalesData();
     this.loadPurchasedTours();
+    this.getTopBlogs();
     this.route.queryParams.subscribe(params => {
       const selectedTourId = params['selectedTourId'] ? Number(params['selectedTourId']) : null;
       if (selectedTourId) {
@@ -258,5 +263,24 @@ export class ExploreToursComponent implements OnInit {
   }
 
 
+
+  getTopBlogs(): void {
+    this.isLoading = true;
+    this.blogService.getTopBlogs().subscribe({
+      next: (result: Blog[]) => {
+        this.topBlogs = result;
+        console.log("blogoviiiiiiiiiii" + this.topBlogs);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.notificationService.notify({ message: 'Failed to load top blogs. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+      }
+    });
+  }
+
+  viewBlog(blogId: any) {
+    // Navigate to the blog's detail page or open the blog
+    this.router.navigate(['/comments/', blogId]); // Assuming you have routing set up
+  }
 
 }
