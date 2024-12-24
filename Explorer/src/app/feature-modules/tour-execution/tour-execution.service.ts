@@ -275,7 +275,13 @@ export class TourExecutionService {
     const url = `${environment.apiHost}administrator/object/${requestDto.id}`;
     return this.http.put<PublishRequest>(url, requestDto);
   }
+  updateRequestStatusStory(requestDto: PublishRequest): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/publishRequest/${requestDto.id}`;
+    return this.http.put<PublishRequest>(url, requestDto);
+  }
   updateEncounterExecution(EncounterExecution: EncounterExecution): Observable<EncounterExecution> {
     return this.http.post<EncounterExecution>(' https://localhost:44333/api/tourist/encounterExecution/update', EncounterExecution)
   }
+
+  
 }

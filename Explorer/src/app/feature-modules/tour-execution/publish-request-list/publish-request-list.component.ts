@@ -29,12 +29,12 @@ import { Story } from '../../library/model/story.model';
     currentPage = 0;
     totalPages = 0;
     pageSize = 9;
-  
+    flag: Boolean = false;
     user: User | undefined;
 
     usernamesMap: Map<number, string> = new Map();
-
-    constructor(private service: TourExecutionService,private storyService: StoryService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService) { imageService.setControllerPath("administrator/image");} 
+    selectedRequest: PublishRequest | undefined;
+    constructor(private service: TourExecutionService,private storyService: StoryService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService, private cdr: ChangeDetectorRef) { imageService.setControllerPath("administrator/image");} 
     ngOnInit(): void {
 
         this.authService.user$.subscribe((user: User | undefined) => {
@@ -240,7 +240,22 @@ import { Story } from '../../library/model/story.model';
           console.error('Error updating request:', err);
         },
       });
-    }else{
+    }if(request.type==2){
+      
+      this.service.updateRequestStatusStory(request).subscribe({
+        next: (updatedRequest: PublishRequest) => {
+          console.log('Request successfully updated:', updatedRequest);
+          this.flag = true
+          this.selectedRequest = updatedRequest; 
+        },
+        error: (err) => {
+          console.error('Error updating request:', err);
+        },
+      });
+      
+      
+    }
+      else{
       this.service.updateRequestStatusObject(request).subscribe({
         next: (updatedRequest: PublishRequest) => {
           console.log('Object successfully updated:', updatedRequest);
@@ -299,5 +314,19 @@ import { Story } from '../../library/model/story.model';
         },
       });
     }
+    }
+
+    closePopUp() {
+      this.flag = false;
+      this.cdr.detectChanges();
+    }
+
+    createBook(){
+      if (this.selectedRequest) {
+        this.router.navigate(['/create-book', this.selectedRequest.entityId]);
+      } else {
+        console.error('No request selected to create a book.');
+      }
+
     }
 }

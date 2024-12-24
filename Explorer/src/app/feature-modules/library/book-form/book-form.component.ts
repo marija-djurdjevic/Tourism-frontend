@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StoryService } from '../story.service';
 import { Book } from '../model/book.model';
 
@@ -9,23 +10,25 @@ import { Book } from '../model/book.model';
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.css']
 })
-export class BookFormComponent {
+export class BookFormComponent implements OnInit {
   bookForm: FormGroup;
   book: Book;
+  entityId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private service: StoryService
+    private service: StoryService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-    // Inicijalizacija forme sa kontrolama
+    // Initialize the form with controls
     this.bookForm = this.fb.group({
-      title: ['', Validators.required], 
-      
-      bookColour: ['#FFFFFF', Validators.required] // Dodata boja sa podrazumevanom vrednošću
+      title: ['', Validators.required],
+      bookColour: ['#FFFFFF', Validators.required] // Default color
     });
 
-    // Inicijalizacija knjige
+    // Initialize the book object
     this.book = {
       id: 0,
       adminId: 0,
@@ -35,21 +38,29 @@ export class BookFormComponent {
     };
   }
 
+  ngOnInit(): void {
+    // Get entityId from the route parameters
+    this.route.params.subscribe(params => {
+      this.entityId = params['entityId'] ? Number(params['entityId']) : null;
+    });
+  }
+
   onSubmit(): void {
     if (this.bookForm.invalid) {
-      this.bookForm.markAllAsTouched(); 
+      this.bookForm.markAllAsTouched();
       this.snackBar.open('Please fill all fields.', 'Close', {
         duration: 3000,
-        panelClass: "error"
+        panelClass: 'error'
       });
-      return; 
+      return;
     }
 
-    // Postavljanje vrednosti iz forme
+    // Set book details from the form
     this.book.title = this.bookForm.get('title')?.value || '';
-    this.book.pageNum =  0;
+    this.book.pageNum = 0;
     this.book.bookColour = this.bookForm.get('bookColour')?.value || '#FFFFFF';
 
+    // Add the book and perform additional operations after creation
     this.addBook(this.book);
   }
 
@@ -57,24 +68,44 @@ export class BookFormComponent {
     this.service.addBook(book).subscribe({
       next: (response) => {
         console.log('Added Book', response);
+
+        // Call the story service function after creating the book
+        if (this.entityId) {
+          this.callStoryService(this.entityId, response.id);
+        }
+
         this.snackBar.open('Book added successfully!', 'Close', {
           duration: 3000,
-          panelClass: "success"
+          panelClass: 'success'
         });
       },
       error: () => {
         console.log('Error adding book');
         this.snackBar.open('Failed to add book. Please try again.', 'Close', {
           duration: 3000,
-          panelClass: "error"
+          panelClass: 'error'
         });
       }
     });
   }
 
-  updateColorPreview(): void {
-    const selectedColor = this.bookForm.get('bookColour')?.value;
-    console.log('Selected Color:', selectedColor); 
+  callStoryService(entityId: number, bookId: number): void {
+    this.service.getStoryById(entityId).subscribe({
+      next: (result) => {
+        console.log('Fetched story:', result);
+        result.bookId = bookId;
+        this.service.updateStory(result).subscribe({
+          next: (updateResult) => {
+            console.log('Story updated successfully:', updateResult);
+          },
+          error: (err) => {
+            console.error('Error updating story:', err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching story:', err);
+      }
+    });
   }
-  
 }

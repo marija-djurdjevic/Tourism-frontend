@@ -55,5 +55,10 @@ export class StoryService {
       }
     });
   }
+
+  updateStory(story : Story): Observable<Story>{
+    return this.http.put<Story>(`${environment.apiHost}administrator/stories/${story.id}`, story)
+  }
+
   
 }
