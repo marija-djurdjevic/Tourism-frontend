@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   userProfile: UserProfile;
   showProfileMenu: boolean=false;
   showLocationButton: boolean = true;
+  NotificationType = NotificationType;
 
   constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef, ) {}
 
@@ -88,7 +89,10 @@ export class NavbarComponent implements OnInit {
     this.layoutService.markAsReadTourist(notification).subscribe(result => {
       this.notifications = this.notifications.filter(n => n !== notification);
 
-      if(notification.type === NotificationType.TourRefund) {
+      if(notification.type === NotificationType.GroupCancelation) {
+        this.router.navigate(['explore-tours']);
+      }
+      else if(notification.type === NotificationType.TourRefund) {
         this.router.navigate(['explore-tours'], { queryParams: { refundId: notification.referenceId } });
       } else {
         this.router.navigate(['/problem'], { queryParams: { id: problemId } });

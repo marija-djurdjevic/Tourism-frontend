@@ -85,6 +85,11 @@
                             </ng-container>
                             <ng-template #noDate>No date available</ng-template>
                         </p>
+                        </div>
+                        <div *ngIf="t.isGroupTour">
+                          <p><strong>Progress:</strong> 
+                              {{ getProgressStatus(t.id) }}
+                        </p>
                         <p><strong>Place: first keypoint</strong> 
                       </p>
                         </div>
@@ -124,7 +129,7 @@
                           </ng-container>
                         </div>
                       
-                        <div *ngIf="t.isGroupTour && !disabledGroupTourParticipation && !hasAlreadyParticipated(t.id) && groupTourStatus(t.id)" class="icon-item">
+                        <div *ngIf="t.isGroupTour && !disabledGroupTourParticipation && !hasAlreadyParticipated(t.id) && groupTourStatus(t.id) && groupTourProgress(t.id)" class="icon-item">
                             <ng-container>
                               <button [disabled]="disabledGroupTourParticipation" color="primary" (click)="participateInGroupTour(t.id ?? 0)" mat-icon-button [matTooltip]="disabledGroupTourParticipation ? 'You already participated in a group tour!' : 'Participate'">
                                 <img src="assets/icons/accountable.png" alt="Shopping Cart" />
