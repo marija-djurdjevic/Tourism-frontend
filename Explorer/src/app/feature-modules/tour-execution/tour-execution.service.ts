@@ -278,4 +278,8 @@ export class TourExecutionService {
   updateEncounterExecution(EncounterExecution: EncounterExecution): Observable<EncounterExecution> {
     return this.http.post<EncounterExecution>(' https://localhost:44333/api/tourist/encounterExecution/update', EncounterExecution)
   }
+
+  unlockStory(storyId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiHost}tourist/stories/unlockStory/${storyId}`);
+  }
 }
