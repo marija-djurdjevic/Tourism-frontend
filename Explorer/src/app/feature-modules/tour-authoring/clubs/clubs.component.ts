@@ -26,6 +26,7 @@ export class ClubsComponent implements OnInit {
   isLoading = false;
   members: Tourist[] = [];
   activeTab: string = 'invites';
+  reqMembers: Tourist[] = [];
 
   invitedClubs: Clubs[] = []; // Clubs that invited the logged-in tourist
   isInvitationModalOpen = false;
@@ -148,11 +149,19 @@ export class ClubsComponent implements OnInit {
     return this.members
   }
 
+  loadReqMembers(): Tourist[] {
+    this.reqMembers = this.tourists.filter(tourist => this.selectedClub.requestIds.includes(tourist.id));
+    return this.reqMembers
+  }
+
 setActiveTab(tab: string) {
     this.activeTab = tab;
     if (tab === 'members' || this.members.length === 0) {
         this.loadMembers();
     }
+    if (tab === 'requests' || this.members.length === 0) {
+      this.loadReqMembers();
+  }
 }
 
 removeMember(member: Tourist) {
@@ -199,4 +208,45 @@ rejectInvitation(clubId: number) {
     this.invitedClubs = this.invitedClubs.filter((club) => club.id !== clubId);
   });
 }
+
+joinClub(clubId: number): void {
+  this.service.joinClub(clubId).subscribe({
+    next: () => {
+      this.getClubs();
+      //this.notificationService.notify({ message:'Club deleted successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
+    },
+    error: (err: any) => {
+      console.log(err);
+      this.notificationService.notify({ message:'Failed to request to join club. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+    }
+  })
+}
+
+acceptRequest(clubId: number, reqMemberId: number) {
+  this.service.acceptRequest(clubId, reqMemberId).subscribe(() => {
+    // Find and update the selected club
+    this.selectedClub = this.clubs.find((club) => club.id === clubId);
+    console.log("trenutni klub")
+    console.log(this.selectedClub)
+    if (!this.selectedClub.memberIds) {
+      this.selectedClub.memberIds = [];
+  }
+    this.selectedClub.memberIds.push(reqMemberId); // Use `push` instead of `add`
+    this.selectedClub.requestIds.pop(reqMemberId); // 
+    this.reqMembers = this.reqMembers.filter((reqMember) => reqMember.id === reqMemberId) // 
+    //this.selectedClub.requestIds = this.selectedClub.requestIds.filter((id:number) => id === reqMemberId)
+    console.log(this.selectedClub)
+    this.loadMembers()
+    this.loadReqMembers()
+  });
+}
+
+denyRequest(clubId: number, reqMemberId: number) {
+  this.service.denyRequest(clubId, reqMemberId).subscribe(() => {
+    this.selectedClub.requestIds.pop(reqMemberId); // 
+    this.reqMembers = this.reqMembers.filter((reqMember) => reqMember.id === reqMemberId) //
+    this.loadReqMembers() 
+  });
+}
+
 }

@@ -466,3 +466,25 @@ tbody tr.active-row {
       color: #aaa;
       text-align: center;
     }
+
+    .join-club-button {
+      display: inline-block;
+      cursor: pointer;
+      padding: 16px 16px;
+      background-color: #34AB45 ; /* Boja dugmeta (možete koristiti vašu željenu boju) */
+      color: white;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Senka */
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px; /* Adds space between buttons */
+  }
+  
+  .action-buttons button {
+      display: inline-block;
+  }

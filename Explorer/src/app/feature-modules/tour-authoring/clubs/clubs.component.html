@@ -18,6 +18,9 @@
                         <p>{{ cl.description }}</p>
                     </div>
                     <div class="card-actions">
+                        <label color="primary" (click)="joinClub(cl.id || 0)" class="join-club-button">
+                            Request Join
+                        </label>
                         <button color="accent" (click)="deleteClub(cl.id || 0)" mat-icon-button matTooltip="Delete club">
                             <img src="assets/icons/delete.png" alt="Delete Icon" />
                         </button>
@@ -25,7 +28,7 @@
                             <img src="assets/icons/edit.png" alt="Edit Icon" />
                         </button>
                         <button color="primary" (click)="openModal(cl)" mat-icon-button matTooltip="Manage club">
-                            <img src="assets/icons/manage.png" alt="Manage Icon" />
+                            <img src="assets/icons/equipment.png" alt="Manage Icon" />
                         </button>
                     </div>
                 </div>
@@ -55,6 +58,7 @@
             <div class="modal-tabs">
                 <button [class.active]="activeTab === 'invites'" (click)="setActiveTab('invites')">Invitations</button>
                 <button [class.active]="activeTab === 'members'" (click)="setActiveTab('members')">Members List</button>
+                <button [class.active]="activeTab === 'requests'" (click)="setActiveTab('requests')">Join Requests</button>
             </div>
 
             <!-- Tab Content -->
@@ -85,6 +89,24 @@
                         <button (click)="removeMember(member)">Remove</button>
                     </div>
                     <div *ngIf="members.length === 0">No members in the club.</div>
+                </div>
+            </div>
+
+            <div *ngIf="activeTab === 'requests'">
+                <div class="modal-content-container">
+                    <div class="modal-column-header">Username</div>
+                    <div class="modal-column-header">Id</div>
+                    <div class="modal-column-header">Action</div>
+
+                    <div class="modal-row" *ngFor="let reqMember of reqMembers">
+                        <span>{{ reqMember.username }}</span>
+                        <span>{{ reqMember.id }}</span>
+                        <span class="action-buttons">
+                            <button (click)="acceptRequest(selectedClub.id, reqMember.id!)">Accept</button>
+                            <button (click)="denyRequest(selectedClub.id, reqMember.id!)">Deny</button>
+                        </span>                    
+                    </div>
+                    <div *ngIf="reqMembers.length === 0">No join requests in the club.</div>
                 </div>
             </div>
         </div>
