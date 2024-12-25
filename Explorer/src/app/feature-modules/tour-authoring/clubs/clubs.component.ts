@@ -21,7 +21,8 @@ export class ClubsComponent implements OnInit {
   shouldRenderClubForm: boolean = false;
   shouldEdit: boolean = false;
   image: File;
-  tourists : Tourist[] = [] ; // List of tourists to display in modal
+  tourists : Tourist[] = [] ; // List of all tourists
+  touristsInv : Tourist[] = [] ; // List of tourists to display in modal
   isModalOpen = false;
   isLoading = false;
   members: Tourist[] = [];
@@ -30,6 +31,7 @@ export class ClubsComponent implements OnInit {
 
   invitedClubs: Clubs[] = []; // Clubs that invited the logged-in tourist
   isInvitationModalOpen = false;
+  isClubFormModalOpen = false;
 
   user : User
 
@@ -111,6 +113,8 @@ export class ClubsComponent implements OnInit {
 
     // Load the tourists list (replace with your actual method)
     this.loadTourists();
+    this.loadMembers();
+    this.loadReqMembers();
   }
 
   closeModal(): void {
@@ -125,6 +129,7 @@ export class ClubsComponent implements OnInit {
         // Assuming PagedResults has a `results` array with the tourists
         this.tourists = response;
         console.log(this.tourists)
+        this.touristsInv = this.tourists.filter((t) => t.id !== this.user.id)
       },
       error: (err) => {
         console.error('Failed to load tourists:', err);
@@ -187,6 +192,11 @@ closeInvitationModal() {
   this.isInvitationModalOpen = false;
 }
 
+openInvitationModal() {
+  this.viewInvitations()
+  //this.isInvitationModalOpen = true;
+}
+
 acceptInvitation(clubId: number) {
   this.service.acceptInvitation(clubId).subscribe(() => {
     this.invitedClubs = this.invitedClubs.filter((club) => club.id !== clubId);
@@ -247,6 +257,16 @@ denyRequest(clubId: number, reqMemberId: number) {
     this.reqMembers = this.reqMembers.filter((reqMember) => reqMember.id === reqMemberId) //
     this.loadReqMembers() 
   });
+}
+
+openClubFormModal(club?: any) {
+  this.selectedClub = club || null;
+  this.shouldEdit = !!club;
+  this.isClubFormModalOpen = true;
+}
+
+closeClubFormModal() {
+  this.isClubFormModalOpen = false;
 }
 
 }
