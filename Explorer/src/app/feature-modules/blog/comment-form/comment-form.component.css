@@ -1,10 +1,9 @@
-div {
-    width: 400px;
+.comment-form {
     display: flex;
-    gap: 20px;
-    flex-direction: row;
+    align-items: center; /* Poravnava elemente vertikalno na sredinu */
+    gap: 10px; /* Razmak između polja i dugmeta */
 }
 
-.mat-icon {
-    vertical-align: middle;
+mat-form-field {
+    width: 550px;
 }

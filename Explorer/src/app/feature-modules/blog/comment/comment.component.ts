@@ -200,6 +200,12 @@ export class CommentComponent {
 
   toggleCommentsSection() {
     this.isCommentsOpen = !this.isCommentsOpen;
+    if (this.blog.status === 2) {
+      alert("Blog is CLOSED!");
+      return;
+    }
+    this.shouldEdit = false;
+    this.shouldRenderCommentForm = true;
   }
 
   deleteComment(id: any): void {
@@ -245,14 +251,5 @@ export class CommentComponent {
     this.selectedComment = comment;
     this.shouldRenderCommentForm = true;
     this.shouldEdit = true;
-  }
-
-  onAddClicked(): void {
-    if (this.blog.status === 2) {
-      alert("Blog is CLOSED!");
-      return;
-    }
-    this.shouldEdit = false;
-    this.shouldRenderCommentForm = true;
   }
 }

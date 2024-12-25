@@ -1,14 +1,20 @@
 <form [formGroup]="commentForm">
-    <div>
-        <mat-form-field>
-            <mat-label>Text</mat-label>
-            <textarea matInput formControlName="text" cdkTextareaAutosize cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"></textarea>
+    <div class="comment-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Comment</mat-label>
+            <textarea matInput
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="1"
+                      formControlName="text"
+                      placeholder="Enter comment"
+                      cdkAutosizeMaxRows="5"></textarea>
         </mat-form-field>
 
-        <button *ngIf="!shouldEdit" class="primary-button" type="submit" (click)="addComment()"
-            mat-raised-button>Submit</button>
-        <button *ngIf="shouldEdit" class="primary-button" type="submit" (click)="updateComment()"
-            mat-raised-button>Update</button>
+        <button *ngIf="!shouldEdit" color="primary" (click)="addComment()" mat-icon-button matTooltip="Add comment">
+            <img src="assets/icons/send.png" alt="Send Icon"/>
+        </button>
+        <button *ngIf="shouldEdit" color="primary" (click)="updateComment()" mat-icon-button matTooltip="Update comment">
+            <img src="assets/icons/send.png" alt="Send Icon"/>
+        </button>
     </div>
 </form>

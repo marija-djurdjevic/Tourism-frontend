@@ -1,174 +1,196 @@
-#tour {
-    margin-top: 20px;
-    margin-left: 20px;
-    font-family: 'Arial', sans-serif;
-}
-
-#tour p {
-    font-size: 24px;
-    font-weight: bold;
-    color: #3f51b5;
-    margin-bottom: 10px;
-}
-
-hr {
-    border: none;
-    height: 2px;
-    background-color: #3f51b5;
-    margin-bottom: 20px;
-}
-
-#tour-details {
-    display: flex;
-    flex-direction: row;
-    gap: 50px;
-    align-items: flex-start;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95em;
-    font-family: 'Arial', sans-serif;
-    min-width: 400px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-thead tr {
-    background-color: #3f51b5;
-    color: #ffffff;
-    text-align: left;
-}
-
-th, td {
-    padding: 15px 20px;
-    text-align: left;
-    vertical-align: middle;
-}
-
-th {
-    background-color: #303f9f;
-    color: #ffffff;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-    transition: background-color 0.3s ease;
-}
-
-tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-tbody tr:nth-of-type(even) {
-    background-color: #f9f9f9;
-}
-
-tbody tr:last-of-type {
-    border-bottom: 2px solid #3f51b5;
-}
-
-button {
-    background-color: #3f51b5;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #303f9f;
-}
-
-button:focus {
-    outline: none;
-}
-
-tbody tr.active-row {
-    font-weight: bold;
-    color: #3f51b5;
-}
-
-@media screen and (max-width: 768px) {
-    table {
-        font-size: 0.8em;
-    }
-    
-    th, td {
-        padding: 10px 15px;
-    }
-}
-.modal-overlay {
-    position: fixed;
+#imgb {
+    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    height: 100%;  /* Pokriva celu visinu ekrana */
+    width: 100%;   /* Pokriva celu širinu ekrana */
+    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+    z-index: -1;  /* Da bude ispod sadržaja */
+    opacity: 0.5;  /* Bleda slika */
   }
+  
+  #purchased {
+      display: flex;
+      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+      align-items: center; /* Horizontalno centrirano */
+      flex-direction: column; /* Elementi idu vertikalno */
+      margin-top: 20px; /* Dodatni razmak od vrha */
+  }
+  
+  #purchased-details {
+      display: flex;
+      flex-direction: column; /* Ili row ako kartice treba horizontalno */
+      justify-content: center; /* Centriranje horizontalno */
+      align-items: center; /* Centriranje vertikalno */
+      gap: 50px; /* Razmak između elemenata */
+      width: 100%; /* Koristi celu širinu roditelja */
+  }
+  
+  .purchased-title {
+      font-size: 2em; /* Povećava veličinu fonta */
+      font-weight: bold; /* Čini tekst debljim */
+      text-align: center; /* Centriranje naslova */
+      margin-bottom: 10px; /* Razmak između naslova i linije */
+      color: black; /* Boja naslova (možeš prilagoditi) */
+  }
+  
+  .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Razmak između kartica */
+      justify-content: center; /* Centriranje kartica */
+      width: 100%; /* Osiguraj da zauzima punu širinu */
+      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
+      margin: 0 auto; /* Centriranje na sredinu */
+  }
+    
+    .card {
+      border-radius: 8px; /* Zaobljeni uglovi */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
+      width: 300px; /* Širina kartice */
+      padding: 16px; /* Unutrašnji razmak */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px;
+      background-color: #ffffff;
+      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      transition: transform 0.3s ease-in-out;
+    }
+  
+    .card-content {
+      margin: 10px;
+      text-align: left; /* Tekst poravnat na levo */
+      width: 100%; /* Puni širinu kartice */
+    }
+    
+    .card-content h3 {
+      margin: 0;
+      font-size: 20px;  /* Adjust this value to make it larger or smaller */
+      font-weight: bold;  /* Make the text bold */
+  }
+    
+    .card-content p {
+      margin: 8px 0;
+      color: #666;
+    }
+    
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
 
-  .modal-content td img {
-    width: 100px; /* Adjust the width as desired */
-    height: auto; /* Keep the aspect ratio */
-    border-radius: 5px; /* Optional: add rounded corners */
-    object-fit: cover; /* Ensures the image scales properly without distortion */
-}
+    .icon-item1 {
+        display: flex;
+        flex-direction: row; /* Vertikalno poravnanje unutar jednog elementa */
+        align-items: center; /* Centriranje ikonice i teksta unutar jednog kontejnera */
+      }
+      
+      .icon-item2 {
+        display: flex;
+        flex-direction: column; /* Vertikalno poravnanje unutar jednog elementa */
+        align-items: center; /* Centriranje ikonice i teksta unutar jednog kontejnera */
+        gap: 8px;
+        }
+      
+      .status-text {
+        margin-top: 4px; /* Razmak između ikonice i teksta */
+        font-size: 0.85rem; /* Veličina fonta za tekst */
+        font-weight: bold;
+        text-align: center;
+      }
   
-  /* Modal Content */
-  .modal-content {
-    background: #fff;
-    padding: 60px;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 600px;
-    max-height: 100%;
-    overflow-y: auto;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .modal-content h2 {
-    margin-top: 0;
-  }
-  
-  .modal-content table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .modal-content th, .modal-content td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .modal-content th {
-    background-color: #303f9f;
-  }
-  
-  .modal-content button {
-    margin-top: 20px;
-  }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+    }
 
-  .execute-button {
-    background-color: #ff9800; /* Podrazumevana boja */
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 8px 16px;
-    font-weight: bold;
-    margin-left: 10px;
-    font-size: 16px;
-    transition: background-color 0.3s ease; /* Glađi prelaz boje */
-  }
-  
-  .execute-button:hover {
-    background-color: #e68a00; /* Tamnija nijansa narandžaste na hover */
-  }
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      
+      .modal-content {
+        position: relative;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        color: #666;
+        width: 80%;
+        max-width: 600px;
+        max-height: 700px; /* Ograniči visinu na 90% visine ekrana */
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .modal-content h2 {
+        color: black;
+      }
+      
+      .modal-content p {
+        margin: 8px 0;
+        color: #666;
+      }
+      
+      .popup-actions {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      
+      .card-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-height: calc(90vh - 120px); /* Prilagodi visinu tako da kartice stanu unutar modala */
+        overflow-y: auto; /* Omogući vertikalno skrolovanje */
+        margin-top: 20px;
+      }
+
+      .card-image {
+        width: 100%;
+        height: auto;
+    }
+      
+      .keypoint-card {
+        background-color: #fdfdfd;
+        border: 3px solid #34AB45; 
+        border-radius: 8px;
+        margin-bottom: 16px;
+        padding: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .keypoint-card-content {
+        text-align: left;
+        width: 100%;
+      }
+      
+      .keypoint-card-content h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      
+      .keypoint-card-content p {
+        margin: 8px 0;
+        color: #666;
+      }
+      
+      
+      .keypoint-card:hover {
+        border: 3px solid #2ecc71;
+      }

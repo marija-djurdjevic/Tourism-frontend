@@ -121,6 +121,9 @@ onShowKeyPoints(tourId: number) {
   this.router.navigate(['/key-points', tourId]);
 }
 
+showEquipment(tourId: number):void{
+  this.router.navigate(['/tour-equipment'], { queryParams: { tourId } });
+}
 
 onPublish(tour: Tour): void {
   this.service.publishTour(tour).subscribe({
@@ -134,8 +137,10 @@ onPublish(tour: Tour): void {
       console.error('Error publishing tour:', err);
       this.notificationService.notify({ message: 'Failed to publish tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
     }
-  });
-}
+  })
+
+
+  };
 
 onArchive(tour: Tour) {
   this.service.archiveTour(tour).subscribe({

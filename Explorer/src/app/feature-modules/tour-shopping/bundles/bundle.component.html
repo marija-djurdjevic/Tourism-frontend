@@ -2,16 +2,13 @@
     <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="bundle">
         <p class="bundle-title">Bundles</p>
-        <div class="add-new-bundle">
-            <button class="primary-button" (click)="createNewBundle()">Create New Bundle</button>
-        </div>
         <hr>
         <div id="bundle-details">
             <div class="card-container">
                 <div class="card" *ngFor="let b of bundles">
                     <div class="card-content">
                         <h3>{{b.title}}</h3>
-                        <p><strong>Tours:</strong> {{b.tourIds.length}} tours</p>
+                        <p><strong>Number of tours:</strong> {{b.tourIds.length}}</p>
                         <p><strong>Price:</strong> {{b.price | currency}}</p>
                         <p><strong>Status:</strong> {{getStatusText(b.status)}}</p>
                     </div>
@@ -24,8 +21,8 @@
                             matTooltip="Archive bundle">
                             <img src="assets/icons/archive.png" alt="Archive Icon" />
                         </button>
-                        <button color="primary" (click)="viewTours(b)" mat-icon-button matTooltip="View Tours">
-                            <img src="assets/icons/keypoints.png" alt="Tours Icon" />
+                        <button color="primary" (click)="viewTours(b)" mat-icon-button matTooltip="Show tours">
+                            <img src="assets/icons/tour.png" alt="Tours Icon" />
                         </button>
                     </div>
                 </div>

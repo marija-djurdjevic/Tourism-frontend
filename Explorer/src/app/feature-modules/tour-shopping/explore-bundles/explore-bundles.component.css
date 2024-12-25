@@ -14,7 +14,6 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    min-height: 100vh;
     margin-top: 20px;
 }
 
@@ -48,7 +47,7 @@
 .card {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 300px;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -78,8 +77,22 @@
 
 .card-actions {
     display: flex;
-    gap: 8px;
-    margin-top: 10px;
+    justify-content: center; /* Centriranje ikonica horizontalno */
+    align-items: flex-start; /* Poravnanje ikonica prema vrhu */
+    gap: 12px; /* Razmak između ikonica */
+  }
+
+.icon-item {
+  display: flex;
+  flex-direction: column; /* Vertikalno poravnanje unutar jednog elementa */
+  align-items: center; /* Centriranje ikonice i teksta unutar jednog kontejnera */
+}
+
+.status-text {
+  margin-top: 4px; /* Razmak između ikonice i teksta */
+  font-size: 0.85rem; /* Veličina fonta za tekst */
+  font-weight: bold;
+  text-align: center;
 }
 
 .card:hover {

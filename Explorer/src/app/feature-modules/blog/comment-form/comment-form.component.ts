@@ -58,8 +58,10 @@ export class CommentFormComponent implements OnChanges {
       username: this.username,
     };
     this.service.addComment(this.blogId, newComment).subscribe({
-      next: () => { this.commentUpdated.emit(); 
+      next: () => {
+        this.commentUpdated.emit(); 
         this.notificationService.notify({ message:'Comment added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
+        this.commentForm.reset(); // Resetovanje forme nakon dodavanja komentara
       },
       error: () => {
         alert("Blog is CLOSED!");
@@ -67,7 +69,7 @@ export class CommentFormComponent implements OnChanges {
       }
     });
   }
-
+  
   updateComment(): void {
     const updatedComment: Comment = {
       ...this.comment,
@@ -75,8 +77,10 @@ export class CommentFormComponent implements OnChanges {
       editDate: new Date(),
     };
     this.service.updateComment(this.blogId, updatedComment).subscribe({
-      next: () => { this.commentUpdated.emit(); 
+      next: () => {
+        this.commentUpdated.emit();
         this.notificationService.notify({ message:'Comment updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
+        this.commentForm.reset(); // Resetovanje forme nakon ažuriranja komentara
       },
       error: () => {
         alert("Blog is CLOSED!");
@@ -84,4 +88,5 @@ export class CommentFormComponent implements OnChanges {
       }
     });
   }
+  
 }

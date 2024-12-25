@@ -14,7 +14,6 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    min-height: 100vh;
     margin-top: 20px;
 }
 
@@ -48,7 +47,7 @@
 .card {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 300px;
     height: auto;
     padding: 16px;
     display: flex;
