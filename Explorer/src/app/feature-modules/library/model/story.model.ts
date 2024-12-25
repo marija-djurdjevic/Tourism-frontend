@@ -6,5 +6,5 @@ export interface Story {
     bookId?:number;
     content:string;
     title:string;
-    status?:string;
+    status?:number;
 }

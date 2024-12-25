@@ -7,7 +7,6 @@ import { Story } from './model/story.model';
 import { Book } from './model/book.model';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -48,6 +47,11 @@ export class StoryService {
   
     return this.http.get<string>(`${environment.apiHost}user/tourist/getUsername`, { params, responseType: 'text' as 'json' });
   }
+  getUserForAdmin(userId: number): Observable<string> {
+    const params = { userId: userId.toString() };
+  
+    return this.http.get<string>(`${environment.apiHost}administrator/users/getUsername`, { params, responseType: 'text' as 'json' });
+  }
   getStoryById(id:number):Observable<Story>{
     return this.http.get<Story>(environment.apiHost + 'administrator/stories/byId', {
       params: {
@@ -59,6 +63,13 @@ export class StoryService {
   updateStory(story : Story): Observable<Story>{
     return this.http.put<Story>(`${environment.apiHost}administrator/stories/${story.id}`, story)
   }
+
+  getBooksForAuthor(): Observable<Book[]> {
+    return this.http.get<Book[]>(environment.apiHost + 'admin/books/forAdmin')
+  }
+
+
+  
 
   
 }

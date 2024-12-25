@@ -241,17 +241,9 @@ import { Story } from '../../library/model/story.model';
         },
       });
     }if(request.type==2){
+      this.flag = true
+      this.selectedRequest = request; 
       
-      this.service.updateRequestStatusStory(request).subscribe({
-        next: (updatedRequest: PublishRequest) => {
-          console.log('Request successfully updated:', updatedRequest);
-          this.flag = true
-          this.selectedRequest = updatedRequest; 
-        },
-        error: (err) => {
-          console.error('Error updating request:', err);
-        },
-      });
       
       
     }
@@ -323,7 +315,16 @@ import { Story } from '../../library/model/story.model';
 
     createBook(){
       if (this.selectedRequest) {
-        this.router.navigate(['/create-book', this.selectedRequest.entityId]);
+        this.router.navigate(['/create-book', this.selectedRequest.entityId, this.selectedRequest.id]);
+      } else {
+        console.error('No request selected to create a book.');
+      }
+
+    }
+
+    addStoryToBook(){
+      if (this.selectedRequest) {
+        this.router.navigate(['/add-story-to-book', this.selectedRequest.entityId, this.selectedRequest.id]);
       } else {
         console.error('No request selected to create a book.');
       }

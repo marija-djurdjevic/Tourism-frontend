@@ -36,7 +36,7 @@ export class StoryFormComponent {
       content: '',
       title:'',
       bookId: -500,
-      status: 'draft',
+      status: 0,
       imageId:-10,
       image:''
     };

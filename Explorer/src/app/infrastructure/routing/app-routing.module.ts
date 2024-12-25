@@ -52,6 +52,7 @@ import { StoryFormComponent } from 'src/app/feature-modules/library/story-form/s
 import { LibraryListComponent } from 'src/app/feature-modules/library/library-list/library-list.component';
 import { BookComponent } from 'src/app/feature-modules/library/book/book.component';
 import { BookFormComponent } from 'src/app/feature-modules/library/book-form/book-form.component';
+import { BookListComponent } from 'src/app/feature-modules/library/book-list/book-list.component';
 
 
 const routes: Routes = [
@@ -212,10 +213,16 @@ const routes: Routes = [
     canActivate:[AuthGuard]
   },
   {
-    path: 'create-book/:entityId',
+    path: 'create-book/:entityId/:requestId',
     component: BookFormComponent,
     canActivate:[AuthGuard]
   },
+  {
+    path: 'add-story-to-book/:entityId/:requestId',
+    component: BookListComponent,
+    canActivate: [AuthGuard]
+  },
+  
   {
     path:'library',
     component:LibraryListComponent,

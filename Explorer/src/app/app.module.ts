@@ -26,6 +26,7 @@ import { StoryFormComponent } from './feature-modules/library/story-form/story-f
 import { LibraryListComponent } from './feature-modules/library/library-list/library-list.component';
 import { BookComponent } from './feature-modules/library/book/book.component';
 import { BookFormComponent } from './feature-modules/library/book-form/book-form.component';
+import { BookListComponent } from './feature-modules/library/book-list/book-list.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { BookFormComponent } from './feature-modules/library/book-form/book-form
     StoryFormComponent,
     LibraryListComponent,
     BookComponent,
-    BookFormComponent
+    BookFormComponent,
+    BookListComponent
   ],
   imports: [
     FormsModule,

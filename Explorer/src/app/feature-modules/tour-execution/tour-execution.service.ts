@@ -283,5 +283,10 @@ export class TourExecutionService {
     return this.http.post<EncounterExecution>(' https://localhost:44333/api/tourist/encounterExecution/update', EncounterExecution)
   }
 
+  getRequest(id: number): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/publishRequest/getById`;
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.get<PublishRequest>(url, { params });
+  }
   
 }

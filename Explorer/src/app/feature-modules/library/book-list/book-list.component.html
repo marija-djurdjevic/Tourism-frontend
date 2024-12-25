@@ -1,0 +1,26 @@
+<div class="content">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+    <div class="okvir">
+      <div class="row" *ngFor="let chunk of chunkedEntities">
+        <div class="books-row">
+          <div class="book-container" *ngFor="let item of chunk">
+            <div class="background-square"></div>
+            <div class="jedan" [style.background-color]="item.bookColour" (click)="openStories(item.id)">
+              <div class="inner-frame">
+                <h1 style="color: rgb(7, 88, 26); font-weight: 500;">{{item.title}}</h1>
+                <p>By: &#64;{{ getUsernameByBookId(item.id!) || 'Unknown' }}</p>
+                <div class="book-footer">
+                  <img class="logo" src="../../../../assets/icons/download.png" alt="Logo">
+                  <p class="psw">PSW</p>
+                  <p class="travel">Travel</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row shelf-row">
+          <div class="shelf"></div>
+        </div>
+      </div>
+    </div>
+  </div>
