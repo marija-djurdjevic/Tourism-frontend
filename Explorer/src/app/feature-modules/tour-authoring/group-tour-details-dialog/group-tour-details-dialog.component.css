@@ -9,16 +9,54 @@
     color: #555;
   }
   
-  /* Tour details section */
-  .tour-details {
-    margin-bottom: 20px;
-    font-size: 1rem;
+  /* Tour title styling */
+  .tour-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
   }
   
-  .tour-details p {
-    margin: 5px 0;
-    line-height: 1.5;
-    color: #333;
+  /* Progress badge styling */
+  .progress-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  
+  .progress-badge.scheduled {
+    background-color: #2196f3; /* Blue */
+    color: white;
+  }
+  
+  .progress-badge.in-progress {
+    background-color: #ffc107; /* Yellow */
+    color: black;
+  }
+  
+  .progress-badge.finished {
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
+  
+  .progress-badge.canceled {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+  
+  /* Warning message styling */
+  .warning-message {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #856404;
+    font-size: 1rem;
   }
   
   /* Table styling */
@@ -32,7 +70,7 @@
     font-weight: bold;
     text-align: left;
     font-size: 1.1rem;
-    color: #3f51b5;
+    color: #333;
     border-bottom: 2px solid #ddd;
   }
   
@@ -47,28 +85,24 @@
     background-color: #f0f0f0;
   }
   
-  /* Empty data message */
-  .no-data {
-    text-align: center;
-    font-style: italic;
-    margin-top: 20px;
-    color: gray;
+  /* Dialog actions styling */
+  .start-button {
+    background-color: #4caf50; 
+    color: white;
   }
   
-  /* Dialog actions */
-  .mat-dialog-actions {
-    justify-content: flex-end;
-    padding-top: 10px;
-  }
-
-  .warning-message {
-    background-color: #fff3cd;
-    border: 1px solid #ffeeba;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    color: #856404;
-    font-size: 1rem;
+  .cancel-button {
+    background-color: #f44336; 
+    color: white;
   }
   
+  .finish-button {
+    background-color: #4caf50; 
+    color: white;
+  }
+  
+  .close-button {
+    background-color: #9e9e9e; 
+    color: white;
+  }
   

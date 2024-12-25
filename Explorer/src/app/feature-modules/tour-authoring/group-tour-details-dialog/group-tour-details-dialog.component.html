@@ -8,8 +8,10 @@
 
   <!-- Tour details -->
   <div *ngIf="groupTour && !isLoading" class="tour-details">
-    <p><strong>Tour Name:</strong> {{ groupTour.name }}</p>
-    <p><strong>Progress:</strong> {{ getProgressText(groupTour.progress) }}</p>
+    <h3 class="tour-title">{{ groupTour.name }}</h3>
+    <div class="progress-badge" [ngClass]="getProgressClass(groupTour.progress)">
+      {{ getProgressText(groupTour.progress) }}
+    </div>
     <p><strong>Minimal Number of Tourists:</strong> {{ groupTour.touristNumber }}</p>
     <p><strong>Start Time:</strong> {{ groupTour.startTime | date: 'medium' }}</p>
   </div>
@@ -23,7 +25,7 @@
 
   <!-- Table of registered tourists -->
   <div *ngIf="!isLoading && filteredExecutions.length > 0">
-    <h3>Registered Tourists</h3>
+    <h4>Registered Tourists</h4>
     <table mat-table [dataSource]="filteredExecutions" class="styled-table mat-elevation-z8">
       <!-- Tourist Full Name -->
       <ng-container matColumnDef="fullName">
@@ -45,18 +47,23 @@
 
 <!-- Dialog actions -->
 <mat-dialog-actions align="end">
-    <div *ngIf="showCancelOrStart()">
-        <button mat-button (click)="cancelTour()" color="warn">Cancel</button>
-        
-      </div>
-  <button mat-button (click)="startTour()" *ngIf="groupTour?.progress === 0 && canStartTour() && filteredExecutions.length !== 0" color="accent">
-    Start
-  </button>
-  <button mat-button 
-  (click)="finishTour()" 
-  *ngIf="groupTour?.progress === 1" 
-  color="primary">
-        Finish
-    </button>
-  <button mat-button (click)="close()" color="primary">Close</button>
+  <button mat-raised-button 
+          *ngIf="groupTour?.progress === 0 && canStartTour()" 
+          color="primary" 
+          class="start-button" 
+          (click)="startTour()">Start</button>
+  
+  <button mat-raised-button 
+          *ngIf="groupTour?.progress === 0 && !isTourStartable()" 
+          color="warn" 
+          class="cancel-button" 
+          (click)="cancelTour()">Cancel</button>
+  
+  <button mat-raised-button 
+          *ngIf="groupTour?.progress === 1" 
+          color="accent" 
+          class="finish-button" 
+          (click)="finishTour()">Finish</button>
+
+  <button mat-button (click)="close()" class="close-button">Close</button>
 </mat-dialog-actions>

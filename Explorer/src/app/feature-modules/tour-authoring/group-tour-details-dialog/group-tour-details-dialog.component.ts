@@ -225,6 +225,21 @@ export class GroupTourDetailsDialogComponent {
     });
   }
   
+  getProgressClass(progress: number): string {
+    switch (progress) {
+      case 0:
+        return 'scheduled'; 
+      case 1:
+        return 'in-progress'; 
+      case 2:
+        return 'finished'; 
+      case 3:
+        return 'canceled'; 
+      default:
+        return ''; 
+    }
+  }
+  
 
   close(): void {
     this.dialogRef.close();
