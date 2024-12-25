@@ -271,6 +271,10 @@ export class TourExecutionService {
     return this.http.put<PublishRequest>(url, requestDto);
   }
 
+  declineRequestStatusStory(requestDto: PublishRequest): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/stories/status/${requestDto.id}`;
+    return this.http.put<PublishRequest>(url, requestDto);
+  }
   updateRequestStatusObject(requestDto: PublishRequest): Observable<PublishRequest> {
     const url = `${environment.apiHost}administrator/object/${requestDto.id}`;
     return this.http.put<PublishRequest>(url, requestDto);
@@ -281,6 +285,10 @@ export class TourExecutionService {
   }
   updateEncounterExecution(EncounterExecution: EncounterExecution): Observable<EncounterExecution> {
     return this.http.post<EncounterExecution>(' https://localhost:44333/api/tourist/encounterExecution/update', EncounterExecution)
+  }
+
+  unlockStory(storyId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiHost}tourist/stories/unlockStory/${storyId}`);
   }
 
   getRequest(id: number): Observable<PublishRequest> {

@@ -15,10 +15,13 @@ export class StoryService {
   constructor(private http: HttpClient) { }
 
  
-  addStory(story : Story): Observable<Story>{
-    return this.http.post<Story>(environment.apiHost +'author/story', story)
+  addStory(story : Story, keyId : number): Observable<Story>{
+    return this.http.post<Story>(environment.apiHost +'author/story', story, {
+      params: {
+        keyId: keyId.toString()
+      }
+    });
   }
-
   addBook(book : Book): Observable<Book>{
     return this.http.post<Book>(environment.apiHost +'admin/books/createBook', book)
   }

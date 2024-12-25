@@ -147,5 +147,7 @@ export class KeyPointComponent implements OnInit {
   addStory(id:number|undefined){
     this.router.navigate(['/story-form',id]);
   }
+
+  
   
 }

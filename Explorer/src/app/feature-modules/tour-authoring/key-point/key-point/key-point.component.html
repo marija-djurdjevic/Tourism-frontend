@@ -21,9 +21,10 @@
                         <p><strong>Description:</strong> {{ keyPoint.description }}</p>
                         <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
                         <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
+                        <p><strong>StoryId:</strong> {{ keyPoint.storyId }}</p>
                         <div class="buttonss">
                             <button class="add-encounter-button" (click)="addEncounter(keyPoint.id)" >Add encounter</button>
-                            <button class="add-encounter-button" (click)="addStory(keyPoint.id)" >Add story</button>
+                            <button class="add-story-button" (click)="addStory(keyPoint.id)"  [disabled]="keyPoint.storyId  !== null"> {{ keyPoint.storyId !== null ? 'Story added' : 'Add story' }}</button>
                         </div>
                     </div>
                     <div class="card-footer">

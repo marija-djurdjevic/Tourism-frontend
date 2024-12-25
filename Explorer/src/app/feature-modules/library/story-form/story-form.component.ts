@@ -67,7 +67,7 @@ export class StoryFormComponent {
 }
 
 addStory(story: Story): void {
-  this.service.addStory(story).subscribe({
+  this.service.addStory(story, this.keyPointId).subscribe({
     next: (response) => {
       console.log('Added Story', response);
       this.snackBar.open('Story added successfully!', 'Close', {

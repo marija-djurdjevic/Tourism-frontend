@@ -143,6 +143,17 @@ export class TourSessionComponent implements OnInit {
       this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
       if (distance <= proximityThreshold && this.required.length < 1) {
         this.addKeyPointToCompleted(nextKeyPoint);
+        if (nextKeyPoint.storyId) {
+          this.tourExecutionService.unlockStory(nextKeyPoint.storyId).subscribe({
+            next: (result) => {
+              this.snackBar.open('Congratulations! You unlocked story for this keypoint!', 'Close', {
+                duration: 3000,
+                panelClass: "succesful"
+              });   
+            }
+          });
+             
+        }
       }
       if(this.required.length == 0){
         this.snackBar.open('You have required encounters to complete.', 'Close', {

@@ -263,6 +263,9 @@ import { Story } from '../../library/model/story.model';
       });
     }
     }
+
+
+
     rejectRequest(request: PublishRequest | undefined): void {
       if (!request) {
         console.error('Request is undefined.');
@@ -291,6 +294,21 @@ import { Story } from '../../library/model/story.model';
           console.error('Error updating request:', err);
         },
       });
+    }else if(request.type==2){
+      this.service.declineRequestStatusStory(request).subscribe({
+        next: (updatedRequest: PublishRequest) => {
+          console.log('Request successfully rejected:', updatedRequest);
+    
+          this.entities = this.entities.filter((e) => e.id !== request.id);
+    
+          
+          this.displayedEntities = [...this.entities];
+        },
+        error: (err) => {
+          console.error('Error updating request:', err);
+        },
+      });
+    
     }else{
       this.service.updateRequestStatusObject(request).subscribe({
         next: (updatedRequest: PublishRequest) => {
