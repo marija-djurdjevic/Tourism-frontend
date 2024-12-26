@@ -206,6 +206,10 @@
     color: #333;
 }
 
+.blogs-header {
+  text-align: center; /* Centriranje naslova */
+  margin-bottom: 10px; /* Razmak između naslova i linije */
+}
 .card-header h3 {
     margin: 0;
     font-size: 20px;
