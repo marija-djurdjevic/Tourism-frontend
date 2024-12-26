@@ -151,7 +151,9 @@ export class BookListComponent {
 
     
     
-    this.router.navigate(['/publishRequestList']);
+      this.router.navigate(['/publishRequestList'], {
+        queryParams: { reload: new Date().getTime() },
+      });
   }
   
 
