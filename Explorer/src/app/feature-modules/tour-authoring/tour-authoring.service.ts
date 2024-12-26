@@ -11,6 +11,8 @@ import { environment } from 'src/env/environment';
 import { TransportInfo, TransportType } from './model/transportInfo.model';
 import { Tourist } from './model/tourist.model';
 import { KeyPoint } from './model/key-point.model';
+import { GroupTour } from './model/group-tour.model';
+import { GroupTourExecution } from '../tour-shopping/model/group-tour-exectuion.model';
 import { ErrorHandlerService } from 'src/app/shared/error-handler.service';
 
 @Injectable({
@@ -256,6 +258,7 @@ export class TourAuthoringService {
       })
     );
   }
+  
   updateTour(tour: Tour): Observable<Tour> {
     return this.http.put<Tour>(`${environment.apiHost}administration/tour/${tour.id}`, tour).pipe(
       tap((response) => {
@@ -267,6 +270,14 @@ export class TourAuthoringService {
     );
   }
 
+  updateGroupTour(tour: GroupTour): Observable<GroupTour> {
+    return this.http.put<GroupTour>(`${environment.apiHost}administration/tour/group/${tour.id}`, tour);
+  }
+  
+  cancelGroupTour(tour: GroupTour): Observable<GroupTour> {
+    return this.http.put<GroupTour>(`${environment.apiHost}administration/tour/group/cancel/${tour.id}`, tour);
+  }
+  
   calculateDistance(latlngs: [number, number][]): number {
     let totalDistance = 0;
     for (let i = 0; i < latlngs.length - 1; i++) {
@@ -420,5 +431,27 @@ export class TourAuthoringService {
         return throwError(() => error);
       })
     );
+  }
+
+  addGroupTour(groupTour: GroupTour): Observable<GroupTour> {
+    const url = `${environment.apiHost}group-tour`; 
+    return this.http.post<GroupTour>(environment.apiHost + 'administration/tour/group-tour', groupTour);
+  }
+
+  getAllGroupTours(): Observable<PagedResults<GroupTour>> {
+    return this.http.get<PagedResults<GroupTour>>(environment.apiHost + 'administration/tour/group-tours')
+  }
+
+  getRegularTours(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiHost}/regular`);
+  }
+
+  getAllGroupTourExecutions(): Observable<PagedResults<GroupTourExecution>> {
+    return this.http.get<PagedResults<GroupTourExecution>>(environment.apiHost + 'author/groupTourExecution')
+  }
+
+  getUserProfileById(userId: number): Observable<Tourist> {
+    console.log(`Poziva se API za userId: ${userId}`);
+    return this.http.get<Tourist>(`${environment.apiHost}author/profile/${userId}`);
   }
 }

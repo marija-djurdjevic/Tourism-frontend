@@ -7,6 +7,9 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Coupon } from '../../tour-shopping/model/coupon.model';
 import { TourShoppingService } from '../../tour-shopping/tour-shopping.service';
+import { GroupTour } from '../model/group-tour.model';
+import { MatDialog } from '@angular/material/dialog';
+import { GroupTourDetailsDialogComponent } from '../group-tour-details-dialog/group-tour-details-dialog.component';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
@@ -18,12 +21,15 @@ import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 export class TourComponent implements OnInit {
 
   tours: Tour[] = [];
+  groupTours: GroupTour[] = [];
   selectedTour: Tour;
   shouldRenderTourForm: boolean = false;
   shouldEdit: boolean = false;
   isLoading = false;
   coupons: Coupon[] = [];
   isCouponModalOpen = false;
+  isToursClicked = true;
+  isGroupToursClicked = false;
 
   // Controls visibility of the coupon form
   isCouponFormVisible: boolean = false;
@@ -43,12 +49,47 @@ export class TourComponent implements OnInit {
       allDiscounted: false,
     };
 
-  constructor(private service: TourAuthoringService, private notificationService: NotificationService, private router: Router, private authService: AuthService,
-    private shoppingService: TourShoppingService
+  constructor(private service: TourAuthoringService, private notificationService: NotificationService, private snackBar:MatSnackBar, private router: Router, private authService: AuthService,
+    private shoppingService: TourShoppingService, private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.getTours();
+    this.getGroupTours();
+  }
+
+  openDialog(groupTourId: number): void {
+    console.log('Otvaranje dijaloga za grupnu turu sa ID:', groupTourId);
+    const dialogRef = this.dialog.open(GroupTourDetailsDialogComponent, {
+      width: '800px',
+      height: '600px',
+      data: { groupTourId }, // Prosleđeni podaci
+    });
+  
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Dijalog zatvoren');
+      this.getGroupTours();
+    });
+  }
+  
+  getProgressClass(progress: number): string {
+    switch (progress) {
+      case 0:
+        return 'scheduled';
+      case 1:
+        return 'in-progress';
+      case 2:
+        return 'finished';
+      case 3:
+        return 'canceled';
+      default:
+        return '';
+    }
+  }
+  
+
+  onAddGroupTour(): void {
+    this.router.navigate(['/add-group-tour']);
   }
 
   getTours(): void {
@@ -83,18 +124,61 @@ export class TourComponent implements OnInit {
     });
 }
 
-getDifficultyLabel(difficulty: number): string {
-  switch (difficulty) {
-    case 0:
-      return 'Easy';
-    case 1:
-      return 'Medium';
-    case 2:
-      return 'Hard';
-    default:
-      return 'Unknown';
+  getGroupTours(): void {
+    this.isLoading = true;
+    console.log("grupneee");
+    this.authService.user$.subscribe((loggedInUser) => {
+      if (loggedInUser && loggedInUser.role === 'author') {
+        console.log("usaosoaoaoaooaa");
+        this.service.getAllGroupTours().subscribe({
+          next: (result: PagedResults<GroupTour>) => {
+            // Filtriramo ture na osnovu authorId
+            this.groupTours = result.results.filter(tour => tour.authorId === loggedInUser.id);
+            console.log("usao ovdje glupan glupi");
+            console.log(this.groupTours);
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: 'succesful'
+            });
+          }
+        });
+      } else {
+        // Ako nije 'author', učitavamo sve ture bez filtriranja
+        this.service.getAllGroupTours().subscribe({
+          next: (result: PagedResults<GroupTour>) => {
+            this.groupTours = result.results;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: 'succesful'
+            });
+          }
+        });
+      }
+    });
   }
-}
+  
+
+  getDifficultyLabel(difficulty: number): string {
+    switch (difficulty) {
+      case 0:
+        return 'Easy';
+      case 1:
+        return 'Medium';
+      case 2:
+        return 'Hard';
+      default:
+        return 'Unknown';
+    }
+  }
+
 
 getStatusLabel(status: number): string {
   switch (status) {
@@ -109,9 +193,22 @@ getStatusLabel(status: number): string {
   }
 }
 
-onAddClicked(): void {
-  this.router.navigate(['/add-tour']);
-}
+  getProgressLabel(progress: number): string {
+    switch (progress) {
+      case 0:
+        return 'Scheduled';
+      case 1:
+        return 'In progress';
+      case 2:
+        return 'Finished';
+      default:
+        return 'Canceled';
+    }
+  }
+  
+  onAddClicked(): void {
+    this.router.navigate(['/add-tour']);
+  }
 
 onAddKeyPoint(tourId: number) {
   this.router.navigate(['/key-points-form', tourId]);
@@ -127,26 +224,25 @@ showEquipment(tourId: number):void{
 
 onPublish(tour: Tour): void {
   this.service.publishTour(tour).subscribe({
+     next: (result: Tour) => {
+    console.log('Tour published successfully:', result);
+    this.getTours();
+    this.getGroupTours();
+    this.notificationService.notify({ message: 'Tour published successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
+  },
+     error: (err) => {
+    console.error('Error publishing tour:', err);
+    this.notificationService.notify({ message: 'Failed to publish tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+  }
+  });
+ }
 
-    next: (result: Tour) => {
+  onArchive(tour: Tour) {
+    this.service.archiveTour(tour).subscribe({
+       next: (result: Tour) => {
       console.log('Tour published successfully:', result);
       this.getTours();
-      this.notificationService.notify({ message: 'Tour published successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
-    },
-    error: (err) => {
-      console.error('Error publishing tour:', err);
-      this.notificationService.notify({ message: 'Failed to publish tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
-    }
-  })
-
-
-  };
-
-onArchive(tour: Tour) {
-  this.service.archiveTour(tour).subscribe({
-    next: (result: Tour) => {
-      console.log('Tour published successfully:', result);
-      this.getTours();
+      this.getGroupTours();
       this.notificationService.notify({ message: 'Tour archived successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
     },
     error: (err) => {
@@ -154,6 +250,42 @@ onArchive(tour: Tour) {
       this.notificationService.notify({ message: 'Failed to publish tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
     }
   });
+}
+   
+  
+  onEditGroup(tour: GroupTour) {
+    this.shouldEdit = true;
+    this.selectedTour = tour;
+    this.router.navigate(['/add-group-tour'], {
+      queryParams: {
+        tour: JSON.stringify({
+          id: tour.id,
+          name: tour.name,
+          description: tour.description, 
+          difficulty: tour.difficulty,
+          tags: tour.tags,
+          status: tour.status,
+          price: tour.price,
+          publishedAt: tour.publishedAt,
+          archivedAt: tour.archivedAt,
+          avarageScore: tour.averageScore,
+          authorId: tour.authorId,
+          transportInfo: tour.transportInfo,
+          keyPoints: tour.keyPoints,
+          reviews: tour.reviews,
+          reviewStatus: tour.reviewStatus,
+          progress: tour.progress,
+          startTime: tour.startTime,
+          duration: tour.duration,
+          touristNumber: tour.touristNumber
+        })
+      }
+    })
+  }
+
+  onCouponsClicked(): void {
+  this.isCouponModalOpen = true;
+  this.loadCoupons();
 }
 
 onEdit(tour: Tour) {
@@ -180,11 +312,6 @@ onEdit(tour: Tour) {
       })
     }
   })
-}
-
-onCouponsClicked(): void {
-  this.isCouponModalOpen = true;
-  this.loadCoupons();
 }
 
 loadCoupons(){
@@ -356,4 +483,15 @@ resetCouponForm(): void {
   this.isCouponFormVisible = false;
 }
   
+  onGroupTours() {
+    this.isGroupToursClicked = true;
+    this.isToursClicked = false;
+  }
+
+  onTours() {
+    this.isGroupToursClicked = false;
+    this.isToursClicked = true;
+  }
+
+
 }

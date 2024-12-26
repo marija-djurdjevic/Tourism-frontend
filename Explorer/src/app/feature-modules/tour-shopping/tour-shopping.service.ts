@@ -13,6 +13,8 @@ import { Wallet } from './model/wallet.model';
 import { PaymentRecord } from './model/payment-record.model';
 import { Bundle } from './model/bundle.model';
 import { Coupon } from './model/coupon.model';
+import { GroupTourExecution } from './model/group-tour-exectuion.model';
+import { GroupTour } from '../tour-authoring/model/group-tour.model';
 import { ErrorHandlerService } from 'src/app/shared/error-handler.service';
 
 
@@ -200,5 +202,21 @@ export class TourShoppingService {
         return throwError(() => error);
       })
     );
+  }
+
+  groupTourParticipate(tourExecution: GroupTourExecution): Observable<GroupTourExecution> {
+    return this.http.post<GroupTourExecution>(environment.apiHost + 'tourist/groupTourExecution', tourExecution);
+  }
+
+  getAllParticipations(): Observable<PagedResults<GroupTourExecution>> {
+    return this.http.get<PagedResults<GroupTourExecution>>(environment.apiHost + 'tourist/groupTourExecution'); 
+  }
+
+  getAllGroupTours(): Observable<PagedResults<GroupTour>> {
+    return this.http.get<PagedResults<GroupTour>>(environment.apiHost + 'administration/tour/group-tours')
+  }
+
+  cancelParticipation(touristId: number, groupTourId: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiHost}tourist/groupTourExecution/${touristId}/${groupTourId}`);
   }
 }

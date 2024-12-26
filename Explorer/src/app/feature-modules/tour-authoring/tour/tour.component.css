@@ -1,37 +1,38 @@
 #imgb {
-    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    position: fixed;  
     top: 0;
     left: 0;
-    height: 100%;  /* Pokriva celu visinu ekrana */
-    width: 100%;   /* Pokriva celu širinu ekrana */
-    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
-    z-index: -1;  /* Da bude ispod sadržaja */
-    opacity: 0.5;  /* Bleda slika */
+    height: 100%; 
+    width: 100%;   
+    object-fit: cover;  
+    z-index: -1; 
+    opacity: 0.5; 
   }
   
   #tour {
       display: flex;
-      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
-      align-items: center; /* Horizontalno centrirano */
-      flex-direction: column; /* Elementi idu vertikalno */
-      margin-top: 20px; /* Dodatni razmak od vrha */
+      justify-content: flex-start;
+      align-items: center; 
+      flex-direction: column; 
+      min-height: 100vh; 
+      margin-top: 20px; 
   }
   
   #tour-details {
       display: flex;
-      flex-direction: column; /* Ili row ako kartice treba horizontalno */
-      justify-content: center; /* Centriranje horizontalno */
-      align-items: center; /* Centriranje vertikalno */
-      gap: 50px; /* Razmak između elemenata */
-      width: 100%; /* Koristi celu širinu roditelja */
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 50px; 
+      width: 100%;
   }
   
   .tour-title {
-      font-size: 2em; /* Povećava veličinu fonta */
-      font-weight: bold; /* Čini tekst debljim */
-      text-align: center; /* Centriranje naslova */
-      margin-bottom: 10px; /* Razmak između naslova i linije */
-      color: black; /* Boja naslova (možeš prilagoditi) */
+      font-size: 2em; 
+      font-weight: bold; 
+      text-align: center; 
+      margin-bottom: 10px; 
+      color: black;
   }
 
   .button-container {
@@ -52,38 +53,48 @@
   .card-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px; /* Razmak između kartica */
-      justify-content: center; /* Centriranje kartica */
-      width: 100%; /* Osiguraj da zauzima punu širinu */
-      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
-      margin: 0 auto; /* Centriranje na sredinu */
+      gap: 10px; 
+      justify-content: center; 
+      width: 100%; 
+      padding: 0; 
+      margin: 0 auto; 
   }
     
     .card {
-      border-radius: 8px; /* Zaobljeni uglovi */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
-      width: 300px;
+      border-radius: 8px; 
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+      width: 350px; 
       height: auto;
-      padding: 16px; /* Unutrašnji razmak */
+      padding: 16px; 
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 15px;
       background-color: #ffffff;
-      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      border: 3px solid #34AB45; 
       transition: transform 0.3s ease-in-out;
     }
+
+    .grouptourslabel {
+      font-size: 1.5rem; 
+      font-weight: bold; 
+      color: #2c3e50; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+      margin-bottom: 10px; 
+      display: block; 
+  }
   
     .card-content {
       margin: 10px;
-      text-align: left; /* Tekst poravnat na levo */
-      width: 100%; /* Puni širinu kartice */
+      text-align: left;
+      width: 100%; 
     }
     
     .card-content h3 {
       margin: 0;
-      font-size: 20px;  /* Adjust this value to make it larger or smaller */
-      font-weight: bold;  /* Make the text bold */
+      font-size: 20px; 
+      font-weight: bold;  
   }
     
     .card-content p {
@@ -100,7 +111,7 @@
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+      border: 3px solid #2ecc71; 
     }
     
     .add-card {
@@ -108,8 +119,8 @@
       justify-content: center;
       align-items: center;
       width: 300px;
-      height: auto; /* Visina dodaj kartice */
-      border: 2px dashed #ddd; /* Stilska granica za dodavanje */
+      height: auto; 
+      border: 2px dashed #ddd;
       color: #aaa;
       text-align: center;
     }
@@ -199,6 +210,155 @@ label {
   max-height: calc(90vh - 120px); /* Prilagodi visinu tako da kartice stanu unutar modala */
   overflow-y: auto; /* Omogući vertikalno skrolovanje */
   margin-top: 20px;
+}
+
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .card-header .tag {
+    background-color: #2196f3;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: bold;
+  }
+  
+  .card-body {
+    margin-top: 10px;
+  }
+  
+  .card-body .info p {
+    margin: 5px 0;
+  }
+  
+  .card-body .tags {
+    margin-top: 10px;
+  }
+  
+  .card-body .tags .tag {
+    display: inline-block;
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 0.875rem;
+  }
+  
+  .card-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .card-actions button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border: 2px dashed #ccc;
+    color: #777;
+  }
+  
+  /* Razmak između naslova i progresa ture */
+.card-content h3 {
+  margin-bottom: 5px;
+}
+
+.tour-progress {
+  display: inline-block;
+  margin-bottom: 5px; /* Veći razmak između naslova i progresa */
+  padding: 4px 10px;
+  border-radius: 12px;
+  background-color: #4caf50; /* Zelena boja */
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Stil za tagove */
+.tags {
+  margin-top: 10px;
+}
+
+.tags .tag {
+  display: inline-block;
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 3px 8px;
+  margin: 2px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+/* Progress Badge */
+.progress-badge {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* Boje za različite statuse */
+.progress-badge.scheduled {
+  background-color: #2196f3; /* Plava za Scheduled */
+}
+
+.progress-badge.in-progress {
+  background-color: #ffeb3b; /* Žuta za In Progress */
+  color: black;
+}
+
+.progress-badge.finished {
+  background-color: #4caf50; /* Zelena za Finished */
+}
+
+.progress-badge.canceled {
+  background-color: #f44336; /* Crvena za Canceled */
 }
 
 .coupon-card {

@@ -48,6 +48,7 @@ import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bun
 import { ExploreBundlesComponent } from 'src/app/feature-modules/tour-shopping/explore-bundles/explore-bundles.component';
 import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
 import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
+import { GroupTourFormComponent } from 'src/app/feature-modules/tour-authoring/group-tour-form/group-tour-form.component';
 import { BundleToursComponent } from 'src/app/feature-modules/tour-shopping/bundle-tours/bundle-tours.component';
 
 
@@ -212,6 +213,7 @@ const routes: Routes = [
   },
 
   //{ path: 'explore', component: AllTours },
+  { path: 'add-group-tour', component: GroupTourFormComponent },
 
 ];
 

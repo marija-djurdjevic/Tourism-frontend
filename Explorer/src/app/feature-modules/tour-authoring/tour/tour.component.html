@@ -2,13 +2,13 @@
     <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="tour">
         <p class="tour-title">My Tours</p>
-        <hr>
-        <div class="button-container">
-          <button mat-raised-button class="coupon-button" (click)="onCouponsClicked()">
-            My coupons
-          </button>
-        </div>
-        <div id="tour-details">
+        <div class="add-new-tour">
+            <button class="primary-button" (click)="onTours()">Individual tours</button>
+            <button class="primary-button" (click)="onGroupTours()">Group tours</button>
+            <button class="primary-button" (click)="onCouponsClicked()">My coupons</button>
+        </div> 
+         <hr>
+         <div *ngIf="isToursClicked" id="tour-details">
             <div class="card-container">
                 <div class="card" *ngFor="let t of tours">
                   <div class="card-content">
@@ -35,7 +35,7 @@
                       <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button matTooltip="Archive tour">
                           <img src="assets/icons/archive.png" alt="Archive Icon"/>
                       </button>
-                      <button color="primary" *ngIf="t.status === 0" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
+                      <button color="primary" *ngIf="t.status === 0 || t.status === 2" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
                         <img src="assets/icons/edit.png" alt="Edit Icon"/>
                       </button>
                   </div>
@@ -47,6 +47,62 @@
                 </div>
               </div>
         </div>
+        <div *ngIf="isGroupToursClicked" id="tour-details">
+          <div class="card-container">
+            <div class="card" *ngFor="let t of groupTours">
+              <div class="progress-badge" [ngClass]="getProgressClass(t.progress)">
+                {{ getProgressLabel(t.progress) }}
+              </div>
+              <div class="card-content">
+                <!-- Naslov ture -->
+                <h3>{{ t.name }}</h3>
+        
+                <!-- Opis ture -->
+                <p>{{ t.description }}</p>
+        
+                <!-- Informacije o turi -->
+                <p><strong>Difficulty:</strong> {{ getDifficultyLabel(t.difficulty) }}</p>
+                <p><strong>Status:</strong> {{ getStatusLabel(t.status) }}</p>
+                <p><strong>Price:</strong> {{ t.price | currency }}</p>
+                <p><strong>Date and Time:</strong> {{ t.startTime | date: 'dd.MM.yyyy, HH:mm' }}</p>
+                <p><strong>Minimal Tourists:</strong> {{ t.touristNumber }}</p>
+        
+                <!-- Tagovi -->
+                <div class="tags">
+                  <span *ngFor="let tag of t.tags" class="tag">{{ tag }}</span>
+                </div>
+              </div>
+        
+              <!-- Akcije -->
+              <div class="card-actions">
+                <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button matTooltip="Add new keypoint">
+                  <img src="assets/icons/add-keypoint.png" alt="Add Keypoint Icon" />
+                </button>
+                <button color="primary" (click)="onShowKeyPoints(t.id!)" mat-icon-button matTooltip="Show keypoints">
+                  <img src="assets/icons/keypoints.png" alt="Keypoints Icon" />
+                </button>
+                <button color="primary" *ngIf="t.status === 2 || t.status === 0" (click)="onPublish(t)" mat-icon-button matTooltip="Publish tour">
+                  <img src="assets/icons/publish.png" alt="Publish Icon" />
+                </button>
+                <button color="primary" *ngIf="t.status === 1" (click)="onArchive(t)" mat-icon-button matTooltip="Archive tour">
+                  <img src="assets/icons/archive.png" alt="Archive Icon" />
+                </button>
+                <button color="primary" *ngIf="t.status === 0 || t.status === 2" (click)="onEditGroup(t)" mat-icon-button matTooltip="Edit tour">
+                  <img src="assets/icons/edit.png" alt="Edit Icon" />
+                </button>
+                <button color="primary" (click)="openDialog(t.id!)" mat-icon-button matTooltip="Show details">
+                  <img src="assets/icons/group.png" alt="Show details" />
+                </button>
+              </div>
+            </div>
+            <div class="card add-card">
+              <button color="primary" (click)="onAddGroupTour()" mat-icon-button matTooltip="Add new tour">
+                <img src="assets/icons/add.png" alt="Add Icon" />
+              </button>
+            </div>
+          </div>
+        </div>
+        
     </div>
 
     <!-- Coupon Modal -->

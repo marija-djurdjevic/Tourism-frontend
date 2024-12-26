@@ -7,6 +7,7 @@ import { WeatherService } from '../../weather-service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
+
 @Component({
   selector: 'xp-key-point',
   templateUrl: './key-point.component.html',

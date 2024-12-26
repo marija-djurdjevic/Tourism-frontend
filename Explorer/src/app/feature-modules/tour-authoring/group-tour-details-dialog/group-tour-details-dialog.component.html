@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>Group Tour Details</h2>
+<mat-dialog-content>
+  <!-- Loader while data is loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading data...</p>
+  </div>
+
+  <!-- Tour details -->
+  <div *ngIf="groupTour && !isLoading" class="tour-details">
+    <h3 class="tour-title">{{ groupTour.name }}</h3>
+    <div class="progress-badge" [ngClass]="getProgressClass(groupTour.progress)">
+      {{ getProgressText(groupTour.progress) }}
+    </div>
+    <p><strong>Minimal Number of Tourists:</strong> {{ groupTour.touristNumber }}</p>
+    <p><strong>Start Time:</strong> {{ groupTour.startTime | date: 'medium' }}</p>
+  </div>
+
+  <div *ngIf="groupTour?.progress === 0 && !isTourStartable()" class="warning-message">
+    <p>
+      <strong>Warning:</strong> The tour does not have enough registered tourists to start. Minimum required: {{ groupTour?.touristNumber }}.
+    </p>
+    <p>You can cancel the tour or start it anyway.</p>
+  </div>
+
+  <!-- Table of registered tourists -->
+  <div *ngIf="!isLoading && filteredExecutions.length > 0">
+    <h4>Registered Tourists</h4>
+    <table mat-table [dataSource]="filteredExecutions" class="styled-table mat-elevation-z8">
+      <!-- Tourist Full Name -->
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef> Full Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.fullName }} </td>
+      </ng-container>
+
+      <!-- Table rows -->
+      <tr mat-header-row *matHeaderRowDef="['fullName']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['fullName']"></tr>
+    </table>
+  </div>
+
+  <!-- Message if no tourists are registered -->
+  <div *ngIf="!isLoading && !filteredExecutions.length" class="no-data">
+    <p>No tourists have registered for this tour yet.</p>
+  </div>
+</mat-dialog-content>
+
+<!-- Dialog actions -->
+<mat-dialog-actions align="end">
+  <button mat-raised-button 
+          *ngIf="groupTour?.progress === 0 && canStartTour()" 
+          color="primary" 
+          class="start-button" 
+          (click)="startTour()">Start</button>
+  
+  <button mat-raised-button 
+          *ngIf="groupTour?.progress === 0 && !isTourStartable()" 
+          color="warn" 
+          class="cancel-button" 
+          (click)="cancelTour()">Cancel</button>
+  
+  <button mat-raised-button 
+          *ngIf="groupTour?.progress === 1" 
+          color="accent" 
+          class="finish-button" 
+          (click)="finishTour()">Finish</button>
+
+  <button mat-button (click)="close()" class="close-button">Close</button>
+</mat-dialog-actions>

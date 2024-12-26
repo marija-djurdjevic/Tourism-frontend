@@ -22,8 +22,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
 import { SharedModule } from "./shared/shared.module";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NotificationComponent } from './shared/notification/notification.component';
-
 
 @NgModule({
   declarations: [
@@ -54,6 +55,8 @@ import { NotificationComponent } from './shared/notification/notification.compon
     MatOptionModule,
     MatInputModule,
     SharedModule,
+    MatDatepickerModule,
+    MatDialogModule
 ],
   providers: [
     {
