@@ -6,6 +6,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { ImageService } from 'src/app/shared/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-user-profile-form',
@@ -26,7 +28,7 @@ export class UserProfileFormComponent implements OnInit {
     private imageService: ImageService, 
     private authService: AuthService,
     private fb: FormBuilder,
-    private snackBar:MatSnackBar) { }
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.userProfileForm.patchValue(this.profile);
@@ -74,17 +76,11 @@ export class UserProfileFormComponent implements OnInit {
       this.layoutService.updateProfile(userProfile, this.user.role).subscribe({
         next: (_) => {
           this.profileUpdated.emit("Profile Successfully updated.")
-          this.snackBar.open('Profile updated successfully!', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Profile updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: (err: any) => {
           console.log(err);
-          this.snackBar.open('Failed to update profile. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to update profile. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     });
@@ -93,17 +89,11 @@ export class UserProfileFormComponent implements OnInit {
       this.layoutService.updateProfile(userProfile, this.user.role).subscribe({
         next: (_) => {
           this.profileUpdated.emit("Profile Successfully updated.")
-          this.snackBar.open('Profile updated successfully!', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Profile updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: (err: any) => {
           console.log(err);
-          this.snackBar.open('Failed to update profile. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to update profile. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     }

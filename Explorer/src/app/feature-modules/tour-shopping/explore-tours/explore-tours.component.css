@@ -98,10 +98,15 @@
 }
   
 .card-actions {
+    margin-top: auto;
     display: flex;
     justify-content: center; /* Centriranje ikonica horizontalno */
     align-items: flex-start; /* Poravnanje ikonica prema vrhu */
     gap: 12px; /* Razmak između ikonica */
+  }
+
+  .keypoint {
+    margin-top: auto;
   }
   
   .icon-item {
@@ -201,6 +206,10 @@
     color: #333;
 }
 
+.blogs-header {
+  text-align: center; /* Centriranje naslova */
+  margin-bottom: 10px; /* Razmak između naslova i linije */
+}
 .card-header h3 {
     margin: 0;
     font-size: 20px;
@@ -210,4 +219,49 @@
 .card-content p {
     margin: 8px 0;
     color: #666;
+}
+
+.grouptour-popup {
+  cursor: pointer;
+  color: #34AB45;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+  margin-left: auto;
+}
+
+.card-with-color {
+  background-color: #f0f0f0; /* Primer svetle boje za grupne ture */
+  border: 1px solid #333; /* Dodaj tamnu ivicu ako je potrebno */
+}
+
+.popup {
+  position: absolute;
+  background-color: #f9f9e5; /* Svetla pozadina */
+  border: 1px solid #ccc; /* Blaga ivica */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  top: -80px; /* Iznad labele */
+  left: 0; /* Podesite poziciju na osnovu layouta */
+  width: 250px; /* Fiksna širina */
+  z-index: 9999; ; /* Da se prikaže iznad drugih elemenata */
+  text-align: center; /* Centriran tekst */
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  opacity: 1;
+}
+
+.popup::before {
+  content: '';
+  position: absolute;
+  bottom: -10px; /* Trougao ispod prozora */
+  left: 20px; /* Prilagodite centriranje */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #f9f9e5; /* Boja pozadine pop-up-a */
 }

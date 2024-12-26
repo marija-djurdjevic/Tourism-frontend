@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Sale } from '../model/sale.model';
 import { SaleService } from '../sales.service';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-sales',
@@ -10,7 +12,8 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 })
 export class SalesComponent {
     constructor(
-        private salesService: SaleService
+        private salesService: SaleService,
+        private notificationService: NotificationService
     ) {}
     updatedSale: Sale | null = null;
     sales: Sale[];
@@ -27,6 +30,7 @@ export class SalesComponent {
             },
             error: () => {
                 console.log("ERROR LOADING SALES");
+                this.notificationService.notify({message: 'Error loading sales', notificationType:NotificationType.WARNING,duration: 3000});
             }
         });
     }
@@ -48,9 +52,11 @@ export class SalesComponent {
             next: () => {
                 console.log("USPESNO DELETEOVAN")
                 this.getSales()
+                this.notificationService.notify({message: 'Sale deleted', notificationType:NotificationType.SUCCESS,duration: 3000});
             },
             error: () => {
                 console.log("Error deleting sale");
+                this.notificationService.notify({message: 'Error deleting sale', notificationType:NotificationType.WARNING,duration: 3000});
             }
         });
     }
@@ -78,9 +84,11 @@ export class SalesComponent {
           next: () => {
             console.log('Sale updated:', updatedSale);
             this.updatedSale = null;
+            this.notificationService.notify({message: 'Sale updated', notificationType:NotificationType.SUCCESS,duration: 3000});
           },
           error: () => {
             console.log("Error updating sale");
+            this.notificationService.notify({message: 'Error updating sale', notificationType:NotificationType.WARNING,duration: 3000});
           }
         });
     }

@@ -12,6 +12,8 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { KeyPoint } from '../../tour-authoring/model/key-point.model';
 import { Object } from '../../tour-authoring/model/object.model';
 import { ImageService } from 'src/app/shared/image.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 import { StoryService } from '../../library/story.service';
 import { Story } from '../../library/model/story.model';
 
@@ -34,7 +36,7 @@ import { Story } from '../../library/model/story.model';
 
     usernamesMap: Map<number, string> = new Map();
     selectedRequest: PublishRequest | undefined;
-    constructor(private service: TourExecutionService,private storyService: StoryService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService, private cdr: ChangeDetectorRef) {
+    constructor(private service: TourExecutionService,private storyService: StoryService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService, private cdr: ChangeDetectorRef, private notificationService : NotificationService) {
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
           this.loadAllRequests(); // Reload key points whenever navigation ends
@@ -65,6 +67,7 @@ import { Story } from '../../library/model/story.model';
             },
             error: (err: any) => {
               console.log(err);
+              this.notificationService.notify({message: 'Error loading requests.', duration: 3000,notificationType:NotificationType.WARNING});
             }
           });
         }
@@ -127,6 +130,7 @@ import { Story } from '../../library/model/story.model';
             },
             error: err => {
               console.error(`Error loading KeyPoint with ID ${request.entityId}:`, err);
+              this.notificationService.notify({message: 'Error loading KeyPoint.', duration: 3000,notificationType:NotificationType.WARNING});
             },
           });
         }
@@ -160,6 +164,7 @@ import { Story } from '../../library/model/story.model';
             },
             error: err => {
               console.error(`Error loading Object with ID ${request.entityId}:`, err);
+              this.notificationService.notify({message: 'Error loading Object.', duration: 3000,notificationType:NotificationType.WARNING});
             },
           });
         }
@@ -221,11 +226,13 @@ import { Story } from '../../library/model/story.model';
     acceptRequest(request: PublishRequest | undefined): void {
       if (!request) {
         console.error('Request is undefined.');
+        this.notificationService.notify({message: 'Request is undefined.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
       if (!this.user || !this.user.id) {
         console.error('User is undefined or does not have an ID.');
+        this.notificationService.notify({message: 'User is undefined or does not have an ID.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
@@ -241,9 +248,11 @@ import { Story } from '../../library/model/story.model';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Request accepted.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error accepting request.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }if(request.type==2){
@@ -262,9 +271,11 @@ import { Story } from '../../library/model/story.model';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Object accepted.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error accepting object.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }
@@ -275,11 +286,13 @@ import { Story } from '../../library/model/story.model';
     rejectRequest(request: PublishRequest | undefined): void {
       if (!request) {
         console.error('Request is undefined.');
+        this.notificationService.notify({message: 'Request is undefined.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
       if (!this.user || !this.user.id) {
         console.error('User is undefined or does not have an ID.');
+        this.notificationService.notify({message: 'User is undefined or does not have an ID.', duration: 3000,notificationType:NotificationType.INFO});
         return;
       }
     
@@ -295,9 +308,11 @@ import { Story } from '../../library/model/story.model';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Request rejected.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error rejecting request.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }else if(request.type==2){
@@ -324,9 +339,11 @@ import { Story } from '../../library/model/story.model';
     
           
           this.displayedEntities = [...this.entities];
+          this.notificationService.notify({message: 'Object rejected.', duration: 3000,notificationType:NotificationType.SUCCESS});
         },
         error: (err) => {
           console.error('Error updating request:', err);
+          this.notificationService.notify({message: 'Error rejecting object.', duration: 3000,notificationType:NotificationType.WARNING});
         },
       });
     }

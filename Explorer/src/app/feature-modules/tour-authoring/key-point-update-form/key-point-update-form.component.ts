@@ -5,6 +5,8 @@ import { KeyPoint } from '../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Map, Marker } from 'leaflet';
 import * as L from 'leaflet';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-key-point-update-form',
@@ -26,7 +28,7 @@ private map: Map;
 constructor(
   private route: ActivatedRoute,
   private keyPointService: KeyPointService,
-  private snackBar: MatSnackBar,
+  private notificationService: NotificationService,
   private router: Router
 ) {}
 
@@ -80,18 +82,12 @@ getKeyPointById(id: number): void {
         this.selectedKeyPoint = keyPoint; 
       } else {
         console.error('Ključna tačka sa ovim ID-om nije pronađena.');
-        this.snackBar.open('Key point not found.', 'Close', {
-          duration: 3000,
-          panelClass: 'error'
-        });
+        this.notificationService.notify({ message:'Key point not found.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     },
     error: (error) => {
       console.error('Greška prilikom dobavljanja ključnih tačaka:', error);
-      this.snackBar.open('Failed to load key points. Please try again.', 'Close', {
-        duration: 3000,
-        panelClass: 'error'
-      });
+      this.notificationService.notify({ message:'Failed to load key points. Please try again.', duration: 3000, notificationType: NotificationType.ERROR });
     }
   });
 }
@@ -100,18 +96,12 @@ onUpdateKeyPoint(): void {
   this.keyPointService.updateKeyPoint(this.selectedKeyPoint.id!, this.selectedKeyPoint).subscribe({
     next: (updatedKeyPoint) => {
       console.log("Ključna tačka je uspešno ažurirana:", updatedKeyPoint);
-      this.snackBar.open('Key point updated successfully!', 'Close', {
-        duration: 3000,
-        panelClass: "succesful"
-      });
+      this.notificationService.notify({ message:'Key point updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       
     },
     error: (error) => {
       console.error("Greška prilikom ažuriranja ključne tačke: ", error);
-      this.snackBar.open('Failed to update key point. Please try again.', 'Close', {
-        duration: 3000,
-        panelClass: "error"
-      });
+      this.notificationService.notify({ message:'Failed to update key point. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
     }
   });
 }

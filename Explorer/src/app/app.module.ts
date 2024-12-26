@@ -22,22 +22,25 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TourShoppingModule } from './feature-modules/tour-shopping/tour-shopping.module';
 import { EncountersComponent } from './feature-modules/encounters/encounters/encounters.component';
 import { SharedModule } from "./shared/shared.module";
-import { StoryFormComponent } from './feature-modules/library/story-form/story-form.component';
+/*import { StoryFormComponent } from './feature-modules/library/story-form/story-form.component';
 import { LibraryListComponent } from './feature-modules/library/library-list/library-list.component';
 import { BookComponent } from './feature-modules/library/book/book.component';
 import { BookFormComponent } from './feature-modules/library/book-form/book-form.component';
-import { BookListComponent } from './feature-modules/library/book-list/book-list.component';
-
+import { BookListComponent } from './feature-modules/library/book-list/book-list.component';*/
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NotificationComponent } from './shared/notification/notification.component';
+import { StoryModule } from './feature-modules/library/story.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     EncountersComponent,
-    StoryFormComponent,
+  /*  StoryFormComponent,
     LibraryListComponent,
     BookComponent,
     BookFormComponent,
-    BookListComponent
+    BookListComponent*/
   ],
   imports: [
     FormsModule,
@@ -54,12 +57,18 @@ import { BookListComponent } from './feature-modules/library/book-list/book-list
     TourShoppingModule,
     AuthModule,
     HttpClientModule,
+    StoryModule,
+    /*
+      OVO JE ZAMJENJENO SA NOTIFICATION SERVICE, OD SADA NJEGA KORISTITI
     MatSnackBarModule,
+    */
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
     MatInputModule,
-    SharedModule
+    SharedModule,
+    MatDatepickerModule,
+    MatDialogModule
 ],
   providers: [
     {

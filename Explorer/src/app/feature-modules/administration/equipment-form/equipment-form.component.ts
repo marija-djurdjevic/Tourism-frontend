@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Equipment } from '../model/equipment.model';
 import { AdministrationService } from '../administration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-equipment-form',
@@ -15,7 +17,9 @@ export class EquipmentFormComponent implements OnChanges {
   @Input() equipment: Equipment;
   @Input() shouldEdit: boolean = false;
 
-  constructor(private service: AdministrationService,private snackBar:MatSnackBar) {
+  constructor(private service: AdministrationService,
+    private notificationService: NotificationService
+  ) {
   }
 
   ngOnChanges(): void {
@@ -38,17 +42,11 @@ export class EquipmentFormComponent implements OnChanges {
     this.service.addEquipment(equipment).subscribe({
       next: () => { 
         this.equimpentUpdated.emit() 
-        this.snackBar.open('Equipment added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Equipment added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to add equipment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add equipment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -61,17 +59,11 @@ export class EquipmentFormComponent implements OnChanges {
     equipment.id = this.equipment.id;
     this.service.updateEquipment(equipment).subscribe({
       next: () => { this.equimpentUpdated.emit();
-        this.snackBar.open('Equipment updated successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Equipment updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to update equipment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to update equipment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }

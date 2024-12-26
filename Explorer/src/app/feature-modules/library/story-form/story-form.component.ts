@@ -43,10 +43,23 @@ export class StoryFormComponent {
       image:''
     };
   }
-  onFileSelected(file: File): void {
-    this.selectedFile = file;  
+  onFileSelected(fileOrEvent: File | Event): void {
+    if (fileOrEvent instanceof File) {
+      // If the input is already a File
+      this.selectedFile = fileOrEvent;
+    } else if (fileOrEvent instanceof Event) {
+      // If the input is an Event, extract the File
+      const input = fileOrEvent.target as HTMLInputElement;
+      if (input && input.files && input.files[0]) {
+        this.selectedFile = input.files[0];
+      } else {
+        console.error('No file selected');
+        return;
+      }
+    }
     console.log('Selected file:', this.selectedFile);
   }
+  
   onSubmit(): void {
 
     this.story.content = this.storyForm.get('content')?.value;

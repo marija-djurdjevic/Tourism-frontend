@@ -4,38 +4,35 @@
 </div>
 
 <div *ngIf="!isLoading">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="bundle">
-        <p>Bundles</p>
+        <p class="bundle-title">Bundles</p>
         <hr>
-        <br>
         <div id="bundle-details">
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tours</th>
-                            <th>Price</th>
-                            <th>Status/Action</th> <!-- Combined Status/Action column -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let b of bundles">
-                            <td>{{ b.id }}</td>
-                            <td>
-                                <a>{{ b.tourIds.length }} tours</a>
-                            </td>
-                            <td>{{ b.price | currency }}</td>
-                            <td>
-                                <!-- If bundle is purchased, show "Purchased", otherwise show Buy button -->
-                                <span *ngIf="isPurchased(b.id!)">Purchased</span>
-                                <button *ngIf="!isPurchased(b.id!)" (click)="purchaseBundle(b)">
-                                    Purchase
+            <div class="card-container">
+                <div class="card" *ngFor="let b of bundles">
+                    <div class="card-content">
+                        <h3>{{ b.title }}</h3>
+                        <p><strong>Tours:</strong> {{ b.tourIds.length }} tours</p>
+                        <p><strong>Price:</strong> {{ b.price | currency }}</p>
+                    </div>
+                    <div class="card-actions">
+                        <div class="icon-item">
+                            <button color="primary" (click)="viewTours(b)" mat-icon-button matTooltip="Show tours">
+                                <img src="assets/icons/tour.png" alt="Tour Icon" />
+                            </button>
+                            <span class="status-text" style="color: #34AB45;" *ngIf="isPurchased(b.id!)">Purchased</span>
+                        </div>
+
+                        <div class="icon-item">
+                            <ng-container *ngIf="!isPurchased(b.id!)">
+                                <button color="primary" (click)="purchaseBundle(b)" mat-icon-button matTooltip="Purchase bundle">
+                                    <img src="assets/icons/shopping-cart.png" alt="Purchase Icon" />
                                 </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

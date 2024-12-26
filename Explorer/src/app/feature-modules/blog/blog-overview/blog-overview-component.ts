@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { BlogForm } from '../blog-form/blog-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageService } from 'src/app/shared/image.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 @Component({
   selector: 'xp-blog-overview',
   templateUrl: './blog-overview-component.html',
@@ -25,7 +28,8 @@ export class BlogOverview implements OnInit {
     private tokenStorage: TokenStorage,
     private router: Router,
     private dialog: MatDialog,
-    private snackBar:MatSnackBar
+    private notificationService: NotificationService,
+    private imageService: ImageService
   ) {}
 
   openNewBlogForm() {
@@ -35,30 +39,30 @@ export class BlogOverview implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: Blog) => {
       if (result) {
-        this.saveBlog(result);
+        this.getBlogs();
       }
     });
   }
 
-  saveBlog(blog: Blog) {
-    this.blogService.addBlog(blog).subscribe({
-      next: () => {
-        console.log('Blog saved successfully');
-        this.getBlogs();
-        this.snackBar.open('Blog saved successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
-      },
-      error: (error) => {
-        console.error('Error saving blog', error);
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
-      },
-    });
-  }
+  // saveBlog(blog: Blog) {
+  //   this.blogService.addBlog(blog).subscribe({
+  //     next: () => {
+  //       console.log('Blog saved successfully');
+  //       this.getBlogs();
+  //       this.notificationService.notify({ message:'Blog saved successfully!', 'Close', {
+  //         duration: 3000,
+  //         panelClass:"succesful"
+  //       });
+  //     },
+  //     error: (error) => {
+  //       console.error('Error saving blog', error);
+  //       this.notificationService.notify({ message:'Failed to load data. Please try again.', 'Close', {
+  //         duration: 3000,
+  //         panelClass:"succesful"
+  //       });
+  //     },
+  //   });
+  // }
 
   ngOnInit(): void {
     const accessToken = this.tokenStorage.getAccessToken() || '';
@@ -73,8 +77,22 @@ export class BlogOverview implements OnInit {
       next: (result: PagedResults<Blog>) => {
         this.blogs = result.results;
         this.applyFilter(this.selectedFilter);
+        this.blogs.forEach(element => {
+          this.imageService.setControllerPath("author/image")
+          if (element.imageId) {
+            this.imageService.getImage(element.imageId).subscribe((blob: Blob) => {
+              console.log(blob);  // Proveri sadržaj Blob-a
+              if (blob.type.startsWith('image')) {
+                element.image = URL.createObjectURL(blob);
+                
+              } else {
+                console.error("Blob nije slika:", blob);
+              }
+            });
+          }
+        });
         this.isLoading = false;
-        // this.snackBar.open('Data loaded successfully!', 'Close', {
+        // this.notificationService.notify({ message:'Data loaded successfully!', 'Close', {
         //   duration: 3000,
         //   panelClass:"succesful"
         // });
@@ -82,10 +100,7 @@ export class BlogOverview implements OnInit {
       error: () => {
         console.log('Error fetching blogs!');
         this.isLoading = false;
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load blogs. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       },
     });
   }

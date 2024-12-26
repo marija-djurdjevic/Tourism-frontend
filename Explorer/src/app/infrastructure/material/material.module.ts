@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select'; // Dodaj ako koristiš <mat-select>
 import { MatOptionModule } from '@angular/material/core'; // Dodaj ako koristiš <mat-option>
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { MatOptionModule } from '@angular/material/core'; // Dodaj ako koristiš
     MatTableModule,
     MatIconModule,
     MatSelectModule, // Dodaj ako koristiš <mat-select>
-    MatOptionModule // Dodaj ako koristiš <mat-option>
+    MatOptionModule, // Dodaj ako koristiš <mat-option>
+    MatCardModule,
   ],
   exports: [
     MatToolbarModule,
@@ -29,7 +31,8 @@ import { MatOptionModule } from '@angular/material/core'; // Dodaj ako koristiš
     MatTableModule,
     MatIconModule,
     MatSelectModule, // Dodaj ako koristiš <mat-select>
-    MatOptionModule // Dodaj ako koristiš <mat-option>
+    MatOptionModule, // Dodaj ako koristiš <mat-option>
+    MatCardModule,
   ]
 })
 export class MaterialModule { }

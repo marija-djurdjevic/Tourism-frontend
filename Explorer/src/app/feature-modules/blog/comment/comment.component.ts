@@ -9,9 +9,12 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ActivatedRoute } from '@angular/router';
 import { Blog } from '../model/blog.model';
 import { BlogService } from '../blog.service';
-import { Vote } from '../model/Vote';
+import { Vote } from '../model/vote';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageService } from 'src/app/shared/image.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-comment',
@@ -39,7 +42,8 @@ export class CommentComponent {
     private blogService: BlogService,
     private tokenStorage: TokenStorage,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService,
+    private imageService: ImageService
   ) { }
 
   ngOnInit(): void {
@@ -58,22 +62,52 @@ export class CommentComponent {
   }
 
   getBlogById() {
-    this.isLoading=true;
+    this.isLoading = true;
+  
     this.blogService.getBlogById(this.blogId).subscribe({
       next: (blog: Blog) => {
         this.blog = blog;
         this.checkHasUserRated();
         this.votes = this.blog.votes;
-        this.isLoading=false;
+  
+        // Fetch image separately
+        if (blog.imageId) {
+          this.fetchImage(blog.imageId).then((imageUrl) => {
+            blog.image = imageUrl;
+          }).catch((err) => {
+            console.error('Error fetching image:', err);
+          }).finally(() => {
+            this.isLoading = false; // Always stop loading regardless of image fetch result
+          });
+        } else {
+          this.isLoading = false; // No image to fetch
+        }
       },
       error: (error) => {
-        this.isLoading=false;
+        this.isLoading = false;
         console.error('Error fetching blog:', error);
-        this.snackBar.open('Failed to load data. Please try again.');
-      },
-      complete: () => { },
+        this.notificationService.notify({ message:'Failed to load blog. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+      }
     });
   }
+  
+  fetchImage(imageId: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.imageService.getImage(imageId).subscribe({
+        next: (blob: Blob) => {
+          if (blob.type.startsWith('image')) {
+            resolve(URL.createObjectURL(blob)); // Resolve with image URL
+          } else {
+            reject(new Error('Blob is not an image'));
+          }
+        },
+        error: (err) => {
+          reject(err); // Reject on error
+        }
+      });
+    });
+  }
+  
 
   getUserById(userId: number) {
     this.isLoading=true;
@@ -85,10 +119,7 @@ export class CommentComponent {
       error: (error) => {
         this.isLoading=false;
         console.error('Error fetching blog:', error);
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load user. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       },
     });
     return this.user.username;
@@ -122,17 +153,11 @@ export class CommentComponent {
         this.getBlogById();
         this.checkHasUserRated();
         this.currentUserRating = !this.currentUserRating;
-        this.snackBar.open('Vote added successfully!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Vote added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to add vote. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add vote. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -143,17 +168,11 @@ export class CommentComponent {
         this.getBlogById();
         this.votes = this.blog.votes;
         this.hasUserRated = false;
-        this.snackBar.open('Rating removed successfully!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Rating removed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (error) => {
         console.error('Error fetching blog:', error);
-        this.snackBar.open('Failed to remove rating. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to remove rating. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       },
       complete: () => { },
     });
@@ -170,23 +189,23 @@ export class CommentComponent {
       next: () => {
         this.getBlogById();
         this.checkHasUserRated();
-        this.snackBar.open('Vote added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Vote added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to add vote. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add vote. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
 
   toggleCommentsSection() {
     this.isCommentsOpen = !this.isCommentsOpen;
+    if (this.blog.status === 2) {
+      alert("Blog is CLOSED!");
+      return;
+    }
+    this.shouldEdit = false;
+    this.shouldRenderCommentForm = true;
   }
 
   deleteComment(id: any): void {
@@ -197,13 +216,11 @@ export class CommentComponent {
     this.service.deleteComment(this.blogId, id).subscribe({
       next: () => {
         this.getComments();
+        this.notificationService.notify({ message:'Comment deleted successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to delete comment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to delete comment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -212,17 +229,11 @@ export class CommentComponent {
     this.service.getComments(this.blogId).subscribe({
       next: (result: Comment[]) => {
         this.comments = result;
-        this.snackBar.open('Comments loaded successfully!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Comments loaded successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to load comments. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load comments. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -240,14 +251,5 @@ export class CommentComponent {
     this.selectedComment = comment;
     this.shouldRenderCommentForm = true;
     this.shouldEdit = true;
-  }
-
-  onAddClicked(): void {
-    if (this.blog.status === 2) {
-      alert("Blog is CLOSED!");
-      return;
-    }
-    this.shouldEdit = false;
-    this.shouldRenderCommentForm = true;
   }
 }

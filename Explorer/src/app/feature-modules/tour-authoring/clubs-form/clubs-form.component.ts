@@ -4,6 +4,8 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { Clubs } from '../model/clubs.model';
 import { ImageService } from 'src/app/shared/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-clubs-form',
@@ -18,7 +20,7 @@ export class ClubsFormComponent implements OnChanges {
   previewImage: string | null = null
   imageId: number;
 
-  constructor(private service: TourAuthoringService,private snackBar:MatSnackBar, private imageService: ImageService) {
+  constructor(private service: TourAuthoringService,private notificationService:NotificationService, private imageService: ImageService) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -73,17 +75,11 @@ export class ClubsFormComponent implements OnChanges {
           this.clubForm.reset();
           this.previewImage = null;
           this.clubsUpdated.emit();
-          this.snackBar.open('Club added successfully!', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Club added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: (err) => {
           console.error("Error adding club", err);
-          this.snackBar.open('Failed to add club. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to add club. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
     });
@@ -119,18 +115,12 @@ export class ClubsFormComponent implements OnChanges {
         console.log("Club updated successfully");
         this.clubForm.reset();
         //this.selectedFile = null;
-        this.snackBar.open('Club updated successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Club updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         this.clubsUpdated.emit();
       },
       error: (err) => {
         console.error("Error updating club", err);
-        this.snackBar.open('Failed to update club. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to update club. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }

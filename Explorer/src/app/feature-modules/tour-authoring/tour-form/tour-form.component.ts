@@ -6,6 +6,8 @@ import { TourAuthoringService } from '../tour-authoring.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-tour-form',
@@ -25,7 +27,7 @@ export class TourFormComponent implements OnChanges {
     private service: TourAuthoringService,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private route: ActivatedRoute
   ) {}
 
@@ -99,6 +101,7 @@ export class TourFormComponent implements OnChanges {
       publishedAt: new Date(Date.now()),
       archivedAt: new Date(Date.now()),
       averageScore: 0,
+      isGroupTour: false
     };
 
     console.log('Tour to be added:', tour);
@@ -107,17 +110,11 @@ export class TourFormComponent implements OnChanges {
       next: () => {
         this.tourUpdated.emit();
         this.router.navigate(['/tours']);
-        this.snackBar.open('Tour created successfully!', 'Close', {
-          duration: 3000,
-          panelClass: 'succesful',
-        });
+        this.notificationService.notify({ message:'Tour created successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err) => {
         console.error('Error adding tour:', err);
-        this.snackBar.open('Failed to create tour. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: 'succesful',
-        });
+        this.notificationService.notify({ message:'Failed to create tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       },
     });
   }
@@ -142,17 +139,11 @@ export class TourFormComponent implements OnChanges {
       next: () => {
         this.tourUpdated.emit(); 
         this.router.navigate(['/tours']);
-        this.snackBar.open('Tour updated successfully!', 'Close', {
-          duration: 3000,
-          panelClass: 'succesful',
-        });
+        this.notificationService.notify({ message:'Tour updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err) => {
         console.error('Error updating tour:', err);
-        this.snackBar.open('Failed to update tour. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: 'succesful',
-        });
+        this.notificationService.notify({ message:'Failed to update tour. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       },
     });
   }

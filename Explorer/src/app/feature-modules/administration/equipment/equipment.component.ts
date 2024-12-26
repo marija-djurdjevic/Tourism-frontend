@@ -4,6 +4,8 @@ import { Equipment } from '../model/equipment.model';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-equipment',
@@ -18,7 +20,7 @@ export class EquipmentComponent implements OnInit {
   shouldEdit: boolean = false;
   isLoading = false;
   
-  constructor(private service: AdministrationService,private snackBar:MatSnackBar) { }
+  constructor(private service: AdministrationService,private notificationService:NotificationService) { }
 
   ngOnInit(): void {
     this.getEquipment();
@@ -28,17 +30,11 @@ export class EquipmentComponent implements OnInit {
     this.service.deleteEquipment(id).subscribe({
       next: () => {
         this.getEquipment();
-        this.snackBar.open('Equipment deleted successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Equipment deleted successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: () => {
         this.isLoading = false;
-        this.snackBar.open('Failed to delete equipment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to delete equipment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }
@@ -49,17 +45,14 @@ export class EquipmentComponent implements OnInit {
       next: (result: PagedResults<Equipment>) => {
         this.isLoading = false;
         this.equipment = result.results;
-        // this.snackBar.open('Data loaded successfully!', 'Close', {
+        // this.notificationService.notify({ message:'Data loaded successfully!', 'Close', {
         //   duration: 3000,
         //   panelClass:"succesful"
         // });
       },
       error: () => {
         this.isLoading = false;
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load data. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }

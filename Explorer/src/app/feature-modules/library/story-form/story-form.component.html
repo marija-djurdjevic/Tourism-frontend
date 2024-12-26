@@ -26,16 +26,16 @@
                 [class.error]="storyForm.get('content')?.invalid && storyForm.get('content')?.touched"
                 class="form-control">
             </textarea>
-
+            
                     
             <div *ngIf="storyForm.get('content')?.invalid && storyForm.get('content')?.touched" class="error-message">
               Content is required.
             </div>
+            <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" ></app-image-upload>
         </div>
 
-        <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" ></app-image-upload>
-
-      
+       
+        
 
       <button type="submit" class="primary-button" mat-raised-button>Submit</button>
       </div>

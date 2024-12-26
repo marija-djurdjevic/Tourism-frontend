@@ -1,52 +1,83 @@
 <div *ngIf="isLoading" class="loading-spinner">
-    <div class="custom-spinner"></div>
-    <p class="loading-text">Loading key points...</p>
+  <div class="custom-spinner"></div>
+  <p class="loading-text">Loading key points...</p>
 </div>
 
 <div *ngIf="!isLoading">
-    <h2>Key Points for Tour {{ tourId }}</h2>
-
-    <h3 >
-        Here you can view all the key points for this tour. Feel free to edit or delete any key point as needed to ensure the tour information is accurate and up-to-date.
-    </h3>
-
-    <div id="tour" class="tour-container">
-        
-        <div class="tour-content">
-            <div class="card-container">
-                <div class="card" *ngFor="let keyPoint of keyPoints">
-                    <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}" class="card-image" />
-                    <div class="card-content">
-                        <h4>{{ keyPoint.name }}</h4>
-                        <p><strong>Description:</strong> {{ keyPoint.description }}</p>
-                        <p><strong>Latitude:</strong> {{ keyPoint.latitude }}</p>
-                        <p><strong>Longitude:</strong> {{ keyPoint.longitude }}</p>
-                        <p><strong>StoryId:</strong> {{ keyPoint.storyId }}</p>
-                        <div class="buttonss">
-                            <button class="add-encounter-button" (click)="addEncounter(keyPoint.id)" >Add encounter</button>
-                            <button class="add-story-button" (click)="addStory(keyPoint.id)"  [disabled]="keyPoint.storyId  !== null"> {{ keyPoint.storyId !== null ? 'Story added' : 'Add story' }}</button>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <ng-container *ngIf="keyPoint.status === 2">
-                            <span class="status-label">This key point is public!</span>
-                        </ng-container>
-                        <ng-container *ngIf="keyPoint.status !== 2">
-                            <button class="btn secondary-btn" (click)="onEdit(keyPoint)">
-                                Edit
-                            </button>
-                            <button class="btn secondary-btn" (click)="keyPoint.id !== undefined ? onDelete(keyPoint.id) : null">
-                                Delete
-                            </button>
-                        </ng-container>
-                    </div>
-                    
-                </div>
+  <img id="imgb" src="../../../../assets/screenshot4.png">
+  <div id="keypoints">
+    <p class="keypoints-title">Key Points for Tour {{ tourId }}</p>
+    <hr>
+    <div id="keypoints-details">
+      <div class="card-container">
+          <div class="card" *ngFor="let keyPoint of keyPoints">
+            <div class="card-content">
+              <img *ngIf="keyPoint.imagePath" [src]="keyPoint.imagePath" alt="{{ keyPoint.name }}"/>
+              <h3>{{ keyPoint.name }}</h3>
+              <p>{{ keyPoint.description }}</p>
             </div>
-            
-            <div class="map-container">
-                <app-map [tourView]="true" [keyPoints]="keyPoints"></app-map>
-            </div>
-        </div>
+            <div class="card-actions">
+              <div class="icon-item1">
+                  <button color="primary" (click)="addEncounter(keyPoint.id)" type="submit" mat-icon-button matTooltip="Add encounter">
+                      <img src="assets/icons/encounter.png" alt="Encounter Icon"/>
+                  </button>
+                  
+                  <span class="status-text" style="color: black;" *ngIf="keyPoint.status === 2">Public</span>
+              </div>
+
+              <div class="icon-item2">
+                  <ng-container *ngIf="keyPoint.status !== 2">
+                      <button color="accent" (click)="keyPoint.id !== undefined ? onDelete(keyPoint.id) : null" mat-icon-button matTooltip="Delete key point">
+                        <img src="assets/icons/delete.png" alt="Delete Icon"/>
+                      </button>
+                      <button color="primary" (click)="addStory(keyPoint.id)" type="submit" mat-icon-button  [disabled]="keyPoint.storyId  !== null">
+                        S
+                     </button>
+                      <button color="accent" (click)="onEdit(keyPoint)" mat-icon-button matTooltip="Edit key point">
+                          <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                      </button>
+                  </ng-container>
+              </div>
+          </div>
+          </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Bottom Grid Section -->
+  <div class="bottom-grid">
+    <!-- Map Section -->
+    <div class="map-container">
+      <app-map [tourView]="true" [keyPoints]="keyPoints"></app-map>
+    </div>
+
+    <!-- Weather Section -->
+    <div class="tour-weather">
+      <h2>Weather for this Tour</h2>
+      <div class="weather-card">
+        <div class="weather-icon">
+          <img
+            [src]="'../../../../assets/icons/' + getWeatherIcon(currentWeather.temp) + '.png'"
+            alt="Weather Icon"
+          />
+        </div>
+        <div class="weather-info">
+          <h3>{{ currentWeather.temp }}°C</h3>
+          <p>Feels Like: {{ currentWeather.feels_like }}°C</p>
+          <p>Humidity: {{ currentWeather.humidity }}%</p>
+          <p>Wind: {{ currentWeather.wind_speed }} m/s at {{ currentWeather.wind_degrees }}°</p>
+          <p>Sunrise: {{ currentWeather.sunrise }}</p>
+          <p>Sunset: {{ currentWeather.sunset }}</p>
+        </div>
+      </div>
+      <a
+      [href]="'https://www.google.com/search?q=' + cityName + '+weather'"
+      target="_blank"
+      class="forecast-link"
+      >
+      View Next 7 days <span>&#8594;</span>
+      </a>
+
+    </div>
+  </div>
 </div>

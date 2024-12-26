@@ -4,40 +4,48 @@
 </div>
 
 <div *ngIf="!isLoading">
-    <div id="bundle-create">
-        <h2>Create Bundle</h2>
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+    <div id="bundle">
+        <p class="bundle-title">Create Bundle</p>
         <hr>
-        <div id="tour-selection">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of tours">
-                        <td>
-                            <input type="checkbox" (change)="toggleTourSelection(t)" />
-                        </td>
-                        <td>{{ t.name }}</td>
-                        <td>{{ t.description }}</td>
-                        <td>{{ t.price | currency }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <div id="bundle-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let t of tours" [class.selected]="selectedTours.includes(t)">
+                    <div class="card-content">
+                        <h3>{{ t.name }}</h3>
+                        <p>{{ t.description }}</p>
+                        <p><strong>Price:</strong> 
+                            {{ t.price | currency }}
+                        </p>
+                    </div>
+                    <div class="card-actions">
+                        <button color="primary" (click)="toggleTourSelection(t)" mat-icon-button [matTooltip]="selectedTours.includes(t) ? 'Deselect' : 'Select'">
+                            <img [src]="selectedTours.includes(t) ? 'assets/icons/block.png' : 'assets/icons/accept.png'" alt="Switch Icon"/>
+                        </button>
+                    </div>
+                </div>               
+            </div>
 
-    <!-- Floating block for total price and new price input -->
-    <div id="floating-price-block">
-        <p>Total Price: {{ totalPrice | currency }}</p>
-        <div>
-            <label for="new-price">New Price:</label>
-            <input id="new-price" type="number" [(ngModel)]="newPrice" />
+            <div class="bundle-form">
+                <div class="form-container">
+                    <p><strong>Total price:</strong> 
+                        {{ totalPrice | currency }}
+                    </p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>New Price</mat-label>
+                        <input matInput [(ngModel)]="newPrice" type="number" placeholder="Enter new bundle price" required/>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input matInput [(ngModel)]="newTitle" type="text" placeholder="Enter bundle title" required/>
+                    </mat-form-field>
+    
+                    <div class="button-container">
+                        <button mat-raised-button (click)="createBundle()" color="button" [disabled]="selectedTours.length < 2">
+                            Create Bundle
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button (click)="createBundle()">Create Bundle</button>
-    </div>
 </div>

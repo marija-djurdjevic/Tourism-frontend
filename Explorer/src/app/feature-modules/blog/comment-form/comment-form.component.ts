@@ -5,6 +5,8 @@ import { CommentService } from '../comment.service';
 import { TokenStorage } from '../../../infrastructure/auth/jwt/token.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-comment-form',
@@ -22,7 +24,7 @@ export class CommentFormComponent implements OnChanges {
 
   constructor(private service: CommentService,
     private tokenStorage: TokenStorage,
-    private snackBar: MatSnackBar
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -56,22 +58,18 @@ export class CommentFormComponent implements OnChanges {
       username: this.username,
     };
     this.service.addComment(this.blogId, newComment).subscribe({
-      next: () => { this.commentUpdated.emit(); 
-        this.snackBar.open('Comment added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+      next: () => {
+        this.commentUpdated.emit(); 
+        this.notificationService.notify({ message:'Comment added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
+        this.commentForm.reset(); // Resetovanje forme nakon dodavanja komentara
       },
       error: () => {
         alert("Blog is CLOSED!");
-        this.snackBar.open('Failed to add comment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add comment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
-
+  
   updateComment(): void {
     const updatedComment: Comment = {
       ...this.comment,
@@ -79,19 +77,16 @@ export class CommentFormComponent implements OnChanges {
       editDate: new Date(),
     };
     this.service.updateComment(this.blogId, updatedComment).subscribe({
-      next: () => { this.commentUpdated.emit(); 
-        this.snackBar.open('Comment updated successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+      next: () => {
+        this.commentUpdated.emit();
+        this.notificationService.notify({ message:'Comment updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
+        this.commentForm.reset(); // Resetovanje forme nakon ažuriranja komentara
       },
       error: () => {
         alert("Blog is CLOSED!");
-        this.snackBar.open('Failed to update comment. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to update comment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
+  
 }
