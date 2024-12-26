@@ -24,8 +24,7 @@ import { EncountersComponent } from './feature-modules/encounters/encounters/enc
 import { SharedModule } from "./shared/shared.module";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-
-
+import { NotificationComponent } from './shared/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +46,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     TourShoppingModule,
     AuthModule,
     HttpClientModule,
+    /*
+      OVO JE ZAMJENJENO SA NOTIFICATION SERVICE, OD SADA NJEGA KORISTITI
     MatSnackBarModule,
+    */
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,

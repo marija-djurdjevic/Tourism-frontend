@@ -10,12 +10,38 @@
   </div>
 </div>
 
+<div class="icon-options" *ngIf="tourView">
+  <button 
+    mat-icon-button
+    class="icon-button" 
+    color="primary"
+    [class.selected]="Option === 'walking'" 
+    (click)="Option = 'walking'"
+    matTooltip="Walking">
+    <img src="assets/icons/walking.png" alt="Walking Icon" />
+  </button>
+  
+  <button 
+    mat-icon-button
+    class="icon-button" 
+    color="primary"
+    [class.selected]="Option === 'driving'" 
+    (click)="Option = 'driving'"
+    matTooltip="Driving">
+    <img src="assets/icons/driving.png" alt="Driving Icon" />
+  </button>
+  
+  <button 
+    mat-icon-button
+    class="icon-button" 
+    color="primary"
+    [class.selected]="Option === 'cycling'" 
+    (click)="Option = 'cycling'"
+    matTooltip="Cycling">
+    <img src="assets/icons/cycling.png" alt="Cycling Icon"/>
+  </button>
+</div>
 
-<select name="" [(ngModel)]="Option" *ngIf="tourView" style="font-size: xx-large;" id="">
-  <option value="walking">walking</option>
-  <option value="driving" selected>driving</option>
-  <option value="cycling">cycling</option>
-</select>
 <div class="map-frame">
   <div id="map"></div>
   <label *ngIf="onlyOneMarker" for="">Address: {{address}}</label>

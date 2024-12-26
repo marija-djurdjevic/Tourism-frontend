@@ -6,16 +6,34 @@
 <div *ngIf="!isLoading">
     <div id="tour">
         <img id="imgb" src="../../../../assets/screenshot4.png">
-            <p class="tour-title">Explore Tours</p>
-            <hr>
-            <div class="button-container">
-                <button mat-raised-button class="search-button" (click)="searchTours()">
-                    Search tours
-                </button>
-                <button mat-raised-button class="search-button" style="margin-left: 10px;" (click)="toggleDiscountFilter()">
-                    {{ showDiscountedOnly ? 'Show All Tours' : 'Show Discounted Tours Only' }}
-                </button>
+        <p class="tour-title">Explore Tours</p>
+        <hr>
+        <!-- Top 3 Blogs Section -->
+        <div id="blog-details">
+            <h3>Our Top 3 Blogs</h3>
+            <div class="card-container">
+                <!-- Blog Cards for the top 3 blogs -->
+                <div class="card" *ngFor="let blog of topBlogs">
+                    <div class="card-content">
+                        <img mat-card-image [src]="blog.image" alt="Blog Image" />
+                        <h3>{{ blog.title }}</h3>
+                    </div>
+                    <div class="card-actions">
+                        <button color="accent" (click)="viewBlog(blog.id)" mat-icon-button matTooltip="Check it out">
+                            <img src="assets/icons/view.png" alt="View Icon" />
+                        </button>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="button-container">
+            <button mat-raised-button class="search-button" (click)="searchTours()">
+                Search tours
+            </button>
+            <button mat-raised-button class="search-button" style="margin-left: 10px;" (click)="toggleDiscountFilter()">
+                {{ showDiscountedOnly ? 'Show All Tours' : 'Show Discounted Tours Only' }}
+            </button>
+        </div>
             <div id="tour-details">
                 <div class="card-container">
                     <div class="card" (mouseleave)="onMouseLeave()" *ngFor="let t of getFilteredTours()" [ngClass]="{'highlighted-tour': t.id === refundedTourId}">
@@ -40,28 +58,31 @@
                           >
                           Live group tour is a unique opportunity to join a FREE, guided demonstration tour led by the tour's author. This tour is available only once and offers an unforgettable experience with an expert guide who will walk you through every detail. Sign up now by clicking the button below and secure your spot on this special tour!
                           </div>                          
+
                         <p>{{ t.description }}</p>
                         <p>
                             <strong>Price:</strong>
-                          
+
                             <!-- Display discounted price if it exists and is different from the regular price -->
                             <span *ngIf="getDiscountedPrice(t) !== t.price" style="color: red; margin-left: 5px;">
-                              {{ getDiscountedPrice(t) | currency }}
+                                {{ getDiscountedPrice(t) | currency }}
                             </span>
-                            
+
                             <!-- Display original price with strikethrough if discounted price exists and is different -->
-                            <span *ngIf="getDiscountedPrice(t) !== t.price" style="text-decoration: line-through; color: grey; margin-left: 5px;">
-                              {{ t.price | currency }}
+                            <span *ngIf="getDiscountedPrice(t) !== t.price"
+                                style="text-decoration: line-through; color: grey; margin-left: 5px;">
+                                {{ t.price | currency }}
                             </span>
-                          
+
                             <!-- Display regular price if discounted price is the same -->
                             <span *ngIf="getDiscountedPrice(t) === t.price" style="margin-left: 5px;">
-                              {{ t.price | currency }}
+                                {{ t.price | currency }}
                             </span>
-                          </p>
-                        <p><strong>Tags:</strong> 
+                        </p>
+                        <p><strong>Tags:</strong>
                             {{ t.tags }}
                         </p>
+                        
                         <p><strong>Duration:</strong> 
                             <ng-container *ngIf="t.transportInfo; else noTransportInfo">
                                 {{ t.transportInfo.time }} minutes
@@ -70,7 +91,8 @@
                                 <div>N/A</div>
                             </ng-template>
                         </p>
-                        <p><strong>Distance:</strong> 
+                        
+                        <p><strong>Distance:</strong>
                             <ng-container *ngIf="t.transportInfo; else noTransportInfoDistance">
                                 {{ t.transportInfo.distance }} km
                             </ng-container>
@@ -78,6 +100,7 @@
                                 <div>N/A</div>
                             </ng-template>
                         </p>
+                        
                         <div *ngIf="t.isGroupTour">
                           <p><strong>Date and time:</strong> 
                             <ng-container *ngIf="getDateAndTime(t) as dateAndTime; else noDate">
@@ -85,6 +108,7 @@
                             </ng-container>
                             <ng-template #noDate>No date available</ng-template>
                         </p>
+                          
                         </div>
                         <div *ngIf="t.isGroupTour">
                           <p><strong>Progress:</strong> 
@@ -96,30 +120,32 @@
                         
                         <div class="keypoint" *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
                             <img [src]="t.keyPoints[0].imagePath" alt="{{ t.keyPoints[0].name }}" class="card-image" />
-                            <p><strong>First keypoint's name: </strong> 
+                            <p><strong>First keypoint's name: </strong>
                                 {{ t.keyPoints[0].name }}
                             </p>
-                            <p><strong>First keypoint's description: </strong> 
+                            <p><strong>First keypoint's description: </strong>
                                 {{ t.keyPoints[0].description }}
                             </p>
                         </div>
 
                         <ng-template #noKeyPoint>
-                            <p><strong>First keypoint's name: N/A</strong> 
+                            <p><strong>First keypoint's name: N/A</strong>
                             </p>
                         </ng-template>
 
-                      </div>
-                      <div class="card-actions">
+                    </div>
+                    <div class="card-actions">
                         <!-- Ikonica za review -->
                         <div class="icon-item">
-                          <button color="primary" (click)="showReviews(t.id ?? 0)" mat-icon-button matTooltip="Show reviews">
-                            <img src="assets/icons/review.png" alt="Review Icon" />
-                          </button>
-                          <span class="status-text" style="color: #34AB45;" *ngIf="isPurchased(t.id ?? 0)">Purchased</span>
-                          <span class="status-text" style="color: black;" *ngIf="!isPurchased(t.id ?? 0) && isTourInCart(t.id ?? 0)">In Cart</span>
+                            <button color="primary" (click)="showReviews(t.id ?? 0)" mat-icon-button
+                                matTooltip="Show reviews">
+                                <img src="assets/icons/review.png" alt="Review Icon" />
+                            </button>
+                            <span class="status-text" style="color: #34AB45;"
+                                *ngIf="isPurchased(t.id ?? 0)">Purchased</span>
+                            <span class="status-text" style="color: black;"
+                                *ngIf="!isPurchased(t.id ?? 0) && isTourInCart(t.id ?? 0)">In Cart</span>
                         </div>
-
                        
                         <div *ngIf="t.isGroupTour && TourParticipation(t.id) && !hasAlreadyParticipated(t.id)" class="icon-item">
                           <ng-container>
@@ -136,10 +162,8 @@
                               </button>
                             </ng-container>
                           </div>
-
                           
-                          
-                        <!-- Ikonica za shopping cart -->
+                         <!-- Ikonica za shopping cart -->
                         <div *ngIf="!t.isGroupTour" class="icon-item">
                           <ng-container *ngIf="!isPurchased(t.id ?? 0) && !isTourInCart(t.id ?? 0)">
                             <button color="primary" (click)="addToCart(t.id ?? 0, t.name, t.price)" mat-icon-button matTooltip="Add to cart">
@@ -156,42 +180,42 @@
             </div>
     </div>
 
-    <!-- Reviews Modal -->
-    <div class="modal-overlay" *ngIf="isReviewsModalOpen">
-        <div class="modal-content">
-            <h2>Reviews</h2>
+        <!-- Reviews Modal -->
+        <div class="modal-overlay" *ngIf="isReviewsModalOpen">
+            <div class="modal-content">
+                <h2>Reviews</h2>
 
-            <!-- Reviews displayed as cards -->
-            <p *ngIf="!selectedTourReviews || selectedTourReviews.length === 0">No reviews
-                for this tour</p>
-            <div class="card-list">
-                <div *ngFor="let review of selectedTourReviews" class="review-card">
-                    <div class="card-header">
-                        <h3>{{ review.username }}</h3>
-                        <span>
-                            <ng-container *ngFor="let star of [].constructor(5); let i = index">
-                                <span [style.color]="(review.grade || 0) > i ? 'gold' : 'lightgray'">
-                                    {{ (review.grade || 0) > i ? '★' : '☆' }}
-                                </span>
-                            </ng-container>
-                        </span>
-                    </div>
-                    <div class="card-content">
-                        <p>{{ review.comment }}</p>
-    
-                        <!-- Images Section -->
-                        <div *ngFor="let image of review.reviewImages"
-                            style="display: inline-block; margin-right: 5px;">
-                            <img [src]="image" alt="Review Image" width="50" height="50" style="border-radius: 4px;">
+                <!-- Reviews displayed as cards -->
+                <p *ngIf="!selectedTourReviews || selectedTourReviews.length === 0">No reviews
+                    for this tour</p>
+                <div class="card-list">
+                    <div *ngFor="let review of selectedTourReviews" class="review-card">
+                        <div class="card-header">
+                            <h3>{{ review.username }}</h3>
+                            <span>
+                                <ng-container *ngFor="let star of [].constructor(5); let i = index">
+                                    <span [style.color]="(review.grade || 0) > i ? 'gold' : 'lightgray'">
+                                        {{ (review.grade || 0) > i ? '★' : '☆' }}
+                                    </span>
+                                </ng-container>
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <p>{{ review.comment }}</p>
+
+                            <!-- Images Section -->
+                            <div *ngFor="let image of review.reviewImages"
+                                style="display: inline-block; margin-right: 5px;">
+                                <img [src]="image" alt="Review Image" width="50" height="50"
+                                    style="border-radius: 4px;">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="popup-actions">
-                <button mat-button id="iks" (click)="closeReviewsModal()">X</button>
+                <div class="popup-actions">
+                    <button mat-button id="iks" (click)="closeReviewsModal()">X</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-

@@ -8,6 +8,11 @@ import { UserProfile } from '../model/user-profile.model';
 import { ImageService } from 'src/app/shared/image.service';
 import { NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { EncounterService } from '../../encounters/encounter.service';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
+import { Encounter } from '../../encounters/model/encounter.model';
+import { AdministrationService } from '../../administration/administration.service';
+import { Achievement } from '../../administration/model/achievement.model';
 
 @Component({
   selector: 'xp-navbar',
@@ -20,63 +25,80 @@ export class NavbarComponent implements OnInit {
   notifications: Notification[] = [];
   showNotifications: boolean = false;
   userProfile: UserProfile;
-  showProfileMenu: boolean=false;
+  showProfileMenu: boolean = false;
   showLocationButton: boolean = true;
   NotificationType = NotificationType;
+  badge: string = '';
 
-  constructor(private authService: AuthService, private layoutService: LayoutService, private router: Router,private imageService:ImageService, private cd: ChangeDetectorRef, ) {}
+  constructor(private authService: AuthService, private administrationService: AdministrationService, private layoutService: LayoutService, private router: Router, private imageService: ImageService, private cd: ChangeDetectorRef,) { }
 
   ngOnInit(): void {
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe(() => {
-      this.showLocationButton = !this.router.url.startsWith('/tourSession');
-      console.log('Current URL:', this.router.url);
-      console.log('Hide Location Button:', this.showLocationButton);
-    });
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.showLocationButton = !this.router.url.startsWith('/tourSession');
+        console.log('Current URL:', this.router.url);
+        console.log('Hide Location Button:', this.showLocationButton);
+      });
 
     this.authService.user$.subscribe(user => {
       this.user = user;
+      if (user.role === 'tourist') {
+        this.administrationService.getAchievements().subscribe({
+          next: (result: Achievement[]) => {
+            var achievements = result.filter(a => a.type === 7 && a.imagePath != 'assets/badge.png').sort((a, b) => b.criteria - a.criteria);
+            this.badge = achievements[0].imagePath || '';
+          },
 
-      if(user.role === 'author') {
-       this.layoutService.getAuthorNotifications(user.id).subscribe(notificationsData => {
-        console.log('notificationsData:', notificationsData);
-        this.notifications = notificationsData;
-        console.log('notifications:', this.notifications);
-       });
+        });
       }
-      else if(user.role === 'tourist') {
+
+      if (user.role === 'author') {
+        this.layoutService.getAuthorNotifications(user.id).subscribe(notificationsData => {
+          console.log('notificationsData:', notificationsData);
+          this.notifications = notificationsData;
+          console.log('notifications:', this.notifications);
+        });
+      }
+      else if (user.role === 'tourist') {
         this.layoutService.getTouristNotifications(user.id).subscribe(notificationsData => {
           this.notifications = notificationsData;
-          console.log("NOTIFICATIONS : ",this.notifications)
-         });
+          console.log("NOTIFICATIONS : ", this.notifications)
+        });
       }
-      this.layoutService.getProfile(user.role).subscribe({
-        next:(result: UserProfile) => {
-          this.userProfile = result;
-          console.log(result)
-          this.imageService.setControllerPath(user.role+"/image");
-            this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe((blob: Blob) => {
-              console.log(blob);  
-              if (blob.type.startsWith('image')) {
-                this.userProfile.imageURL = URL.createObjectURL(blob);
-                this.cd.detectChanges();
-              } else {
-                console.error("Blob nije slika:", blob);
+      if (this.user.username !== '') {
+        this.layoutService.getProfile(user.role).subscribe({
+          next: (result: UserProfile) => {
+            this.userProfile = result;
+            console.log(result)
+            this.imageService.setControllerPath(user.role + "/image");
+            this.imageService.getImage(Number(this.userProfile.imageURL)).subscribe({
+              next: (blob: Blob) => {
+                console.log(blob);
+                if (blob.type.startsWith('image')) {
+                  this.userProfile.imageURL = URL.createObjectURL(blob);
+                  this.cd.detectChanges();
+                } else {
+                  console.error("Blob nije slika:", blob);
+                }
+              },
+              error: () => {
+                this.userProfile.imageURL = 'assets/user.png';
               }
             });
-        },
-        error:(err:any) => {
-          console.log(err)
-        }
-      })
+          },
+          error: (err: any) => {
+            console.log(err)
+          }
+        })
+      }
     });
 
-    
+
   }
 
-   
-  myProfile(){
+
+  myProfile() {
     this.showProfileMenu = !this.showProfileMenu;
     this.router.navigate(['/profile']);
   }
@@ -85,9 +107,9 @@ export class NavbarComponent implements OnInit {
     this.cd.detectChanges();
   }
   goToProblem(notification: Notification, problemId: number): void {
-    if(this.user?.role === 'tourist') {
-    this.layoutService.markAsReadTourist(notification).subscribe(result => {
-      this.notifications = this.notifications.filter(n => n !== notification);
+    if (this.user?.role === 'tourist') {
+      this.layoutService.markAsReadTourist(notification).subscribe(result => {
+        this.notifications = this.notifications.filter(n => n !== notification);
 
       if(notification.type === NotificationType.GroupCancelation) {
         this.router.navigate(['explore-tours']);
@@ -105,7 +127,7 @@ export class NavbarComponent implements OnInit {
       if(notification.type == NotificationType.TourProblem) this.router.navigate(['/problem'], { queryParams: { id: problemId } });
     }); 
     }
-  
+
     this.showNotifications = !this.showNotifications;
   }
 

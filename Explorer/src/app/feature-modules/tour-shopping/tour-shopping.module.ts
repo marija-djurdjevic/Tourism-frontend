@@ -12,6 +12,7 @@ import { SalesComponent } from './sales/sales.component';
 import { SaleCreationComponent } from './sales-create/sales-create.component';
 import { MaterialModule } from 'src/app/infrastructure/material/material.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BundleToursComponent } from './bundle-tours/bundle-tours.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     WalletComponent,
     BundleComponent,
     BundleCreateComponent,
-    ExploreBundlesComponent
+    ExploreBundlesComponent,
+    BundleToursComponent
   ],
   imports: [
     CommonModule,

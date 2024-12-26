@@ -1,0 +1,60 @@
+<div *ngIf="isLoading" class="loading-spinner">
+    <div class="custom-spinner"></div>
+    <p class="loading-text">Loading tours...</p>
+</div>
+
+<div *ngIf="!isLoading">
+    <div id="tour">
+        <img id="imgb" src="../../../../assets/screenshot4.png">
+        <p class="tour-title">Bundle Tours</p>
+        <div id="tour-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let t of tours">
+                    <div class="card-content">
+                        <h3>{{ t.name }}</h3>
+                        <p>{{ t.description }}</p>
+                        <p>
+                            <strong>Price:</strong>
+                            <span style="margin-left: 5px;">
+                                {{ t.price | currency }}
+                            </span>
+                        </p>
+                        <p><strong>Tags:</strong>
+                            {{ t.tags }}
+                        </p>
+                        <p><strong>Tags:</strong>
+                            <ng-container *ngIf="t.transportInfo; else noTransportInfo">
+                                {{ t.transportInfo.time }} minutes
+                            </ng-container>
+                            <ng-template #noTransportInfo>
+                                <div>N/A</div>
+                            </ng-template>
+                        </p>
+                        <p><strong>Distance:</strong>
+                            <ng-container *ngIf="t.transportInfo; else noTransportInfoDistance">
+                                {{ t.transportInfo.distance }} km
+                            </ng-container>
+                            <ng-template #noTransportInfoDistance>
+                                <div>N/A</div>
+                            </ng-template>
+                        </p>
+                        <div *ngIf="t.keyPoints && t.keyPoints.length > 0; else noKeyPoint">
+                            <img [src]="t.keyPoints[0].imagePath" alt="{{ t.keyPoints[0].name }}" class="card-image" />
+                            <p><strong>First keypoint's name: </strong>
+                                {{ t.keyPoints[0].name }}
+                            </p>
+                            <p><strong>First keypoint's description: </strong>
+                                {{ t.keyPoints[0].description }}
+                            </p>
+                        </div>
+
+                        <ng-template #noKeyPoint>
+                            <p><strong>First keypoint's name: N/A</strong>
+                            </p>
+                        </ng-template>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>

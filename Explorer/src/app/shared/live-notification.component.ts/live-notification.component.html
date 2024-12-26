@@ -1,0 +1,7 @@
+<div *ngIf="currentNotification" class="modal">
+  <div class="fireworks"></div>
+  <h2>Congratulations!</h2>
+  <p class="button"><strong>{{ currentNotification.Content }}</strong></p>
+  <img [src]="currentNotification.ImagePath" alt="Achievement">
+  <button (click)="closeNotification()">Close</button>
+</div>

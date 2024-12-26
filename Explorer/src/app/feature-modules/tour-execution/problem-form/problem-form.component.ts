@@ -4,6 +4,8 @@ import { TourExecutionService } from '../tour-execution.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Problem, Details } from '../model/problem.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-problem-form',
@@ -16,7 +18,7 @@ export class ProblemFormComponent implements OnInit {
   problemDetails: Details;  
   problemDetailsForm: FormGroup;
 
-  constructor(private service: TourExecutionService, private route: ActivatedRoute, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private service: TourExecutionService, private route: ActivatedRoute, private fb: FormBuilder, private notificationService: NotificationService) {
     this.problemDetailsForm = this.fb.group({
       category: ['', Validators.required],
       problemPriority: [null, [Validators.required, Validators.min(0), Validators.max(3)]],
@@ -70,8 +72,6 @@ export class ProblemFormComponent implements OnInit {
   }
 
   openSnackbar(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000
-    });
+    this.notificationService.notify({ message:message, duration: 3000, notificationType: NotificationType.INFO });
   }
 }

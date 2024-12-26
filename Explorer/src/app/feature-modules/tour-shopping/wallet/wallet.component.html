@@ -1,9 +1,9 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
 <div class="wallet-container">
-    <h2>Your Wallet</h2>
+    <h2 class="wallet-title">Your Wallet</h2>
   
     <!-- Show balance if wallet is loaded -->
     <div *ngIf="wallet; else loadingOrError">
-      <p><strong>Tourist ID:</strong> {{ wallet.touristId }}</p>
       <p><strong>Balance:</strong> {{ wallet.balance }} AC</p>
     </div>
   

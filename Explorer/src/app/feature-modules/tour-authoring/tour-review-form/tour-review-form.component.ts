@@ -10,6 +10,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ImageService } from 'src/app/shared/image.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 
 
@@ -33,7 +35,7 @@ export class TourReviewFormComponent {
 
   @Output() tourReviewUpdated = new EventEmitter<null>();
 
-  constructor(private route: ActivatedRoute,private snackBar:MatSnackBar, private location: Location, private cdr: ChangeDetectorRef, private service: TourExecutionService, private imageService: ImageService, private datePipe: DatePipe, private authService: AuthService, private tokenStorage: TokenStorage) {
+  constructor(private route: ActivatedRoute,private notificationService: NotificationService, private location: Location, private cdr: ChangeDetectorRef, private service: TourExecutionService, private imageService: ImageService, private datePipe: DatePipe, private authService: AuthService, private tokenStorage: TokenStorage) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -58,10 +60,7 @@ export class TourReviewFormComponent {
           errorMessage = error.error.message;
         }
         this.feedbackMessage = errorMessage;
-        this.snackBar.open('Failed to load reviews. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load reviews. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }
@@ -135,10 +134,7 @@ export class TourReviewFormComponent {
       next: () => {
         this.feedbackMessage = '';
         console.log('Tour review added successfully');
-        this.snackBar.open('Review added successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Review added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         this.location.back();
         this.tourReviewUpdated.emit();
       },
@@ -146,10 +142,7 @@ export class TourReviewFormComponent {
 
         let errorMessage = 'An error occurred while adding the tour review.';
 
-        this.snackBar.open('Error while saving review', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Error while saving review', duration: 3000, notificationType: NotificationType.WARNING });
         if (error.error && error.error.message) {
           errorMessage = error.error.message;
         }

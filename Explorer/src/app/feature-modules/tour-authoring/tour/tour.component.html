@@ -1,14 +1,14 @@
 <div *ngIf="!isLoading">
     <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="tour">
-        <p class="tour-title">Tours</p>
+        <p class="tour-title">My Tours</p>
         <div class="add-new-tour">
             <button class="primary-button" (click)="onTours()">Individual tours</button>
             <button class="primary-button" (click)="onGroupTours()">Group tours</button>
             <button class="primary-button" (click)="onCouponsClicked()">My coupons</button>
-        </div>  
-        <hr>
-        <div *ngIf="isToursClicked" id="tour-details">
+        </div> 
+         <hr>
+         <div *ngIf="isToursClicked" id="tour-details">
             <div class="card-container">
                 <div class="card" *ngFor="let t of tours">
                   <div class="card-content">
@@ -23,9 +23,9 @@
                       <button color="accent" (click)="onAddKeyPoint(t.id!)" mat-icon-button matTooltip="Add new keypoint">
                         <img src="assets/icons/add-keypoint.png" alt="Add Keypoint Icon"/>
                       </button>
-                      <!-- <button color="primary" mat-icon-button>
-                          <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
-                        </button> -->
+                      <button color="primary" (click)="showEquipment(t.id!)" mat-icon-button matTooltip="Show equipment">
+                        <img src="assets/icons/equipment.png" alt="Equipment Icon"/>
+                      </button>
                       <button color="primary" (click)="onShowKeyPoints(t.id!)" mat-icon-button matTooltip="Show keypoints">
                           <img src="assets/icons/keypoints.png" alt="Keypoints Icon"/>
                         </button>
@@ -38,9 +38,6 @@
                       <button color="primary" *ngIf="t.status === 0 || t.status === 2" (click)="onEdit(t)" mat-icon-button matTooltip="Edit tour">
                         <img src="assets/icons/edit.png" alt="Edit Icon"/>
                       </button>
-                  </div>
-                  <div *ngIf="t.id">
-                    <xp-tour-equipment [tourId]="t.id"></xp-tour-equipment>
                   </div>
                 </div>
                 <div class="card add-card">
@@ -108,98 +105,83 @@
         
     </div>
 
-    <div class="modal" *ngIf="isCouponModalOpen">
-        <div class="modal-content">
-          <div class="close-modal" (click)="closeCouponModal()">×</div>
-          <div class="modal-header">Coupons</div>
-          <button color="primary" (click)="toggleCouponForm()">
-            {{ isCouponFormVisible ? (editMode ? 'Close Edit Form' : 'Close Form') : 'Add New Coupon' }}
-          </button>
-      
-          <div *ngIf="isCouponFormVisible" class="coupon-form">
-            <form (ngSubmit)="editMode ? updateCoupon() : createCoupon()" class="form-inline">
-              <div class="form-group">
-                <label for="discount">Discount</label>
-                <input
-                  type="number"
-                  id="discount"
-                  [(ngModel)]="newCoupon.discount"
-                  name="discount"
-                  placeholder="Discount"
-                  required
-                />
-              </div>
-      
-              <div class="form-group">
-                <label for="tourName">Tour</label>
-                <select
-                  id="tourName"
-                  [(ngModel)]="newCoupon.discountedTourId"
-                  name="tourName"
-                  required
-                >
-                  <option *ngFor="let tour of tours" [value]="tour.id">
+    <!-- Coupon Modal -->
+    <div class="modal-overlay" *ngIf="isCouponModalOpen">
+      <div class="modal-content">
+          <div class="popup-actions">
+            <button mat-button (click)="closeCouponModal()" *ngIf="!editMode">X</button>
+          </div>
+          <h2>{{ isCouponFormVisible ? (editMode ? 'Update Coupon' : 'Add Coupon') : 'Coupons' }}</h2>
+          <p *ngIf="(!coupons || coupons.length === 0) && !isCouponFormVisible">
+            There are no coupons</p>
+          <div class="coupon-card-actions">
+            <button color="accent" (click)="toggleCouponForm()" *ngIf="!isCouponFormVisible" mat-icon-button matTooltip="Add new coupon">
+              <img src="assets/icons/add.png" alt="Add Icon"/>
+            </button>
+          </div>
+
+          <div *ngIf="isCouponFormVisible">
+            <div class="coupon-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Discount</mat-label>
+                <input matInput [(ngModel)]="newCoupon.discount" type="number" placeholder="Enter discount amount" required/>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Tours</mat-label>
+                <mat-select [(ngModel)]="newCoupon.discountedTourId" name="tourName" required>
+                  <mat-option *ngFor="let tour of tours" [value]="tour.id">
                     {{ tour.name }}
-                  </option>
-                </select>
-              </div>
-      
-              <div class="form-group">
-                <label for="expiryDate">Expiry</label>
-                <input
-                  type="date"
-                  id="expiryDate"
-                  [(ngModel)]="newCoupon.expiryDate"
-                  name="expiryDate"
-                />
-              </div>
-      
-              <div class="form-group">
-                <label>
-                  <input
-                    type="checkbox"
-                    [(ngModel)]="newCoupon.allDiscounted"
-                    name="allDiscounted"
-                  />
-                  All Tours
-                </label>
-              </div>
-      
-              <button type="submit" color="primary">{{ editMode ? 'Update' : 'Create' }}</button>
-            </form>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Expiry date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="newCoupon.expiryDate" id="expiryDate" name="expiryDate" placeholder="Select expiry date" required/>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+                          
+              <label>
+                <input type="checkbox" [(ngModel)]="newCoupon.allDiscounted" name="allDiscounted" />
+                All Tours
+              </label>
+              
+              <button mat-raised-button type="submit" class="pop-button"(click)="editMode ? updateCoupon() : createCoupon()">
+                {{ editMode ? 'Update coupon' : 'Add coupon' }}
+              </button>
+            </div>
           </div>
-      
-          <div *ngIf="coupons.length > 0; else noCoupons">
-            <table>
-              <thead>
-                <tr>
-                  <th>Coupon Code</th>
-                  <th>Discount</th>
-                  <th>Expiry Date</th>
-                  <th>Tour Name</th>
-                  <th>All discounted</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let coupon of coupons">
-                  <td>{{ coupon.code }}</td>
-                  <td>{{ coupon.discount }}</td>
-                  <td>{{ coupon.expiryDate }}</td>
-                  <td>{{ coupon.tourName }}</td>
-                  <td>{{ coupon.allDiscounted }}</td>
-                  <td>
-                    <button color="primary" (click)="onEditClicked(coupon)">Edit</button>
-                    <button color="warn" (click)="deleteCoupon(coupon.id!)">Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+
+          <div class="card-list" *ngIf="!isCouponFormVisible">
+            <ng-container *ngFor="let coupon of coupons">
+              <div class="coupon-card" *ngIf="coupons.length > 0">
+                <div class="coupon-card-content">
+                  <h3>{{ coupon.code }}</h3>
+                    <p>{{ coupon.discount }}%</p>
+                    <p><strong>Expiry date:</strong> 
+                      {{ coupon.expiryDate }}
+                    </p>
+                    <p><strong>Tour name:</strong> 
+                      {{ coupon.tourName }}
+                    </p>
+                    <p><strong>All tours discounted:</strong> 
+                      {{ coupon.allDiscounted }}
+                    </p>
+                </div>
+                <div class="coupon-card-actions">
+                    <button color="accent" (click)="deleteCoupon(coupon.id!)" mat-icon-button matTooltip="Delete coupon">
+                      <img src="assets/icons/delete.png" alt="Delete Icon"/>
+                    </button>
+                    <button color="accent" (click)="onEditClicked(coupon)" mat-icon-button matTooltip="Edit coupon">
+                      <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                    </button>
+                </div>
+              </div>
+            </ng-container>
           </div>
-          <ng-template #noCoupons>
-            <p>No coupons available.</p>
-          </ng-template>
-        </div>
+
       </div>
-    
+    </div>
 </div>

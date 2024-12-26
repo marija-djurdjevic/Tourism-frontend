@@ -10,6 +10,8 @@ import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Comment } from '../model/problem.model';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-problems-list',
@@ -44,7 +46,7 @@ export class ProblemsListComponent {
   usernamesMap: Map<number, string> = new Map();
   isLoading=false;
 
-  constructor(private service: TourExecutionService,private snackBar:MatSnackBar, private cdr: ChangeDetectorRef, private tourService: TourAuthoringService, private router: Router, private authService: AuthService, private datePipe: DatePipe) { }
+  constructor(private service: TourExecutionService,private notificationService: NotificationService, private cdr: ChangeDetectorRef, private tourService: TourAuthoringService, private router: Router, private authService: AuthService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
 
@@ -141,6 +143,7 @@ export class ProblemsListComponent {
 
       error: (err: any) => {
         console.log(err);
+        this.notificationService.notify({ message:'Failed to set deadline. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
     this.flag3 = false;
@@ -160,10 +163,7 @@ export class ProblemsListComponent {
         error: (err: any) => {
           console.log(err);
           this.isLoading=false
-          this.snackBar.open('Failed to load problems. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to load problems. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
     }
@@ -179,10 +179,7 @@ export class ProblemsListComponent {
         error: (err: any) => {
           console.log(err);
           this.isLoading=false;
-          this.snackBar.open('Failed to load problems. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to load problems. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
     }
@@ -198,10 +195,7 @@ export class ProblemsListComponent {
         error: (err: any) => {
           console.log(err);
           this.isLoading=false;
-          this.snackBar.open('Failed to load problems. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to load problems. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
     }
@@ -239,6 +233,7 @@ export class ProblemsListComponent {
         },
         error: (err: any) => {
           console.log(err);
+          this.notificationService.notify({ message:'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     }
@@ -251,6 +246,7 @@ export class ProblemsListComponent {
         },
         error: (err: any) => {
           console.log(err);
+          this.notificationService.notify({ message:'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     }
@@ -265,6 +261,7 @@ export class ProblemsListComponent {
         },
         error: (err: any) => {
           console.log(err);
+          this.notificationService.notify({ message:'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       })
     }
@@ -331,9 +328,11 @@ export class ProblemsListComponent {
     this.service.changeStatus(this.selectedId, 1).subscribe({
       next: (response) => {
         console.log('Status changed successfully:', response);
+        this.notificationService.notify({ message:'Status changed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (error) => {
         console.error('Error changing status:', error);
+        this.notificationService.notify({ message:'Failed to solve problem. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
     this.flag2 = false;
@@ -369,17 +368,11 @@ export class ProblemsListComponent {
       this.service.touristAddComment(this.selectedItem.id as number, this.comm).subscribe({
         next: () => {
           console.log('Comment added successfully');
-          this.snackBar.open('Comment added successfully!', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Comment added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         },
         error: (err) => {
           console.error('Error adding comment:', err);
-          this.snackBar.open('Failed to add comment. Please try again.', 'Close', {
-            duration: 3000,
-            panelClass:"succesful"
-          });
+          this.notificationService.notify({ message:'Failed to add comment. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
         }
       });
 

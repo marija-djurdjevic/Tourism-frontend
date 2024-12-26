@@ -4,92 +4,78 @@
 </div>
 
 <div *ngIf="!isLoading">
-    <div id="tour">
-        <p>Purchased Tours</p>
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+    <div id="purchased">
+        <p class="purchased-title">Purchased Tours</p>
         <hr>
-        <div id="tour-details">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Duration</th>
-                        <th>Distance</th>
-                        <th></th>
-                        <th>Add review</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of tours">
-                        <td>{{ t.id }}</td>
-                        <td>{{ t.name }}</td>
-                        <td>{{ t.description }}</td>
-                        <td>{{ t.transportInfo.time }} minutes</td>
-                        <td>{{ t.transportInfo.distance }} km</td>
-                        <td>
-                            <button (click)="showKeyPoints(t)">Show Key Points</button>
-                            
-                            <button 
-                                class="execute-button"
-                                (click)="onStartTourSession(t.id ?? 0)"
-                                style="padding: 8px 16px; background-color: #ff9800; color: white; border: none; cursor: pointer; font-weight: bold; margin-left: 10px; font-size: 16px;">
-                                Execute
+        <div id="purchased-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let t of tours">
+                  <div class="card-content">
+                    <h3>{{ t.name }}</h3>
+                    <p>{{ t.description }}</p>
+                    <p><strong>Duration:</strong>
+                        {{ t.transportInfo.time }} min
+                    </p>
+                    <p><strong>Distance:</strong> 
+                        {{ t.transportInfo.distance }} km
+                    </p>
+                  </div>
+                  <div class="card-actions">
+                    <div class="icon-item1">
+                        <button color="primary" (click)="showKeyPoints(t)" mat-icon-button matTooltip="Show keypoints">
+                            <img src="assets/icons/keypoints.png" alt="Keypoints Icon"/>
+                        </button>
+                        <button color="primary" (click)="onStartTourSession(t.id ?? 0)" mat-icon-button matTooltip="Start tour">
+                            <img src="assets/icons/start.png" alt="Start Icon"/>
+                        </button>
+                        <button color="accent" (click)="confirmAction(t.id ?? 0)" mat-icon-button matTooltip="Refund tour">
+                              <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
+                        </button>
+                        <ng-container *ngIf="t.reviewStatus==0">
+                            <button color="primary" (click)="reviewTour(t.id ?? 0,t.name)" mat-icon-button matTooltip="Add review">
+                                <img src="assets/icons/review.png" alt="Review Icon"/>
                             </button>
-                            <button 
-                                class="execute-button"
-                                (click)="confirmAction(t.id ?? 0)" 
-                                style="padding: 8px 16px; background-color: #e65218; color: white; border: none; cursor: pointer; font-weight: bold; margin-left: 10px; font-size: 16px;">
-                                Refund
+                        </ng-container>
+                        <ng-container *ngIf="t.reviewStatus==3">
+                            <button color="primary" (click)="reviewTour(t.id ?? 0,t.name)" mat-icon-button matTooltip="Edit review">
+                                <img src="assets/icons/edit-review.png" alt="Edit Icon"/>
                             </button>
-                        </td>
-                        <td>
-                            <ng-container *ngIf="t.reviewStatus==0">
-                                <button (click)="reviewTour(t.id ?? 0,t.name)">
-                                    Review <img src="assets/icons/cart.png" alt="Shopping Cart" width="20" height="20"
-                                        style="vertical-align: middle;">
-                                </button>
-                            </ng-container>
-                            <ng-container *ngIf="t.reviewStatus==1">
-                                <span style="color: green; font-weight: bold;">Reviewed</span>
-                            </ng-container>
-                            <ng-container *ngIf="t.reviewStatus==2">
-                                <span style="color: red; font-weight: bold;">Not allowed</span>
-                            </ng-container>
-                            <ng-container *ngIf="t.reviewStatus==3">
-                                <button (click)="reviewTour(t.id ?? 0,t.name)">
-                                    Modify review <img src="assets/icons/cart.png" alt="Shopping Cart" width="20"
-                                        height="20" style="vertical-align: middle;">
-                                </button>
-                            </ng-container>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </ng-container>
+                    </div>
+
+                    <div class="icon-item2">
+                        <ng-container *ngIf="t.reviewStatus==1">
+                            <span class="status-text" style="color: #34AB45;">Reviewed</span>
+                        </ng-container>
+                        <ng-container *ngIf="t.reviewStatus==2">
+                            <span class="status-text" style="color: black;">Reviewing not allowed</span>
+                        </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>  
         </div>
     </div>
 
     <!-- Key Points Modal -->
     <div class="modal-overlay" *ngIf="isKeyPointsModalOpen">
         <div class="modal-content">
+            <div class="popup-actions">
+                <button mat-button (click)="closeKeyPointsModal()">X</button>
+            </div>
             <h2>Key Points</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let kp of selectedTourKeyPoints">
-                        <td>{{ kp.name }}</td>
-                        <td>{{ kp.description }}</td>
-                        <td><img [src]="kp.imagePath" alt="{{ kp.name }}" width="50" /></td>
-                    </tr>
-                </tbody>
-            </table>
-            <button (click)="closeKeyPointsModal()">Close</button>
+            <div class="card-list">
+              <ng-container *ngFor="let kp of selectedTourKeyPoints">
+                <div class="keypoint-card">
+                  <div class="keypoint-card-content">
+                      <img [src]="kp.imagePath" alt="{{ kp.name }}" class="card-image"/>
+                      <h3>{{ kp.name }}</h3>
+                      <p>{{ kp.description }}</p>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
         </div>
-    </div>
+      </div>
 </div>

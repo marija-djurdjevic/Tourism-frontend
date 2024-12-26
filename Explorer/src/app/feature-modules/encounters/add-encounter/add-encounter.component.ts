@@ -7,6 +7,8 @@ import { EncounterService } from '../encounter.service';
 import { ImageService } from 'src/app/shared/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { range } from 'rxjs';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-add-encounter',
@@ -24,7 +26,7 @@ export class AddEncounterComponent implements OnInit {
   selectedFile: File;
   coordinates: Coordinates = { latitude: 0, longitude: 0 };
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private snackBar: MatSnackBar, private service: EncounterService, private imageService: ImageService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private notificationService:NotificationService, private service: EncounterService, private imageService: ImageService) {
     if (this.createdByTourist) {
       this.imageService.setControllerPath("tourist/image");
     } else {
@@ -91,10 +93,7 @@ export class AddEncounterComponent implements OnInit {
     if (this.encounterForm.invalid || (this.encounterForm.get('category')?.value == 1 && this.selectedFile === undefined)) {
       this.encounterForm.markAllAsTouched();
       if (this.encounterForm.get('category')?.value == 1 && this.selectedFile === undefined) {
-        this.snackBar.open('Please select an image.', 'Close', {
-          duration: 3000,
-          panelClass: "error"
-        });
+        this.notificationService.notify({ message:'Please select an image.', duration: 3000, notificationType: NotificationType.INFO });
       }
       return;
     }
@@ -141,17 +140,11 @@ export class AddEncounterComponent implements OnInit {
     this.service.addEncounter(encounter,this.createdByTourist?'tourist':'author').subscribe({
       next: (response) => {
         console.log('Added Encounter', response);
-        this.snackBar.open('Encounter added successfully!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Encounter added successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: () => {
         console.log('Došlo je do greške prilikom kreiranja encountera.');
-        this.snackBar.open('Failed to add encounter. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Failed to add encounter. Please try again.', duration: 3000, notificationType: NotificationType.ERROR });
       }
     });
   }

@@ -32,8 +32,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { GroupTourDetailsDialogComponent } from './group-tour-details-dialog/group-tour-details-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
-
-
 @NgModule({
   declarations: [
     ClubsComponent,
@@ -63,7 +61,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatFormFieldModule,
     MatTooltipModule,
     MatDatepickerModule,
-    MatDialogModule,
+    MatDialogModule
   ],
   exports: [
     ClubsComponent,

@@ -1,0 +1,172 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+  z-index: 1000;
+}
+
+.modal h2 {
+  font-size: 2em;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+}
+
+.modal p {
+  font-size: 1.2em;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.modal img {
+  display: block;
+  margin: 0 auto 20px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid var(--secondary-color);
+}
+
+.modal button {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal button:hover {
+  background: red;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(255, 111, 97, 0.8), 0 0 30px rgba(255, 111, 97, 0.6);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(255, 111, 97, 1), 0 0 40px rgba(255, 111, 97, 0.8);
+  }
+}
+
+/* Vatromet oko slike */
+@keyframes fireworks {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.button:active {
+  transform: scale(0.96);
+}
+
+.button:before,
+.button:after {
+  position: absolute;
+  content: "";
+  width: 150%;
+  left: 50%;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: -1000;
+  background-repeat: no-repeat;
+}
+
+/* Prethodni stil za hover animacije na `:before` */
+.button:before {
+  top: -70%;
+  background-image: radial-gradient(circle, var(--secondary-color) 20%, transparent 20%),
+    radial-gradient(circle, transparent 20%, red 20%, transparent 30%),
+    radial-gradient(circle, blue 20%, transparent 20%),
+    radial-gradient(circle, rgb(255, 0, 153) 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, rgb(6, 207, 252) 15%, transparent 20%),
+    radial-gradient(circle, rgb(217, 255, 0) 20%, transparent 20%),
+    radial-gradient(circle, rgb(255, 162, 0) 20%, transparent 20%),
+    radial-gradient(circle, black 20%, transparent 20%),
+    radial-gradient(circle, rgb(85, 255, 0) 20%, transparent 20%);
+  background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
+    10% 10%, 18% 18%;
+  background-position: 50% 120%;
+  animation: greentopBubbles 1.0s ease-in-out infinite both; /* Dodata `infinite` animacija */
+}
+
+/* Prethodni stil za hover animacije na `:after` */
+.button:after {
+  bottom: -90%;
+  background-image: radial-gradient(circle, rgb(0, 255, 187) 20%, transparent 20%),
+    radial-gradient(circle, rgb(136, 255, 0) 20%, transparent 20%),
+    radial-gradient(circle, transparent 10%, red 15%, transparent 20%),
+    radial-gradient(circle, rgb(255, 0, 195) 20%, transparent 20%),
+    radial-gradient(circle, rgb(255, 238, 0) 20%, transparent 20%),
+    radial-gradient(circle, rgb(0, 204, 255) 20%, transparent 20%),
+    radial-gradient(circle, var(--secondary-color) 20%, transparent 20%);
+  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18%;
+  background-position: 50% 0%;
+  animation: greenbottomBubbles 1.0s ease infinite; /* Dodata `infinite` animacija */
+}
+
+@keyframes greentopBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+      40% 90%, 55% 90%, 70% 90%;
+  }
+
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+      50% 50%, 65% 20%, 90% 30%;
+  }
+
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+      50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+@keyframes greenbottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+      70% -10%, 70% 0%;
+  }
+
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+      105% 0%;
+  }
+
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+      110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
