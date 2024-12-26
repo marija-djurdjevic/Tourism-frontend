@@ -49,7 +49,7 @@ export class TourComponent implements OnInit {
       allDiscounted: false,
     };
 
-  constructor(private service: TourAuthoringService, private notificationService: NotificationService, private snackBar:MatSnackBar, private router: Router, private authService: AuthService,
+  constructor(private service: TourAuthoringService, private notificationService: NotificationService, private router: Router, private authService: AuthService,
     private shoppingService: TourShoppingService, private dialog: MatDialog
   ) { }
 
@@ -140,10 +140,7 @@ export class TourComponent implements OnInit {
           },
           error: () => {
             this.isLoading = false;
-            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
-              duration: 3000,
-              panelClass: 'succesful'
-            });
+           
           }
         });
       } else {
@@ -155,10 +152,7 @@ export class TourComponent implements OnInit {
           },
           error: () => {
             this.isLoading = false;
-            this.snackBar.open('Failed to load tours. Please try again.', 'Close', {
-              duration: 3000,
-              panelClass: 'succesful'
-            });
+            
           }
         });
       }
