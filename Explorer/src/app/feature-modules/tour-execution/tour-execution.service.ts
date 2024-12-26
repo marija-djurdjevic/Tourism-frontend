@@ -545,6 +545,15 @@ export class TourExecutionService {
     );
   }
 
+  acceptRequestStatusStory(requestDto: PublishRequest): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/stories/status/${requestDto.id}`;
+    return this.http.put<PublishRequest>(url, requestDto);
+  }
+
+  declineRequestStatusStory(requestDto: PublishRequest): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/stories/status/${requestDto.id}`;
+    return this.http.put<PublishRequest>(url, requestDto);
+  }
   updateRequestStatusObject(requestDto: PublishRequest): Observable<PublishRequest> {
     const url = `${environment.apiHost}administrator/object/${requestDto.id}`;
     return this.http.put<PublishRequest>(url, requestDto).pipe(
@@ -556,6 +565,10 @@ export class TourExecutionService {
       })
     );
   }
+  updateRequestStatusStory(requestDto: PublishRequest): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/publishRequest/${requestDto.id}`;
+    return this.http.put<PublishRequest>(url, requestDto);
+  }
   updateEncounterExecution(EncounterExecution: EncounterExecution): Observable<EncounterExecution> {
     return this.http.post<EncounterExecution>(' https://localhost:44333/api/tourist/encounterExecution/update', EncounterExecution).pipe(
       tap((response) => {
@@ -566,4 +579,18 @@ export class TourExecutionService {
       })
     );
   }
+
+  unlockStory(storyId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.apiHost}tourist/stories/unlockStory`, {
+      params: {
+        storyId: storyId.toString()
+      }
+    });
+  }
+  getRequest(id: number): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/publishRequest/getById`;
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.get<PublishRequest>(url, { params });
+  }
+  
 }

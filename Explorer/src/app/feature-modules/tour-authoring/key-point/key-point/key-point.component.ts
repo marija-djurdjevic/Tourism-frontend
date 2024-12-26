@@ -187,12 +187,13 @@ export class KeyPointComponent implements OnInit {
   }
   
 
-
+  addStory(id:number|undefined){
+    this.router.navigate(['/story-form',id, this.tourId]);
+  }
 
 
   addEncounter(id:number|undefined){
     this.router.navigate(['/add-encounter',id]);
   }
 
-  
 }
