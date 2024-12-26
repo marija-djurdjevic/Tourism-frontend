@@ -124,7 +124,7 @@ export class BookFormComponent implements OnInit {
                                 request.adminId = this.user.id;
                               }
                              
-                              this.tourService.updateRequestStatusStory(request).subscribe({
+                              this.tourService.acceptRequestStatusStory(request).subscribe({
                                   next: (updatedRequest: PublishRequest) => {
                                     console.log('Request successfully updated:', updatedRequest);
                                     

@@ -271,6 +271,11 @@ export class TourExecutionService {
     return this.http.put<PublishRequest>(url, requestDto);
   }
 
+  acceptRequestStatusStory(requestDto: PublishRequest): Observable<PublishRequest> {
+    const url = `${environment.apiHost}administrator/stories/status/${requestDto.id}`;
+    return this.http.put<PublishRequest>(url, requestDto);
+  }
+
   declineRequestStatusStory(requestDto: PublishRequest): Observable<PublishRequest> {
     const url = `${environment.apiHost}administrator/stories/status/${requestDto.id}`;
     return this.http.put<PublishRequest>(url, requestDto);
