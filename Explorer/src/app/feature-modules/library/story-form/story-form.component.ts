@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImageService } from 'src/app/shared/image.service';
 import { Story } from '../model/story.model';
 import { StoryService } from '../story.service';
@@ -14,11 +14,12 @@ import { StoryService } from '../story.service';
 export class StoryFormComponent {
   storyForm: FormGroup;
   keyPointId: number;
+  tourId:number;
   story:Story;
   imageId:Number;
   selectedFile: File;
   previewImage: string | null = null
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private snackBar: MatSnackBar, private service:StoryService, private imageService: ImageService) {
+  constructor(private fb: FormBuilder, private router:Router, private route: ActivatedRoute, private snackBar: MatSnackBar, private service:StoryService, private imageService: ImageService) {
   
     imageService.setControllerPath("author/image");
     
@@ -30,6 +31,7 @@ export class StoryFormComponent {
 
   ngOnInit(): void {
     this.keyPointId = +this.route.snapshot.paramMap.get('id')!;
+    this.tourId = +this.route.snapshot.paramMap.get('tourId')!;
     this.story = {
       id: 0,
       authorId: 0,
@@ -63,6 +65,7 @@ export class StoryFormComponent {
       this.imageService.getImage(imageId);
       this.story.imageId=imageId;
       this.addStory(this.story);
+      this.router.navigate(['/key-points',this.tourId]);
     })
 }
 

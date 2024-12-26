@@ -196,6 +196,7 @@ const routes: Routes = [
     path: 'publishRequestList',
     component: PublishRequestComponent,
     canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always' 
   },
   { 
     path: 'sales', 
@@ -208,7 +209,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path:'story-form/:id',
+    path:'story-form/:id/:tourId',
     component:StoryFormComponent,
     canActivate:[AuthGuard]
   },

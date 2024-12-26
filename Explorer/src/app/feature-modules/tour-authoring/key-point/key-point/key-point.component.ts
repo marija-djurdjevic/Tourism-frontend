@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { KeyPointService } from '../../key-point.service'; 
 import { KeyPoint } from '../../model/key-point.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,13 +18,27 @@ export class KeyPointComponent implements OnInit {
   selectedKeyPoint: KeyPoint | null = null;
 
 
-  constructor(private route: ActivatedRoute, private keyPointService: KeyPointService,private snackBar:MatSnackBar,private router:Router) { }
+  constructor(private route: ActivatedRoute,private cdr: ChangeDetectorRef, private keyPointService: KeyPointService,private snackBar:MatSnackBar,private router:Router) {  this.router.events.subscribe((event) => {
+    if (event instanceof NavigationEnd) {
+      this.loadKeyPoints(); // Reload key points whenever navigation ends
+    }
+  });}
 
 
   ngOnInit(): void {
-    this.tourId = Number(this.route.snapshot.paramMap.get('tourId')); // Uzimanje tourId iz URL-a
-    this.newKeyPoint = { tourIds: [this.tourId], name: '', description: '', imagePath: '', longitude:0, latitude:0, status: 1 }; // Inicijalizacija newKeyPoint
-    this.loadKeyPoints(); // Poziv funkcije za učitavanje ključnih tačaka
+    this.route.params.subscribe((params) => {
+      this.tourId = Number(params['tourId']); 
+      this.newKeyPoint = { 
+        tourIds: [this.tourId], 
+        name: '', 
+        description: '', 
+        imagePath: '', 
+        longitude: 0, 
+        latitude: 0, 
+        status: 1 
+      }; 
+      this.loadKeyPoints(); 
+    });
   }
 
   onEdit(keyPoint: KeyPoint) {
@@ -59,6 +73,7 @@ export class KeyPointComponent implements OnInit {
           this.keyPoints = keyPoints.filter(kp => Array.isArray(kp.tourIds) && kp.tourIds.includes(this.tourId) && (kp.status == 1 || kp.status ==2)); // Ensure tourIds is an array
           console.log('Filtrirane ključne tačke: ', this.keyPoints);
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (err: any) => {
           console.log(err);
@@ -145,9 +160,9 @@ export class KeyPointComponent implements OnInit {
     this.router.navigate(['/add-encounter',id]);
   }
   addStory(id:number|undefined){
-    this.router.navigate(['/story-form',id]);
+    this.router.navigate(['/story-form',id, this.tourId]);
   }
 
-  
+
   
 }

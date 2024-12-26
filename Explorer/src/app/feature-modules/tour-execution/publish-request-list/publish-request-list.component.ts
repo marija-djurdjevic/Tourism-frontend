@@ -4,7 +4,7 @@ import { PagedResults } from 'src/app/shared/model/paged-results.model';
 import { PublishRequest } from '../model/publish-request.model';
 import { TourAuthoringService } from 'src/app/feature-modules/tour-authoring/tour-authoring.service';
 import { Tour } from 'src/app/feature-modules/tour-authoring/model/tour.model';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { Comment} from '../model/problem.model';
@@ -34,9 +34,15 @@ import { Story } from '../../library/model/story.model';
 
     usernamesMap: Map<number, string> = new Map();
     selectedRequest: PublishRequest | undefined;
-    constructor(private service: TourExecutionService,private storyService: StoryService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService, private cdr: ChangeDetectorRef) { imageService.setControllerPath("administrator/image");} 
+    constructor(private service: TourExecutionService,private storyService: StoryService, private tourService:TourAuthoringService, private router: Router, private authService: AuthService, private imageService: ImageService, private cdr: ChangeDetectorRef) {
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.loadAllRequests(); // Reload key points whenever navigation ends
+        }
+      });
+     imageService.setControllerPath("administrator/image");} 
     ngOnInit(): void {
-
+      
         this.authService.user$.subscribe((user: User | undefined) => {
           this.user = user;
           console.log("User role:", this.user?.role);
