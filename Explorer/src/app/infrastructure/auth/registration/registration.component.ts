@@ -40,7 +40,7 @@ export class RegistrationComponent {
     if (this.registrationForm.valid) {
       this.authService.register(registration).subscribe({
         next: () => {
-          this.router.navigate(['home']);
+          this.router.navigate(['/explore-tours']);
           this.notificationService.notify({ message:'Registration successful', duration: 3000, notificationType: NotificationType.SUCCESS });
         },error: (error) => {
           this.notificationService.notify({ message:'Registration failed', duration: 3000, notificationType: NotificationType.WARNING });
