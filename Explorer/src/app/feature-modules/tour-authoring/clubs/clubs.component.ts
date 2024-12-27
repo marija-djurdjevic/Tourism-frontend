@@ -32,6 +32,12 @@ export class ClubsComponent implements OnInit {
   invitedClubs: Clubs[] = []; // Clubs that invited the logged-in tourist
   isInvitationModalOpen = false;
   isClubFormModalOpen = false;
+  searchQuery: string = '';
+  filteredTourists = this.touristsInv;
+  filteredMembers = this.members;
+  filteredRequests = this.reqMembers;
+
+  
 
   user : User
 
@@ -130,6 +136,7 @@ export class ClubsComponent implements OnInit {
         this.tourists = response;
         console.log(this.tourists)
         this.touristsInv = this.tourists.filter((t) => t.id !== this.user.id)
+        this.filteredTourists = this.touristsInv
       },
       error: (err) => {
         console.error('Failed to load tourists:', err);
@@ -149,14 +156,17 @@ export class ClubsComponent implements OnInit {
     alert(`Invited ${tourist.username} to club ${this.selectedClub?.name}`);
   }
 
-  loadMembers(): Tourist[] {
+  loadMembers(): void {
     this.members = this.tourists.filter(tourist => this.selectedClub.memberIds.includes(tourist.id));
-    return this.members
+    this.filteredMembers = [...this.members]
+    //
+    //return this.members
   }
 
-  loadReqMembers(): Tourist[] {
+  loadReqMembers(): void {
     this.reqMembers = this.tourists.filter(tourist => this.selectedClub.requestIds.includes(tourist.id));
-    return this.reqMembers
+    this.filteredRequests = [...this.reqMembers]
+    //return this.reqMembers
   }
 
 setActiveTab(tab: string) {
@@ -267,6 +277,23 @@ openClubFormModal(club?: any) {
 
 closeClubFormModal() {
   this.isClubFormModalOpen = false;
+}
+
+filterList(tab: string): void {
+  const query = this.searchQuery.toLowerCase();
+  if (tab === 'invites') {
+    this.filteredTourists = this.touristsInv.filter(tourist =>
+      tourist.username!.toLowerCase().includes(query)
+    );
+  } else if (tab === 'members') {
+    this.filteredMembers = this.members.filter(member =>
+      member.username!.toLowerCase().includes(query)
+    );
+  } else if (tab === 'requests') {
+    this.filteredRequests = this.reqMembers.filter(reqMember =>
+      reqMember.username!.toLowerCase().includes(query)
+    );
+  }
 }
 
 }

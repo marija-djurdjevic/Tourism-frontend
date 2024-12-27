@@ -91,42 +91,74 @@
 
             <!-- Tab Content -->
             <div *ngIf="activeTab === 'invites'">
+                <div class="search-container">
+                    <img src="assets/icons/search.png" alt="Search Icon" class="search-icon" />
+                    <input
+                      type="text"
+                      placeholder="Search by username"
+                      [(ngModel)]="searchQuery"
+                      (input)="filterList('invites')"
+                      class="search-input"
+                    />
+                  </div>
                 <div class="modal-content-container">
                     <div class="modal-column-header">Username</div>
                     <div class="modal-column-header">Email</div>
                     <div class="modal-column-header">Action</div>
 
-                    <div class="modal-row" *ngFor="let tourist of touristsInv">
+                    <div class="modal-row" *ngFor="let tourist of filteredTourists">
                         <span>{{ tourist.username }}</span>
                         <span>{{ tourist.id }}</span>
                         <button (click)="inviteTourist(tourist)">Invite</button>
                     </div>
-                    <div *ngIf="tourists.length === 0">No tourists to invite.</div>
+                    <div *ngIf="filteredTourists.length === 0">No tourists to invite.</div>
                 </div>
             </div>
 
             <div *ngIf="activeTab === 'members'">
+                <div class="search-container">
+                    <img src="assets/icons/search.png" alt="Search Icon" class="search-icon" />
+                    <input
+                      type="text"
+                      placeholder="Search by username"
+                      [(ngModel)]="searchQuery"
+                      (input)="filterList('invites')"
+                      (ngModelChange)="filterList(activeTab)"
+                      class="search-input"
+                    />
+                  </div>
                 <div class="modal-content-container">
                     <div class="modal-column-header">Username</div>
                     <div class="modal-column-header">Id</div>
                     <div class="modal-column-header">Action</div>
 
-                    <div class="modal-row" *ngFor="let member of members">
+                    <div class="modal-row" *ngFor="let member of filteredMembers">
                         <span>{{ member.username }}</span>
                         <span>{{ member.id }}</span>
                         <button (click)="removeMember(member)">Remove</button>
                     </div>
-                    <div *ngIf="members.length === 0">No members in the club.</div>
+                    <div *ngIf="filteredMembers.length === 0">No members in the club.</div>
                 </div>
             </div>
 
             <div *ngIf="activeTab === 'requests'">
+                <div class="search-container">
+                    <img src="assets/icons/search.png" alt="Search Icon" class="search-icon" />
+                    <input
+                      type="text"
+                      placeholder="Search by username"
+                      [(ngModel)]="searchQuery"
+                      (ngModelChange)="filterList(activeTab)"
+                      (input)="filterList('invites')"
+                      class="search-input"
+                    />
+                  </div>
                 <div class="modal-content-container">
                     <div class="modal-column-header">Username</div>
                     <div class="modal-column-header">Id</div>
                     <div class="modal-column-header">Action</div>
 
-                    <div class="modal-row" *ngFor="let reqMember of reqMembers">
+                    <div class="modal-row" *ngFor="let reqMember of filteredRequests">
                         <span>{{ reqMember.username }}</span>
                         <span>{{ reqMember.id }}</span>
                         <span class="action-buttons">
@@ -134,7 +166,7 @@
                             <button (click)="denyRequest(selectedClub.id, reqMember.id!)">Deny</button>
                         </span>                    
                     </div>
-                    <div *ngIf="reqMembers.length === 0">No join requests in the club.</div>
+                    <div *ngIf="filteredRequests.length === 0">No join requests in the club.</div>
                 </div>
             </div>
         </div>

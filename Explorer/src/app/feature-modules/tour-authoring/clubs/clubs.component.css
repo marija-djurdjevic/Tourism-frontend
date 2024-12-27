@@ -563,3 +563,38 @@ tbody tr.active-row {
 .form-modal .close-modal:hover {
   color: #000; /* Highlight on hover */
 }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 5px;
+  background-color: #f0f8ff; /* AliceBlue for consistency */
+  border: 1px solid #add8e6; /* Light blue border */
+  border-radius: 8px;
+  width: 400px
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.search-input {
+  width: 80px;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-input::placeholder {
+  color: #b0c4de; /* Light Steel Blue */
+}
+
+.search-input:focus {
+  border: 1px solid #4682b4; /* SteelBlue */
+  box-shadow: 0 0 5px #4682b4;
+}
