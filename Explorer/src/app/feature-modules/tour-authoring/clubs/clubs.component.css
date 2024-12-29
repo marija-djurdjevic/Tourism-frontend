@@ -130,16 +130,6 @@ tbody tr.active-row {
     object-fit: cover;
 }
 
-/* Form Container */
-#club-form {
-    width: 50%;              /* Take up the other 50% of the screen */
-    padding-left: 20px;      /* Add space between table and form */
-    box-sizing: border-box;  /* Ensure padding doesn't push it out */
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-
 /* Modal - Light themed with centered positioning */
 .modal {
     display: flex;
