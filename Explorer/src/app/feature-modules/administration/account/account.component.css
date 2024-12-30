@@ -14,7 +14,6 @@
     justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
     align-items: center; /* Horizontalno centrirano */
     flex-direction: column; /* Elementi idu vertikalno */
-    min-height: 100vh; /* Da pokrije visinu ekrana */
     margin-top: 20px; /* Dodatni razmak od vrha */
 }
 
@@ -79,11 +78,22 @@
   
   .card-actions {
     display: flex;
-    justify-content: center; /* Ikonice centrirane */
-    gap: 4px; /* Smanjenje razmaka između ikonica */
-    margin-top: 8px; /* Smanjenje razmaka između teksta i dugmadi */
-    width: 100%; /* Osigurava da dugmadi popunjavaju širinu kartice */
-    justify-content: center; /* Centriranje dugmadi */
+    justify-content: center; /* Centriranje ikonica horizontalno */
+    align-items: flex-start; /* Poravnanje ikonica prema vrhu */
+    gap: 12px; /* Razmak između ikonica */
+  }
+
+.icon-item {
+  display: flex;
+  flex-direction: column; /* Vertikalno poravnanje unutar jednog elementa */
+  align-items: center; /* Centriranje ikonice i teksta unutar jednog kontejnera */
+}
+
+.status-text {
+  margin-top: 4px; /* Razmak između ikonice i teksta */
+  font-size: 0.85rem; /* Veličina fonta za tekst */
+  font-weight: bold;
+  text-align: center;
 }
 
   .card:hover {
@@ -139,4 +149,39 @@
 
 .save-button:hover {
     background-color: #2ecc71;
+}
+
+
+.balance-input {
+  width: 65px; /* Adjust width as per your UI needs */
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc; /* Light border for visibility */
+  border-radius: 4px; /* Rounded corners */
+  text-align: center; /* Center the text inside the input */
+  margin: 5px 0; /* Add some spacing around the input */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle inner shadow for depth */
+}
+
+.balance-input:focus {
+  outline: none; /* Remove default blue outline on focus */
+  border-color: #1976d2; /* Highlighted border color */
+  box-shadow: 0 0 5px rgba(25, 118, 210, 0.5); /* Subtle outer glow for focus */
+}
+
+.balance-input::placeholder {
+  color: #aaa; /* Light gray color for the placeholder text */
+  font-style: italic;
+}
+
+.balance-input {
+  -moz-appearance: textfield; /* For Firefox */
+  -webkit-appearance: none; /* For Chrome, Safari, and Edge */
+  appearance: none; /* Standardized property */
+}
+
+.balance-input::-webkit-inner-spin-button, 
+.balance-input::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Disable the spin buttons */
+  margin: 0; /* Remove margin for better alignment */
 }

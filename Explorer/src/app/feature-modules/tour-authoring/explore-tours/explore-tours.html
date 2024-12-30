@@ -1,10 +1,6 @@
-<div *ngIf="isLoading" class="loading-spinner">
-    <div class="custom-spinner"></div>
-    <p class="loading-text">Loading tours...</p>
-</div>
-
 <div *ngIf="!isLoading">
     <div class="tour-container">
+        <!-- Tour Cards -->
         <div class="tour-card" *ngFor="let tour of tours" [class.selected]="tour.id && isSelectedTour(tour.id)">
             <div class="tour-header">
                 <h2>{{ tour.name }}</h2>
@@ -14,6 +10,25 @@
                 <p><strong>Difficulty:</strong> {{ getDifficultyLabel(tour.difficulty) }}</p>
                 <p><strong>Status:</strong> {{ getStatusLabel(tour.status) }}</p>
                 <p><strong>Tags:</strong> {{ tour.tags }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top 3 Blogs Section -->
+    <div id="blog-details">
+        <h3>Top 3 Blogs</h3>
+        <div class="card-container">
+            <!-- Blog Cards for the top 3 blogs -->
+            <div class="card" *ngFor="let blog of topBlogs">
+                <div class="card-content">
+                    <img mat-card-image [src]="blog.image" alt="Blog Image" />
+                    <h3>{{ blog.title }}</h3>
+                </div>
+                <div class="card-actions">
+                    <button color="accent" (click)="viewBlog(blog.id)" mat-icon-button matTooltip="Check it out">
+                        <img src="assets/icons/view.png" alt="View Icon" />
+                    </button>
+                </div>
             </div>
         </div>
     </div>

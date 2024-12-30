@@ -7,6 +7,8 @@ import { Tourist } from '../model/tourist.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-clubs',
@@ -32,7 +34,7 @@ export class ClubsComponent implements OnInit {
 
   constructor(private service: TourAuthoringService, private imageService: ImageService, 
     private cd: ChangeDetectorRef, private authService: AuthService,
-               private snackBar: MatSnackBar
+               private notificationService: NotificationService
               ) {
     this.isLoading = false;
     imageService.setControllerPath("tourist/image");
@@ -72,10 +74,7 @@ export class ClubsComponent implements OnInit {
       error: (err: any) => {
         console.log(err)
         this.isLoading = false;
-        this.snackBar.open('Failed to load clubs. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load clubs. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }
@@ -84,17 +83,11 @@ export class ClubsComponent implements OnInit {
     this.service.deleteClub(id).subscribe({
       next: () => {
         this.getClubs();
-        this.snackBar.open('Club deleted successfully!', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Club deleted successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to delete club. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass: "succesful"
-        });
+        this.notificationService.notify({ message:'Failed to delete club. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     })
   }
@@ -134,7 +127,8 @@ export class ClubsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to load tourists:', err);
-        alert('There was an error loading the tourists list. Please try again later.');
+        // alert('There was an error loading the tourists list. Please try again later.');
+        this.notificationService.notify({ message:'Failed to load tourists. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }

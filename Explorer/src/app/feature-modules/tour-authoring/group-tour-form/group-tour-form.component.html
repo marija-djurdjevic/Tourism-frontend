@@ -1,0 +1,85 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<form [formGroup]="groupTourForm"
+(ngSubmit)="shouldEdit ? updateGroupTour() : addGroupTour()"
+      class="tour-form">
+      <h2>{{ shouldEdit ? 'Update group tour' : 'Add group tour' }}</h2>
+
+  <div class="form-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" type="text" placeholder="Enter tour name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="1" formControlName="description"
+                placeholder="Enter tour description" cdkAutosizeMaxRows="5" required></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Difficulty</mat-label>
+      <mat-select formControlName="difficulty" required>
+        <mat-option value="0">Easy</mat-option>
+        <mat-option value="1">Medium</mat-option>
+        <mat-option value="2">Hard</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tourist Number</mat-label>
+      <input matInput formControlName="touristNumber" type="number" placeholder="Enter tourist number" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Start date and time</mat-label>
+      <input 
+        matInput 
+        type="datetime-local" 
+        formControlName="startTime" 
+        [min]="minDateTime" 
+        required 
+      />
+      <mat-error *ngIf="startTimeControl?.hasError('required')">Start time is required</mat-error>
+      <mat-error *ngIf="startTimeControl?.hasError('pastDate')">Date and time must be in the future</mat-error>
+    </mat-form-field>    
+
+    <mat-form-field appearance="outline">
+        <mat-label>Transport Type</mat-label>
+        <mat-select formControlName="transportType" required>
+            <mat-option [value]="TransportType.Car">Car</mat-option>
+            <mat-option [value]="TransportType.Bicycle">Bicycle</mat-option>
+            <mat-option [value]="TransportType.Walk">Walk</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="add-tag">
+        <mat-form-field appearance="outline">
+            <mat-label>Tags</mat-label>
+            <input 
+              matInput 
+              [(ngModel)]="newTag" 
+              [ngModelOptions]="{standalone: true}" 
+              placeholder="Enter a tag" 
+              (keyup.enter)="addTag()">
+        </mat-form-field>
+        <button mat-raised-button class="add-tag-button" type="button" (click)="addTag()">
+            Add Tag
+        </button>
+    </div>
+    
+    <div>
+        <mat-chip-list>
+            <mat-chip *ngFor="let tag of tags" (removed)="removeTag(tag)">
+                {{ tag }}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="groupTourForm.invalid">
+        {{ shouldEdit ? 'Update group tour' : 'Add group tour' }}
+      </button>
+    </div>
+  </div>
+</form>

@@ -4,4 +4,5 @@ export interface Bundle {
     tourIds: number[];
     price: number;
     status: number;
+    title: string;
 }

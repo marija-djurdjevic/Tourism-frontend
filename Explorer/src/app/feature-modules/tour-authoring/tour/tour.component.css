@@ -1,75 +1,100 @@
 #imgb {
-    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    position: fixed;  
     top: 0;
     left: 0;
-    height: 100%;  /* Pokriva celu visinu ekrana */
-    width: 100%;   /* Pokriva celu širinu ekrana */
-    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
-    z-index: -1;  /* Da bude ispod sadržaja */
-    opacity: 0.5;  /* Bleda slika */
+    height: 100%; 
+    width: 100%;   
+    object-fit: cover;  
+    z-index: -1; 
+    opacity: 0.5; 
   }
   
   #tour {
       display: flex;
-      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
-      align-items: center; /* Horizontalno centrirano */
-      flex-direction: column; /* Elementi idu vertikalno */
-      min-height: 100vh; /* Da pokrije visinu ekrana */
-      margin-top: 20px; /* Dodatni razmak od vrha */
+      justify-content: flex-start;
+      align-items: center; 
+      flex-direction: column; 
+      margin-top: 20px; 
   }
   
   #tour-details {
       display: flex;
-      flex-direction: column; /* Ili row ako kartice treba horizontalno */
-      justify-content: center; /* Centriranje horizontalno */
-      align-items: center; /* Centriranje vertikalno */
-      gap: 50px; /* Razmak između elemenata */
-      width: 100%; /* Koristi celu širinu roditelja */
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 50px; 
+      width: 100%;
   }
   
   .tour-title {
-      font-size: 2em; /* Povećava veličinu fonta */
-      font-weight: bold; /* Čini tekst debljim */
-      text-align: center; /* Centriranje naslova */
-      margin-bottom: 10px; /* Razmak između naslova i linije */
-      color: black; /* Boja naslova (možeš prilagoditi) */
+      font-size: 2em; 
+      font-weight: bold; 
+      text-align: center; 
+      margin-bottom: 10px; 
+      color: black;
   }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.top-button {
+    background-color: #34AB45 !important;
+    color: white !important; 
+    cursor: pointer;
+}
+
+.top-button:hover {
+    background-color: #2ecc71 !important; 
+}
   
   .card-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px; /* Razmak između kartica */
-      justify-content: center; /* Centriranje kartica */
-      width: 100%; /* Osiguraj da zauzima punu širinu */
-      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
-      margin: 0 auto; /* Centriranje na sredinu */
+      gap: 10px; 
+      justify-content: center; 
+      padding: 0; 
+      margin: 0 auto; 
   }
     
     .card {
-      border-radius: 8px; /* Zaobljeni uglovi */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
-      width: 350px; /* vratiti na 300 kad se ukloni tabela */
+      border-radius: 8px; 
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+      width: 300px; 
       height: auto;
-      padding: 16px; /* Unutrašnji razmak */
+      padding: 16px; 
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 15px;
       background-color: #ffffff;
-      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      border: 3px solid #34AB45; 
       transition: transform 0.3s ease-in-out;
     }
+
+    .grouptourslabel {
+      font-size: 1.5rem; 
+      font-weight: bold; 
+      color: #2c3e50; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+      margin-bottom: 10px; 
+      display: block; 
+  }
   
     .card-content {
       margin: 10px;
-      text-align: left; /* Tekst poravnat na levo */
-      width: 100%; /* Puni širinu kartice */
+      text-align: left;
+      width: 100%; 
     }
     
     .card-content h3 {
       margin: 0;
-      font-size: 20px;  /* Adjust this value to make it larger or smaller */
-      font-weight: bold;  /* Make the text bold */
+      font-size: 20px; 
+      font-weight: bold;  
   }
     
     .card-content p {
@@ -86,7 +111,7 @@
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+      border: 3px solid #2ecc71; 
     }
     
     .add-card {
@@ -94,242 +119,283 @@
       justify-content: center;
       align-items: center;
       width: 300px;
-      height: auto; /* Visina dodaj kartice */
-      border: 2px dashed #ddd; /* Stilska granica za dodavanje */
+      height: auto; 
+      border: 2px dashed #ddd;
       color: #aaa;
       text-align: center;
     }
 
-
-
-
-/* Modal - Light themed with centered positioning */
-.modal {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(173, 216, 230, 0.8); /* Soft light blue transparent background */
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
   }
   
-  /* Modal content - centered, clean, and modern */
   .modal-content {
-    background-color: #f0f8ff; /* AliceBlue for a fresh appearance */
-    color: #2c3e50; /* Darker text color for contrast */
-    border-radius: 12px;
-    width: 60%;
-    max-width: 900px;
-    padding: 25px;
     position: relative;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    overflow-y: auto;
-    border: 2px solid #add8e6; /* Light blue border to match theme */
-    max-height: 80%; /* Prevents overflow on smaller screens */
-  }
-  
-  /* Close button (X) for modal */
-  .close-modal {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 1.6rem;
-    color: #00796b; /* Mild green */
-    cursor: pointer;
-    transition: transform 0.2s, color 0.2s;
-  }
-  
-  .close-modal:hover {
-    color: #004d40; /* Darker green for hover */
-    transform: scale(1.2); /* Slight zoom effect */
-  }
-  
-  /* Header for the modal content */
-  .modal-header {
-    font-size: 1.5rem;
-    font-weight: bold;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin-bottom: 20px;
-    color: #00796b;
-  }
-  
-  /* Content container with a clean column layout */
-  .modal-content-container {
-    display: grid;
-    grid-template-columns: 2fr 2fr 1fr; /* Three columns: username, email, and action */
-    gap: 15px; /* Space between rows */
-    align-items: center;
-    padding: 10px 0;
-  }
-  
-  /* Styling for column headers */
-  .modal-column-header {
-    font-weight: bold;
-    color: #4682b4; /* Steel blue for headers */
-    text-align: left;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #add8e6; /* Light blue underline for clarity */
-  }
-  
-  /* Styling for individual rows */
-  .modal-row {
-    display: contents; /* Keeps alignment consistent without visible borders */
-  }
-  
-  /* Username and email text */
-  .modal-row span {
-    color: #2c3e50; /* Darker text for readability */
-    font-size: 1rem;
-  }
-  
-  /* Invite button */
-  .modal-row button {
-    background-color: #add8e6; /* Light blue */
-    color: #2c3e50; /* Darker text for contrast */
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .modal-row button:hover {
-    background-color: #87ceeb; /* SkyBlue on hover */
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
-  }
-  
-  .modal-row button:active {
-    background-color: #4682b4; /* SteelBlue on click */
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed effect */
-  }
-  
-  
-  /* Buttons inside the modal */
-  .modal-content button {
-    background-color: #add8e6; /* Light blue */
-    color: #2c3e50; /* Darker text for contrast */
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    margin: 10px 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .modal-content button:hover {
-    background-color: #87ceeb; /* SkyBlue on hover */
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Soft shadow effect */
-  }
-  
-  .modal-content button:active {
-    background-color: #4682b4; /* SteelBlue on click */
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed effect */
-  }
-  
-  /* Input fields inside the modal */
-  .modal-content input,
-  .modal-content textarea {
-    width: calc(100% - 40px);
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #add8e6; /* Matching blue border */
-    border-radius: 8px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .modal-content input:focus,
-  .modal-content textarea:focus {
-    border-color: #4682b4; /* Highlighted border on focus */
-    box-shadow: 0 0 5px #4682b4; /* Subtle glow effect */
-  }
-  .modal-tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-.modal-tabs button {
-    padding: 10px 20px;
-    margin: 0 5px;
-    border: none;
-    background-color: #add8e6;
-    color: #2c3e50;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    border-radius: 5px;
-}
-.modal-tabs button.active {
-    background-color: #4682b4;
-    color: white;
-}
-
-
-
-.coupon-form {
-    margin: 15px 0;
-  }
-  
-  .coupon-form .form-inline {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .coupon-form .form-group {
+    color: #666;
+    width: 80%;
+    max-width: 600px;
+    max-height: 700px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin: 0 10px;
   }
   
-  .coupon-form .form-group label {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    color: #2c3e50; /* Match modal text color */
-  }
-  
-  .coupon-form input,
-  .coupon-form select {
-    width: auto;
-    padding: 5px 10px;
-    border: 1px solid #add8e6;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  
-  .coupon-form input:focus,
-  .coupon-form select:focus {
-    border-color: #4682b4;
-    box-shadow: 0 0 4px #4682b4;
-  }
-  
-  .coupon-form button {
-    margin-left: 10px;
-    background-color: #87ceeb;
-    color: #2c3e50;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-  }
-  
-  .coupon-form button:hover {
-    background-color: #4682b4;
-    color: white;
+  .modal-content h2 {
+      color: black;
   }
 
+  .modal-content p {
+    margin: 8px 0;
+    color: #666;
+  }
+  
+  .popup-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .coupon-form {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 400px; /* Fiksna širina pop-upa */
+    height: auto; /* Visina će zavisiti od sadržaja */
+    max-height: 90%;
+    color: #666;
+    overflow-y: auto; /* Omogućava skrolovanje ako je sadržaj veći od visine */
+    display: flex;
+    flex-direction: column; /* Vertikalno slaganje polja */
+    justify-content: space-between; /* Razmak između polja i dugmeta */
+    align-items: center; /* Centriranje elemenata horizontalno */
+    margin: 0 auto; /* Centriranje forme u sredini ekrana */
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+label {
+  margin-bottom: 20px; /* Dodajte razmak između checkbox-a i dugmeta */
+}
+
+.pop-button {
+  background-color: #34AB45; /* Zelena boja */
+  color: white; /* Boja teksta */
+}
+
+.pop-button:hover {
+  background-color: #2ecc71;
+}
+
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-height: calc(90vh - 120px); /* Prilagodi visinu tako da kartice stanu unutar modala */
+  overflow-y: auto; /* Omogući vertikalno skrolovanje */
+  margin-top: 20px;
+}
+
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .card-header .tag {
+    background-color: #2196f3;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: bold;
+  }
+  
+  .card-body {
+    margin-top: 10px;
+  }
+  
+  .card-body .info p {
+    margin: 5px 0;
+  }
+  
+  .card-body .tags {
+    margin-top: 10px;
+  }
+  
+  .card-body .tags .tag {
+    display: inline-block;
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 0.875rem;
+  }
+  
+  .card-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .card-actions button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border: 2px dashed #ccc;
+    color: #777;
+  }
+  
+  /* Razmak između naslova i progresa ture */
+.card-content h3 {
+  margin-bottom: 5px;
+}
+
+.tour-progress {
+  display: inline-block;
+  margin-bottom: 5px; /* Veći razmak između naslova i progresa */
+  padding: 4px 10px;
+  border-radius: 12px;
+  background-color: #4caf50; /* Zelena boja */
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Stil za tagove */
+.tags {
+  margin-top: 10px;
+}
+
+.tags .tag {
+  display: inline-block;
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 3px 8px;
+  margin: 2px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+/* Progress Badge */
+.progress-badge {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* Boje za različite statuse */
+.progress-badge.scheduled {
+  background-color: #2196f3; /* Plava za Scheduled */
+}
+
+.progress-badge.in-progress {
+  background-color: #ffeb3b; /* Žuta za In Progress */
+  color: black;
+}
+
+.progress-badge.finished {
+  background-color: #4caf50; /* Zelena za Finished */
+}
+
+.progress-badge.canceled {
+  background-color: #f44336; /* Crvena za Canceled */
+}
+
+.coupon-card {
+  background-color: #fdfdfd;
+  border: 3px solid #34AB45; 
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coupon-card-content {
+  margin: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.coupon-card-content h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.coupon-card-content p {
+  margin: 8px 0;
+  color: #666;
+}
+
+.coupon-card-actions {
+  display: flex;
+  justify-content: center; /* Ikonice centrirane */
+  gap: 4px; /* Smanjenje razmaka između ikonica */
+  margin-top: auto; /* Smanjenje razmaka između teksta i dugmadi */
+  width: 100%; /* Osigurava da dugmadi popunjavaju širinu kartice */
+}
+
+.coupon-card:hover {
+  border: 3px solid #2ecc71;
+}
 

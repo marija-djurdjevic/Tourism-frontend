@@ -5,6 +5,8 @@ import { UserRating } from '../model/user-rating.model';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-user-rating',
@@ -17,7 +19,7 @@ export class UserRatingComponent {
 
   constructor(private service: LayoutService,
     private authService: AuthService,
-    private snackBar: MatSnackBar) { }
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
@@ -45,17 +47,11 @@ export class UserRatingComponent {
         console.log("Success");
         console.log("Rating submitted!");
         this.ratingForm.reset();
-        this.snackBar.open('Rating submitted successfully!', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Rating submitted successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err: any) => {
         console.log(err);
-        this.snackBar.open('Failed to load data. Please try again.', 'Close', {
-          duration: 3000,
-          panelClass:"succesful"
-        });
+        this.notificationService.notify({ message:'Failed to load data. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
       }
     });
   }

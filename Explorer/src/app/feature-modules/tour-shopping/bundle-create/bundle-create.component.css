@@ -1,94 +1,131 @@
-/* Styling for the main tour selection */
-#bundle-create {
-    margin: 20px;
-    font-family: 'Arial', sans-serif;
-}
+#imgb {
+    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
+    top: 0;
+    left: 0;
+    height: 100%;  /* Pokriva celu visinu ekrana */
+    width: 100%;   /* Pokriva celu širinu ekrana */
+    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+    z-index: -1;  /* Da bude ispod sadržaja */
+    opacity: 0.5;  /* Bleda slika */
+  }
+  
+  #bundle {
+      display: flex;
+      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
+      align-items: center; /* Horizontalno centrirano */
+      flex-direction: column; /* Elementi idu vertikalno */
+      margin-top: 20px; /* Dodatni razmak od vrha */
+  }
+  
+  #bundle-details {
+      display: flex;
+      flex-direction: column; /* Ili row ako kartice treba horizontalno */
+      justify-content: center; /* Centriranje horizontalno */
+      align-items: center; /* Centriranje vertikalno */
+      gap: 10px; /* Razmak između elemenata */
+      width: 100%; /* Koristi celu širinu roditelja */
+  }
+  
+  .bundle-title {
+      font-size: 2em; /* Povećava veličinu fonta */
+      font-weight: bold; /* Čini tekst debljim */
+      text-align: center; /* Centriranje naslova */
+      margin-bottom: 10px; /* Razmak između naslova i linije */
+      color: black; /* Boja naslova (možeš prilagoditi) */
+  }
+  
+  .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px; /* Razmak između kartica */
+      justify-content: center; /* Centriranje kartica */
+      width: 100%; /* Osiguraj da zauzima punu širinu */
+      padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
+      margin: 0 auto; /* Centriranje na sredinu */
+  }
+    
+  .card {
+      border-radius: 8px; /* Zaobljeni uglovi */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
+      width: 300px; /* Širina kartice */
+      padding: 16px; /* Unutrašnji razmak */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px;
+      background-color: #ffffff;
+      border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
+      transition: transform 0.3s ease-in-out;
+      height: auto; /* Visina kartice se automatski prilagođava sadržaju */
+    }
+    
+    .card-content {
+      margin: 10px;
+      text-align: left; /* Tekst poravnat na levo */
+      width: 100%; /* Puni širinu kartice */
+    }
+    
+    .card-content h3 {
+      margin: 0;
+      font-size: 20px;  /* Povećaj veličinu naslova po potrebi */
+      font-weight: bold;  /* Debeli tekst */
+    }
+    
+    .card-content p {
+      margin: 8px 0;
+      color: #666;
+    }
+    
+    .card-actions {
+      display: flex;
+      justify-content: center; /* Ikonice centrirane */
+      gap: 4px; /* Smanjenje razmaka između ikonica */
+      margin-top: 8px; /* Smanjenje razmaka između teksta i dugmadi */
+      width: 100%; /* Osigurava da dugmadi popunjavaju širinu kartice */
+      justify-content: center; /* Centriranje dugmadi */
+  }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
+    }
 
-#bundle-create h2 {
-    font-size: 24px;
-    color: #34AB45;
-}
+    .bundle-form {
+        width: 500px;
+        margin: 20px auto; /* Centriraj formu i dodaće se razmak od vrha i dna ekrana */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+        background-color: #f9f9f9;
+    }
+    
+    .form-container {
+        display: flex;
+        flex-direction: column; 
+    }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 1em;
-    font-family: 'Arial', sans-serif;
-    min-width: 400px;
-    margin-top: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-thead tr {
-    background-color: #34AB45;
-    color: white;
-    text-align: left;
-}
-
-th,
-td {
-    padding: 15px 20px;
-    text-align: left;
-    vertical-align: middle;
-}
-
-tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Floating price block styling */
-#floating-price-block {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    font-family: 'Arial', sans-serif;
-}
-
-#floating-price-block p {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#floating-price-block label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-#floating-price-block input {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-#floating-price-block button {
-    width: 100%;
-    padding: 10px;
-    background-color: #34AB45;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#floating-price-block button:hover {
-    background-color: #34AB45;
-}
-
-#floating-price-block button:focus {
-    outline: none;
-}
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%; /* Dodaj širinu na roditeljsku div kako bi zauzela celu širinu */
+    }
+    
+    .bundle-form button {
+        width: 100%; /* Dugme zauzima celu širinu roditeljskog kontejnera */
+        background-color: #d3d3d3; /* Siva boja za onemogućeno dugme */
+        color: white !important; /* Bela boja za tekst */
+        cursor: not-allowed; /* Menja kursor na "ne može" kad je dugme onemogućeno */
+        padding: 12px; /* Malo paddinga kako bi dugme bilo udobnije */
+    }
+    
+    .bundle-form button:enabled {
+        background-color: #34AB45 !important; /* Zelena boja kad je dugme omogućeno */
+        cursor: pointer; /* Kursor se menja u normalan kad je dugme omogućeno */
+    }
+    
+    .bundle-form button:hover:enabled {
+        background-color: #2ecc71 !important; /* Svetlija nijansa zelene pri hover-u kad je dugme omogućeno */
+    }
+    

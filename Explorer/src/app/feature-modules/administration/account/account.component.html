@@ -17,27 +17,41 @@
                         <p><strong>Email:</strong> 
                             {{acc.email}}
                         </p>
-                        <p><strong>Status:</strong> 
-                            {{acc.isActive}}
-                        </p>
                     </div>
                     <div class="card-actions">
-                        <button color="primary" (click)="showWallet(acc.id ?? 0)" type="submit" mat-icon-button matTooltip="Show wallet">
-                            <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
-                        </button>
-                        <button color="accent" (click)="blockAccount(acc)" mat-icon-button matTooltip="Block user">
-                            <img src="assets/icons/block.png" alt="Block Icon"/>
-                        </button>
+                        <div class="icon-item">
+                            <button *ngIf="acc.role === 'Tourist'" color="primary" (click)="showWallet(acc.id ?? 0)" type="submit" mat-icon-button matTooltip="Show wallet">
+                                <img src="assets/icons/wallet.png" alt="Wallet Icon"/>
+                            </button>
+                            <span class="status-text" style="color: black;" *ngIf="isBlocked(acc)">Blocked</span>
+                        </div>
+
+                        <div class="icon-item">
+                            <ng-container *ngIf="!isBlocked(acc) && acc.role !== 'Administrator' ">
+                                <button color="accent" (click)="blockAccount(acc)" mat-icon-button matTooltip="Block user">
+                                    <img src="assets/icons/block.png" alt="Block Icon"/>
+                                </button>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>               
             </div>
         </div>
     </div>
     <div *ngIf="showWalletPopup" class="wallet-popup">
-        <div class="popup-content">
+        <div *ngIf="selectedWallet" class="popup-content">
             <h2>Manage Wallet</h2>
-            <p><strong>Tourist ID:</strong> {{ selectedWallet?.touristId }}</p>
-            <p><strong>Balance:</strong> {{ selectedWallet?.balance }}</p>
+            <p><strong>Tourist ID:</strong> {{ selectedWallet.touristId }}</p>
+            <p>
+                <strong>Balance:</strong> </p>
+                <input 
+                    type="number" 
+                    [(ngModel)]="selectedWallet.balance"
+                    (blur)="ensureNonEmptyBalance()"  
+                    placeholder="Enter" 
+                    class="balance-input"
+                />
+            
             <div>
                 <button color="primary" (click)="decreaseBalance()" mat-icon-button matTooltip="Reduce">
                     <img src="assets/icons/reduce.png" alt="Reduce Icon"/>

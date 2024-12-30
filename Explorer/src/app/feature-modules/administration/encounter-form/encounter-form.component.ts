@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Encounter } from '../../encounters/model/encounter.model'; 
 import { AdministrationService } from '../administration.service';
 import { Coordinates } from '../../encounters/model/coordinates.model';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
 @Component({
   selector: 'xp-encounter-form',
@@ -23,7 +25,8 @@ export class EncounterFormComponent implements OnInit, OnChanges {
     private service: AdministrationService, 
     private authService: AuthService, 
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationService: NotificationService
   ) {}
 
   encounterForm = new FormGroup({
@@ -106,6 +109,7 @@ export class EncounterFormComponent implements OnInit, OnChanges {
       next: () => {
         this.encounterUpdated.emit();
         this.router.navigate(['/encounters']);
+        this.notificationService.notify({ message: 'Encounter updated successfully', duration: 3000, notificationType: NotificationType.SUCCESS });
       },
       error: (err) => {
         console.error('Error updating encounter:', err);
@@ -136,6 +140,7 @@ export class EncounterFormComponent implements OnInit, OnChanges {
     this.service.addEncounter(encounter).subscribe({
       next: () => { this.encounterUpdated.emit();
         this.router.navigate(['/encounters']);
+        this.notificationService.notify({ message: 'Encounter added successfully', duration: 3000, notificationType: NotificationType.SUCCESS });
        },
        error: (err) => {
         console.error('Error adding encounter:', err);
