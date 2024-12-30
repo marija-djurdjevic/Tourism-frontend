@@ -2,10 +2,16 @@
     <img id="imgb" src="../../../../assets/screenshot4.png">
     <div id="tour">
         <p class="tour-title">My Tours</p>
-        <div class="add-new-tour">
-            <button class="primary-button" (click)="onTours()">Individual tours</button>
-            <button class="primary-button" (click)="onGroupTours()">Group tours</button>
-            <button class="primary-button" (click)="onCouponsClicked()">My coupons</button>
+        <div class="button-container">
+          <button mat-raised-button class="top-button" (click)="onTours()">
+            Individual tours
+          </button>
+          <button mat-raised-button class="top-button" (click)="onGroupTours()">
+            Group tours
+          </button>
+          <button mat-raised-button class="top-button" (click)="onCouponsClicked()">
+            My coupons
+          </button>
         </div> 
          <hr>
          <div *ngIf="isToursClicked" id="tour-details">
