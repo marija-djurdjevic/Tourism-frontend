@@ -30,11 +30,11 @@
                       <button color="accent" (click)="keyPoint.id !== undefined ? onDelete(keyPoint.id) : null" mat-icon-button matTooltip="Delete key point">
                         <img src="assets/icons/delete.png" alt="Delete Icon"/>
                       </button>
-                      <button color="primary" (click)="addStory(keyPoint.id)" type="submit" mat-icon-button  [disabled]="keyPoint.storyId  !== null">
-                        S
-                     </button>
-                      <button color="accent" (click)="onEdit(keyPoint)" mat-icon-button matTooltip="Edit key point">
+                      <button color="primary" (click)="onEdit(keyPoint)" mat-icon-button matTooltip="Edit key point">
                           <img src="assets/icons/edit.png" alt="Edit Icon"/>
+                      </button>
+                      <button *ngIf="keyPoint.storyId == null" color="primary" (click)="addStory(keyPoint.id)" mat-icon-button matTooltip="Add new story">
+                        <img src="assets/icons/story.png" alt="Story Icon"/>
                       </button>
                   </ng-container>
               </div>

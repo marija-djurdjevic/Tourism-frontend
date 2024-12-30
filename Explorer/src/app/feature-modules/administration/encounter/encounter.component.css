@@ -14,7 +14,6 @@
     justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
     align-items: center; /* Horizontalno centrirano */
     flex-direction: column; /* Elementi idu vertikalno */
-    min-height: 100vh; /* Da pokrije visinu ekrana */
     margin-top: 20px; /* Dodatni razmak od vrha */
 }
 
