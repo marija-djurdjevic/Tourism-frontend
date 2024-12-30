@@ -1,0 +1,217 @@
+/* Stil za pozadinsku sliku */
+#imgb {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.5;
+  }
+  
+  form, .form-group input, .form-group select {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box;
+  }
+  
+  form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+    appearance: none;
+    transition: border-color 0.2s;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #2196F3;
+    outline: none;
+    box-shadow: 0 0 3px rgba(33, 150, 243, 0.5);
+  }
+  
+  .primary-button {
+    width: 100%;
+    padding: 10px 15px;
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .primary-button:hover {
+    background-color: #1976D2;
+  }
+  
+  /* Kontejner za formu i prikaz knjige */
+.form-container {
+    display: flex;
+    gap: 5px; /* Smanjen razmak između forme i knjige */
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+    position: relative;
+}
+
+  
+  /* Stil za formu */
+  .form-section {
+    flex: 1;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
+  /* Prikaz knjige */
+  .book-preview {
+    flex: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+   
+  }
+  
+  /* Stil za beli kvadrat */
+  .background-square {
+    background-color: white;
+    border-radius: 8px;
+    width: 200px;
+    height: 300px;
+    position: absolute;
+    transform: translate(10px, -10px);
+    z-index: 1;
+   
+  }
+  
+  /* Stil za knjigu */
+  .book-display {
+    background-color: rgb(88, 181, 86);
+    border-radius: 8px;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    width: 200px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 10px;
+  }
+  
+  /* Unutrašnji okvir knjige */
+  .inner-frame {
+    border: 2px solid rgba(8, 236, 8, 0.911);
+    border-radius: 6px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  /* Naslov knjige */
+  .inner-frame h1 {
+    margin: 0;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Autor knjige */
+  .inner-frame p {
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    color: #555;
+  }
+  
+  /* Footer knjige */
+  .book-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Logo */
+  .logo {
+    width: 30px;
+    height: 30px;
+  }
+  
+  /* Stil za input za boju */
+.color-picker-container input[type="color"] {
+    border: none;
+    width: 40px; /* Veličina kvadrata */
+    height: 40px; /* Veličina kvadrata */
+    cursor: pointer;
+    padding: 0;
+    border-radius: 0; /* Uklanja zaobljenje */
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blaga senka za bolji izgled */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .color-picker-container input[type="color"]:hover {
+    transform: scale(1.1); /* Blago povećanje na hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  

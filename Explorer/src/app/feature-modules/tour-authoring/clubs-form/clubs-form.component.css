@@ -1,3 +1,10 @@
+.club-form-container {
+    display: flex;
+    justify-content: center; /* Horizontalno centriranje */
+    align-items: center; /* Vertikalno centriranje (opciono) */
+    margin: 30px;
+}
+
 div {
     width: 100%; /* Allow the form to take full width inside the modal */
     max-width: 600px; /* Limit the width to match the modal size */
@@ -67,3 +74,37 @@ div::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
 }
+{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.club-form div {
+    width: 400px; /* Osiguraj da unutar forme elementi koriste punu širinu */
+}
+
+h2 {
+    text-align: center; 
+    color: #333; 
+}
+
+.club-form {
+    max-width: 500px;
+    margin: 5px auto; 
+    padding: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    background-color: #f9f9f9; 
+}
+
+button {
+    background-color: #34AB45 !important; /* Zelena boja */
+    color: white !important; /* Bela boja za tekst */
+}
+
+button:hover {
+    background-color: #2ecc71 !important; /* Svetlija nijansa zelene pri hover-u */
+}
+

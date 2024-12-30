@@ -5,11 +5,11 @@ export interface KeyPoint {
     tourIds: number[];  
     name: string;
     description: string;
+    storyId?: number;
     imagePath: string;
     latitude: number; 
     longitude: number;
     status: number;
-
     encounter?: Encounter;
   }
   

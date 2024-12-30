@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Tour } from '../../tour-authoring/model/tour.model';
 import { TourShoppingService } from '../tour-shopping.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SaleService } from '../sales.service';
 import { Sale } from '../model/sale.model';
+import { GroupTourExecution } from '../model/group-tour-exectuion.model';
+import { GroupTour } from '../../tour-authoring/model/group-tour.model';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 import { Blog } from '../../blog/model/blog.model';
@@ -28,6 +30,8 @@ export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
   sales: Sale[] = [];
+  participations: GroupTourExecution[] = [];
+  groupTours: GroupTour[] = [];
   topBlogs: Blog[] = [];
 
   showDiscountedOnly: boolean = false;
@@ -38,6 +42,11 @@ export class ExploreToursComponent implements OnInit {
   isLoading = false;
   refundId: number | null = null;
   refundedTourId: number;
+  visiblePopupId: number | null = null;
+  disabledGroupTourParticipation = false;
+
+  @ViewChild('popup') popup!: ElementRef;
+  @ViewChild('popupParent') popupParent!: ElementRef;
 
   constructor(private service: TourShoppingService,
     private blogService: BlogService, private saleService: SaleService, private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
@@ -52,6 +61,8 @@ export class ExploreToursComponent implements OnInit {
     this.getTours();
     this.loadSalesData();
     this.loadPurchasedTours();
+    this.loadParticipations();
+    this.loadGroupTours();
     this.getTopBlogs();
     this.route.queryParams.subscribe(params => {
       const selectedTourId = params['selectedTourId'] ? Number(params['selectedTourId']) : null;
@@ -68,6 +79,167 @@ export class ExploreToursComponent implements OnInit {
         this.fetchRefundedTour(this.refundId); // Fetch the refunded tour
       }
     });
+  }
+
+  togglePopup(tourId?: number): void {
+    console.log(tourId);
+    if (tourId !== undefined) {
+      this.visiblePopupId = this.visiblePopupId === tourId ? null : tourId;
+    }
+    else{
+      this.visiblePopupId = null;
+    }
+  }
+
+  onMouseEnter(tourId?: number): void {
+    if (tourId !== undefined) {
+    this.visiblePopupId = tourId;
+    }
+  }
+
+  onMouseLeave(): void {
+    this.visiblePopupId = null;
+  }
+
+  loadParticipations(): void {
+    this.service.getAllParticipations().subscribe({
+      next: (results: PagedResults<GroupTourExecution>) => {
+        this.participations = results.results; 
+        console.log(this.participations);
+        console.log("Participations:", this.participations); 
+        console.log(this.user.id);
+        this.disabledGroupTourParticipation = this.participations.some(participation => participation.touristId === this.user.id);
+        console.log('da li je ili nije', this.disabledGroupTourParticipation);
+      },
+      error: () => {
+        console.log("ERROR LOADING PARTICIPATIONS");
+      }
+    });
+  }
+
+  loadGroupTours(): void {
+    this.service.getAllGroupTours().subscribe({
+      next: (results: PagedResults<GroupTour>) => {
+        this.groupTours = results.results; 
+      },
+      error: () => {
+        console.log("ERROR LOADING PARTICIPATIONS");
+      }
+    });
+  }
+
+  getDateAndTime(t: any): Date | null {
+    const groupTour = this.groupTours.find(tour => tour.id === t.id);
+    if(groupTour !== undefined){
+      return groupTour.startTime;
+    }
+    return null;
+  }
+
+  TourParticipation(tourId?: number): boolean {
+    if(tourId != undefined) {
+      return this.participations.some(participation => 
+        participation.touristId === this.user.id && participation.groupTourId === tourId
+    );
+    }
+   return false;
+}
+
+  hasAlreadyParticipated(tourId?: number): boolean {
+    console.log(this.participations);
+    if(tourId != undefined) {
+      return this.participations.some(participation => 
+        participation.touristId === this.user.id && participation.groupTourId === tourId && participation.isFinished == true
+    );
+    }
+  return false;
+  }
+
+
+  groupTourStatus(tourId?: number): boolean {
+    const groupTour = this.groupTours.find(tour => tour.id === tourId);
+    if (groupTour !== undefined && groupTour.startTime) {
+      const currentTime = new Date(); 
+      const tourStartTime = new Date(groupTour.startTime); 
+      return tourStartTime > currentTime; 
+    }
+    return false; 
+  }
+
+  groupTourProgress(tourId?: number): boolean {
+    const groupTour = this.groupTours.find(tour => tour.id === tourId);
+    if (groupTour !== undefined) {
+      return groupTour.progress === 0; 
+    }
+    return false; 
+  }
+
+  getProgressStatus(tourId?: number): string {
+    const groupTour = this.groupTours.find(tour => tour.id === tourId);
+    if (groupTour !== undefined) {
+      return this.getProgressLabel(groupTour.progress); 
+    }
+    return '';
+  }
+
+  getProgressLabel(progress: number): string {
+    switch (progress) {
+      case 0:
+        return 'Scheduled';
+      case 1:
+        return 'In progress';
+      case 2:
+        return 'Finished';
+      default:
+        return 'Canceled';
+    }
+  }
+
+cancelParticipation(tourId?: number): void {
+  const groupTour = this.groupTours.find(tour => tour.id === tourId);
+  if (groupTour) {
+    const currentTime = new Date();
+    const startTime = new Date(groupTour.startTime);
+    const timeDifference = startTime.getTime() - currentTime.getTime();
+  
+    console.log(startTime);
+    console.log(timeDifference);
+    if (timeDifference > 24 * 60 * 60 * 1000) {
+      console.log("Start time is more than 24 hours ago.");
+      if(tourId != undefined) {
+        this.service.cancelParticipation(this.user.id, tourId)
+          .subscribe({
+            next: (response: any) => {
+              console.log('Successfully canceled the group tour:', response);
+              this.loadParticipations();
+            },
+            error: (error: any) => {
+              console.error('Error canceling the group tour:', error);
+            }
+          });
+      }
+
+    } else {
+      alert("Start time of this tour is within 24 hours. Canceling is forbidden!");
+    }
+  } else {
+    console.log("Tour not found.");
+  }
+  
+}
+
+  checkPopupPosition() {
+    if (this.popup && this.popupParent) {
+      const popupElement = this.popup.nativeElement;
+      const parentElement = this.popupParent.nativeElement;
+      const parentRect = parentElement.getBoundingClientRect();
+      const popupRect = popupElement.getBoundingClientRect();
+
+      // Proveravamo da li popup izlazi izvan roditeljskog elementa
+      if (popupRect.bottom > parentRect.bottom || popupRect.top < parentRect.top) {
+        this.visiblePopupId = null; // Sakrij popup ako izlazi izvan okvira
+      }
+    }
   }
 
   loadSalesData(): void {
@@ -261,7 +433,26 @@ export class ExploreToursComponent implements OnInit {
       //kraj
     }
   }
-
+  
+  participateInGroupTour(tourId: number) {
+    const groupTourExecution: GroupTourExecution = {
+      groupTourId: tourId,
+      touristId: this.user.id,  
+      isFinished: false
+    };
+  
+    console.log(groupTourExecution);
+    this.service.groupTourParticipate(groupTourExecution)
+      .subscribe({
+        next: (response) => {
+          console.log('Successfully joined the group tour:', response);
+          this.loadParticipations();
+        },
+        error: (error) => {
+          console.error('Error joining the group tour:', error);
+        }
+      });
+  }
 
 
   getTopBlogs(): void {

@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { WebSocketService } from 'src/app/shared/web-socket.service';
 import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'xp-login',
@@ -15,6 +16,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class LoginComponent {
 
+  user: User | undefined;
   isLoading = false;
   constructor(
     private authService: AuthService,
@@ -38,9 +40,20 @@ export class LoginComponent {
       this.isLoading = true;
       this.authService.login(login).subscribe({
         next: () => {
-          this.router.navigate(['/']);
+          this.authService.user$.subscribe(user => {
+            this.user = user;
+          });
+
           this.isLoading = false;
           this.webSocketService.connect();
+
+          if (this.user?.role === 'administrator') {
+            this.router.navigate(['/account']);
+          } else if (this.user?.role === 'author') {
+            this.router.navigate(['/tours']);
+          } else if (this.user?.role === 'tourist') {
+            this.router.navigate(['/explore-tours']);
+          }
         },error: (error) => {
           this.isLoading = false;
           this.notificationService.notify({ message:'Invalid username or password', duration: 3000, notificationType: NotificationType.WARNING });

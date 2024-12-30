@@ -1,47 +1,52 @@
-<!--<div>
-    <div id="titleCont">
-        <div id="title">Publish Requests</div>
-    </div>
-    <div id="prev">
-        <span>Page {{ currentPage + 1 }} / {{ totalPages }}</span>
-    </div>
-  
-    <table id="t">
-        <tr id="head"> 
-            <th>Author</th>
-            <th>Status</th>
-            <th>Type</th>
-            <th>Accept Request</th> 
-        </tr>
-        <tr 
-            tabindex="0" 
-            *ngFor="let req of entities" 
-            id="ag">
-            <td>{{ usernamesMap.get(req.authorId) }}</td>
-            <td>{{ getEnumForStatus(req.status) }}</td>
-            <td>{{ getEnumForType(req.type) }}</td>
-            <td>
-                <button (click)="acceptRequest(req)">Accept</button>
-            </td>
-        </tr> 
-    </table>
-  </div>
--->
+<div id="request">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+        <p class="request-title">Requests</p>
+        <hr>
+        <p *ngIf="!displayedEntities || displayedEntities.length === 0">
+            There are no new requests</p>
+        <div id="request-details">
+            <div class="card-container">
+                <div class="card" *ngFor="let item of displayedEntities">
+                    <h2 *ngIf="item.type === 1">Key Point</h2>
+                    <h2 *ngIf="item.type === 0">Object</h2>
+                    <h2 *ngIf="item.type === 2">Story</h2>
+                  <div class="card-content">
+                    <img src={{item.imagePath}} class="card-image" />
+                    <h3>{{item.name}}</h3>
+                    <p>{{item.description}}</p>
+                  </div>
+                  <div class="card-actions">
+                    <button color="primary" (click)="acceptRequest(item)" mat-icon-button matTooltip="Accept request">
+                        <img src="assets/icons/accept.png" alt="Accept Icon"/>
+                    </button>
+                    <button *ngIf="item.type === 2" color="primary" (click)="seeContent(item)" mat-icon-button matTooltip="Show content">
+                        <img src="assets/icons/show.png" alt="Show Icon"/>
+                    </button>
+                    <button color="primary" (click)="rejectRequest(item)" mat-icon-button matTooltip="Reject request">
+                      <img src="assets/icons/block.png" alt="Block Icon"/>
+                    </button>
+                </div>
+                </div>         
+            </div>
 
-<img id="imgb" src="../../../../assets/screenshot4.png">
-<div class="okvir">
-    <div  *ngFor="let item of displayedEntities" >
-        <div class="jedan"> 
-            <h1 *ngIf="item.type === 1">KeyPoint request</h1>
-            <h1 *ngIf="item.type === 0">Object request</h1>
-            <img  src={{item.imagePath}}>
-            <p><b>Name: </b> {{item.name}}</p>
-            <p><b>Latitude:</b>  {{item.latitude}}</p>
-            <p><b>Longitude: </b> {{item.longitude}}</p>
-            <p><b>Description:</b>  {{item.description}}</p>
-            <div>
-            <button class="accept" (click)="acceptRequest(item)">accept</button><button  class="decline" (click)="rejectRequest(item)">decline</button>
+            <div *ngIf="content" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="popup-actions">
+                      <button mat-button (click)="close()">X</button>
+                    </div>
+                    <h2>{{ contentStory?.title }}</h2>
+                    <p>{{ contentStory?.content }}</p>    
+                </div>
+            </div>
+        
+            <div *ngIf="flag" class="modal-overlay">
+                <div class="popup-content">
+                    <div class="popup-actions">
+                        <button mat-button id="iks" (click)="closePopUp()">X</button>
+                    </div>
+                    <button mat-raised-button class="pop-button" (click)="createBook()" >Create new book</button>
+                    <button mat-raised-button class="pop-button" (click)="addStoryToBook()" >Add story to book</button>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
 </div>

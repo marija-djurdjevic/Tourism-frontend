@@ -1,0 +1,232 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    perspective: 1500px; 
+  }
+  .desc{
+    margin-top:10%;
+    max-width:200px;
+    margin-left:15%;
+    color: var(--text-color);
+  }
+  #imgb {
+    position: fixed;  
+    top: 0;
+    left: 0;
+    height: 100%;  
+    width: 100%;   
+    object-fit: cover;  
+    z-index: -1; 
+    opacity: 0.5;  
+}
+  .book {
+    position: relative;
+    width: 40%;
+    height: 90%;
+    margin-left:6%;
+    margin-top: -18.9%;
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .leftPage {
+    width: 40vw;
+    height: 86vh;
+    z-index: 10; 
+    cursor: pointer;
+    margin-left: 10%;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); 
+  }
+  
+  .leftPageEnd {
+    width: 40vw;
+    height: 86vh;
+    z-index: 13;
+    cursor: pointer;
+    margin-left: 10%;
+    background-color: inherit;
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+  }
+  
+  .page-wrapper {
+    margin-left: 100%;
+    position: absolute;
+    width: 40vw;
+    height: 86vh;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.65, 0.05, 0.36, 1), 
+                box-shadow 0.5s ease-in-out; 
+    cursor: pointer;
+    z-index: var(--page-index, 0);
+    background-color: inherit; /* Use the dynamically applied color */
+  }
+  
+  
+  .page-wrapper:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .page-wrapper.flipped {
+    transform: rotateY(-180deg) scale(0.98); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.89); 
+  }
+  
+  .page-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    /*background:linear-gradient(to left, #fff, #f0f0f0); */
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+  }
+  
+  .im {
+    max-width: 50%;
+    max-height: 30%;
+    margin-bottom: 20px;
+    border-radius: 8px; /* Rounded corners */
+    border: 5px solid #ddd; /* Add a frame with a light gray color */
+    padding: 10px; /* Create spacing between the image and the border */
+    background-color: #fff; /* Add a white background to enhance the frame effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+  }
+  
+  .page-content h2 {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  .page-content p {
+    font-size: 13px;
+  line-height: 1.6; 
+  text-align: justify; 
+  color: #555; 
+  margin: 10px 0;
+  }
+  
+  .page-wrapper:nth-child(1) .page-content {
+    
+    
+    border-radius: 8px;
+    position: relative;
+    z-index: 2; /* Pozicioniranje iznad bele pozadine */
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centriran sadržaj */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+   
+ 
+  }
+  
+  .page-wrapper:nth-last-child(1) .page-content {
+   
+    background: none; 
+    background-color: inherit;
+  }
+  .hh{
+    margin-top:-30% !important;
+    margin-bottom:5% !important;
+  }
+  
+  .background-square {
+    background-color: white;
+    opacity: 0.7;
+    border-radius: 1px;
+    width: 41vw; 
+    height: 84vh; 
+    position: absolute;
+    margin-top:-18.5%;
+    margin-left: 46.5%;
+    z-index: -1; 
+  }
+  
+  
+  /* Stil za tekst naslova knjige */
+  .book h1 {
+      margin: 0;
+      font-size: 25px; /* Prilagodite veličinu fonta za kvadratni prostor */
+      text-align: center; /* Centriran tekst */
+  }
+  /* Stil za unutrašnji okvir */
+  .inner-frame {
+    border: 2px solid rgba(8, 236, 8, 0.911); /* Crni okvir */
+    width:35vw;
+    height: 70vh;
+    border-radius: 6px; /* Zaobljeni uglovi */
+    padding: 10px; /* Razmak između sadržaja i ivice okvira */
+    background-color: rgba(255, 255, 255, 0.2); /* Svetla pozadina za kontrast */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Ravnomerno raspoređen sadržaj */
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  /* Stil za naslov */
+  .inner-frame h1 {
+    margin: 0;
+    font-size: 30px; /* Prilagodite veličinu fonta */
+    text-align: center; /* Centriran tekst horizontalno */
+    margin-bottom: 10px; /* Razmak ispod naslova */
+  }
+  
+  /* Stil za autora */
+  .inner-frame p {
+    margin: 0;
+    font-size: 14px; /* Prilagodite veličinu fonta */
+    text-align: center; /* Centriran tekst horizontalno */
+    color: #555; /* Blago tamnija nijansa za tekst */
+  }
+  
+  /* Stil za footer knjige (logo i tekst) */
+  .book-footer {
+    display: flex;
+    align-items: center; /* Centriranje vertikalno */
+    justify-content: center; /* Centriranje horizontalno */
+    gap: 5px; /* Razmak između elemenata */
+    position: absolute; /* Apsolutno pozicioniranje */
+    bottom: 10px; /* Pozicija na dnu knjige sa malim razmakom */
+    width: 100%; /* Širina footer-a da pokrije celu širinu knjige */
+    text-align: center; /* Tekst centriran unutar footer-a */
+  }
+  
+  /* Stil za logo */
+  .logo {
+    width: 30px; /* Smanji logo */
+    height: 30px; /* Smanji logo */
+  }
+  
+  /* Stil za tekst */
+  .psw{
+    margin: 0; /* Ukloni default margine */
+    font-size: 10px; /* Prilagodite veličinu fonta */
+  
+  }
+  .travel{
+    margin: 0; /* Ukloni default margine */
+    font-size: 10px; /* Prilagodite veličinu fonta */
+    font-family: 'Lucida Handwriting', cursive; /* Bold za isticanje */
+  }
+  

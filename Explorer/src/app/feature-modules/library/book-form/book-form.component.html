@@ -1,0 +1,56 @@
+<div class="form-container">
+    <img id="imgb" src="../../../../assets/screenshot4.png">
+    <!-- Forma za unos knjige -->
+    <div class="form-section">
+      <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+        <h2>Add Book</h2>
+  
+        <!-- Polje za naslov -->
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input 
+            id="title" 
+            type="text" 
+            formControlName="title" 
+            placeholder="Enter title"
+            [class.error]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched" />
+          <div *ngIf="bookForm.get('title')?.invalid && bookForm.get('title')?.touched" class="error-message">
+            Title is required.
+          </div>
+        </div>
+  
+      
+  
+        <!-- Polje za izbor boje -->
+        <div class="form-group color-picker-container">
+          <label for="bookColour">Book Color</label>
+          <input 
+            id="bookColour" 
+            type="color" 
+            formControlName="bookColour" />
+        </div>
+  
+        <button type="submit" class="primary-button" mat-raised-button>Submit</button>
+      </form>
+    </div>
+  
+    <!-- Prikaz knjige -->
+    <div class="book-preview">
+      <!-- Pozadinski kvadrat -->
+      <div class="background-square"></div>
+      <!-- Knjiga -->
+      <div 
+        class="book-display" 
+        [style.background-color]="bookForm.get('bookColour')?.value">
+        <div class="inner-frame">
+          <h1>{{ bookForm.get('title')?.value || 'Sample Title' }}</h1>
+          <div class="book-footer">
+            <img class="logo" src="../../../../assets/icons/download.png" alt="Logo">
+            <p class="psw">PSW</p>
+            <p class="travel" style="font-family: 'Lucida Handwriting', cursive">Travel</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
   userProfile: UserProfile;
   showProfileMenu: boolean = false;
   showLocationButton: boolean = true;
+  NotificationType = NotificationType;
   badge: string = '';
 
   constructor(private authService: AuthService, private administrationService: AdministrationService, private layoutService: LayoutService, private router: Router, private imageService: ImageService, private cd: ChangeDetectorRef,) { }
@@ -96,8 +97,23 @@ export class NavbarComponent implements OnInit {
 
   }
 
-
-  myProfile() {
+  goToHome(): void {
+    console.log("Metoda goToHome pozvana!");
+    console.log("Navigacija ka: ", this.user?.role);
+    if (this.user?.role === 'administrator') {
+      this.router.navigate(['/account']);
+    } else if (this.user?.role === 'author') {
+      this.router.navigate(['/tours']);
+    } else if (this.user?.role === 'tourist') {
+      this.router.navigate(['/explore-tours']);
+    }
+  }
+  myLibrary(){
+    this.showProfileMenu = !this.showProfileMenu;
+    this.router.navigate(['/library']);
+  }
+   
+  myProfile(){
     this.showProfileMenu = !this.showProfileMenu;
     this.router.navigate(['/profile']);
   }
@@ -110,18 +126,21 @@ export class NavbarComponent implements OnInit {
       this.layoutService.markAsReadTourist(notification).subscribe(result => {
         this.notifications = this.notifications.filter(n => n !== notification);
 
-        if (notification.type === NotificationType.TourRefund) {
-          this.router.navigate(['explore-tours'], { queryParams: { refundId: notification.referenceId } });
-        } else {
-          this.router.navigate(['/problem'], { queryParams: { id: problemId } });
-        }
-      });
-    }
-    else if (this.user?.role === 'author') {
-      this.layoutService.markAsReadAuthor(notification).subscribe(result => {
-        this.notifications = this.notifications.filter(n => n !== notification);
-        if (notification.type == NotificationType.TourProblem) this.router.navigate(['/problem'], { queryParams: { id: problemId } });
-      });
+      if(notification.type === NotificationType.GroupCancelation) {
+        this.router.navigate(['explore-tours']);
+      }
+      else if(notification.type === NotificationType.TourRefund) {
+        this.router.navigate(['explore-tours'], { queryParams: { refundId: notification.referenceId } });
+      } else {
+        this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+      }
+    }); 
+  }
+  else if(this.user?.role === 'author') {
+    this.layoutService.markAsReadAuthor(notification).subscribe(result => {
+      this.notifications = this.notifications.filter(n => n !== notification);
+      if(notification.type == NotificationType.TourProblem) this.router.navigate(['/problem'], { queryParams: { id: problemId } });
+    }); 
     }
 
     this.showNotifications = !this.showNotifications;

@@ -21,8 +21,8 @@
         </div>
     </ng-template>
     <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <button *ngIf="!selectSingle" (click)="PreviousImage()" mat-raised-button color="primary">Previous</button>
-        <button *ngIf="!selectSingle" (click)="NextImage()" mat-raised-button color="primary">Next</button>
+        <button *ngIf="!selectSingle" (click)="PreviousImage()" mat-raised-button class="choose-file-button">Prev</button>
+        <button *ngIf="!selectSingle" (click)="NextImage()" mat-raised-button class="choose-file-button">Next</button>
     </div>
     <label for="file-upload-multiple" class="choose-file-button">Choose files</label>
     <input id="file-upload-multiple" type="file" (change)="onFileSelected($event)" style="display: none;" multiple>

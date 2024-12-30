@@ -54,6 +54,7 @@ export class TourSessionComponent implements OnInit {
     private imageService: ImageService,
     private cd: ChangeDetectorRef,
     private renderer: Renderer2,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -131,7 +132,7 @@ export class TourSessionComponent implements OnInit {
     }
 
     const nextKeyPoint = this.findFirstIncompleteKeyPoint();
-
+    console.log("jel:",nextKeyPoint);
     if (nextKeyPoint) {
       const distance = this.calculateDistance(
         this.location.latitude,
@@ -139,11 +140,28 @@ export class TourSessionComponent implements OnInit {
         nextKeyPoint.latitude,
         nextKeyPoint.longitude
       );
-
+      console.log("jel:",nextKeyPoint);
       const proximityThreshold = 50;
       this.required = this.encounters.filter(e => e.creator == 0 && e.isCompletedByMe == false);
+      console.log("uslov1:",this.required.length);
+      console.log("prviuslov", distance <= proximityThreshold);
+      console.log("dista", distance);
+      console.log("prox:", proximityThreshold);
       if (distance <= proximityThreshold && this.required.length < 1) {
+        console.log("alo:")
         this.addKeyPointToCompleted(nextKeyPoint);
+        if (nextKeyPoint.storyId) {
+          console.log("pppppovdeunutra:")
+          this.tourExecutionService.unlockStory(nextKeyPoint.storyId).subscribe({
+            next: (result) => {
+              this.snackBar.open('Congratulations! You unlocked story for this keypoint!', 'Close', {
+                duration: 3000,
+                panelClass: "succesful"
+              });   
+            }
+          });
+             
+        }
       }
       if(this.required.length > 0){
         this.notificationService.notify({ message:'You have required encounters to complete.', duration: 3000, notificationType: NotificationType.INFO });

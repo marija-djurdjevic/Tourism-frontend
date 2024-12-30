@@ -1,26 +1,25 @@
-<form [formGroup]="clubForm">
-    <div>
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" type="text"/>
+<div class="club-form-container">
+    <form [formGroup]="clubForm" class="club-form">
+      <div>
+        <h2>{{ shouldEdit ? 'Update Club' : 'Add Club' }}</h2>
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" type="text" required>
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Description</mat-label>
-          <textarea matInput
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="1"
-          formControlName="description"
-          cdkAutosizeMaxRows="5"></textarea>
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            formControlName="description"
+            required
+            cdkAutosizeMaxRows="5"></textarea>
         </mat-form-field>
-        <!-- <mat-form-field>
-            <mat-label>Image</mat-label>
-            <input matInput formControlName="image" type="text"/>
-        </mat-form-field> -->
-        <div style="margin-bottom: 16px;">
-            <!-- kod za upload slike -->
-            <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
-          </div>
-    <button *ngIf="!shouldEdit" color="primary" type="submit" (click)="addClub()" mat-raised-button>Done</button>
-    <button *ngIf="shouldEdit" color="primary" type="submit" (click)="updateClub()" mat-raised-button>Done</button>
-    </div>
-</form>
+
+        <app-image-upload (fileSelected)="onFileSelected($event)" formControlName="image" required></app-image-upload>
+        
+        <button *ngIf="!shouldEdit" mat-raised-button type="submit" (click)="addClub()" color="button">Add club</button>
+        <button *ngIf="shouldEdit" mat-raised-button type="submit" (click)="updateClub()" color="button">Update club</button>
+      </div>
+    </form>
+</div>

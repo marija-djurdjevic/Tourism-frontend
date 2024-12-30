@@ -2,7 +2,7 @@
 <form [formGroup]="tourForm"
  (ngSubmit)="shouldEdit ? updateTour() : addTour()"
   class="tour-form">
-    <h2>{{ shouldEdit ? 'Update Tour' : 'Add Tour' }}</h2>
+    <h2>{{ shouldEdit ? 'Update tour' : 'Add tour' }}</h2>
     <div class="form-container">
         <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
@@ -68,7 +68,7 @@
 
         <div class="button-container">
             <button mat-raised-button color="button" type="submit" [disabled]="tourForm.invalid">
-                {{ shouldEdit ? 'Update Tour' : 'Add Tour' }}
+                {{ shouldEdit ? 'Update tour' : 'Add tour' }}
             </button>
         </div>
     </div>

@@ -48,7 +48,13 @@ import { BundleCreateComponent } from 'src/app/feature-modules/tour-shopping/bun
 import { ExploreBundlesComponent } from 'src/app/feature-modules/tour-shopping/explore-bundles/explore-bundles.component';
 import { SalesComponent } from 'src/app/feature-modules/tour-shopping/sales/sales.component';
 import { ExploreToursComponent as AllTours } from 'src/app/feature-modules/tour-authoring/explore-tours/explore-tours';
+import { GroupTourFormComponent } from 'src/app/feature-modules/tour-authoring/group-tour-form/group-tour-form.component';
 import { BundleToursComponent } from 'src/app/feature-modules/tour-shopping/bundle-tours/bundle-tours.component';
+import { StoryFormComponent } from 'src/app/feature-modules/library/story-form/story-form.component';
+import { LibraryListComponent } from 'src/app/feature-modules/library/library-list/library-list.component';
+import { BookComponent } from 'src/app/feature-modules/library/book/book.component';
+import { BookFormComponent } from 'src/app/feature-modules/library/book-form/book-form.component';
+import { BookListComponent } from 'src/app/feature-modules/library/book-list/book-list.component';
 
 
 const routes: Routes = [
@@ -193,6 +199,7 @@ const routes: Routes = [
     path: 'publishRequestList',
     component: PublishRequestComponent,
     canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always' 
   },
   {
     path: 'sales',
@@ -204,6 +211,32 @@ const routes: Routes = [
     component: ExploreBundlesComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path:'story-form/:id/:tourId',
+    component:StoryFormComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path: 'create-book/:entityId/:requestId',
+    component: BookFormComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path: 'add-story-to-book/:entityId/:requestId',
+    component: BookListComponent,
+    canActivate: [AuthGuard]
+  },
+  
+  {
+    path:'library',
+    component:LibraryListComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'book/:id',
+    component:BookComponent,
+    canActivate:[AuthGuard]
+  },
 
   {
     path: 'bundle/:bundleId/author/:authorId',
@@ -212,6 +245,7 @@ const routes: Routes = [
   },
 
   //{ path: 'explore', component: AllTours },
+  { path: 'add-group-tour', component: GroupTourFormComponent },
 
 ];
 

@@ -1,0 +1,55 @@
+<img id="imgb" src="../../../../assets/screenshot4.png">
+<div class="desc">Welcome to the library.<br>
+  You have chosen a magnificent book prepared by our administrators.<br>
+  Have a cup of cofee and enjoy beautiful stories.<br>
+  Click on the book to start reading.
+</div>
+<div class="background-square" *ngIf="!endPage && displayBlankPage"></div>
+<div class="book" *ngIf="!isLoading">
+
+  <div *ngIf="leftPageVisible  " class="leftPage" (click)="flipBack()"></div>
+  <div
+    class="page-wrapper"
+    *ngFor="let page of pages; let i = index"
+    [style.--page-index]="pages.length - i" 
+    [class.flipped]="flippedPages.includes(i)"
+    (click)="flipPage(i)"
+    [ngStyle]="i === 0 || i === pages.length - 1 ? { 'background-color': book?.bookColour } : { 'background-color':  '#ffffff' } "
+  >
+ 
+    <div class="page-content">
+      <div *ngIf="book?.bookColour" [ngStyle]="{ 'background-color': book.bookColour }">
+      <ng-container *ngIf="i === 0  && !endPage"  >
+       
+        
+          <div class="inner-frame">
+
+            <h1 style="color: rgb(7, 88, 26); font-weight: 500;">{{page.title}}</h1>
+            <p>By: &#64;{{ username }}</p>
+            <div class="book-footer">
+              <img class="logo" src="../../../../assets/icons/download.png" alt="Logo">
+              <p class="psw">PSW</p>
+              <p class="travel">Travel</p>
+            </div>
+          </div>
+
+        
+      </ng-container>
+    </div>
+
+     
+      <ng-container *ngIf="i > 0 && i < pages.length - 1 && !endPage">
+        <h2 class="hh">{{ page.title }}</h2>
+        <img [src]="page.image" alt="Page Image" class="im" />
+        <p>{{ page.content }}</p>
+      </ng-container>
+
+
+      <ng-container *ngIf="i === pages.length - 1  && !endPage">
+
+      </ng-container>
+    </div>
+  </div>
+  <div *ngIf="endPage" class="leftPageEnd" (click)="flipBackEnd()"></div>
+</div>
+<div *ngIf="isLoading">Loading...</div>

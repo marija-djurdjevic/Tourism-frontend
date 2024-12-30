@@ -65,13 +65,12 @@
                     </button>
                 </div>
             </div>
-            <!--
-            <div id="club-form" *ngIf="shouldRenderClubForm">
-                <xp-clubs-form [shouldEdit]="shouldEdit" [club]="selectedClub" (clubsUpdated)="getClubs()">
-                </xp-clubs-form>
-            </div>
-        -->
         </div>
+    </div>
+
+    <div *ngIf="shouldRenderClubForm">
+        <xp-clubs-form [shouldEdit]="shouldEdit" [club]="selectedClub" (clubsUpdated)="getClubs()">
+        </xp-clubs-form>
     </div>
 
     <!-- Modal -->

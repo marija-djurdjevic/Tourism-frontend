@@ -186,7 +186,7 @@ export class ProblemsListComponent {
     if (this.user?.role == 'tourist') {
       this.service.getTouristProblems().subscribe({
         next: (result: PagedResults<Problem>) => {
-          this.entities = result.results;
+          this.entities = result.results.filter(problem => problem.status !== 1);
           this.updateDisplayedEntities();
           this.populateUsernamesT(this.displayedEntities.map(e => e.touristId));
           this.totalPages = Math.ceil(this.entities.length / this.pageSize);
@@ -213,6 +213,7 @@ export class ProblemsListComponent {
     this.flag = false;
     this.flag2 = true;
     console.log('Solve clicked. flag:', this.flag, 'flag2:', this.flag2);
+    
     this.cdr.detectChanges();
   }
 
@@ -339,6 +340,7 @@ export class ProblemsListComponent {
     if (this.comm.content != '') {
       this.makeComment()
     }
+    this.loadAllProblems();
     this.cdr.detectChanges();
   }
 

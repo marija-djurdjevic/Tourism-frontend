@@ -7,6 +7,7 @@ import { WeatherService } from '../../weather-service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 
+
 @Component({
   selector: 'xp-key-point',
   templateUrl: './key-point.component.html',
@@ -186,12 +187,13 @@ export class KeyPointComponent implements OnInit {
   }
   
 
-
+  addStory(id:number|undefined){
+    this.router.navigate(['/story-form',id, this.tourId]);
+  }
 
 
   addEncounter(id:number|undefined){
     this.router.navigate(['/add-encounter',id]);
   }
 
-  
 }
