@@ -49,7 +49,9 @@ export class ExploreToursComponent implements OnInit {
   @ViewChild('popupParent') popupParent!: ElementRef;
 
   constructor(private service: TourShoppingService,
-    private blogService: BlogService, private saleService: SaleService, private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
+    private blogService: BlogService, 
+    private saleService: SaleService, 
+    private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -461,6 +463,18 @@ cancelParticipation(tourId?: number): void {
       next: (result: Blog[]) => {
         this.topBlogs = result;
         console.log("blogoviiiiiiiiiii" + this.topBlogs);
+        this.topBlogs.forEach(element => {
+          // Fetch image separately
+          if (element.imageId) {
+              this.fetchImage(element.imageId).then((imageUrl) => {
+                  element.image = imageUrl;
+              }).catch((err) => {
+                  console.error('Error fetching image:', err);
+              }).finally(() => {
+                  this.isLoading = false; // Always stop loading regardless of image fetch result
+              });
+          }
+      });
         this.isLoading = false;
       },
       error: () => {
@@ -468,6 +482,23 @@ cancelParticipation(tourId?: number): void {
       }
     });
   }
+
+  fetchImage(imageId: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+        this.imageService.getImage(imageId).subscribe({
+            next: (blob: Blob) => {
+                if (blob.type.startsWith('image')) {
+                    resolve(URL.createObjectURL(blob)); // Resolve with image URL
+                } else {
+                    reject(new Error('Blob is not an image'));
+                }
+            },
+            error: (err) => {
+                reject(err); // Reject on error
+            }
+        });
+    });
+}
 
   viewBlog(blogId: any) {
     // Navigate to the blog's detail page or open the blog
