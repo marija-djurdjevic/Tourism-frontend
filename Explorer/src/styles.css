@@ -37,6 +37,19 @@ body {
     padding: 10px 20px;
     border-radius: 5px;
 }*/
+.add-card button img{
+    max-height: 25px !important;
+}
+
+.card-actions img{
+    max-height: 25px !important;
+}
+
+form{
+    max-height: 88vh !important;
+    overflow-y: auto;
+}
+
 .loading-spinner {
     display: flex;
     flex-direction: column;

@@ -1,224 +1,282 @@
 #imgb {
-    position: fixed;  /* Postavlja sliku fiksiranu u odnosu na ekran */
-    top: 0;
-    left: 0;
-    height: 100%;  /* Pokriva celu visinu ekrana */
-    width: 100%;   /* Pokriva celu širinu ekrana */
-    object-fit: cover;  /* Pokriva ceo ekran, zadržavajući proporcije slike */
-    z-index: -1;  /* Da bude ispod sadržaja */
-    opacity: 0.5;  /* Bleda slika */
-  }
-  
-  #tour {
-      display: flex;
-      justify-content: flex-start; /* Ostavi sadržaj pri vrhu */
-      align-items: center; /* Horizontalno centrirano */
-      flex-direction: column; /* Elementi idu vertikalno */
-      margin-top: 20px; /* Dodatni razmak od vrha */
-  }
-  
-  #tour-details {
-      display: flex;
-      flex-direction: column; /* Ili row ako kartice treba horizontalno */
-      justify-content: center; /* Centriranje horizontalno */
-      align-items: center; /* Centriranje vertikalno */
-      gap: 50px; /* Razmak između elemenata */
-      width: 100%; /* Koristi celu širinu roditelja */
-  }
-  
-  .tour-title {
-      font-size: 2em; /* Povećava veličinu fonta */
-      font-weight: bold; /* Čini tekst debljim */
-      text-align: center; /* Centriranje naslova */
-      margin-bottom: 10px; /* Razmak između naslova i linije */
-      color: black; /* Boja naslova (možeš prilagoditi) */
-  }
+  position: fixed;
+  /* Postavlja sliku fiksiranu u odnosu na ekran */
+  top: 0;
+  left: 0;
+  height: 100%;
+  /* Pokriva celu visinu ekrana */
+  width: 100%;
+  /* Pokriva celu širinu ekrana */
+  object-fit: cover;
+  /* Pokriva ceo ekran, zadržavajući proporcije slike */
+  z-index: -1;
+  /* Da bude ispod sadržaja */
+  opacity: 0.5;
+  /* Bleda slika */
+}
 
-  .button-container {
-    display: flex;
-    justify-content: flex-end;
+.blog-image {
+  max-height: 30vh;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+#tour {
+  display: flex;
+  justify-content: flex-start;
+  /* Ostavi sadržaj pri vrhu */
+  align-items: center;
+  /* Horizontalno centrirano */
+  flex-direction: column;
+  /* Elementi idu vertikalno */
+  margin-top: 20px;
+  /* Dodatni razmak od vrha */
+}
+
+#tour-details {
+  display: flex;
+  flex-direction: column;
+  /* Ili row ako kartice treba horizontalno */
+  justify-content: center;
+  /* Centriranje horizontalno */
+  align-items: center;
+  /* Centriranje vertikalno */
+  gap: 50px;
+  /* Razmak između elemenata */
+  width: 100%;
+  /* Koristi celu širinu roditelja */
+}
+
+.tour-title {
+  font-size: 2em;
+  /* Povećava veličinu fonta */
+  font-weight: bold;
+  /* Čini tekst debljim */
+  text-align: center;
+  /* Centriranje naslova */
+  margin-bottom: 10px;
+  /* Razmak između naslova i linije */
+  color: black;
+  /* Boja naslova (možeš prilagoditi) */
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .search-button {
-    background-color: #34AB45 !important;
-    color: white !important; 
-    cursor: pointer;
+  background-color: #34AB45 !important;
+  color: white !important;
+  cursor: pointer;
 }
 
 .search-button:hover {
-    background-color: #2ecc71 !important; 
+  background-color: #2ecc71 !important;
 }
 
 .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Razmak između kartica */
-    justify-content: center; /* Centriranje kartica */
-    width: 100%; /* Osiguraj da zauzima punu širinu */
-    padding: 0; /* Osiguraj da nema unutrašnjih razmaka */
-    margin: 0 auto; /* Centriranje na sredinu */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  /* Razmak između kartica */
+  justify-content: center;
+  /* Centriranje kartica */
+  width: 100%;
+  /* Osiguraj da zauzima punu širinu */
+  padding: 0;
+  /* Osiguraj da nema unutrašnjih razmaka */
+  margin: 0 auto;
+  /* Centriranje na sredinu */
 }
-  
+
 .card {
-    border-radius: 8px; /* Zaobljeni uglovi */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Senka */
-    width: 300px; /* Širina kartice */
-    padding: 16px; /* Unutrašnji razmak */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 15px;
-    background-color: #ffffff;
-    border: 3px solid #34AB45; /* Zeleni okvir sa debljinom 3px */
-    transition: transform 0.3s ease-in-out;
-    height: auto; /* Visina kartice se automatski prilagođava sadržaju */
-  }
-  
-  .card-content {
-    margin: 10px;
-    text-align: left; /* Tekst poravnat na levo */
-    width: 100%; /* Puni širinu kartice */
-  }
-  
-  .card-content h3 {
-    margin: 0;
-    font-size: 20px;  /* Povećaj veličinu naslova po potrebi */
-    font-weight: bold;  /* Debeli tekst */
-  }
-  
-  .card-content p {
-    margin: 8px 0;
-    color: #666;
-  }
-
-  .card-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-  
-.card-actions {
-    margin-top: auto;
-    display: flex;
-    justify-content: center; /* Centriranje ikonica horizontalno */
-    align-items: flex-start; /* Poravnanje ikonica prema vrhu */
-    gap: 12px; /* Razmak između ikonica */
-  }
-
-  .keypoint {
-    margin-top: auto;
-  }
-  
-  .icon-item {
-    display: flex;
-    flex-direction: column; /* Vertikalno poravnanje unutar jednog elementa */
-    align-items: center; /* Centriranje ikonice i teksta unutar jednog kontejnera */
-  }
-  
-  .status-text {
-    margin-top: 4px; /* Razmak između ikonice i teksta */
-    font-size: 0.85rem; /* Veličina fonta za tekst */
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border: 3px solid #2ecc71; /* Promeni boju okvira na svetliju zelenu pri hover-u */
-  }
-
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  border-radius: 8px;
+  /* Zaobljeni uglovi */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Senka */
+  width: 300px;
+  /* Širina kartice */
+  padding: 16px;
+  /* Unutrašnji razmak */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px;
+  background-color: #ffffff;
+  border: 3px solid #34AB45;
+  /* Zeleni okvir sa debljinom 3px */
+  transition: transform 0.3s ease-in-out;
+  height: auto;
+  /* Visina kartice se automatski prilagođava sadržaju */
 }
 
-.modal-content {
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    color: #666;
-    width: 80%;
-    max-width: 600px;
+.card-content {
+  margin: 10px;
+  text-align: left;
+  /* Tekst poravnat na levo */
+  width: 100%;
+  /* Puni širinu kartice */
 }
 
-.modal-content h2 {
-    color: black;
-}
-
-.highlighted-tour {
-    animation: fadeOut 3s forwards; /* Fades out over 3 seconds */
-  }
-
-@keyframes fadeOut {
-    0% {
-      background-color: #ffeb3b; /* Initial highlight color */
-    }
-    100% {
-      background-color: white; /* Final color (transparent) */
-    }
-  }
-
-#iks{
-    position: absolute;
-    top: 10px; 
-    right: 10px;
-}
-
-.popup-actions {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center; /* Centriraj dugme horizontalno */
-}
-
-.card-list {
-    overflow: auto;
-}
-
-.review-card {
-    background-color: #fdfdfd;
-    border: 3px solid #34AB45; 
-    border-radius: 8px;
-    margin-bottom: 16px;
-    padding: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.review-card:hover {
-    border: 3px solid #2ecc71; 
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #333;
-}
-
-.blogs-header {
-  text-align: center; /* Centriranje naslova */
-  margin-bottom: 10px; /* Razmak između naslova i linije */
-}
-.card-header h3 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: bold;
+.card-content h3 {
+  margin: 0;
+  font-size: 20px;
+  /* Povećaj veličinu naslova po potrebi */
+  font-weight: bold;
+  /* Debeli tekst */
 }
 
 .card-content p {
-    margin: 8px 0;
-    color: #666;
+  margin: 8px 0;
+  color: #666;
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  /* Centriranje ikonica horizontalno */
+  align-items: flex-start;
+  /* Poravnanje ikonica prema vrhu */
+  gap: 12px;
+  /* Razmak između ikonica */
+}
+
+.keypoint {
+  margin-top: auto;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  /* Vertikalno poravnanje unutar jednog elementa */
+  align-items: center;
+  /* Centriranje ikonice i teksta unutar jednog kontejnera */
+}
+
+.status-text {
+  margin-top: 4px;
+  /* Razmak između ikonice i teksta */
+  font-size: 0.85rem;
+  /* Veličina fonta za tekst */
+  font-weight: bold;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 3px solid #2ecc71;
+  /* Promeni boju okvira na svetliju zelenu pri hover-u */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #666;
+  width: 80%;
+  max-width: 600px;
+}
+
+.modal-content h2 {
+  color: black;
+}
+
+.highlighted-tour {
+  animation: fadeOut 3s forwards;
+  /* Fades out over 3 seconds */
+}
+
+@keyframes fadeOut {
+  0% {
+    background-color: #ffeb3b;
+    /* Initial highlight color */
+  }
+
+  100% {
+    background-color: white;
+    /* Final color (transparent) */
+  }
+}
+
+#iks {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  /* Centriraj dugme horizontalno */
+}
+
+.card-list {
+  overflow: auto;
+}
+
+.review-card {
+  background-color: #fdfdfd;
+  border: 3px solid #34AB45;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-card:hover {
+  border: 3px solid #2ecc71;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+}
+
+.blogs-header {
+  text-align: center;
+  /* Centriranje naslova */
+  margin-bottom: 10px;
+  /* Razmak između naslova i linije */
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-content p {
+  margin: 8px 0;
+  color: #666;
 }
 
 .grouptour-popup {
@@ -233,22 +291,32 @@
 }
 
 .card-with-color {
-  background-color: #f0f0f0; /* Primer svetle boje za grupne ture */
-  border: 1px solid #333; /* Dodaj tamnu ivicu ako je potrebno */
+  background-color: #f0f0f0;
+  /* Primer svetle boje za grupne ture */
+  border: 1px solid #333;
+  /* Dodaj tamnu ivicu ako je potrebno */
 }
 
 .popup {
   position: absolute;
-  background-color: #f9f9e5; /* Svetla pozadina */
-  border: 1px solid #ccc; /* Blaga ivica */
+  background-color: #f9f9e5;
+  /* Svetla pozadina */
+  border: 1px solid #ccc;
+  /* Blaga ivica */
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  top: -80px; /* Iznad labele */
-  left: 0; /* Podesite poziciju na osnovu layouta */
-  width: 250px; /* Fiksna širina */
-  z-index: 9999; ; /* Da se prikaže iznad drugih elemenata */
-  text-align: center; /* Centriran tekst */
+  top: -80px;
+  /* Iznad labele */
+  left: 0;
+  /* Podesite poziciju na osnovu layouta */
+  width: 250px;
+  /* Fiksna širina */
+  z-index: 9999;
+  ;
+  /* Da se prikaže iznad drugih elemenata */
+  text-align: center;
+  /* Centriran tekst */
   font-family: 'Arial', sans-serif;
   font-size: 14px;
   opacity: 1;
@@ -257,11 +325,14 @@
 .popup::before {
   content: '';
   position: absolute;
-  bottom: -10px; /* Trougao ispod prozora */
-  left: 20px; /* Prilagodite centriranje */
+  bottom: -10px;
+  /* Trougao ispod prozora */
+  left: 20px;
+  /* Prilagodite centriranje */
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid #f9f9e5; /* Boja pozadine pop-up-a */
+  border-top: 10px solid #f9f9e5;
+  /* Boja pozadine pop-up-a */
 }

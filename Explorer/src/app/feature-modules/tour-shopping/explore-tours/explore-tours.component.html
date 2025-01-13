@@ -15,7 +15,7 @@
                 <!-- Blog Cards for the top 3 blogs -->
                 <div class="card" *ngFor="let blog of topBlogs">
                     <div class="card-content">
-                        <img mat-card-image [src]="blog.image" alt="Blog Image" />
+                        <img mat-card-image [src]="blog.image" alt="Blog Image"  class="blog-image"/>
                         <h3>{{ blog.title }}</h3>
                     </div>
                     <div class="card-actions">
