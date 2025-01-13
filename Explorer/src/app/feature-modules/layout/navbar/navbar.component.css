@@ -1,4 +1,4 @@
-div {
+div{
     width: 100%;
     display: flex;
     align-items: center;
@@ -155,12 +155,15 @@ p {
     }
 }
 
+.shake{
+    animation: shakeWithPause 2.0s ease-in-out infinite;
+}
+
 .transparent-button {
     background-color: transparent;
     border: none;
     padding: 0;
     cursor: pointer;
-    animation: shakeWithPause 2.0s ease-in-out infinite;
     position: relative;
 }
 
@@ -177,75 +180,103 @@ p {
 .transparent-button:active img {
     transform: scale(0.95);
 }
-
 .notification-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 300px;
-    max-height: 200px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    padding: 10px;
+    position: fixed;
+    display: flex;
+    align-items: start !important;
+    justify-content: center;
+    top: 8vh;
+    right: 0;
+    height: auto;
+    width: auto;
+    max-height: 90vh;
+    max-width: 480px; /* Širina može biti prilagođena */
+    overflow-y: auto;
+    overflow-x: auto;
+    background-color: var(--primary-color); /* Tamnija crna-zelena nijansa */
+    border-radius: 2px;
+    box-shadow: 0px 4px 8px var(--primary-color);
     z-index: 1000;
-
-    /* Animation */
-    opacity: 0;
-    animation: dropdownSlide 0.3s ease forwards;
-}
-
-.notification-dropdown::-webkit-scrollbar {
-    display: none;
-}
-
-.notification-dropdown {
-    scrollbar-width: none;
-}
-
-.notification-dropdown ul {
+    padding-left: 5px;
+    padding-right: 0px;
+    padding-bottom: 5px;
+    animation: dropdownSlide 0.3s ease;
+  }
+  
+  .notification-dropdown #notifications {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.notification-dropdown li {
-    padding: 8px 10px;
-    font-size: 14px;
-    color: #333;
-    border-bottom: 1px solid #f1f1f1;
-}
-
-.notification-dropdown li:last-child {
-    border-bottom: none;
-}
-
-.notification-button {
-    display: block;
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 14px;
-    color: #333;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .notification-dropdown #notification {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid var(--secondary-color); /* Svetlija zelena boja za separator */
+    border-radius: 5px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .notification-dropdown .unread-notification {
+    background-color: #0064003f; /* Tamno zelena za nepročitana obaveštenja */
+    color: #ffffff;
+  }
+  
+  .notification-dropdown .even-notification {
+    background-color: #000000; /* Tamnija nijansa za svako drugo obaveštenje */
+  }
+  
+  .notification-dropdown #notification:hover {
+    background-color: #014f12; /* Svetlija zelena na hover */
+  }
+  
+  .notification-button {
+    background: none;
+    border: none;
+    color: inherit;
     text-align: left;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-.notification-button:hover {
-    background-color: #f0f0f0;
-}
-
-.notification-button:active {
-    background-color: #e0e0e0;
-}
-
-.notification-button:focus {
+    width: 100%;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.6);
-}
+  }
+
+  .transparent-button {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
+    border: 2px solid rgb(0, 0, 0);
+  }
+  
+  .notification-button:hover {
+    text-decoration: underline;
+  }
+  
+  .read-icon {
+    font-size: 12px;
+    color: var(--secondary-color); /* Svetlija zelena za ikonicu */
+    margin-left: 10px;
+  }
+  
+  .notification-dropdown::-webkit-scrollbar-thumb {
+    border-right: #19191E 3px solid;
+  }
