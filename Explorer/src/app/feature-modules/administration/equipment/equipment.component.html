@@ -32,9 +32,14 @@
                 
               </div>
               
-            <div>
-                <xp-equipment-form *ngIf="shouldRenderEquipmentForm" [shouldEdit]="shouldEdit"
+              <div *ngIf="shouldRenderEquipmentForm" class="modal-overlay" >
+                <div class="modal-content1">
+                  <div class="popup-actions">
+                    <button matTooltip="close window" class="x" mat-button (click)="shouldRenderEquipmentForm = false">X</button>
+                  </div>
+                <xp-equipment-form style="margin: 15px;margin-top: 20px;" [shouldEdit]="shouldEdit"
                     [equipment]="selectedEquipment" (equimpentUpdated)="getEquipment()"></xp-equipment-form>
+                </div>
             </div>
         </div>
     </div>
