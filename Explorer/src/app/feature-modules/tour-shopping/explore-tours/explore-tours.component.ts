@@ -49,8 +49,8 @@ export class ExploreToursComponent implements OnInit {
   @ViewChild('popupParent') popupParent!: ElementRef;
 
   constructor(private service: TourShoppingService,
-    private blogService: BlogService, 
-    private saleService: SaleService, 
+    private blogService: BlogService,
+    private saleService: SaleService,
     private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
@@ -88,14 +88,14 @@ export class ExploreToursComponent implements OnInit {
     if (tourId !== undefined) {
       this.visiblePopupId = this.visiblePopupId === tourId ? null : tourId;
     }
-    else{
+    else {
       this.visiblePopupId = null;
     }
   }
 
   onMouseEnter(tourId?: number): void {
     if (tourId !== undefined) {
-    this.visiblePopupId = tourId;
+      this.visiblePopupId = tourId;
     }
   }
 
@@ -106,10 +106,10 @@ export class ExploreToursComponent implements OnInit {
   loadParticipations(): void {
     this.service.getAllParticipations().subscribe({
       next: (results: PagedResults<GroupTourExecution>) => {
-        this.participations = results.results; 
-        console.log(this.participations);
-        console.log("Participations:", this.participations); 
-        console.log(this.user.id);
+        this.participations = results.results;
+        //console.log(this.participations);
+        console.log("Participations:", this.participations);
+        //console.log(this.user.id);
         this.disabledGroupTourParticipation = this.participations.some(participation => participation.touristId === this.user.id);
         console.log('da li je ili nije', this.disabledGroupTourParticipation);
       },
@@ -122,7 +122,7 @@ export class ExploreToursComponent implements OnInit {
   loadGroupTours(): void {
     this.service.getAllGroupTours().subscribe({
       next: (results: PagedResults<GroupTour>) => {
-        this.groupTours = results.results; 
+        this.groupTours = results.results;
       },
       error: () => {
         console.log("ERROR LOADING PARTICIPATIONS");
@@ -132,54 +132,54 @@ export class ExploreToursComponent implements OnInit {
 
   getDateAndTime(t: any): Date | null {
     const groupTour = this.groupTours.find(tour => tour.id === t.id);
-    if(groupTour !== undefined){
+    if (groupTour !== undefined) {
       return groupTour.startTime;
     }
     return null;
   }
 
   TourParticipation(tourId?: number): boolean {
-    if(tourId != undefined) {
-      return this.participations.some(participation => 
+    if (tourId != undefined) {
+      return this.participations.some(participation =>
         participation.touristId === this.user.id && participation.groupTourId === tourId
-    );
+      );
     }
-   return false;
-}
+    return false;
+  }
 
   hasAlreadyParticipated(tourId?: number): boolean {
-    console.log(this.participations);
-    if(tourId != undefined) {
-      return this.participations.some(participation => 
+    //console.log(this.participations);
+    if (tourId != undefined) {
+      return this.participations.some(participation =>
         participation.touristId === this.user.id && participation.groupTourId === tourId && participation.isFinished == true
-    );
+      );
     }
-  return false;
+    return false;
   }
 
 
   groupTourStatus(tourId?: number): boolean {
     const groupTour = this.groupTours.find(tour => tour.id === tourId);
     if (groupTour !== undefined && groupTour.startTime) {
-      const currentTime = new Date(); 
-      const tourStartTime = new Date(groupTour.startTime); 
-      return tourStartTime > currentTime; 
+      const currentTime = new Date();
+      const tourStartTime = new Date(groupTour.startTime);
+      return tourStartTime > currentTime;
     }
-    return false; 
+    return false;
   }
 
   groupTourProgress(tourId?: number): boolean {
     const groupTour = this.groupTours.find(tour => tour.id === tourId);
     if (groupTour !== undefined) {
-      return groupTour.progress === 0; 
+      return groupTour.progress === 0;
     }
-    return false; 
+    return false;
   }
 
   getProgressStatus(tourId?: number): string {
     const groupTour = this.groupTours.find(tour => tour.id === tourId);
     if (groupTour !== undefined) {
-      return this.getProgressLabel(groupTour.progress); 
+      return this.getProgressLabel(groupTour.progress);
     }
     return '';
   }
@@ -197,38 +197,38 @@ export class ExploreToursComponent implements OnInit {
     }
   }
 
-cancelParticipation(tourId?: number): void {
-  const groupTour = this.groupTours.find(tour => tour.id === tourId);
-  if (groupTour) {
-    const currentTime = new Date();
-    const startTime = new Date(groupTour.startTime);
-    const timeDifference = startTime.getTime() - currentTime.getTime();
-  
-    console.log(startTime);
-    console.log(timeDifference);
-    if (timeDifference > 24 * 60 * 60 * 1000) {
-      console.log("Start time is more than 24 hours ago.");
-      if(tourId != undefined) {
-        this.service.cancelParticipation(this.user.id, tourId)
-          .subscribe({
-            next: (response: any) => {
-              console.log('Successfully canceled the group tour:', response);
-              this.loadParticipations();
-            },
-            error: (error: any) => {
-              console.error('Error canceling the group tour:', error);
-            }
-          });
-      }
+  cancelParticipation(tourId?: number): void {
+    const groupTour = this.groupTours.find(tour => tour.id === tourId);
+    if (groupTour) {
+      const currentTime = new Date();
+      const startTime = new Date(groupTour.startTime);
+      const timeDifference = startTime.getTime() - currentTime.getTime();
 
+      console.log(startTime);
+      console.log(timeDifference);
+      if (timeDifference > 24 * 60 * 60 * 1000) {
+        console.log("Start time is more than 24 hours ago.");
+        if (tourId != undefined) {
+          this.service.cancelParticipation(this.user.id, tourId)
+            .subscribe({
+              next: (response: any) => {
+                console.log('Successfully canceled the group tour:', response);
+                this.loadParticipations();
+              },
+              error: (error: any) => {
+                console.error('Error canceling the group tour:', error);
+              }
+            });
+        }
+
+      } else {
+        alert("Start time of this tour is within 24 hours. Canceling is forbidden!");
+      }
     } else {
-      alert("Start time of this tour is within 24 hours. Canceling is forbidden!");
+      console.log("Tour not found.");
     }
-  } else {
-    console.log("Tour not found.");
+
   }
-  
-}
 
   checkPopupPosition() {
     if (this.popup && this.popupParent) {
@@ -249,7 +249,7 @@ cancelParticipation(tourId?: number): void {
     this.saleService.getSales().subscribe({
       next: (results: PagedResults<Sale>) => {
         this.sales = results.results
-        console.log("Sales:", this.sales);
+        //console.log("Sales:", this.sales);
       },
       error: () => {
         console.log("ERROR LOADING SALES");
@@ -303,7 +303,25 @@ cancelParticipation(tourId?: number): void {
       this.service.getTours().subscribe({
         next: (result: Array<Tour>) => {
           this.tours = result;
-          console.log(this.tours)
+          //console.log(this.tours)
+          this.isLoading = false;
+          // Assign a single key point to each tour
+          this.tours.forEach(tour => {
+            this.assignSingleKeyPoint(tour);
+          });
+
+        },
+        error: (err: any) => {
+          console.log(err);
+          this.isLoading = false
+          this.notificationService.notify({ message: 'Failed to load tours. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+        }
+      });
+    } else {
+      this.service.getTours().subscribe({
+        next: (result: Array<Tour>) => {
+          this.tours = result;
+          //console.log(this.tours)
           this.isLoading = false;
           // Assign a single key point to each tour
           this.tours.forEach(tour => {
@@ -386,7 +404,7 @@ cancelParticipation(tourId?: number): void {
   isTourInCart(id: number): boolean {
     const cartKey = `cart_${this.user.id}`;
     const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
-    console.log(cart.some((item: { tourId: number }) => item.tourId === id))
+    //console.log(cart.some((item: { tourId: number }) => item.tourId === id))
     return cart.some((item: { tourId: number }) => item.tourId === id);
   }
 
@@ -422,7 +440,7 @@ cancelParticipation(tourId?: number): void {
       this.imageService.setControllerPath("tourist/image");
       review.images.split(',').forEach(element => {
         this.imageService.getImage(Number(element).valueOf()).subscribe((blob: Blob) => {
-          console.log(blob);  // Proveri sadržaj Blob-a
+          //console.log(blob);  // Proveri sadržaj Blob-a
           if (blob.type.startsWith('image')) {
             review.reviewImages?.push(URL.createObjectURL(blob));
             this.cd.detectChanges();
@@ -435,14 +453,14 @@ cancelParticipation(tourId?: number): void {
       //kraj
     }
   }
-  
+
   participateInGroupTour(tourId: number) {
     const groupTourExecution: GroupTourExecution = {
       groupTourId: tourId,
-      touristId: this.user.id,  
+      touristId: this.user.id,
       isFinished: false
     };
-  
+
     console.log(groupTourExecution);
     this.service.groupTourParticipate(groupTourExecution)
       .subscribe({
@@ -462,19 +480,19 @@ cancelParticipation(tourId?: number): void {
     this.blogService.getTopBlogs().subscribe({
       next: (result: Blog[]) => {
         this.topBlogs = result;
-        console.log("blogoviiiiiiiiiii" + this.topBlogs);
+        //console.log("blogoviiiiiiiiiii" + this.topBlogs);
         this.topBlogs.forEach(element => {
           // Fetch image separately
           if (element.imageId) {
-              this.fetchImage(element.imageId).then((imageUrl) => {
-                  element.image = imageUrl;
-              }).catch((err) => {
-                  console.error('Error fetching image:', err);
-              }).finally(() => {
-                  this.isLoading = false; // Always stop loading regardless of image fetch result
-              });
+            this.fetchImage(element.imageId).then((imageUrl) => {
+              element.image = imageUrl;
+            }).catch((err) => {
+              console.error('Error fetching image:', err);
+            }).finally(() => {
+              this.isLoading = false; // Always stop loading regardless of image fetch result
+            });
           }
-      });
+        });
         this.isLoading = false;
       },
       error: () => {
@@ -485,20 +503,20 @@ cancelParticipation(tourId?: number): void {
 
   fetchImage(imageId: number): Promise<string> {
     return new Promise((resolve, reject) => {
-        this.imageService.getImage(imageId).subscribe({
-            next: (blob: Blob) => {
-                if (blob.type.startsWith('image')) {
-                    resolve(URL.createObjectURL(blob)); // Resolve with image URL
-                } else {
-                    reject(new Error('Blob is not an image'));
-                }
-            },
-            error: (err) => {
-                reject(err); // Reject on error
-            }
-        });
+      this.imageService.getImage(imageId).subscribe({
+        next: (blob: Blob) => {
+          if (blob.type.startsWith('image')) {
+            resolve(URL.createObjectURL(blob)); // Resolve with image URL
+          } else {
+            reject(new Error('Blob is not an image'));
+          }
+        },
+        error: (err) => {
+          reject(err); // Reject on error
+        }
+      });
     });
-}
+  }
 
   viewBlog(blogId: any) {
     // Navigate to the blog's detail page or open the blog

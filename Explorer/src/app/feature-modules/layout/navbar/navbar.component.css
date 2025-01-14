@@ -183,7 +183,7 @@ p {
 .notification-dropdown {
     position: fixed;
     display: flex;
-    align-items: start !important;
+    align-items: flex-start !important;
     justify-content: center;
     top: 8vh;
     right: 0;

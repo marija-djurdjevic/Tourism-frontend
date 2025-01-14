@@ -18,7 +18,7 @@
                         <img mat-card-image [src]="blog.image" alt="Blog Image"  class="blog-image"/>
                         <h3>{{ blog.title }}</h3>
                     </div>
-                    <div class="card-actions">
+                    <div class="card-actions" *ngIf="this.user.role == 'tourist'">
                         <button color="accent" (click)="viewBlog(blog.id)" mat-icon-button matTooltip="Check it out">
                             <img src="assets/icons/view.png" alt="View Icon" />
                         </button>
@@ -137,7 +137,7 @@
                     <div class="card-actions">
                         <!-- Ikonica za review -->
                         <div class="icon-item">
-                            <button color="primary" (click)="showReviews(t.id ?? 0)" mat-icon-button
+                            <button color="primary" *ngIf="this.user.role == 'tourist'" (click)="showReviews(t.id ?? 0)" mat-icon-button
                                 matTooltip="Show reviews">
                                 <img src="assets/icons/review.png" alt="Review Icon" />
                             </button>
