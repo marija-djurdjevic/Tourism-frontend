@@ -22,12 +22,24 @@
             <p><strong>Motto:</strong>
               {{ userProfile.motto }}
             </p>
+            <p><strong>Email: </strong>
+              {{ userProfile.email }}
+            </p>
+            <p><strong>Role: </strong>
+              {{ user.role }}
+            </p>
+            <p *ngIf="user.role=='tourist'"><strong>Balance: </strong>
+              <span *ngIf="wallet" [ngClass]="{'red': wallet.balance<1, 'green':wallet.balance>0}" >{{ wallet.balance }} </span> DIN
+            </p>
+            <p *ngIf="user.role=='tourist'"><strong>XP: </strong>
+              <span class="red" >{{ userProfile.xp }} </span>
+            </p>
           </div>
           <div class="card-actions">
-            <button color="primary" *ngIf="user.role === 'tourist'" (click)="seeWallet()" mat-icon-button
+            <!-- <button color="primary" *ngIf="user.role === 'tourist'" (click)="seeWallet()" mat-icon-button
               matTooltip="Show wallet">
               <img src="assets/icons/wallet.png" alt="Wallet Icon" />
-            </button>
+            </button> -->
             <button color="primary" (click)="toggleEdit()" mat-icon-button matTooltip="Edit profile">
               <img src="assets/icons/edit.png" alt="Edit Icon" />
             </button>
