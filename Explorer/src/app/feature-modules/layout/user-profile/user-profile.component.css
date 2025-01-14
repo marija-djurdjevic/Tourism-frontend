@@ -83,7 +83,7 @@
 }
 
 .card-content p {
-  margin: 8px 0;
+  margin: 0px 0;
   color: #666;
   font-size: 16px; /* Povećana veličina teksta */
   line-height: 1.5; /* Bolje čitljiv razmak između redova */
@@ -144,6 +144,16 @@
   max-height: 700px; /* Ograniči visinu na 90% visine ekrana */
   display: flex;
   flex-direction: column;
+}
+
+.red{
+  color: red;
+  font-weight: bold;
+}
+
+.green{
+  color: green;
+  font-weight: bold;
 }
 
 .modal-content h2 {
