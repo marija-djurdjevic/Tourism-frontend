@@ -192,6 +192,31 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  delete(notification: Notification): void {
+    if (this.user?.role === 'tourist') {
+      this.layoutService.deleteNotificationTourist(notification).subscribe({
+        next: (result: any) => {
+          console.log("Notification deleted: ", result);
+          this.notifications = this.notifications.filter(n => n !== notification);
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+    }
+    else if (this.user?.role === 'author') {
+      this.layoutService.deleteNotificationAuthor(notification).subscribe({
+        next: (result: any) => {
+          console.log("Notification deleted: ", result);
+          this.notifications = this.notifications.filter(n => n !== notification);
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+    }
+  }
+
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
   }

@@ -73,11 +73,14 @@
                             (click)="goToProblem(notification, notification.referenceId)">
                             {{ notification.content }}
                         </button>
-                        <span class="read-icon" *ngIf="notification.isRead" title="Notification read">
+                        <span class="read-icon" *ngIf="notification.isRead" matTooltip="Notification read">
                             ✔
                         </span>
+                        <span (click)="delete(notification)" class="read-icon" *ngIf="notification.isRead" matTooltip="Delete">
+                            <img style="width: 25px;" src="assets/icons/trash.png" alt="">
+                        </span>
                         <span (click)="markAsRead(notification)" matTooltip="Mark as read" class="read-icon"
-                            *ngIf="!notification.isRead" title="Notification read">
+                            *ngIf="!notification.isRead">
                             <img style="width: 20px;" src="assets/icons/eye.png" alt="">
                         </span>
                     </span>

@@ -20,6 +20,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.card-content h3{
+    color: var(--secondary-color);
+}
+
 /* Color Palette */
 :root {
     --primary-color: #19191E;

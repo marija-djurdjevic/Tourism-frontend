@@ -275,6 +275,7 @@ p {
     font-size: 12px;
     color: var(--secondary-color); /* Svetlija zelena za ikonicu */
     margin-left: 10px;
+    cursor: pointer;
   }
   
   .notification-dropdown::-webkit-scrollbar-thumb {
