@@ -21,7 +21,8 @@ import { Achievement } from '../../administration/model/achievement.model';
 })
 export class NavbarComponent implements OnInit {
   @Output() previewAchiNotification = new EventEmitter<string>();
-
+  
+  selectedTab: string = 'explore-tours';
   user: User | undefined;
   notifications: Notification[] = [];
   showNotifications: boolean = false;
@@ -38,6 +39,7 @@ export class NavbarComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
+        this.selectedTab = this.router.url.split('/').pop()||'';
         this.showLocationButton = !this.router.url.startsWith('/tourSession');
         console.log('Current URL:', this.router.url);
         console.log('Hide Location Button:', this.showLocationButton);
