@@ -20,6 +20,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 import { Blog } from '../../blog/model/blog.model';
 import { BlogService } from '../../blog/blog.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -305,6 +306,7 @@ export class ExploreToursComponent implements OnInit {
           this.tours = result;
           //console.log(this.tours)
           this.isLoading = false;
+          this.getAllReviews();
           // Assign a single key point to each tour
           this.tours.forEach(tour => {
             this.assignSingleKeyPoint(tour);
@@ -434,6 +436,21 @@ export class ExploreToursComponent implements OnInit {
     });
   }
 
+  getAllReviews(): void {
+    this.tourService.getReviews().subscribe({
+      next: (result: PagedResults<TourReview>) => {
+        this.tours.forEach(tour => {
+          tour.rating = result.results.filter(review => review.tourId === tour.id).reduce((acc, review) => acc + (review.grade || 0), 0) / result.results.filter(review => review.tourId === tour.id).length;
+
+        });
+      },
+      error: (error) => {
+        console.error('Error fetching reviews:', error);
+        this.notificationService.notify({ message: 'Failed to load reviews. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+      }
+    });
+  }
+
   getImages(): void {
     for (const review of this.selectedTourReviews) {
       review.reviewImages = [];
@@ -521,6 +538,48 @@ export class ExploreToursComponent implements OnInit {
   viewBlog(blogId: any) {
     // Navigate to the blog's detail page or open the blog
     this.router.navigate(['/comments/', blogId]); // Assuming you have routing set up
+  }
+
+  selectedSort: string = 'priceAsc';
+
+  onSortChange(event: any) {
+    this.selectedSort = event;
+    if (event == 'default') {
+      this.getTours();
+    } else {
+      this.getSortedTours();
+    }
+  }
+
+  getSortedTours() {
+    return this.tours.sort((a, b) => {
+      b.rating = b.rating ? b.rating : 0;
+      a.rating = a.rating ? a.rating : 0;
+      switch (this.selectedSort) {
+        case 'priceAsc':
+          return a.price - b.price;
+        case 'priceDesc':
+          return b.price - a.price;
+        case 'nameAsc':
+          return a.name.localeCompare(b.name);
+        case 'nameDesc':
+          return b.name.localeCompare(a.name);
+        case 'lengthAsc':
+          return a.transportInfo.time - b.transportInfo.time;
+        case 'lengthDesc':
+          return b.transportInfo.time - a.transportInfo.time;
+        case 'distanceAsc':
+          return a.transportInfo.distance - b.transportInfo.distance;
+        case 'distanceDesc':
+          return b.transportInfo.distance - a.transportInfo.distance;
+        case 'ratingDesc':
+          return b.rating - a.rating;
+        case 'ratingAsc':
+          return a.rating - b.rating;
+        default:
+          return 0;
+      }
+    });
   }
 
 }

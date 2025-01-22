@@ -15,6 +15,121 @@
   /* Bleda slika */
 }
 
+
+.select {
+  width: fit-content;
+  cursor: pointer;
+  position: absolute;
+  top: 80px;
+  right: 50px;
+  transition: 300ms;
+  color: white;
+  overflow: hidden;
+}
+
+.selected {
+  background-color: #2a2f3b;
+  padding: 5px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 100;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arrow {
+  position: relative;
+  right: 0px;
+  height: 10px;
+  transform: rotate(-90deg);
+  width: 25px;
+  fill: white;
+  z-index: 100;
+  transition: 300ms;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #2a2f3b;
+  position: relative;
+  top: -10px;
+  opacity: 0;
+  transition: 300ms;
+}
+
+.select:hover > .options {
+  opacity: 1;
+  top: 0;
+}
+
+.select:hover > .selected .arrow {
+  transform: rotate(0deg);
+}
+
+.option {
+  border-radius: 5px;
+  padding: 5px;
+  transition: 300ms;
+  background-color: #2a2f3b;
+  width: 150px;
+  font-size: 15px;
+}
+.option:hover {
+  background-color: #323741;
+}
+
+.options input[type="radio"] {
+  display: none;
+}
+
+.options label {
+  display: inline-block;
+}
+.options label::before {
+  content: attr(data-txt);
+}
+
+.select:has(.options input[type="radio"]#default:checked) .selected::before {
+  content: attr(data-default);
+}
+
+.select:has(.options input[type="radio"]#priceAsc:checked) .selected::before {
+  content: attr(data-priceAsc);
+}
+.select:has(.options input[type="radio"]#priceDesc:checked) .selected::before {
+  content: attr(data-priceDesc);
+}
+.select:has(.options input[type="radio"]#nameAsc:checked) .selected::before {
+  content: attr(data-nameAsc);
+}
+.select:has(.options input[type="radio"]#nameDesc:checked) .selected::before {
+  content: attr(data-nameDesc);
+}
+.select:has(.options input[type="radio"]#lengthAsc:checked) .selected::before {
+  content: attr(data-lengthAsc);
+}
+.select:has(.options input[type="radio"]#lengthDesc:checked) .selected::before {
+  content: attr(data-lengthDesc);
+}
+.select:has(.options input[type="radio"]#distanceAsc:checked) .selected::before {
+  content: attr(data-distanceAsc);
+}
+.select:has(.options input[type="radio"]#distanceDesc:checked) .selected::before {
+  content: attr(data-distanceDesc);
+}
+.select:has(.options input[type="radio"]#ratingAsc:checked) .selected::before {
+  content: attr(data-ratingAsc);
+}
+.select:has(.options input[type="radio"]#ratingDesc:checked) .selected::before {
+  content: attr(data-ratingDesc);
+}
+
 .blog-image {
   max-height: 30vh;
   width: 100%;
@@ -107,7 +222,7 @@
   background-color: #ffffff;
   border: 3px solid #34AB45;
   /* Zeleni okvir sa debljinom 3px */
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease;
   height: auto;
   /* Visina kartice se automatski prilagođava sadržaju */
 }

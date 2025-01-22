@@ -21,7 +21,8 @@ import { Achievement } from '../../administration/model/achievement.model';
 })
 export class NavbarComponent implements OnInit {
   @Output() previewAchiNotification = new EventEmitter<string>();
-
+  
+  selectedTab: string = 'explore-tours';
   user: User | undefined;
   notifications: Notification[] = [];
   showNotifications: boolean = false;
@@ -38,6 +39,7 @@ export class NavbarComponent implements OnInit {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
+        this.selectedTab = this.router.url.split('/').pop()||'';
         this.showLocationButton = !this.router.url.startsWith('/tourSession');
         console.log('Current URL:', this.router.url);
         console.log('Hide Location Button:', this.showLocationButton);
@@ -184,6 +186,31 @@ export class NavbarComponent implements OnInit {
         next: (result: any) => {
           console.log("Marked as read: ", result);
           notification.isRead = true;
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+    }
+  }
+
+  delete(notification: Notification): void {
+    if (this.user?.role === 'tourist') {
+      this.layoutService.deleteNotificationTourist(notification).subscribe({
+        next: (result: any) => {
+          console.log("Notification deleted: ", result);
+          this.notifications = this.notifications.filter(n => n !== notification);
+        },
+        error: (err: any) => {
+          console.log(err);
+        }
+      });
+    }
+    else if (this.user?.role === 'author') {
+      this.layoutService.deleteNotificationAuthor(notification).subscribe({
+        next: (result: any) => {
+          console.log("Notification deleted: ", result);
+          this.notifications = this.notifications.filter(n => n !== notification);
         },
         error: (err: any) => {
           console.log(err);

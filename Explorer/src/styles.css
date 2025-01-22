@@ -20,6 +20,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.card-content h3 {
+    color: var(--secondary-color);
+}
+
 /* Color Palette */
 :root {
     --primary-color: #19191E;
@@ -118,32 +122,30 @@ form {
 }
 
 .custom-spinner {
-    width: 60px;
-    height: 60px;
-    border: 8px groove rgba(0, 0, 0, 0.7);
-    border-top: 10px solid var(--secondary-color);
+    width: 6rem;
+    height: 6rem;
     border-radius: 50%;
-    margin-bottom: 20px;
-    animation: spin 1s linear infinite;
+    box-sizing: border-box;
+    border-top: 8px solid #fff;
+    border-left: 8px solid #fff;
+    border-right: 8px solid #ff00;
+    margin-bottom: 10px;
+    animation: loader .7s infinite linear;
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
+@keyframes loader {
+    to {
         transform: rotate(360deg);
     }
 }
 
 .loading-text {
     margin-top: 26px;
-    font-size: 16px;
+    font-size: 26px;
     color: var(--light-text-color);
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
     padding: 10px;
-    border-radius: 30px 15px 30px 15px;
+    /* border-radius: 30px 15px 30px 15px; */
 }
 
 .background_image {
@@ -174,6 +176,7 @@ form {
     border-radius: 30px 15px 30px 15px;
     text-transform: uppercase;
     position: relative;
+    overflow: hidden;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
