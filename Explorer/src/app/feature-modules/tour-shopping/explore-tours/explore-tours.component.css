@@ -63,12 +63,12 @@
   transition: 300ms;
 }
 
-.select:hover > .options {
+.select:hover>.options {
   opacity: 1;
   top: 0;
 }
 
-.select:hover > .selected .arrow {
+.select:hover>.selected .arrow {
   transform: rotate(0deg);
 }
 
@@ -80,6 +80,7 @@
   width: 150px;
   font-size: 15px;
 }
+
 .option:hover {
   background-color: #323741;
 }
@@ -91,6 +92,7 @@
 .options label {
   display: inline-block;
 }
+
 .options label::before {
   content: attr(data-txt);
 }
@@ -102,30 +104,39 @@
 .select:has(.options input[type="radio"]#priceAsc:checked) .selected::before {
   content: attr(data-priceAsc);
 }
+
 .select:has(.options input[type="radio"]#priceDesc:checked) .selected::before {
   content: attr(data-priceDesc);
 }
+
 .select:has(.options input[type="radio"]#nameAsc:checked) .selected::before {
   content: attr(data-nameAsc);
 }
+
 .select:has(.options input[type="radio"]#nameDesc:checked) .selected::before {
   content: attr(data-nameDesc);
 }
+
 .select:has(.options input[type="radio"]#lengthAsc:checked) .selected::before {
   content: attr(data-lengthAsc);
 }
+
 .select:has(.options input[type="radio"]#lengthDesc:checked) .selected::before {
   content: attr(data-lengthDesc);
 }
+
 .select:has(.options input[type="radio"]#distanceAsc:checked) .selected::before {
   content: attr(data-distanceAsc);
 }
+
 .select:has(.options input[type="radio"]#distanceDesc:checked) .selected::before {
   content: attr(data-distanceDesc);
 }
+
 .select:has(.options input[type="radio"]#ratingAsc:checked) .selected::before {
   content: attr(data-ratingAsc);
 }
+
 .select:has(.options input[type="radio"]#ratingDesc:checked) .selected::before {
   content: attr(data-ratingDesc);
 }
@@ -295,7 +306,7 @@
 
 .modal-overlay {
   position: fixed;
-  top: 0;
+  top: 0px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -308,6 +319,8 @@
 
 .modal-content {
   position: relative;
+  margin: 20px;
+  max-height: 90%;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -341,7 +354,7 @@
 
 #iks {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 10px;
 }
 
@@ -450,4 +463,183 @@
   border-right: 10px solid transparent;
   border-top: 10px solid #f9f9e5;
   /* Boja pozadine pop-up-a */
+}
+
+.search-form {
+  max-width: 80vw;
+  margin: 20px auto;
+  /* Centriraj formu i dodaće se razmak od vrha i dna ekrana */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  height: 80vh;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+
+.search-form h2 {
+  text-align: center;
+  color: #333;
+}
+
+.search-form .form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-form .button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  /* Dodaj širinu na roditeljsku div kako bi zauzela celu širinu */
+}
+
+.search-form .search-button {
+  width: 100%;
+  /* Dugme zauzima celu širinu roditeljskog kontejnera */
+  background-color: #d3d3d3;
+  /* Siva boja za onemogućeno dugme */
+  color: white !important;
+  /* Bela boja za tekst */
+  cursor: not-allowed;
+  /* Menja kursor na "ne može" kad je dugme onemogućeno */
+  padding: 12px;
+  /* Malo paddinga kako bi dugme bilo udobnije */
+}
+
+.search-form .search-button:enabled {
+  background-color: #34AB45 !important;
+  /* Zelena boja kad je dugme omogućeno */
+  cursor: pointer;
+  /* Kursor se menja u normalan kad je dugme omogućeno */
+}
+
+.search-form .search-button:disabled {
+  background-color: grey !important;
+  /* Zelena boja kad je dugme omogućeno */
+  cursor: pointer;
+  /* Kursor se menja u normalan kad je dugme omogućeno */
+}
+
+.search-form .search-button:hover:enabled {
+  background-color: #2ecc71 !important;
+  /* Svetlija nijansa zelene pri hover-u kad je dugme omogućeno */
+}
+
+.search-form #search {
+  display: flex;
+  justify-content: flex-start;
+  /* Ostavi sadržaj pri vrhu */
+  align-items: center;
+  /* Horizontalno centrirano */
+  flex-direction: column;
+  /* Elementi idu vertikalno */
+  margin-top: 40px;
+  /* Dodatni razmak od vrha */
+}
+
+.search-form #search-details {
+  display: flex;
+  flex-direction: column;
+  /* Ili row ako kartice treba horizontalno */
+  justify-content: center;
+  /* Centriranje horizontalno */
+  align-items: center;
+  /* Centriranje vertikalno */
+  gap: 50px;
+  /* Razmak između elemenata */
+  width: 100%;
+  /* Koristi celu širinu roditelja */
+}
+
+.search-form .search-title {
+  font-size: 2em;
+  /* Povećava veličinu fonta */
+  font-weight: bold;
+  /* Čini tekst debljim */
+  text-align: center;
+  /* Centriranje naslova */
+  margin-bottom: 10px;
+  /* Razmak između naslova i linije */
+  color: black;
+  /* Boja naslova (možeš prilagoditi) */
+}
+
+.search-form .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.search-form .modal-content {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #666;
+}
+
+.search-form .modal-content h2 {
+  color: black;
+}
+
+.search-form #iks {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.search-form .popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  /* Centriraj dugme horizontalno */
+}
+
+.search-form .card-list {
+  overflow: auto;
+}
+
+.search-form .search-card {
+  background-color: #fdfdfd;
+  border: 3px solid #34AB45;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.search-form .search-card:hover {
+  border: 3px solid #2ecc71;
+}
+
+.search-form .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #333;
+}
+
+.search-form .card-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.search-form .card-content p {
+  margin: 8px 0;
+  color: #666;
 }
