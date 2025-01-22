@@ -11,7 +11,8 @@
 
         <!-- Sort Section -->
         <div class="select">
-            <label style="font-weight: bold; color: var(--primary-color);margin-bottom: 5px;" for="sortSelect">Sort by:</label>
+            <label style="font-weight: bold; color: var(--primary-color);margin-bottom: 5px;" for="sortSelect">Sort
+                by:</label>
             <div id="sortSelect" class="selected" data-default="Default" data-priceAsc="Price (Low to High)"
                 data-priceDesc="Price (High to Low)" data-nameAsc="Name (A to Z)" data-nameDesc="Name (Z to A)"
                 data-lengthAsc="Duration (Short to Long)" data-lengthDesc="Duration (Long to Short)"
@@ -25,9 +26,8 @@
             </div>
             <div class="options">
                 <div title="default">
-                    <input id="default" name="option" type="radio" checked=""/>
-                    <label class="option" for="default" data-txt="Default"
-                        (click)="onSortChange('default')"></label>
+                    <input id="default" name="option" type="radio" checked="" />
+                    <label class="option" for="default" data-txt="Default" (click)="onSortChange('default')"></label>
                 </div>
                 <div title="priceAsc">
                     <input id="priceAsc" name="option" type="radio" />
@@ -105,6 +105,10 @@
         <div class="button-container">
             <button mat-raised-button class="search-button" (click)="searchTours()">
                 Search tours
+            </button>
+            <button mat-raised-button class="search-button" *ngIf="tours.length!=toursCopy.length" style="margin-left: 10px; background-color: var(--primary-color) !important;" (click)="resetSearch()">
+                <mat-icon>refresh</mat-icon>
+                Reset search
             </button>
             <button mat-raised-button class="search-button" style="margin-left: 10px;" (click)="toggleDiscountFilter()">
                 {{ showDiscountedOnly ? 'Show All Tours' : 'Show Discounted Tours Only' }}
@@ -308,6 +312,121 @@
 
             <div class="popup-actions">
                 <button mat-button id="iks" (click)="closeReviewsModal()">X</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal-overlay" *ngIf="isSearchModalOpen">
+        <div class="modal-content" style="max-width: 70vw;">
+            <form #searchForm="ngForm" class="search-form">
+                <h2>Please enter search parameters</h2>
+                <div class="form-container">
+                    <div style="display: flex;flex-direction: row;justify-content: space-evenly;">
+
+                        <div style="display: flex;flex-direction: column;width: 40%;margin-top: 25px;">
+                            <!-- Name -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tour Name</mat-label>
+                                <input matInput type="text" id="name" name="name" placeholder="Enter tour name"
+                                    [(ngModel)]="searchCriteria.name" />
+                            </mat-form-field>
+
+                            <!-- Min Price -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Min Price (din) <mat-icon>payments</mat-icon></mat-label>
+                                <input matInput type="number" id="minPrice" name="minPrice" min="0"
+                                    placeholder="Enter minimum price" [(ngModel)]="searchCriteria.minPrice" />
+                            </mat-form-field>
+
+                            <!-- Max Price -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Max Price (din) <mat-icon>payments</mat-icon></mat-label>
+                                <input matInput type="number" id="maxPrice" name="maxPrice" min="0"
+                                    placeholder="Enter maximum price" [(ngModel)]="searchCriteria.maxPrice" />
+                            </mat-form-field>
+
+                            <!-- Min Rating -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Min Rating  <mat-icon>star_half</mat-icon></mat-label>
+                                <input matInput type="number" id="minRating" name="minRating" min="0" max="5" step="0.1"
+                                    placeholder="Enter minimum rating" [(ngModel)]="searchCriteria.minRating" />
+                            </mat-form-field>
+
+                            <!-- Max Rating -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Max Rating  <mat-icon>star_half</mat-icon></mat-label>
+                                <input matInput type="number" id="maxRating" name="maxRating" min="0" max="5" step="0.1"
+                                    placeholder="Enter maximum rating" [(ngModel)]="searchCriteria.maxRating" />
+                            </mat-form-field>
+
+                            <!-- Min duration -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Min Duration (min) <mat-icon>timer</mat-icon></mat-label>
+                                <input matInput type="number" id="minDuration" name="minDuration" min="0" step="1"
+                                    placeholder="Enter minimum duration" [(ngModel)]="searchCriteria.minDuration" />
+                            </mat-form-field>
+
+                            <!-- Max duration -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Max Duration (min)  <mat-icon>timer</mat-icon></mat-label>
+                                <input matInput type="number" id="maxDuration" name="maxDuration" min="0" step="1"
+                                    placeholder="Enter maximum duration" [(ngModel)]="searchCriteria.maxDuration" />
+                            </mat-form-field>
+                            
+                            <!-- Min distance -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Min Distance (km)  <mat-icon>social_distance</mat-icon></mat-label>
+                                <input matInput type="number" id="minDistance" name="minDistance" min="0" step="1"
+                                    placeholder="Enter minimum distance" [(ngModel)]="searchCriteria.minDistance" />
+                            </mat-form-field>
+
+                            <!-- Max Distance -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Max Distance (km)  <mat-icon>social_distance</mat-icon></mat-label>
+                                <input matInput type="number" id="maxDistance" name="maxDistance" min="0" step="1"
+                                    placeholder="Enter maximum distance" [(ngModel)]="searchCriteria.maxDistance" />
+                            </mat-form-field>
+
+                            <!-- Tags -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tags</mat-label>
+                                <input matInput type="text" id="tags" name="tags"
+                                    placeholder="Enter tags (comma-separated)" [(ngModel)]="searchCriteria.tags" />
+                            </mat-form-field>
+
+                            <!-- Key Point Name -->
+                            <mat-form-field appearance="outline">
+                                <mat-label>First Key Point Name</mat-label>
+                                <input matInput type="text" id="keyPointName" name="keyPointName"
+                                    placeholder="Enter key point name" [(ngModel)]="searchCriteria.keyPointName" />
+                            </mat-form-field>
+                        </div>
+                        <div style="width: 50%; display: flex;flex-direction: column;justify-content: space-between;">
+                            <label for="" style="margin-bottom: 5px;font-size: medium;">Search for tours by key point location</label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Max distance from selected location (km)</mat-label>
+                                <input matInput type="number" id="distance" min="0" name="distance"
+                                    placeholder="Enter distance" [(ngModel)]="searchCriteria.distance"
+                                    #distanceInput="ngModel" />
+                            </mat-form-field>
+
+                            <app-map [onlyOneMarker]="true" (keyPointSelected)="onKeyPointSelected($event)">
+                            </app-map>
+                        </div>
+                        
+                    </div>
+                    <div class="button-container">
+                        <button mat-raised-button class="search-button" type="submit" (click)="searchForTours()"
+                            [disabled]="searchForm.invalid">
+                            Search Tours
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="popup-actions">
+                <button mat-button id="iks" (click)="closeSearchModal()">X</button>
             </div>
         </div>
     </div>

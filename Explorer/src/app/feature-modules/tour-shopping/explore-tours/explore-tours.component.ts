@@ -21,6 +21,8 @@ import { NotificationType } from 'src/app/shared/model/notificationType.enum';
 import { Blog } from '../../blog/model/blog.model';
 import { BlogService } from '../../blog/blog.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { SearchByDistance } from '../../marketplace/model/search-by-distance.model';
+import { MarketplaceService } from '../../marketplace/marketplace.service';
 
 @Component({
   selector: 'xp-explore-tours',
@@ -30,13 +32,31 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class ExploreToursComponent implements OnInit {
 
   tours: Tour[] = [];
+  toursCopy: Tour[] = [];
   sales: Sale[] = [];
   participations: GroupTourExecution[] = [];
   groupTours: GroupTour[] = [];
   topBlogs: Blog[] = [];
 
+  searchCriteria: SearchByDistance = {
+    maxDistance: 0,
+    minDistance: 0,
+    distance: 0,
+    latitude: 0,
+    longitude: 0,
+    keyPointName: '',
+    maxRating: 0,
+    minRating: 0,
+    maxPrice: 0,
+    minPrice: 0,
+    maxDuration: 0,
+    minDuration: 0,
+    name: '',
+    tags: '',
+  };
   showDiscountedOnly: boolean = false;
   isReviewsModalOpen = false;
+  isSearchModalOpen = false;
   user: User;
   purchasedTours: Tour[] = [];
   selectedTourReviews: TourReview[] = [];
@@ -52,7 +72,14 @@ export class ExploreToursComponent implements OnInit {
   constructor(private service: TourShoppingService,
     private blogService: BlogService,
     private saleService: SaleService,
-    private notificationService: NotificationService, private cd: ChangeDetectorRef, private imageService: ImageService, private authService: AuthService, private tourService: TourExecutionService, private router: Router, private route: ActivatedRoute) {
+    private notificationService: NotificationService,
+    private cd: ChangeDetectorRef,
+    private imageService: ImageService,
+    private authService: AuthService,
+    private tourService: TourExecutionService,
+    private router: Router,
+    private marketplaceService: MarketplaceService,
+    private route: ActivatedRoute) {
     imageService.setControllerPath("tourist/image");
   }
 
@@ -270,7 +297,95 @@ export class ExploreToursComponent implements OnInit {
   }
 
   searchTours(): void {
-    this.router.navigate(['/tour-search']);
+    //this.router.navigate(['/tour-search']);
+    this.isSearchModalOpen = true;
+  }
+
+  searchForTours(): void {
+    this.tours = this.toursCopy;
+    if (this.searchCriteria.distance > 0) {
+      this.marketplaceService.searchTours(this.searchCriteria).subscribe((response) => {
+        this.tours = response;
+        this.tourService.getReviews().subscribe({
+          next: (result: PagedResults<TourReview>) => {
+            this.tours.forEach(tour => {
+              tour.rating = result.results.filter(review => review.tourId === tour.id).reduce((acc, review) => acc + (review.grade || 0), 0) / result.results.filter(review => review.tourId === tour.id).length;
+            });
+            this.searchOtherFields();
+          },
+          error: (error) => {
+            console.error('Error fetching reviews:', error);
+            this.notificationService.notify({ message: 'Failed to load reviews. Please try again.', duration: 3000, notificationType: NotificationType.WARNING });
+          }
+        });
+      });
+    } else {
+      this.searchOtherFields();
+    }
+
+  }
+
+  searchOtherFields(): void {
+    const filteredTours = this.tours.filter((tour) => {
+      return (
+        (!this.searchCriteria.name || tour.name.includes(this.searchCriteria.name)) &&
+        (!this.searchCriteria.minPrice || tour.price >= this.searchCriteria.minPrice) &&
+        (!this.searchCriteria.maxPrice || tour.price <= this.searchCriteria.maxPrice) &&
+        (!this.searchCriteria.minDistance || tour.transportInfo.distance >= this.searchCriteria.minDistance) &&
+        (!this.searchCriteria.maxDistance || tour.transportInfo.distance <= this.searchCriteria.maxDistance) &&
+        (!this.searchCriteria.tags || tour.tags.some((tag) => this.searchCriteria.tags.split(',').includes(tag))) &&
+        (!this.searchCriteria.minRating || (tour.rating || 0) >= this.searchCriteria.minRating) &&
+        (!this.searchCriteria.maxRating || (tour.rating || 0) <= this.searchCriteria.maxRating) &&
+        (!this.searchCriteria.minDuration || tour.transportInfo.time >= this.searchCriteria.minDuration) &&
+        (!this.searchCriteria.maxDuration || tour.transportInfo.time <= this.searchCriteria.maxDuration) &&
+        (!this.searchCriteria.keyPointName ||
+          (tour.keyPoints && tour.keyPoints.some((kp) => kp.name.includes(this.searchCriteria.keyPointName)))
+        )
+      );
+    });
+
+    console.log('Filtered Tours:', filteredTours);
+    // Ažurirajte prikazane ture na osnovu filtera
+    if (filteredTours.length === 0) {
+      this.notificationService.notify({ message: 'No tours found. Please check search data.', duration: 3000, notificationType: NotificationType.INFO });
+      this.tours = this.toursCopy;
+    } else {
+      this.tours = filteredTours;
+      this.isSearchModalOpen = false;
+    }
+    if (this.selectedSort !== 'default') {
+      this.onSortChange(this.selectedSort);
+    }
+  }
+
+  resetSearch(): void {
+    this.searchCriteria = {
+      maxDistance: 0,
+      minDistance: 0,
+      distance: 0,
+      latitude: 0,
+      longitude: 0,
+      keyPointName: '',
+      maxRating: 0,
+      minRating: 0,
+      maxPrice: 0,
+      minPrice: 0,
+      maxDuration: 0,
+      minDuration: 0,
+      name: '',
+      tags: '',
+    };
+    this.tours = this.toursCopy;
+  }
+
+  onKeyPointSelected(event: { latitude: number, longitude: number }): void {
+    this.searchCriteria.latitude = event.latitude;
+    this.searchCriteria.longitude = event.longitude;
+    console.log('Odabrana tačka za pretragu:', this.searchCriteria.latitude, this.searchCriteria.longitude);
+  }
+
+  closeSearchModal(): void {
+    this.isSearchModalOpen = false;
   }
 
   fetchRefundedTour(refundId: number): void {
@@ -311,7 +426,7 @@ export class ExploreToursComponent implements OnInit {
           this.tours.forEach(tour => {
             this.assignSingleKeyPoint(tour);
           });
-
+          this.toursCopy = this.tours;
         },
         error: (err: any) => {
           console.log(err);
@@ -441,8 +556,8 @@ export class ExploreToursComponent implements OnInit {
       next: (result: PagedResults<TourReview>) => {
         this.tours.forEach(tour => {
           tour.rating = result.results.filter(review => review.tourId === tour.id).reduce((acc, review) => acc + (review.grade || 0), 0) / result.results.filter(review => review.tourId === tour.id).length;
-
         });
+        this.toursCopy = this.tours;
       },
       error: (error) => {
         console.error('Error fetching reviews:', error);
@@ -540,7 +655,7 @@ export class ExploreToursComponent implements OnInit {
     this.router.navigate(['/comments/', blogId]); // Assuming you have routing set up
   }
 
-  selectedSort: string = 'priceAsc';
+  selectedSort: string = 'default';
 
   onSortChange(event: any) {
     this.selectedSort = event;
