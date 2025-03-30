@@ -43,9 +43,9 @@ Here are some previews of different parts of the application:
 ![groupTour](https://github.com/user-attachments/assets/7e84b6a5-771a-47ff-ae45-74a5d0ea2039)
 ![grupna2](https://github.com/user-attachments/assets/0367c246-39f5-4f26-99de-67be34fa3a3b)
 ![update](https://github.com/user-attachments/assets/7a9e3406-61a6-4fbf-9bd2-78c16809efa3)
-![keyPoints](https://github.com/user-attachments/assets/1f63f009-c6c0-444e-9c64-e2f
+![keyPoints](https://github.com/user-attachments/assets/1f63f009-c6c0-444e-9c64-e2fba87eb9c8)
 ![mapa](https://github.com/user-attachments/assets/30599656-8201-4f41-801a-856b41af3048)
-ba87eb9c8)
+
 
 
 
